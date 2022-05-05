@@ -1,3 +1,32 @@
+## This is a combination of the GitHub .gitignore patterns for Gradle and Python
+
+.gradle
+**/build/
+!src/**/build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Avoid ignore Gradle wrappper properties
+!gradle-wrapper.properties
+
+# Cache of project
+.gradletasknamecache
+
+# Eclipse Gradle plugin generated files
+# Eclipse Core
+.project
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+# CDT specific (Eclipse C/C++ Developement Tools)
+.cproject
+
+
+##############################
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
