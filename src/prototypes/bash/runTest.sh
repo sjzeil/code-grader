@@ -36,9 +36,9 @@ getProperty () {
     fi
     if [[ "$TMP" == "" ]];
     then
-        if [ -r $TESTSDIR/Defaults/Defaults.yaml ];
+        if [ -r $TESTSDIR/testing.yaml ];
         then
-            TMP=`grep -i '^ *'$1':' $TESTSDIR/Defaults/Defaults.yaml | sed 's/^[^:]*: *//'`
+            TMP=`grep -i '^ *'$1':' $TESTSDIR/testing.yaml | sed 's/^[^:]*: *//'`
         fi
     fi
     echo $TMP
