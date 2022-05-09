@@ -83,7 +83,7 @@ fi
 #
 if [ -r $TESTSDIR/$TEST/$TEST.in ];
 then
-    TESTIN=" < $TESTSDIR/$TEST/$TEST.in"
+    TESTIN="$TESTSDIR/$TEST/$TEST.in"
 else
     TESTIN=
 fi
@@ -103,12 +103,22 @@ TESTTIME=$TESTSDIR/$TEST/$TEST.time
 
 /bin/rm -f $TESTOUT $TESTERR $TESTDIFF
 
-COMMAND="$LAUNCH $PARAMS $TESTIN"
-echo '  ' Running $COMMAND
+COMMAND="$LAUNCH $PARAMS"
+if [[ "$TESTIN" == "" ]];
+then
+    echo '  ' Running $COMMAND
+else
+    echo '  ' Running $COMMAND \< $TESTIN
+fi
 PWD=`pwd`
 cd $BUILDDIR
 START=$(date '+%s')
-timeout -s SIGKILL $TIMELIMIT $COMMAND > $TEST.out0 2> $TESTERR
+if [[ "$TESTIN" == "" ]];
+then
+    timeout -s SIGKILL $TIMELIMIT $COMMAND > $TEST.out0 2> $TESTERR
+else
+    timeout -s SIGKILL $TIMELIMIT $COMMAND < $TESTIN > $TEST.out0 2> $TESTERR
+fi
 STOP=$(date '+%s')
 TIME=$(expr $STOP - $START)
 echo $TIME > $TESTTIME
@@ -148,7 +158,7 @@ then
 fi
 
 
-if test -r $EXPECTED;
+if [[ -r $EXPECTED ]] ;
 then
     if diff -b $TESTOUT $EXPECTED > $TESTDIFF;
     then
