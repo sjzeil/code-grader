@@ -30,15 +30,25 @@ RUNASGOLD=$4     # if 1, writes *.expected and *.timelimit, does not compare out
 #
 
 getProperty () {
-    if [ -r $TESTSDIR/$TEST/$TEST.yaml ];
+    YAML1=($TESTSDIR/$TEST/*.yaml)
+    YAML2=($TESTSDIR/*.yaml)
+    PROP1=($TESTSDIR/$TEST/*.$1)
+    if [ -e ${PROP1[0]-} ];
     then
-        TMP=`grep -i '^ *'$1: $TESTSDIR/$TEST/$TEST.yaml | sed 's/^[^:]*: *//'`
+        TMP=`cat ${PROP1[0]}`
     fi
     if [[ "$TMP" == "" ]];
     then
-        if [ -r $TESTSDIR/testing.yaml ];
+        if [ -e ${YAML1[0]-} ];
         then
-            TMP=`grep -i '^ *'$1':' $TESTSDIR/testing.yaml | sed 's/^[^:]*: *//'`
+            TMP=`grep -i '^ *'$1: ${YAML1[0]} | sed 's/^[^:]*: *//'`
+        fi
+    fi
+    if [[ "$TMP" == "" ]];
+    then
+        if [ -e ${YAML2[0]-} ];
+        then
+            TMP=`grep -i '^ *'$1':' ${YAML2[0]} | sed 's/^[^:]*: *//'`
         fi
     fi
     echo $TMP
@@ -67,9 +77,10 @@ if [[ "$TIMELIMIT" != "" ]];
 then
     TIMELIMIT="$TIMELIMIT"s
 fi
-if [ -r $TESTSDIR/$TEST/$TEST.timelimit ];
+TIMELIM=($TESTSDIR/$TEST/*.timelimit)
+if [ -e ${TIMELIM[0]-} ];
 then
-    TIMELIMIT=`cat $TESTSDIR/$TEST/$TEST.timelimit`
+    TIMELIMIT=`cat ${TIMELIM[0]}`
     TIMELIMIT=$(( 4 * $TIMELIMIT ))
     TIMELIMIT=$(( $TIMELIMIT < 1 ? 1: $TIMELIMIT ))s
 fi
@@ -79,25 +90,27 @@ then
 fi
 
 #
-# Check for $TESTSDIR/$TEST/$TEST.* files
+# Check for $TESTSDIR/$TEST/*.in files
 #
-if [ -r $TESTSDIR/$TEST/$TEST.in ];
+INFILES=($TESTSDIR/$TEST/*.in)
+if [ -e ${INFILES[0]-} ];
 then
-    TESTIN="$TESTSDIR/$TEST/$TEST.in"
+    TESTIN=${INFILES[0]}
 else
     TESTIN=
 fi
 
-if [ -r $TESTSDIR/$TEST/$TEST.expected ];
+EXPFILES=($TESTSDIR/$TEST/*.expected)
+if [ -e ${EXPFILES[0]-} ];
 then
-    EXPECTED="$TESTSDIR/$TEST/$TEST.expected"
+    EXPECTED=${EXPFILES[0]}
 fi
 
-TESTOUT=$TESTSDIR/$TEST/$TEST.out
-TESTERR=$TESTSDIR/$TEST/$TEST.err
-TESTDIFF=$TESTSDIR/$TEST/$TEST.diff
-TESTSCORE=$TESTSDIR/$TEST/$TEST.score
-TESTTIME=$TESTSDIR/$TEST/$TEST.time
+TESTOUT=$TESTSDIR/$TEST/test.out
+TESTERR=$TESTSDIR/$TEST/test.err
+TESTDIFF=$TESTSDIR/$TEST/test.diff
+TESTSCORE=$TESTSDIR/$TEST/test.score
+TESTTIME=$TESTSDIR/$TEST/test.time
 
 
 
