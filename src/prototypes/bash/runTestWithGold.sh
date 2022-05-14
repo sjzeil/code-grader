@@ -36,16 +36,16 @@ GOLDDIR="$(absolute_path $4)"
 
 SCRIPTDIR="$(dirname $(absolute_path $0))"
 
-rm -f $TESTSDIR/$TEST/$TEST.err
-rm -f $TESTSDIR/$TEST/$TEST.diff
-rm -f $TESTSDIR/$TEST/$TEST.expected
-rm -f $TESTSDIR/$TEST/$TEST.time*
+rm -f $TESTSDIR/$TEST/*.err
+rm -f $TESTSDIR/$TEST/*.diff
+rm -f $TESTSDIR/$TEST/*.expected
+rm -f $TESTSDIR/$TEST/*.time*
 $SCRIPTDIR/runTest.sh $TEST $TESTSDIR $GOLDDIR
-mv_existing $TESTSDIR/$TEST/$TEST.out $TESTSDIR/$TEST/$TEST.expected
-mv_existing $TESTSDIR/$TEST/$TEST.time $TESTSDIR/$TEST/$TEST.timelimit
-rm -f $TESTSDIR/$TEST/$TEST.err
-rm -f $TESTSDIR/$TEST/$TEST.diff
-rm -f $TESTSDIR/$TEST/$TEST.score
+mv_existing $TESTSDIR/$TEST/test.out $TESTSDIR/$TEST/test.expected
+mv_existing $TESTSDIR/$TEST/test.time $TESTSDIR/$TEST/test.timelimit
+rm -f $TESTSDIR/$TEST/test.err
+rm -f $TESTSDIR/$TEST/test.diff
+rm -f $TESTSDIR/$TEST/test.score
 $SCRIPTDIR/runTest.sh $TEST $TESTSDIR $BUILDDIR
 STATUS=$?
 exit $STATUS

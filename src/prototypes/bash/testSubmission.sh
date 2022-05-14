@@ -23,15 +23,90 @@ absolute_path () {
     esac
 }
 
-if [ ! -r $2/$1 ];
+SCRIPTDIR="$(dirname $(absolute_path $0))"
+
+TESTSDIR="$(absolute_path $1)"
+SUBMISSIONDIR="$(absolute_path $2)"
+GOLDDIR="$(absolute_path $3)"
+
+
+/bin/rm -rf $SUBMISSIONDIR/Work $SUBMISSIONDIR/Grading
+/bin/cp -rf $TESTSDIR $SUBMISSIONDIR/Grading
+/bin/cp -rf $GOLDDIR $SUBMISSIONDIR/Work
+
+TEST=_BOGUS_
+buildCommand=getProperty buildCommand
+if [[ "$buildCommand" == "" ]];
 then
-    echo '***' There is no test in $2/$1
-    exit -1
+    buildCommand="make compile"
+fi
+buildWeight=getProperty buildWeight
+if [[ "$buildWeight" == "" ]];
+then
+    buildWeight=1
+fi
+setupCommand=getProperty setupCommand
+if [[ "$setupCommand" == "" ]];
+then
+    setupCommand="make setup SRC=$SUBMISSIONDIR"
 fi
 
-TEST=$1
-TESTSDIR="$(absolute_path $2)"
-BUILDDIR="$(absolute_path $3)"
+pushd $GOLDDIR
+$buildCommand
+STATUS=$?
+popd
+if [[ $STATUS -ne 0 ]];
+then
+    echo '***' Setup Error: Gold version did not compile.
+    exit -1;
+fi
+
+pushd $SUBMISSIONDIR/Work
+$setupCommand
+$buildCommand
+STATUS=$?
+popd
+if [[ $STATUS -eq 0 ]];
+then
+    buildScore=100
+else
+    buildScore=0
+    echo '***' Submitted code did not compile.
+    exit 1;
+fi
+
+testScoreSummary=$SUBMISSIONDIR/Grading/summary.csv
+echo 'Test,score,weight' > $testScoreSummary
+echo "(built successfully),$buildScore,$buildWeight" >> $testScoreSummary
+GradingFiles=`ls $SUBMISSIONDIR/Grading`
+for file in $GradingFiles
+do
+    if [[ -d $SUBMISSIONDIR/Grading/$file ]];
+    then
+        TEST=$file
+        pushd $SUBMISSIONDIR/Work
+        testWeight=getProperty weight
+        if [[ "$testWeight" == "" ]];
+        then
+            testWeight=1
+        fi
+        echo $SCRIPTDIR/runTestWithGold.sh $TEST $SUBMISSIONDIR/Grading $SUBMISSIONDIR/Work $GOLDDIR
+        $SCRIPTDIR/runTestWithGold.sh $TEST $SUBMISSIONDIR/Grading $SUBMISSIONDIR/Work $GOLDDIR
+        if [[ -r $SUBMISSIONDIR/Grading/$TEST/test.score ]];
+        then
+            score=`cat $SUBMISSIONDIR/Grading/$TEST/test.score`
+        else
+            score=0
+        fi
+        echo "$TEST,$score,$testWeight" >> $testScoreSummary
+        popd
+    fi
+done
+
+
+
+
+
 
 
 #
@@ -52,49 +127,4 @@ getProperty () {
     fi
     echo $TMP
 }
-
-echo Test $TEST
-LAUNCH="$(getProperty 'launch')"
-if [[ "$LAUNCH" == "" ]];
-then
-    echo '***' No launch property -- cannot run the program
-    exit -1
-fi
-
-PARAMS="$(getProperty 'params')"
-
-FILTER="$(getProperty 'filter')"
-if [[ "$FILTER" != "" ]];
-then
-    FILTER="| $FILTER"
-fi
-
-STDERR="$(getProperty 'stderr')"
-
-TIMELIMIT="$(getProperty 'timelimit')"
-if [[ "$TIMELIMIT" != "" ]];
-then
-    TIMELIMIT="$TIMELIMIT"s
-fi
-
-#
-# Check for $TESTSDIR/$TEST/$TEST.* files
-#
-if [ -r $TESTSDIR/$TEST/$TEST.in ];
-then
-    TESTIN=" < $TESTSDIR/$TEST/$TEST.in"
-else
-    TESTIN=
-fi
-
-if [ -r $TESTSDIR/$TEST/$TEST.expected ];
-then
-    EXPECTED="$TESTSDIR/$TEST/$TEST.expected"
-fi
-
-TESTOUT=$TESTSDIR/$TEST/$TEST.out
-TESTERR=$TESTSDIR/$TEST/$TEST.err
-TESTDIFF=$TESTSDIR/$TEST/$TEST.diff
-TESTSCORE=$TESTSDIR/$TEST/$TEST.score
-
 
