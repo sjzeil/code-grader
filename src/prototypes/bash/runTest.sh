@@ -35,23 +35,23 @@ getProperty () {
     PROP1=($TESTSDIR/$TEST/*.$1)
     if [ -e ${PROP1[0]-} ];
     then
-        TMP=`cat ${PROP1[0]}`
+        PropertyValue=`cat ${PROP1[0]}`
     fi
-    if [[ "$TMP" == "" ]];
+    if [[ "$PropertyValue" == "" ]];
     then
         if [ -e ${YAML1[0]-} ];
         then
-            TMP=`grep -i '^ *'$1: ${YAML1[0]} | sed 's/^[^:]*: *//'`
+            PropertyValue=`grep -i '^ *'$1: ${YAML1[0]} | sed 's/^[^:]*: *//'`
         fi
     fi
-    if [[ "$TMP" == "" ]];
+    if [[ "$PropertyValue" == "" ]];
     then
         if [ -e ${YAML2[0]-} ];
         then
-            TMP=`grep -i '^ *'$1':' ${YAML2[0]} | sed 's/^[^:]*: *//'`
+            PropertyValue=`grep -i '^ *'$1':' ${YAML2[0]} | sed 's/^[^:]*: *//'`
         fi
     fi
-    echo $TMP
+    echo $PropertyValue
 }
 
 echo Test $TEST
