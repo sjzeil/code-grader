@@ -23,29 +23,73 @@ absolute_path () {
     esac
 }
 
+#
+#  Collect configuration properties from $TESTSDIR/Defaults/config.yaml and $TESTSDIR/$TEST/config.yaml
+#
+
+getFileByExtension () { # dir extension
+    Candidates=($1/*.$2)
+    if [ -e ${Candidates[0]-} ];
+    then
+        echo ${Candidates[0]}
+    else
+        echo
+    fi
+}
+
+
+getProperty () {
+    YAML1=($TESTSDIR/$TEST/*.yaml)
+    YAML2=($TESTSDIR/*.yaml)
+    PROP1=($TESTSDIR/$TEST/*.$1)
+    if [ -e ${PROP1[0]-} ];
+    then
+        PropertyValue=`cat ${PROP1[0]}`
+    fi
+    if [[ "$PropertyValue" == "" ]];
+    then
+        if [ -e ${YAML1[0]-} ];
+        then
+            PropertyValue=`grep -i '^ *'$1: ${YAML1[0]} | sed 's/^[^:]*: *//'`
+        fi
+    fi
+    if [[ "$PropertyValue" == "" ]];
+    then
+        if [ -e ${YAML2[0]-} ];
+        then
+            PropertyValue=`grep -i '^ *'$1':' ${YAML2[0]} | sed 's/^[^:]*: *//'`
+        fi
+    fi
+    echo $PropertyValue
+}
+
+
 SCRIPTDIR="$(dirname $(absolute_path $0))"
 
 TESTSDIR="$(absolute_path $1)"
 SUBMISSIONDIR="$(absolute_path $2)"
 GOLDDIR="$(absolute_path $3)"
 
+AsstDir=`dirname $GOLDDIR`
+AsstName=`basename $AsstDir`
+SubmitterName=`basename $SUBMISSIONDIR`
 
 /bin/rm -rf $SUBMISSIONDIR/Work $SUBMISSIONDIR/Grading
 /bin/cp -rf $TESTSDIR $SUBMISSIONDIR/Grading
 /bin/cp -rf $GOLDDIR $SUBMISSIONDIR/Work
 
 TEST=_BOGUS_
-buildCommand=getProperty buildCommand
+buildCommand=$(getProperty buildCommand)
 if [[ "$buildCommand" == "" ]];
 then
     buildCommand="make compile"
 fi
-buildWeight=getProperty buildWeight
+buildWeight=$(getProperty buildWeight)
 if [[ "$buildWeight" == "" ]];
 then
     buildWeight=1
 fi
-setupCommand=getProperty setupCommand
+setupCommand=$(getProperty setupCommand)
 if [[ "$setupCommand" == "" ]];
 then
     setupCommand="make setup SRC=$SUBMISSIONDIR"
@@ -65,19 +109,32 @@ pushd $SUBMISSIONDIR/Work
 $setupCommand
 $buildCommand
 STATUS=$?
-popd
 if [[ $STATUS -eq 0 ]];
 then
     buildScore=100
+    echo > build.msg
 else
     buildScore=0
     echo '***' Submitted code did not compile.
-    exit 1;
+    $buildCommand 2>&1  | tr '"' "'" > build.msg
 fi
+popd
 
 testScoreSummary=$SUBMISSIONDIR/Grading/summary.csv
+testInfoSummary=$SUBMISSIONDIR/Grading/testInfo.csv
+buildMsg=`cat $SUBMISSIONDIR/Work/build.msg`
+echo "assignment name,$AsstName" >> $testInfoSummary
+echo "submitted by,$SubmitterName" >> $testInfoSummary
+echo "built successfully?,$buildScore" >> $testInfoSummary
+echo "build weight,$buildWeight" >> $testInfoSummary
+echo "build message,\"$buildMsg\"" >> $testInfoSummary
+
+commitDate=`git log -1 --date=local --format=%cd origin/main`
+echo "last commit,$commitDate" >> $testInfoSummary
+
+
+
 echo 'Test,score,weight' > $testScoreSummary
-echo "(built successfully),$buildScore,$buildWeight" >> $testScoreSummary
 GradingFiles=`ls $SUBMISSIONDIR/Grading`
 for file in $GradingFiles
 do
@@ -103,28 +160,15 @@ do
     fi
 done
 
+GradeSheetTemplate=$(getFileByExtension $TESTSDIR/.. xlsx)
+if [[ "$GradeSheetTemplate" != "" ]];
+then
+    cp $GradeSheetTemplate $SUBMISSIONDIR/Grading/$SubmitterName.xlsx
+    /home/zeil/bin/insertCSV.sh $SUBMISSIONDIR/Grading/$SubmitterName.xlsx info $testInfoSummary
+    /home/zeil/bin/insertCSV.sh $SUBMISSIONDIR/Grading/$SubmitterName.xlsx tests $testScoreSummary
+fi
 
 
 
 
-
-
-#
-#  Collect configuration properties from $TESTSDIR/Defaults/config.yaml and $TESTSDIR/$TEST/config.yaml
-#
-
-getProperty () {
-    if [ -r $TESTSDIR/$TEST/$TEST.yaml ];
-    then
-        TMP=`grep -i '^ *'$1: $TESTSDIR/$TEST/$TEST.yaml | sed 's/^[^:]*: *//'`
-    fi
-    if [[ "$TMP" == "" ]];
-    then
-        if [ -r $TESTSDIR/Defaults/Defaults.yaml ];
-        then
-            TMP=`grep -i '^ *'$1':' $TESTSDIR/Defaults/Defaults.yaml | sed 's/^[^:]*: *//'`
-        fi
-    fi
-    echo $TMP
-}
 
