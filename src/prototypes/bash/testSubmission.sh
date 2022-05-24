@@ -129,7 +129,9 @@ echo "built successfully?,$buildScore" >> $testInfoSummary
 echo "build weight,$buildWeight" >> $testInfoSummary
 echo "build message,\"$buildMsg\"" >> $testInfoSummary
 
+pushd $SUBMISSIONDIR/Grading
 commitDate=`git log -1 --date=local --format=%cd origin/main`
+popd
 echo "last commit,$commitDate" >> $testInfoSummary
 
 
@@ -142,7 +144,7 @@ do
     then
         TEST=$file
         pushd $SUBMISSIONDIR/Work
-        testWeight=getProperty weight
+        testWeight=$(getProperty weight)
         if [[ "$testWeight" == "" ]];
         then
             testWeight=1

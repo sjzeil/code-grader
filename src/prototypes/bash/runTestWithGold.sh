@@ -40,7 +40,7 @@ rm -f $TESTSDIR/$TEST/*.err
 rm -f $TESTSDIR/$TEST/*.diff
 rm -f $TESTSDIR/$TEST/*.expected
 rm -f $TESTSDIR/$TEST/*.time*
-$SCRIPTDIR/runTest.sh $TEST $TESTSDIR $GOLDDIR
+$SCRIPTDIR/runTest.sh $TEST $TESTSDIR $GOLDDIR 1
 mv_existing $TESTSDIR/$TEST/test.out $TESTSDIR/$TEST/test.expected
 mv_existing $TESTSDIR/$TEST/test.time $TESTSDIR/$TEST/test.timelimit
 rm -f $TESTSDIR/$TEST/test.err
