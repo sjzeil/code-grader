@@ -82,7 +82,7 @@ TEST=_BOGUS_
 buildCommand=$(getProperty buildCommand)
 if [[ "$buildCommand" == "" ]];
 then
-    buildCommand="make compile"
+    buildCommand="make clean compile"
 fi
 buildWeight=$(getProperty buildWeight)
 if [[ "$buildWeight" == "" ]];
@@ -116,7 +116,7 @@ then
 else
     buildScore=0
     echo '***' Submitted code did not compile.
-    $buildCommand 2>&1  | tr '"' "'" | head -c 2048 > build.msg
+    $buildCommand 2>&1  | tr '"' "'" | head -c 2048 | sed 's/$/\r/' > build.msg
 fi
 popd
 
@@ -150,7 +150,7 @@ do
             testWeight=1
         fi
         echo $SCRIPTDIR/runTestWithGold.sh $TEST $SUBMISSIONDIR/Grading $SUBMISSIONDIR/Work $GOLDDIR
-        $SCRIPTDIR/runTestWithGold.sh $TEST $SUBMISSIONDIR/Grading $SUBMISSIONDIR/Work $GOLDDIR | tr '"' "'" | head -c 1024 > test.msg
+        $SCRIPTDIR/runTestWithGold.sh $TEST $SUBMISSIONDIR/Grading $SUBMISSIONDIR/Work $GOLDDIR | tr '"' "'" | head -c 1024 | sed  's/$/\r/' > test.msg
         testMsg=`cat test.msg`
         if [[ -r $SUBMISSIONDIR/Grading/$TEST/test.score ]];
         then
@@ -158,7 +158,7 @@ do
         else
             score=0
         fi
-        echo "$TEST,$score,$testWeight,$testMsg" >> $testScoreSummary
+        echo "$TEST,$score,$testWeight,\"$testMsg\"" >> $testScoreSummary
         popd
     fi
 done

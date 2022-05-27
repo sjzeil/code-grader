@@ -54,7 +54,10 @@ getProperty () {
     echo $PropertyValue
 }
 
-echo Test $TEST
+if [[ "$RUNASGOLD" -ne "1" ]] ;
+then
+    echo Test $TEST
+fi
 LAUNCH="$(getProperty 'launch')"
 if [[ "$LAUNCH" == "" ]];
 then
@@ -117,11 +120,14 @@ TESTTIME=$TESTSDIR/$TEST/test.time
 /bin/rm -f $TESTOUT $TESTERR $TESTDIFF
 
 COMMAND="$LAUNCH $PARAMS"
-if [[ "$TESTIN" == "" ]];
+if [[ "$RUNASGOLD" -ne "1" ]] ;
 then
-    echo '  ' Running $COMMAND
-else
-    echo '  ' Running $COMMAND \< $TESTIN
+    if [[ "$TESTIN" == "" ]];
+    then
+        echo '  ' Running $COMMAND
+    else
+        echo '  ' Running $COMMAND \< $TESTIN
+    fi
 fi
 PWD=`pwd`
 cd $BUILDDIR
