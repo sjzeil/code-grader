@@ -116,7 +116,7 @@ then
 else
     buildScore=0
     echo '***' Submitted code did not compile.
-    $buildCommand 2>&1  | tr '"' "'" > build.msg
+    $buildCommand 2>&1  | tr '"' "'" | head -c 2048 > build.msg
 fi
 popd
 
@@ -136,7 +136,7 @@ echo "last commit,$commitDate" >> $testInfoSummary
 
 
 
-echo 'Test,score,weight' > $testScoreSummary
+echo 'Test,score,weight,msgs' > $testScoreSummary
 GradingFiles=`ls $SUBMISSIONDIR/Grading`
 for file in $GradingFiles
 do
@@ -150,14 +150,15 @@ do
             testWeight=1
         fi
         echo $SCRIPTDIR/runTestWithGold.sh $TEST $SUBMISSIONDIR/Grading $SUBMISSIONDIR/Work $GOLDDIR
-        $SCRIPTDIR/runTestWithGold.sh $TEST $SUBMISSIONDIR/Grading $SUBMISSIONDIR/Work $GOLDDIR
+        $SCRIPTDIR/runTestWithGold.sh $TEST $SUBMISSIONDIR/Grading $SUBMISSIONDIR/Work $GOLDDIR | tr '"' "'" | head -c 1024 > test.msg
+        testMsg=`cat test.msg`
         if [[ -r $SUBMISSIONDIR/Grading/$TEST/test.score ]];
         then
             score=`cat $SUBMISSIONDIR/Grading/$TEST/test.score`
         else
             score=0
         fi
-        echo "$TEST,$score,$testWeight" >> $testScoreSummary
+        echo "$TEST,$score,$testWeight,$testMsg" >> $testScoreSummary
         popd
     fi
 done
