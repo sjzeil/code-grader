@@ -66,6 +66,9 @@ then
 fi
 
 PARAMS="$(getProperty 'params')"
+PARAMS=`echo $PARAMS | sed s:@T:$TESTSDIR/$TEST:g`
+PARAMS=`echo $PARAMS | sed s:@t:$TEST:g`
+PARAMS=`echo $PARAMS | sed s:@B:$BUILDDIR:g`
 
 FILTER="$(getProperty 'filter')"
 if [[ "$FILTER" != "" ]];
