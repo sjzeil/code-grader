@@ -1,6 +1,5 @@
 package edu.odu.cs.zeil.codegrader.oracle;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
@@ -9,10 +8,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.endsWith;
 
 import org.junit.jupiter.api.Test;
-
-import edu.odu.cs.zeil.codegrader.oracle.OracleProperties;
-import edu.odu.cs.zeil.codegrader.oracle.Scanner;
-import edu.odu.cs.zeil.codegrader.oracle.Token;
 
 public class TestScanner {
 	
@@ -96,7 +91,7 @@ public class TestScanner {
 	
 	@Test
 	void testNonWSExtraction() {
-		String input = "travelling at -35 mph and\n"
+		String input = "traveling at -35 mph and\n"
 				+ "then at 42.50 mph, for 120sec";
 		OracleProperties config = new OracleProperties();
 		Scanner scanner = new Scanner(input, config);
@@ -108,7 +103,7 @@ public class TestScanner {
 		String[] expectedTokenClasses = {"StringToken", "StringToken", "NumberToken", "StringToken", "StringToken",
 				"StringToken", "StringToken", "NumberToken", "StringToken",
 				"StringToken", "NumberToken", "StringToken"}; 
-		String[] expectedLexemes = {"travelling", "at",  "-35",  "mph",  "and",
+		String[] expectedLexemes = {"traveling", "at",  "-35",  "mph",  "and",
 				"then", "at", "42.50", "mph,",  "for",  "120", "sec"};
 		assertThat(tokens.size(), equalTo(expectedTokenClasses.length));
 		for (int i = 0; i < tokens.size(); ++i) {

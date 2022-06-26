@@ -1,13 +1,10 @@
 package edu.odu.cs.zeil.codegrader.oracle;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.Test;
 
-import edu.odu.cs.zeil.codegrader.oracle.Oracle;
-import edu.odu.cs.zeil.codegrader.oracle.OracleProperties;
 
 public class TestOracle {
 

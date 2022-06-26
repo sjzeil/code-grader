@@ -1,17 +1,11 @@
 package edu.odu.cs.zeil.codegrader.oracle;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import org.junit.jupiter.api.Test;
 
-import edu.odu.cs.zeil.codegrader.oracle.NumberToken;
-import edu.odu.cs.zeil.codegrader.oracle.OracleProperties;
-import edu.odu.cs.zeil.codegrader.oracle.StringToken;
 
 public class TestNumericToken {
 	

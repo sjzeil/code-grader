@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.logging.Logger;
 
-import org.apache.commons.io.FileUtils;
-
 import edu.odu.cs.zeil.codegrader.Grader.AssignmentProperties;
 
 /**
@@ -92,7 +90,7 @@ public class SetupPhase implements Phase {
 		Path sourcePath = getInstructorDir();
 		Path destPath = getStageDir();
 		try {
-			FileUtils.copyDirectory(sourcePath.toFile(), destPath.toFile());
+			FileUtils.copyDirectory(sourcePath, destPath);
 		} catch (IOException ex) {
 			throw new IOException("Problem copying instructor files\n"
 					+ "  from " + sourcePath.toString() + "\n"
@@ -111,7 +109,7 @@ public class SetupPhase implements Phase {
 		Path sourcePath = getSubmissionDir();
 		Path destPath = getStageDir();
 		try {
-			FileUtils.copyDirectory(sourcePath.toFile(), destPath.toFile());
+			FileUtils.copyDirectory(sourcePath, destPath);
 		} catch (IOException ex) {
 			throw new IOException("Problem copying student files\n"
 					+ "  from " + sourcePath.toString() + "\n"
@@ -138,7 +136,7 @@ public class SetupPhase implements Phase {
 	}
 
 	/**
-	 * @return path to the dirctory where all files will be assembled
+	 * @return path to the directory where all files will be assembled
 	 */
 	public Path getStageDir() {
 		final Path anchor = properties.assignmentRoot.getPath(); 

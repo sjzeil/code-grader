@@ -37,7 +37,7 @@ public class BuildPhase implements Phase {
 	public boolean runPhase() {
 		try {
 			String buildCommand = getBuildCommand();
-			String messages = doTheBuild(buildCommand);
+			doTheBuild(buildCommand);
 			scoreTheBuild();
 			return true;
 		} catch (Exception ex) {

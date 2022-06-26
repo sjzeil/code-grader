@@ -8,8 +8,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import com.fasterxml.jackson.core.JsonParseException;
+
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
@@ -57,6 +59,8 @@ public class Grader {
      * All phases, in the order given by PhaseNames.
      */
     final private Phase[] phases = new Phase[PhaseNames.Reset.ordinal()+1];
+
+	final private static Logger logger = Logger.getLogger(Grader.class.getName());
     
 	/**
 	 * Configuration info for the assignment.
@@ -105,11 +109,11 @@ public class Grader {
 
 	/**
 	 * Construct a grader object from the indicated command line parameters.
-	 * @param params command line paramaters
+	 * @param params command line parameters
 	 * @throws IOException on inability to read settings file
 	 */
-	public Grader(final String[] params) throws IOException { // NOPMD by zeil on 4/7/20, 11:57 AM
-		final String DefaultSettingsFileName = "Assignment.yaml"; // NOPMD by zeil on 4/7/20, 11:58 AM
+	public Grader(final String[] params) throws IOException { 
+		final String DefaultSettingsFileName = "Assignment.yaml"; 
 
 		final char minusSign = '-';
 		for (final String param: params) {
@@ -128,7 +132,7 @@ public class Grader {
 		if (settingsFile == null) {
 			settingsFile = assignmentDir.resolve(DefaultSettingsFileName).toFile();
 			if (!settingsFile.exists()) {
-				settingsFile = null; // NOPMD by zeil on 4/7/20, 12:02 PM
+				settingsFile = null; 
 			}
 		}
 		if (settingsFile == null) {
@@ -154,7 +158,7 @@ public class Grader {
 		for (final String param: params) {
 			if (param.startsWith("-D")) {
 				final String[] parts = param.split("=");
-				if (parts.length != 2) { // NOPMD by zeil on 4/7/20, 12:06 PM
+				if (parts.length != 2) { 
 					throw new IllegalArgumentException("Cannot parse '" + param + "'");
 				}
 				final String propertyName = parts[0].substring(2); // Discard the "-D"
@@ -167,8 +171,8 @@ public class Grader {
 	private void processNamedCommandLineParameters(final String[] params) {
 		startPhase = 0;
 		stopPhase = phases.length-1;
-		final String StartParamName = "--start="; // NOPMD by zeil on 4/7/20, 12:08 PM
-		final String StopParamName = "--stop="; // NOPMD by zeil on 4/7/20, 12:08 PM
+		final String StartParamName = "--start="; 
+		final String StopParamName = "--stop="; 
 		for (final String param: params) {
 			if (param.startsWith(StartParamName)) {
 				final int phaseStart = identifyPhase(substringAfter(param, StartParamName));
@@ -190,14 +194,14 @@ public class Grader {
 
 	private int identifyPhase(final String phaseName) {
 		final Locale locale = new Locale("en", "US");
-		final String phaseNameLC = phaseName.toLowerCase(locale); // NOPMD by zeil on 4/7/20, 12:19 PM
+		final String phaseNameLC = phaseName.toLowerCase(locale); 
 		for (int i = 0; i < phases.length; ++i) {
 			final Phase phase = phases[i];
-			String pname = phase.getClass().getSimpleName().toLowerCase(locale);
-			if (pname.length() > phaseNameLC.length()) {
-				pname = pname.substring(0, phaseNameLC.length());
-				if (phaseNameLC.equals(pname)) {
-					return i; // NOPMD by zeil on 4/7/20, 12:22 PM
+			String pName = phase.getClass().getSimpleName().toLowerCase(locale);
+			if (pName.length() > phaseNameLC.length()) {
+				pName = pName.substring(0, phaseNameLC.length());
+				if (phaseNameLC.equals(pName)) {
+					return i; 
 				}
 			}
 		}
@@ -213,15 +217,8 @@ public class Grader {
 		mapper.findAndRegisterModules();
 		try {
 		    properties = mapper.readValue(settingsFile, AssignmentProperties.class);
-		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, "exception", e);
 		} finally {
 			
 		}
@@ -238,7 +235,7 @@ public class Grader {
 	}
 
 	/**
-	 * Run the autograder.
+	 * Run the grader.
 	 * @return  success or failure
 	 */
 	public boolean runGrader() {
