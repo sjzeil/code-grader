@@ -39,5 +39,20 @@ public class TestTestProperties {
 		assertThat(value, is(2));
 	}
 
+	@Test
+	void testYamlProperty() {
+		Path testCase = asst1DirPath.resolve("tests").resolve("simpleTests");
+		TestProperties testProperties = new TestProperties(testCase);
+		int value = testProperties.getPoints();
+		assertThat(value, is(5));
+	}
+
+	@Test
+	void testDefaultProperty() {
+		Path testCase = asst1DirPath.resolve("tests").resolve("simpleTests");
+		TestProperties testProperties = new TestProperties(testCase);
+		String value = testProperties.getLaunch();
+		assertThat(value, is("./dividers"));
+	}
 
 }

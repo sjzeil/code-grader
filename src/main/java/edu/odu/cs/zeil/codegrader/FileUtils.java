@@ -2,8 +2,10 @@ package edu.odu.cs.zeil.codegrader;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.CopyOption;
 import java.nio.file.FileVisitResult;
@@ -11,9 +13,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.Yaml;
 
 public class FileUtils {
 
@@ -91,6 +96,18 @@ public class FileUtils {
             + ": treated as EOF.", ex);
         }
         return result.toString();
+    }
+
+
+    public static Map<String, Object> loadYaml(File yamlFile) {
+        Yaml yaml = new Yaml();
+        try (InputStream yamlIn = new FileInputStream(yamlFile)) {
+            Map<String,Object> results = yaml.load(yamlIn);
+            return results;
+        } catch (IOException ex) {
+            log.error("unable to process yaml input from " + yamlFile.getAbsolutePath(), ex);
+            return new HashMap<>();
+        }
     }
 
 

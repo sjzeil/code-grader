@@ -13,8 +13,6 @@ import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 /**
  * The automatic grader.
@@ -214,15 +212,6 @@ public class Grader {
 	}
 
 	private void loadSettingsFile() {
-		final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-		mapper.findAndRegisterModules();
-		try {
-		    properties = mapper.readValue(settingsFile, AssignmentProperties.class);
-		} catch (Exception e) {
-			logger.error("exception", e);
-		} finally {
-			
-		}
 	}
 
 	/**

@@ -5,12 +5,17 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TestProperties {
 
     private Path testDirectory;
+
+    private Map<String, Object> assignmentProperties;
+    private Map<String, Object> localProperties;
 
     private Logger log = Logger.getLogger(TestProperties.class.getName());
 
@@ -22,22 +27,56 @@ public class TestProperties {
      */
     public TestProperties(Path testDirectory) {
         this.testDirectory = testDirectory;
+        localProperties = loadFirstYamlFile(testDirectory);
+        Path assignmentDir = testDirectory.getParent();
+        assignmentProperties = loadFirstYamlFile(assignmentDir);
     }
 
-    public String getPoints() {
-        return getProperty("points");
+
+    private Map<String,Object> loadFirstYamlFile (Path dir)
+    {
+        for (File yamlFile: dir.toFile().listFiles()) {
+            if (yamlFile.getName().endsWith(".yaml")) {
+                return FileUtils.loadYaml(yamlFile);
+            }
+        }
+        return new HashMap<>();
+    }
+
+    public int getPoints() {
+        try {
+            int v = Integer.parseInt(getProperty("points"));
+            return v;
+        } catch (Exception ex) {
+            // points are unspecified or incorrectly specified
+            return 1;
+        }
     }
 
     private String getProperty(String name) {
+        // First check for properties as inline files
         File testDir = testDirectory.toFile();
         File[] contents = testDir.listFiles();
         String extension = "." + name;
         for (File file : contents) {
-            System.err.println(file.getName());
             if (file.getName().endsWith(extension)) {
                 return readContentsOf(file);
             }
         }
+
+        // Next, check the test case yaml
+        Object value = localProperties.get(name);
+        if (value != null) {
+            return value.toString();
+        }
+
+        // Finally, check the assignment yaml
+        Map<String,Object> testMap = (Map<String,Object>)assignmentProperties.get("test");
+        value = testMap.get(name);
+        if (value != null) {
+            return value.toString();
+        }
+
         return "";
     }
 
@@ -60,7 +99,7 @@ public class TestProperties {
     }
 
     public String getLaunch() {
-        return null;
+        return getProperty("launch");
     }
 
     public int getTimelimit() {
