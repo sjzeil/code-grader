@@ -5,10 +5,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TestProperties {
 
     private Path testDirectory;
+
+    private Logger log = Logger.getLogger(TestProperties.class.getName());
 
     /**
      * Create a test case directory based upon information in testDirectory and
@@ -50,7 +54,7 @@ public class TestProperties {
                 result.append(line);
             }
         } catch (IOException ex) {
-
+            log.log(Level.WARNING, "Error in readContentsOf when reading from " + file.getAbsolutePath(), ex);
         }
         return result.toString();
     }

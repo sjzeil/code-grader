@@ -5,12 +5,13 @@ package edu.odu.cs.zeil.codegrader;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -60,7 +61,7 @@ public class Grader {
      */
     final private Phase[] phases = new Phase[PhaseNames.Reset.ordinal()+1];
 
-	final private static Logger logger = Logger.getLogger(Grader.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     
 	/**
 	 * Configuration info for the assignment.
@@ -218,7 +219,7 @@ public class Grader {
 		try {
 		    properties = mapper.readValue(settingsFile, AssignmentProperties.class);
 		} catch (Exception e) {
-			logger.log(Level.SEVERE, "exception", e);
+			logger.error("exception", e);
 		} finally {
 			
 		}
@@ -229,7 +230,7 @@ public class Grader {
 	 * @throws IOException if a settings file is named but does not exist or cannot be read.
 	 */
 	public static void main(final String[] args) throws IOException {
-		Logging.setup();
+		//Logging.setup();
 		final boolean status = new Grader(args).runGrader();
 		System.exit(status? 0 : 1);
 	}

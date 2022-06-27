@@ -1,8 +1,11 @@
 package edu.odu.cs.zeil.codegrader;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.odu.cs.zeil.codegrader.Grader.AssignmentProperties;
 
@@ -15,8 +18,8 @@ import edu.odu.cs.zeil.codegrader.Grader.AssignmentProperties;
  */
 public class SetupPhase implements Phase {
 
-	private final static Logger log = Logger.getLogger(SetupPhase.class.getName());
-	
+	private static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    	
 	/**
 	 * Assignment configuration info.
 	 */
@@ -70,12 +73,12 @@ public class SetupPhase implements Phase {
 
 	@Override
 	public boolean runPhase() {
-		log.info("Set Up");
+		logger.info("Set Up");
 		try {
 			copyStudentFiles();
 			copyInstructorFiles();
 		} catch (IOException ex) {
-			log.severe(ex.getMessage());
+			logger.error(ex.getMessage());
 			return false;
 		}
 		return true;

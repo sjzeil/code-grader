@@ -20,5 +20,5 @@
 .classpath
 # CDT specific (Eclipse C/C++ Developement Tools)
 .cproject
-
-
+# Log files
+**/*.log

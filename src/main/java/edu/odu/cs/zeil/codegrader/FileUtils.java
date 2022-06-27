@@ -1,6 +1,10 @@
 package edu.odu.cs.zeil.codegrader;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.nio.file.CopyOption;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -8,7 +12,12 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class FileUtils {
+
+    private static Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     /**
      * Directory copy utility 
@@ -66,5 +75,23 @@ public class FileUtils {
             }
         });
     }
+
+    public static String readTextFile(File file) {
+        StringBuffer result = new StringBuffer();
+        try (BufferedReader in = new BufferedReader(new FileReader(file))) {
+            while (true) {
+                String line = in.readLine();
+                if (line == null)
+                    break;
+                result.append(line);
+                result.append("\n");
+            }
+        } catch (IOException ex) {
+            log.warn("Error in readContentsOf when reading from " + file.getAbsolutePath()
+            + ": treated as EOF.", ex);
+        }
+        return result.toString();
+    }
+
 
 }
