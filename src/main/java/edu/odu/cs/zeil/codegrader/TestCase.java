@@ -1,14 +1,26 @@
 package edu.odu.cs.zeil.codegrader;
 
+
 public class TestCase {
 
+	TestProperties properties;
+	
+		
     public TestCase(TestProperties testProperties) {
+    	properties = testProperties;
     }
 
     public void run() {
+    	runTheTest();
+    	//new TestOracle(properties).run();
     }
 
-    public Object getOutput() {
+    private void runTheTest() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Object getOutput() {
         return null;
     }
 

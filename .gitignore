@@ -16,6 +16,7 @@
 # Eclipse Gradle plugin generated files
 # Eclipse Core
 .project
+.settings
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 # CDT specific (Eclipse C/C++ Developement Tools)

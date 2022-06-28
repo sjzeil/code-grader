@@ -70,17 +70,26 @@ public class TestProperties {
             return value.toString();
         }
 
-        // Finally, check the assignment yaml
-        Map<String,Object> testMap = (Map<String,Object>)assignmentProperties.get("test");
-        value = testMap.get(name);
-        if (value != null) {
-            return value.toString();
-        }
+		// Finally, check the assignment yaml
+		Object testProps = assignmentProperties.get("test");
+		if ((testProps != null) && (testProps instanceof Map<?, ?>)) {
+			Map<String, Object> testMap = castToMap(assignmentProperties.get("test"));
+			value = testMap.get(name);
+			if (value != null) {
+				return value.toString();
+			}
+		}
 
         return "";
     }
 
-    private String readContentsOf(File file) {
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> castToMap(Object object) {
+		return (Map<String, Object>)object;
+	}
+
+
+	private String readContentsOf(File file) {
         StringBuffer result = new StringBuffer();
         try (BufferedReader in = new BufferedReader(new FileReader(file))) {
             while (true) {
