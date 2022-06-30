@@ -66,6 +66,15 @@ jar {
 }
 
 
+// Could this be useful in making IDEs work
+// when module-info is in place?
+task buildLib (type: Copy) {
+    from configurations.testRuntimeClasspath
+    into 'lib'
+}
+
+
+
 // Reporting
 
 

@@ -4,11 +4,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TestProperties {
 
@@ -17,8 +19,8 @@ public class TestProperties {
     private Map<String, Object> assignmentProperties;
     private Map<String, Object> localProperties;
 
-    private Logger log = Logger.getLogger(TestProperties.class.getName());
-
+    private static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    
     /**
      * Create a test case directory based upon information in testDirectory and
      * in the assignment directory above it.
@@ -102,7 +104,7 @@ public class TestProperties {
                 result.append(line);
             }
         } catch (IOException ex) {
-            log.log(Level.WARNING, "Error in readContentsOf when reading from " + file.getAbsolutePath(), ex);
+            logger.warn("Error in readContentsOf when reading from " + file.getAbsolutePath(), ex);
         }
         return result.toString();
     }

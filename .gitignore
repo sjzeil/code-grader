@@ -23,3 +23,5 @@
 .cproject
 # Log files
 **/*.log
+# Copies of compilation configuration jars
+lib/
