@@ -37,8 +37,10 @@ public class TestTestCase {
         TestProperties testProperties = new TestProperties(asst, "params");
         Submission submission = new Submission (asst, "student1");
         TestCase testCase = new TestCase(testProperties);
-        assertThat (testCase.getParams(), is("42"));
-        testCase.runTest(submission);
+		assertThat (testCase.getOutput(), is(""));
+		assertThat (testCase.getErr(), is(""));
+		assertThat (testCase.timedOut(), is(false));
+		assertThat (testCase.crashed(), is(false));
 	}
 
 }

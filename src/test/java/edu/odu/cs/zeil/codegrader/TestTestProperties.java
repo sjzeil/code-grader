@@ -17,9 +17,13 @@ import org.junit.jupiter.api.Test;
 public class TestTestProperties {
 	
 	public Path asst1DirPath = Paths.get("build", "test-data", "assignment1");
+
+	Assignment asst;
 	
 	@BeforeEach
 	public void setup() throws IOException {
+		asst = new Assignment();
+		asst.setTestSuiteDirectory(asst1DirPath.resolve("tests"));
 		asst1DirPath.toFile().getParentFile().mkdirs();
 		Path asst1SrcPath = Paths.get("src", "test", "data", "assignment1");
 		FileUtils.copyDirectory(asst1SrcPath, asst1DirPath, StandardCopyOption.REPLACE_EXISTING);
@@ -33,24 +37,21 @@ public class TestTestProperties {
 
 	@Test
 	void testInlineProperty() {
-		Path testCase = asst1DirPath.resolve("tests").resolve("largeTests");
-		TestProperties testProperties = new TestProperties(testCase);
+		TestProperties testProperties = new TestProperties(asst, "largeTests");
 		int value = testProperties.getTimelimit();
 		assertThat(value, is(2));
 	}
 
 	@Test
 	void testYamlProperty() {
-		Path testCase = asst1DirPath.resolve("tests").resolve("simpleTests");
-		TestProperties testProperties = new TestProperties(testCase);
+		TestProperties testProperties = new TestProperties(asst, "simpleTests");
 		int value = testProperties.getPoints();
 		assertThat(value, is(5));
 	}
 
 	@Test
 	void testDefaultProperty() {
-		Path testCase = asst1DirPath.resolve("tests").resolve("simpleTests");
-		TestProperties testProperties = new TestProperties(testCase);
+		TestProperties testProperties = new TestProperties(asst, "simpleTests");
 		String value = testProperties.getLaunch();
 		assertThat(value, is("./dividers"));
 	}

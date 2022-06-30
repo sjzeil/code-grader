@@ -42,7 +42,7 @@ dependencies {
 }
 
 application {
-    mainClassName = 'edu.odu.cs.zeil.bcratchit.bcratchit'
+    mainClassName = 'odu.edu.cs.zeil.codegrader.cli.RunTests'
 }
 
 test {

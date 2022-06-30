@@ -21,14 +21,16 @@ public class TestProperties {
 
     private static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     
+    
+
     /**
      * Create a test case directory based upon information in testDirectory and
      * in the assignment directory above it.
      * 
      * @param testDirectory
      */
-    public TestProperties(Path testDirectory) {
-        this.testDirectory = testDirectory;
+    public TestProperties(Assignment asst, String testName) {
+        this.testDirectory = asst.getTestSuiteDirectory().resolve(testName);
         localProperties = loadFirstYamlFile(testDirectory);
         Path assignmentDir = testDirectory.getParent();
         assignmentProperties = loadFirstYamlFile(assignmentDir);
