@@ -2,8 +2,9 @@ package edu.odu.cs.zeil.codegrader;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-//import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,24 +37,31 @@ public class TestTestProperties {
 	
 
 	@Test
-	void testInlineProperty() {
+	void testInlineProperty() throws FileNotFoundException {
 		TestProperties testProperties = new TestProperties(asst, "largeTests");
 		int value = testProperties.getTimelimit();
 		assertThat(value, is(2));
 	}
 
 	@Test
-	void testYamlProperty() {
+	void testYamlProperty() throws FileNotFoundException {
 		TestProperties testProperties = new TestProperties(asst, "simpleTests");
 		int value = testProperties.getPoints();
 		assertThat(value, is(5));
 	}
 
 	@Test
-	void testDefaultProperty() {
+	void testDefaultProperty() throws FileNotFoundException {
 		TestProperties testProperties = new TestProperties(asst, "simpleTests");
 		String value = testProperties.getLaunch();
 		assertThat(value, is("./dividers"));
 	}
+
+	@Test
+	void testTestCaseBadCase() {
+		assertThrows (FileNotFoundException.class,
+	        () -> new TestProperties(asst, "bogus"));
+	}
+
 
 }

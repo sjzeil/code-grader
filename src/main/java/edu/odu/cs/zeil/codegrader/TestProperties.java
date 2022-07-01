@@ -2,6 +2,7 @@ package edu.odu.cs.zeil.codegrader;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 public class TestProperties {
 
     private Path testDirectory;
+    private String name;
 
     private Map<String, Object> assignmentProperties;
     private Map<String, Object> localProperties;
@@ -27,10 +29,17 @@ public class TestProperties {
      * Create a test case directory based upon information in testDirectory and
      * in the assignment directory above it.
      * 
+     * @param asst an assignment
      * @param testDirectory
+     * @throws FileNotFoundException if the assignment's test suite directory does not exist or
+     *                    does not contain a subdirectory matching testName
      */
-    public TestProperties(Assignment asst, String testName) {
+    public TestProperties(Assignment asst, String testName) throws FileNotFoundException {
+        this.name = testName;
         this.testDirectory = asst.getTestSuiteDirectory().resolve(testName);
+        if (!this.testDirectory.toFile().isDirectory() ) {
+            throw new FileNotFoundException("Could not find " + testDirectory.toString());
+        }
         localProperties = loadFirstYamlFile(testDirectory);
         Path assignmentDir = testDirectory.getParent();
         assignmentProperties = loadFirstYamlFile(assignmentDir);
@@ -45,6 +54,10 @@ public class TestProperties {
             }
         }
         return new HashMap<>();
+    }
+
+    public String getParams() {
+        return (getProperty("params"));
     }
 
     public int getPoints() {
@@ -129,7 +142,18 @@ public class TestProperties {
         }
     }
 
-    public void setLaunch(String string) {
+    public void setLaunch(String command) {
+        localProperties.put("launch", command);
+    }
+
+
+    public Path getTestCaseDirectory() {
+        return testDirectory;
+    }
+
+
+    public String getName() {
+        return name;
     }
 
 }

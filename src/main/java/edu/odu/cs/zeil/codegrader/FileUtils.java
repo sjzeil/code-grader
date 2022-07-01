@@ -41,7 +41,8 @@ public class FileUtils {
             @Override
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
                     throws IOException {
-                Files.createDirectories(target.resolve(source.relativize(dir)));
+                Path newDir = target.resolve(source.relativize(dir));
+                Files.createDirectories(newDir);
                 return FileVisitResult.CONTINUE;
             }
 
