@@ -2,10 +2,13 @@ package edu.odu.cs.zeil.codegrader;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.StringReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -54,7 +57,7 @@ public class TestTestCase {
 		String javaHome = System.getProperty("java.home");
 		Path javaExec = Paths.get(javaHome, "bin", "java");
 		String launcher = javaExec + " -cp " + System.getProperty("java.class.path") + " edu.odu.cs.zeil.codegrader.samples.ParamLister";
-		System.err.println(launcher);
+		//System.err.println(launcher);
 		testProperties.setLaunch (launcher);
         Submission submission = new Submission (asst, "student1");
         TestCase testCase = new TestCase(testProperties);
@@ -64,5 +67,91 @@ public class TestTestCase {
 		assertThat (testCase.getOutput(), is("a\nb\nc\n"));
 		assertThat (testCase.getErr(), is("3\n"));
 	}
+
+	@Test
+	void testStdInTestCase() throws FileNotFoundException  {
+        Assignment asst = new Assignment();
+		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
+        TestProperties testProperties = new TestProperties(asst, "stdin");
+
+		String javaHome = System.getProperty("java.home");
+		Path javaExec = Paths.get(javaHome, "bin", "java");
+		String launcher = javaExec + " -cp " + System.getProperty("java.class.path") + " edu.odu.cs.zeil.codegrader.samples.ParamLister";
+		// System.err.println(launcher);
+		testProperties.setLaunch (launcher);
+        Submission submission = new Submission (asst, "student1");
+        TestCase testCase = new TestCase(testProperties);
+		testCase.runTest(submission);
+		assertThat (testCase.crashed(), is(false));
+		assertThat (testCase.timedOut(), is(false));
+		assertThat (testCase.getOutput(), is("Hello world!\nHow are\nyou?\n"));
+		assertThat (testCase.getErr(), is("0\n"));
+	}
+
+
+	@Test
+	void testSoftCrashCase() throws FileNotFoundException  {
+        Assignment asst = new Assignment();
+		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
+        TestProperties testProperties = new TestProperties(asst, "softCrash");
+
+		String javaHome = System.getProperty("java.home");
+		Path javaExec = Paths.get(javaHome, "bin", "java");
+		String launcher = javaExec + " -cp " + System.getProperty("java.class.path") + " edu.odu.cs.zeil.codegrader.samples.ParamLister";
+		System.err.println(launcher);
+		testProperties.setLaunch (launcher);
+        Submission submission = new Submission (asst, "student1");
+        TestCase testCase = new TestCase(testProperties);
+		testCase.runTest(submission);
+		assertThat (testCase.crashed(), is(true));
+		assertThat (testCase.timedOut(), is(false));
+	}
+
+	@Test
+	void testTimeOut() throws FileNotFoundException  {
+        Assignment asst = new Assignment();
+		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
+        TestProperties testProperties = new TestProperties(asst, "softCrash");
+
+		String javaHome = System.getProperty("java.home");
+		Path javaExec = Paths.get(javaHome, "bin", "java");
+		String launcher = javaExec + " -cp " + System.getProperty("java.class.path") + " edu.odu.cs.zeil.codegrader.samples.SlowProgram";
+		System.err.println(launcher);
+		testProperties.setLaunch (launcher);
+        Submission submission = new Submission (asst, "student1");
+        TestCase testCase = new TestCase(testProperties);
+		testCase.runTest(submission);
+		assertThat (testCase.crashed(), is(false));
+		assertThat (testCase.timedOut(), is(true));
+	}
+
+	@Test
+	void testLargeOuputTestCase() throws IOException  {
+        Assignment asst = new Assignment();
+		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
+        TestProperties testProperties = new TestProperties(asst, "params");
+
+		String javaHome = System.getProperty("java.home");
+		Path javaExec = Paths.get(javaHome, "bin", "java");
+		String launcher = javaExec + " -cp " + System.getProperty("java.class.path") + " edu.odu.cs.zeil.codegrader.samples.LargeOutput";
+		System.err.println(launcher);
+		testProperties.setLaunch (launcher);
+        Submission submission = new Submission (asst, "student1");
+        TestCase testCase = new TestCase(testProperties);
+		testCase.runTest(submission);
+		assertThat (testCase.crashed(), is(false));
+		assertThat (testCase.timedOut(), is(false));
+		assertThat (testCase.getErr(), is(""));
+		String actualOutput = testCase.getOutput();
+		BufferedReader actual = new BufferedReader(new StringReader(actualOutput));
+		String actualLine = actual.readLine();
+		for (int i = 0; i < edu.odu.cs.zeil.codegrader.samples.LargeOutput.OutputSize / 10; ++i) {
+			assertThat (actualLine, is("abcdefghi"));
+			actualLine = actual.readLine();
+		}
+		assertNull(actualLine);
+	}
+
+
 
 }

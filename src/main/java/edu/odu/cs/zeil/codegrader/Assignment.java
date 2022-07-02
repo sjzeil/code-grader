@@ -73,7 +73,7 @@ public class Assignment {
      * 
      * @return the path to the test suite directory.
      */
-    Path getTestSuiteDirectory() {return testSuiteDirectory;}
+    public Path getTestSuiteDirectory() {return testSuiteDirectory;}
 
     /**
      * Set the path to the test suite directory.
@@ -81,7 +81,7 @@ public class Assignment {
      * @param path the path to use
      * @return the modified assignment
      */
-    Assignment setTestSuiteDirectory(Path path) {testSuiteDirectory = path; return this;}
+    public Assignment setTestSuiteDirectory(Path path) {testSuiteDirectory = path; return this;}
 
     /**
      * The staging directory is the location where the student code will be compiled

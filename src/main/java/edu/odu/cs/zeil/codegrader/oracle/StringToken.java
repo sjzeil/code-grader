@@ -12,7 +12,7 @@ public class StringToken extends Token {
 			String thisLexeme = getLexeme();
 			StringToken act = (StringToken)actual;
 			String actualLexeme = act.getLexeme();
-			if (!getSettings().caseSensitive) {
+			if (!getSettings().isCaseSensitive()) {
 				thisLexeme = thisLexeme.toLowerCase();
 				actualLexeme = actualLexeme.toLowerCase();
 			}

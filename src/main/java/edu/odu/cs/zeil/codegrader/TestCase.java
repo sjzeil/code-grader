@@ -2,6 +2,7 @@ package edu.odu.cs.zeil.codegrader;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -51,8 +52,23 @@ public class TestCase {
         statusCode = 0;
         onTime = true;
         try {
+            int timeLimit = properties.getTimelimit();
+            if (timeLimit <= 0)
+                timeLimit = 1;
+            Path stdIn = properties.getIn();
+            if (!stdIn.toFile().isDirectory()) {
+                pBuilder.redirectInput(stdIn.toFile());
+            }
+
             Process process = pBuilder.start();
-            onTime = process.waitFor(properties.getTimelimit(), TimeUnit.SECONDS);
+
+            // If there is no standard in content, close the input stream
+            if (stdIn.toFile().isDirectory()) {
+                OutputStream stdInStr = process.getOutputStream();
+                stdInStr.close();
+            }
+
+            onTime = process.waitFor(timeLimit, TimeUnit.SECONDS);
             if (onTime) {
                 capturedOutput = new String(process.getInputStream().readAllBytes());
                 capturedError = new String(process.getErrorStream().readAllBytes());

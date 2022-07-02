@@ -1,14 +1,9 @@
 package edu.odu.cs.zeil.codegrader;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +13,8 @@ public class TestProperties {
     private Path testDirectory;
     private String name;
 
-    private Map<String, Object> assignmentProperties;
-    private Map<String, Object> localProperties;
+    private Properties assignmentProperties;
+    private Properties localProperties;
 
     private static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     
@@ -38,26 +33,30 @@ public class TestProperties {
         this.name = testName;
         this.testDirectory = asst.getTestSuiteDirectory().resolve(testName);
         if (!this.testDirectory.toFile().isDirectory() ) {
+            logger.error ("Could not find " + testDirectory.toString());
             throw new FileNotFoundException("Could not find " + testDirectory.toString());
         }
-        localProperties = loadFirstYamlFile(testDirectory);
+        localProperties = new Properties(testDirectory);
         Path assignmentDir = testDirectory.getParent();
-        assignmentProperties = loadFirstYamlFile(assignmentDir);
+        assignmentProperties = new Properties(assignmentDir);
     }
 
 
-    private Map<String,Object> loadFirstYamlFile (Path dir)
-    {
-        for (File yamlFile: dir.toFile().listFiles()) {
-            if (yamlFile.getName().endsWith(".yaml")) {
-                return FileUtils.loadYaml(yamlFile);
+    /**
+     * Find the standard in file for a test (any file having a ".in" extension).
+     * @return a path to a ".in" file or the test suite directory if no such file exists.
+     */
+    public Path getIn() {
+        for (File inFile: testDirectory.toFile().listFiles()) {
+            if (inFile.getName().endsWith(".in")) {
+                return inFile.toPath();
             }
         }
-        return new HashMap<>();
+        return testDirectory;
     }
 
     public String getParams() {
-        return (getProperty("params"));
+        return getProperty("params");
     }
 
     public int getPoints() {
@@ -71,58 +70,15 @@ public class TestProperties {
     }
 
     private String getProperty(String name) {
-        // First check for properties as inline files
-        File testDir = testDirectory.toFile();
-        File[] contents = testDir.listFiles();
-        String extension = "." + name;
-        for (File file : contents) {
-            if (file.getName().endsWith(extension)) {
-                return readContentsOf(file);
-            }
-        }
-
-        // Next, check the test case yaml
-        Object value = localProperties.get(name);
-        if (value != null) {
+        Object value = localProperties.getProperty(name);
+        if (value != null)
             return value.toString();
-        }
-
-		// Finally, check the assignment yaml
-		Object testProps = assignmentProperties.get("test");
-		if ((testProps != null) && (testProps instanceof Map<?, ?>)) {
-			Map<String, Object> testMap = castToMap(assignmentProperties.get("test"));
-			value = testMap.get(name);
-			if (value != null) {
-				return value.toString();
-			}
-		}
-
+        value = assignmentProperties.getProperty("test", name);
+        if (value != null)
+            return value.toString();
         return "";
     }
 
-    @SuppressWarnings("unchecked")
-    private Map<String, Object> castToMap(Object object) {
-		return (Map<String, Object>)object;
-	}
-
-
-	private String readContentsOf(File file) {
-        StringBuffer result = new StringBuffer();
-        try (BufferedReader in = new BufferedReader(new FileReader(file))) {
-            while (true) {
-                String line = in.readLine();
-                if (line == null)
-                    break;
-                if (result.length() > 0) {
-                    result.append("\n");
-                }
-                result.append(line);
-            }
-        } catch (IOException ex) {
-            logger.warn("Error in readContentsOf when reading from " + file.getAbsolutePath(), ex);
-        }
-        return result.toString();
-    }
 
     public String getLaunch() {
         return getProperty("launch");
@@ -143,7 +99,7 @@ public class TestProperties {
     }
 
     public void setLaunch(String command) {
-        localProperties.put("launch", command);
+        localProperties.setProperty("launch", command);
     }
 
 
