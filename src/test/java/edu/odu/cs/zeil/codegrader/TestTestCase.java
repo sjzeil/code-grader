@@ -61,7 +61,7 @@ public class TestTestCase {
 		testProperties.setLaunch (launcher);
         Submission submission = new Submission (asst, "student1");
         TestCase testCase = new TestCase(testProperties);
-		testCase.runTest(submission);
+		testCase.executeTest(submission);
 		assertThat (testCase.crashed(), is(false));
 		assertThat (testCase.timedOut(), is(false));
 		assertThat (testCase.getOutput(), is("a\nb\nc\n"));
@@ -81,7 +81,7 @@ public class TestTestCase {
 		testProperties.setLaunch (launcher);
         Submission submission = new Submission (asst, "student1");
         TestCase testCase = new TestCase(testProperties);
-		testCase.runTest(submission);
+		testCase.executeTest(submission);
 		assertThat (testCase.crashed(), is(false));
 		assertThat (testCase.timedOut(), is(false));
 		assertThat (testCase.getOutput(), is("Hello world!\nHow are\nyou?\n"));
@@ -98,11 +98,11 @@ public class TestTestCase {
 		String javaHome = System.getProperty("java.home");
 		Path javaExec = Paths.get(javaHome, "bin", "java");
 		String launcher = javaExec + " -cp " + System.getProperty("java.class.path") + " edu.odu.cs.zeil.codegrader.samples.ParamLister";
-		System.err.println(launcher);
+		// System.err.println(launcher);
 		testProperties.setLaunch (launcher);
         Submission submission = new Submission (asst, "student1");
         TestCase testCase = new TestCase(testProperties);
-		testCase.runTest(submission);
+		testCase.executeTest(submission);
 		assertThat (testCase.crashed(), is(true));
 		assertThat (testCase.timedOut(), is(false));
 	}
@@ -116,11 +116,11 @@ public class TestTestCase {
 		String javaHome = System.getProperty("java.home");
 		Path javaExec = Paths.get(javaHome, "bin", "java");
 		String launcher = javaExec + " -cp " + System.getProperty("java.class.path") + " edu.odu.cs.zeil.codegrader.samples.SlowProgram";
-		System.err.println(launcher);
+		// System.err.println(launcher);
 		testProperties.setLaunch (launcher);
         Submission submission = new Submission (asst, "student1");
         TestCase testCase = new TestCase(testProperties);
-		testCase.runTest(submission);
+		testCase.executeTest(submission);
 		assertThat (testCase.crashed(), is(false));
 		assertThat (testCase.timedOut(), is(true));
 	}
@@ -134,11 +134,11 @@ public class TestTestCase {
 		String javaHome = System.getProperty("java.home");
 		Path javaExec = Paths.get(javaHome, "bin", "java");
 		String launcher = javaExec + " -cp " + System.getProperty("java.class.path") + " edu.odu.cs.zeil.codegrader.samples.LargeOutput";
-		System.err.println(launcher);
+		// System.err.println(launcher);
 		testProperties.setLaunch (launcher);
         Submission submission = new Submission (asst, "student1");
         TestCase testCase = new TestCase(testProperties);
-		testCase.runTest(submission);
+		testCase.executeTest(submission);
 		assertThat (testCase.crashed(), is(false));
 		assertThat (testCase.timedOut(), is(false));
 		assertThat (testCase.getErr(), is(""));
