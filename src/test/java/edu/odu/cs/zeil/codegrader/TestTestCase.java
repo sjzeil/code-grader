@@ -3,7 +3,7 @@ package edu.odu.cs.zeil.codegrader;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+//import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -46,7 +46,6 @@ public class TestTestCase {
 	@Test
 	void testTestCaseConstructor() throws FileNotFoundException  {
         TestProperties testProperties = new TestProperties(asst, "params");
-        Submission submission = new Submission (asst, "student1");
         TestCase testCase = new TestCase(testProperties);
 		assertThat (testCase.getOutput(), is(""));
 		assertThat (testCase.getErr(), is(""));
