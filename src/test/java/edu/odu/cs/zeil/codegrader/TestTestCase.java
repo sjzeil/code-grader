@@ -22,11 +22,19 @@ public class TestTestCase {
 	
 	public Path asstSrcPath = Paths.get("src", "test", "data", "assignment2");
 	public Path testSuitePath = Paths.get("build", "test-data", "assignment2");
+	public Path stagingPath = Paths.get("build", "test-data", "assignment2", "stage");
+
+	public Assignment asst;
 	
 	@BeforeEach
 	public void setup() throws IOException {
 		testSuitePath.toFile().getParentFile().mkdirs();
+		stagingPath.toFile().mkdirs();
 		FileUtils.copyDirectory(asstSrcPath, testSuitePath, StandardCopyOption.REPLACE_EXISTING);
+
+		asst = new Assignment();
+		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
+		asst.setStagingDirectory(stagingPath);
 	}
 	
 	@AfterEach
@@ -37,8 +45,6 @@ public class TestTestCase {
 
 	@Test
 	void testTestCaseConstructor() throws FileNotFoundException  {
-        Assignment asst = new Assignment();
-		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
         TestProperties testProperties = new TestProperties(asst, "params");
         Submission submission = new Submission (asst, "student1");
         TestCase testCase = new TestCase(testProperties);
@@ -50,8 +56,6 @@ public class TestTestCase {
 
 	@Test
 	void testParamsTestCase() throws FileNotFoundException  {
-        Assignment asst = new Assignment();
-		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
         TestProperties testProperties = new TestProperties(asst, "params");
 
 		String javaHome = System.getProperty("java.home");
@@ -70,8 +74,6 @@ public class TestTestCase {
 
 	@Test
 	void testStdInTestCase() throws FileNotFoundException  {
-        Assignment asst = new Assignment();
-		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
         TestProperties testProperties = new TestProperties(asst, "stdin");
 
 		String javaHome = System.getProperty("java.home");
@@ -91,8 +93,6 @@ public class TestTestCase {
 
 	@Test
 	void testSoftCrashCase() throws FileNotFoundException  {
-        Assignment asst = new Assignment();
-		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
         TestProperties testProperties = new TestProperties(asst, "softCrash");
 
 		String javaHome = System.getProperty("java.home");
@@ -109,8 +109,6 @@ public class TestTestCase {
 
 	@Test
 	void testTimeOut() throws FileNotFoundException  {
-        Assignment asst = new Assignment();
-		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
         TestProperties testProperties = new TestProperties(asst, "softCrash");
 
 		String javaHome = System.getProperty("java.home");
@@ -126,9 +124,7 @@ public class TestTestCase {
 	}
 
 	@Test
-	void testLargeOuputTestCase() throws IOException  {
-        Assignment asst = new Assignment();
-		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
+	void testLargeOutputTestCase() throws IOException  {
         TestProperties testProperties = new TestProperties(asst, "params");
 
 		String javaHome = System.getProperty("java.home");
@@ -153,5 +149,24 @@ public class TestTestCase {
 	}
 
 
+	@Test
+	void testTestCaseContext() throws IOException  {
+        TestProperties testProperties = new TestProperties(asst, "params");
+
+		String javaHome = System.getProperty("java.home");
+		Path javaExec = Paths.get(javaHome, "bin", "java");
+		String launcher = javaExec + " -cp " + System.getProperty("java.class.path") 
+			+ " edu.odu.cs.zeil.codegrader.samples.CWDLister";
+		//System.err.println(launcher);
+		testProperties.setLaunch (launcher);
+        Submission submission = new Submission (asst, "student1");
+        TestCase testCase = new TestCase(testProperties);
+		testCase.executeTest(submission);
+		assertThat (testCase.crashed(), is(false));
+		assertThat (testCase.timedOut(), is(false));
+		assertThat (testCase.getErr(), is(""));
+		Path execCWD = Paths.get(testCase.getOutput().trim());
+		assertThat (execCWD.toRealPath(), is(stagingPath.toRealPath()));
+	}
 
 }

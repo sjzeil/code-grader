@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ public class TestProperties {
     private Path testDirectory;
     private String name;
 
+    private Assignment assignment;
     private Properties assignmentProperties;
     private Properties localProperties;
 
@@ -31,6 +33,7 @@ public class TestProperties {
      */
     public TestProperties(Assignment asst, String testName) throws FileNotFoundException {
         this.name = testName;
+        this.assignment = asst;
         this.testDirectory = asst.getTestSuiteDirectory().resolve(testName);
         if (!this.testDirectory.toFile().isDirectory() ) {
             logger.error ("Could not find " + testDirectory.toString());
@@ -110,6 +113,11 @@ public class TestProperties {
 
     public String getName() {
         return name;
+    }
+
+
+    public Assignment getAssignment() {
+        return assignment;
     }
 
 }

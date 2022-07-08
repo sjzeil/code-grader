@@ -92,6 +92,7 @@ public class TestCase {
     public void executeTest(Submission submission) {
         List<String> launchCommand = parseCommand(properties.getLaunch() + ' ' + properties.getParams());
         ProcessBuilder pBuilder = new ProcessBuilder(launchCommand);
+        pBuilder.directory(properties.getAssignment().getStagingDirectory().toFile());
         capturedOutput = "";
         capturedError = "";
         crashed = false;
