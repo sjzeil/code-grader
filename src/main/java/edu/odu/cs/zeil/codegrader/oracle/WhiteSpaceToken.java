@@ -7,7 +7,10 @@ public class WhiteSpaceToken extends Token {
 	}
 
 	public boolean equals(Object actual) {
-		// TODO
-		return false;
+		if (actual instanceof WhiteSpaceToken) {
+			WhiteSpaceToken other = (WhiteSpaceToken)actual;
+			return getLexeme().equals(other.getLexeme());
+		} else
+			return false;
 	}
 }

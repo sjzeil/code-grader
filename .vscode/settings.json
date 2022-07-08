@@ -1,7 +1,9 @@
 {
     "java.configuration.updateBuildConfiguration": "interactive",
     "cSpell.words": [
+        "casesensitive",
         "codegrader",
-        "hamcrest"
+        "hamcrest",
+        "timelimit"
     ]
 }

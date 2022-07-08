@@ -7,7 +7,6 @@ public class LineBreakToken extends Token {
 	}
 
 	public boolean equals(Object actual) {
-		// TODO
-		return false;
+		return actual instanceof LineBreakToken;
 	}
 }

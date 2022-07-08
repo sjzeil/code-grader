@@ -1,6 +1,5 @@
 package edu.odu.cs.zeil.codegrader.oracle;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
@@ -14,7 +13,6 @@ import edu.odu.cs.zeil.codegrader.Properties;
 public class OracleProperties {
 
     private Path testDirectory;
-    private String name;
 
     private Properties assignmentProperties;
     private Properties localProperties;
@@ -33,7 +31,6 @@ public class OracleProperties {
      *                    does not contain a subdirectory matching testName
      */
     public OracleProperties(Assignment asst, String testName) throws FileNotFoundException {
-        this.name = testName;
         this.testDirectory = asst.getTestSuiteDirectory().resolve(testName);
         if (!this.testDirectory.toFile().isDirectory() ) {
             logger.error ("Could not find " + testDirectory.toString());

@@ -1,14 +1,11 @@
 package edu.odu.cs.zeil.codegrader;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
-import java.nio.channels.ClosedByInterruptException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +17,6 @@ import org.slf4j.LoggerFactory;
 public class TestCase {
 
     private TestProperties properties;
-    private Path testCaseDir;
     private String capturedOutput;
     private String capturedError;
     private boolean crashed;
@@ -87,7 +83,7 @@ public class TestCase {
      * Standard out and standard err are captured and available as
      * getOutput() and getErr(). The status code is also available.
      * 
-     * @param submission code to use when running the testcase
+     * @param submission code to use when running the test case
      */
     public void executeTest(Submission submission) {
         List<String> launchCommand = parseCommand(properties.getLaunch() + ' ' + properties.getParams());

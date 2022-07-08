@@ -1,10 +1,7 @@
 package edu.odu.cs.zeil.codegrader;
 
-import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A Submission represents a student's submitted solution to an assignment.
@@ -14,7 +11,6 @@ public class Submission {
     private Assignment assignment;
     private String submittedBy;
     
-    private static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     /**
      * Create a submission.

@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,7 +71,7 @@ public class Properties {
 
     public Object getProperty(String scopeName, String name) {
         try {
-            Map<String, Object> propertiesInScope = (Map<String, Object>)localProperties.get(scopeName);
+            Map<String, Object> propertiesInScope = castToMap(localProperties.get(scopeName));
             return propertiesInScope.get(name);
         } catch (Exception e) {
             return null;

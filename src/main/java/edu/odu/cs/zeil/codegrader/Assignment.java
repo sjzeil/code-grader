@@ -1,10 +1,6 @@
 package edu.odu.cs.zeil.codegrader;
 
-import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -21,7 +17,7 @@ public class Assignment {
     private Path stagingDirectory;
     private Path recordingDirectory;
     
-    private static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    //private static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     /**
      * Create an assignment.
