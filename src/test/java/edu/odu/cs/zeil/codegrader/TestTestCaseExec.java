@@ -18,7 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-public class TestTestCase {
+public class TestTestCaseExec {
 	
 	public Path asstSrcPath = Paths.get("src", "test", "data", "assignment2");
 	public Path testSuitePath = Paths.get("build", "test-data", "assignment2");
@@ -166,6 +166,29 @@ public class TestTestCase {
 		assertThat (testCase.getErr(), is(""));
 		Path execCWD = Paths.get(testCase.getOutput().trim());
 		assertThat (execCWD.toRealPath(), is(stagingPath.toRealPath()));
+	}
+
+	@Test
+	void testParamSubstitutionTestCase() throws IOException  {
+        TestProperties testProperties = new TestProperties(asst, "paramsSub");
+
+		String javaHome = System.getProperty("java.home");
+		Path javaExec = Paths.get(javaHome, "bin", "java");
+		String launcher = javaExec + " -cp " + System.getProperty("java.class.path") 
+		   + " edu.odu.cs.zeil.codegrader.samples.ParamLister";
+		//System.err.println(launcher);
+		testProperties.setLaunch (launcher);
+        Submission submission = new Submission (asst, "student1");
+        TestCase testCase = new TestCase(testProperties);
+		testCase.executeTest(submission);
+		assertThat (testCase.crashed(), is(false));
+		assertThat (testCase.timedOut(), is(false));
+		assertThat (testCase.getErr(), is("4\n"));
+		String[] lines = testCase.getOutput().trim().split("\n");
+		assertThat (Paths.get(lines[0]).toRealPath(), is(asst.getStagingDirectory().toRealPath()));
+		assertThat (Paths.get(lines[1]).toRealPath(), is(asst.getTestSuiteDirectory().toRealPath()));
+		assertThat (lines[2], is("paramsSub"));
+		assertThat (lines[3], is("@treble"));
 	}
 
 }

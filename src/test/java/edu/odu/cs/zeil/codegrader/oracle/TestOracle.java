@@ -42,7 +42,7 @@ public class TestOracle {
 		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
 
 		OracleProperties config = new OracleProperties(asst, "params");
-		Oracle oracle = new Oracle(config);
+		SmartOracle oracle = new SmartOracle(config);
 		assertThat (oracle.compare(expected, actual), equalTo(true));
 
 		String actualCaseVariant = "twas Brillig and the slithy toves\ndid gyre and gimble in the wabe;";
@@ -60,7 +60,7 @@ public class TestOracle {
 		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
 
 		OracleProperties config = new OracleProperties(asst, "params");
-		Oracle oracle = new Oracle(config);
+		SmartOracle oracle = new SmartOracle(config);
 		assertThat (oracle.compare(expected, expected), equalTo(true));
 		
 		String reformatted = "If train A leaves New York traveling at 35.0 mph and\n"

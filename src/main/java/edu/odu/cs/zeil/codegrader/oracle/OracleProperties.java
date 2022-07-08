@@ -1,5 +1,6 @@
 package edu.odu.cs.zeil.codegrader.oracle;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
@@ -13,16 +14,18 @@ import edu.odu.cs.zeil.codegrader.Properties;
 public class OracleProperties {
 
     private Path testDirectory;
+    private String name;
 
+    private Assignment assignment;
     private Properties assignmentProperties;
     private Properties localProperties;
 
     private static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     
-    private boolean caseSensitive;
+    
 
     /**
-     * Create a property set based upon information in testDirectory and
+     * Create a test case directory based upon information in testDirectory and
      * in the assignment directory above it.
      * 
      * @param asst an assignment
@@ -31,6 +34,8 @@ public class OracleProperties {
      *                    does not contain a subdirectory matching testName
      */
     public OracleProperties(Assignment asst, String testName) throws FileNotFoundException {
+        this.name = testName;
+        this.assignment = asst;
         this.testDirectory = asst.getTestSuiteDirectory().resolve(testName);
         if (!this.testDirectory.toFile().isDirectory() ) {
             logger.error ("Could not find " + testDirectory.toString());
@@ -39,36 +44,21 @@ public class OracleProperties {
         localProperties = new Properties(testDirectory);
         Path assignmentDir = testDirectory.getParent();
         assignmentProperties = new Properties(assignmentDir);
-        caseSensitive = true;
     }
 
 
-
-    public String getParams() {
-        return getProperty("params");
-    }
-
-    public int getPoints() {
-        try {
-            int v = Integer.parseInt(getProperty("points"));
-            return v;
-        } catch (Exception ex) {
-            // points are unspecified or incorrectly specified
-            return 1;
+    /**
+     * Find the .expected file for a test.
+     * @return a path to a ".expected" file or the test suite directory if no such file exists.
+     */
+    public Path getExpected() {
+        for (File inFile: testDirectory.toFile().listFiles()) {
+            if (inFile.getName().endsWith(".in")) {
+                return inFile.toPath();
+            }
         }
+        return testDirectory;
     }
-
-    private String getProperty(String name) {
-        Object value = localProperties.getProperty(name);
-        if (value != null)
-            return value.toString();
-        value = assignmentProperties.getProperty("oracle", name);
-        if (value != null)
-            return value.toString();
-        return "";
-    }
-
-
 
 
     public Path getTestCaseDirectory() {
@@ -76,30 +66,26 @@ public class OracleProperties {
     }
 
 
-    private void loadCaseSensitive() {
-        Object value = getProperty("casesensitive");
-		if (value != null)
-			caseSensitive = booleanEval(value.toString());
-		else
-			caseSensitive = true;
+    public String getName() {
+        return name;
     }
+
+
+    public Assignment getAssignment() {
+        return assignment;
+    }
+
 
     public boolean isCaseSensitive() {
-        return caseSensitive;
+        return false;
     }
 
 
+    public void setCaseSensitive(boolean b) {
+    }
 
-	private boolean booleanEval(String string) {
-		String lc = string.toLowerCase();
-		return lc.equals("true") || lc.equals("yes") || lc.equals("1");
+
+	public void setType(String string) {
 	}
-
-
-
-	public void setCaseSensitive(boolean b) {
-		caseSensitive = b;
-	}
-
 
 }
