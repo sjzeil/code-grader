@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Test;
 
 import edu.odu.cs.zeil.codegrader.oracle.Oracle;
 import edu.odu.cs.zeil.codegrader.oracle.OracleFactory;
-import edu.odu.cs.zeil.codegrader.oracle.OracleProperties;
 import edu.odu.cs.zeil.codegrader.oracle.OracleResult;
 
 
@@ -30,6 +29,7 @@ public class TestTestCaseOracle {
 	public Path stagingPath = Paths.get("build", "test-data", "assignment2", "stage");
 
 	public Assignment asst;
+	public TestCase testCase;
 	
 	@BeforeEach
 	public void setup() throws IOException {
@@ -40,6 +40,8 @@ public class TestTestCaseOracle {
 		asst = new Assignment();
 		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
 		asst.setStagingDirectory(stagingPath);
+
+		testCase = new TestCase(new TestProperties(asst, "params"));
 	}
 	
 	@AfterEach
@@ -50,18 +52,35 @@ public class TestTestCaseOracle {
 
 	@Test
 	void testParamsTestCase() throws FileNotFoundException  {
-        OracleProperties oracleProperties = new OracleProperties(asst, "params");
-        oracleProperties.setType ("@Smart");
 
-        String actualOutput = "a\nb\nc\n";
+		String actualOutput = "a\nb\nc\n";
 		String expectedOutput = "a\nb\nc\n";
 		
-
-        Oracle oracle = OracleFactory.getOracle(oracleProperties);
+        Oracle oracle = OracleFactory.getOracle("", testCase); // default oracle
         OracleResult result = oracle.compare(expectedOutput, actualOutput);
 
 		assertThat (result.score, is(100));
 		assertThat (result.message, is(""));
+
+		actualOutput = "a\nx\nc\n";
+		result = oracle.compare(expectedOutput, actualOutput);
+
+		assertThat (result.score, is(0));
+		assertThat (result.message.contains("x"), is(true));
+		assertThat (result.message.contains("b"), is(true));
+
+		actualOutput = "a\nb\nc\nd\n";
+		result = oracle.compare(expectedOutput, actualOutput);
+
+		assertThat (result.score, is(0));
+		assertThat (result.message, not(is("")));
+
+		actualOutput = "a\nb\n";
+		result = oracle.compare(expectedOutput, actualOutput);
+
+		assertThat (result.score, is(0));
+		assertThat (result.message, not(is("")));
+
 	}
 
 }

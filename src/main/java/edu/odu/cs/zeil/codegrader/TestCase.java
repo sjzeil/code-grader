@@ -164,7 +164,7 @@ public class TestCase {
      * @param commandStr a string describing a command to be run
      * @return the commandStr with shortcuts replaced by the appropriate path/value
      */
-    private String parameterSubstitution(String launchCommandStr) {
+    public String parameterSubstitution(String launchCommandStr) {
         StringBuilder result = new StringBuilder();
         int i = 0;
         while (i < launchCommandStr.length()) {
@@ -214,6 +214,9 @@ public class TestCase {
         }
         return result.toString();
     }
+
+
+
 
     /**
      * Split a string into space-separated tokens, respecting "" and '' quoted
@@ -302,6 +305,10 @@ public class TestCase {
      */
     public boolean crashed() {
         return crashed || (statusCode != 0);
+    }
+
+    public TestProperties getProperties() {
+        return properties;
     }
 
 }

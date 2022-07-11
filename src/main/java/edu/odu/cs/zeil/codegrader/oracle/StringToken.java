@@ -3,7 +3,7 @@ package edu.odu.cs.zeil.codegrader.oracle;
 public class StringToken extends Token {
 
 
-	public StringToken(String lexeme, OracleProperties settings) {
+	public StringToken(String lexeme, Oracle settings) {
 		super(lexeme, settings);
 	}
 
@@ -12,7 +12,7 @@ public class StringToken extends Token {
 			String thisLexeme = getLexeme();
 			StringToken act = (StringToken)actual;
 			String actualLexeme = act.getLexeme();
-			if (!getSettings().isCaseSensitive()) {
+			if (getSettings().getIgnoreCase()) {
 				thisLexeme = thisLexeme.toLowerCase();
 				actualLexeme = actualLexeme.toLowerCase();
 			}

@@ -2,7 +2,7 @@ package edu.odu.cs.zeil.codegrader.oracle;
 
 public class LineBreakToken extends Token {
 
-	public LineBreakToken(String lexeme, OracleProperties settings) {
+	public LineBreakToken(String lexeme, Oracle settings) {
 		super(lexeme, settings);
 	}
 

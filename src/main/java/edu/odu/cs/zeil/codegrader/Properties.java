@@ -114,4 +114,22 @@ public class Properties {
         return scope;
     }
 
+
+    public static boolean getBoolean(Properties localProperties, Properties outerProperties, String scope,
+            String property, boolean defaultValue) {
+            Object value = localProperties.getProperty(scope, property);
+            if (value == null)
+                value = outerProperties.getProperty(scope, property);
+            if (value == null)
+                return defaultValue;
+            else {
+                String valueStr = value.toString().toLowerCase();
+                if (valueStr.equals("true") || valueStr.equals("yes") || valueStr.equals("1")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }            
+    }
+
 }

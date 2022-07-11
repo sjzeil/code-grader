@@ -3,11 +3,11 @@ package edu.odu.cs.zeil.codegrader.oracle;
 public class Scanner {
 	
 	private String source;
-	private OracleProperties settings;
+	private Oracle settings;
 	private int pos = 0;
 	private Token next;
 
-	public Scanner(String input, OracleProperties settings) {
+	public Scanner(String input, Oracle settings) {
 		source = input;
 		this.settings = settings;
 		fetchNext();

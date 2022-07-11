@@ -18,16 +18,27 @@ import org.junit.jupiter.api.Test;
 
 import edu.odu.cs.zeil.codegrader.Assignment;
 import edu.odu.cs.zeil.codegrader.FileUtils;
+import edu.odu.cs.zeil.codegrader.TestCase;
+import edu.odu.cs.zeil.codegrader.TestProperties;
 
 public class TestScanner {
 
 	public Path asstSrcPath = Paths.get("src", "test", "data", "assignment2");
 	public Path testSuitePath = Paths.get("build", "test-data", "assignment2");
 	
+	Assignment asst;
+	TestCase testCase;
+	Oracle config;
+
 	@BeforeEach
 	public void setup() throws IOException {
 		testSuitePath.toFile().getParentFile().mkdirs();
 		FileUtils.copyDirectory(asstSrcPath, testSuitePath, StandardCopyOption.REPLACE_EXISTING);
+
+		asst = new Assignment();
+		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
+		testCase = new TestCase(new TestProperties(asst, "params"));
+		config = new SmartOracle("", testCase);
 	}
 	
 	@AfterEach
@@ -39,10 +50,7 @@ public class TestScanner {
 	@Test
 	void testIsolatedString1() throws FileNotFoundException {
 		String input = "abc";
-		Assignment asst = new Assignment();
-		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
 
-		OracleProperties config = new OracleProperties(asst, "params");
 		Scanner scanner = new Scanner(input, config);
 		assertThat(scanner.hasNext(), equalTo(true));
 		Token token = scanner.next(); 
@@ -54,11 +62,8 @@ public class TestScanner {
 	@Test
 	void testIsolatedString2() throws FileNotFoundException {
 		String input = "-abc";
-		Assignment asst = new Assignment();
-		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
-
-		OracleProperties config = new OracleProperties(asst, "params");
-Scanner scanner = new Scanner(input, config);
+		
+		Scanner scanner = new Scanner(input, config);
 		assertThat(scanner.hasNext(), equalTo(true));
 		Token token = scanner.next(); 
 		assertThat(scanner.hasNext(), equalTo(false));
@@ -69,10 +74,7 @@ Scanner scanner = new Scanner(input, config);
 	@Test
 	void testIsolatedString3() throws FileNotFoundException {
 		String input = "+abc";
-		Assignment asst = new Assignment();
-		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
-
-		OracleProperties config = new OracleProperties(asst, "params");
+		
 		Scanner scanner = new Scanner(input, config);
 		assertThat(scanner.hasNext(), equalTo(true));
 		Token token = scanner.next(); 
@@ -84,10 +86,7 @@ Scanner scanner = new Scanner(input, config);
 	@Test
 	void testIsolatedNumber() throws FileNotFoundException {
 		String input = "+123.4";
-		Assignment asst = new Assignment();
-		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
-
-		OracleProperties config = new OracleProperties(asst, "params");
+		
 		Scanner scanner = new Scanner(input, config);
 		assertThat(scanner.hasNext(), equalTo(true));
 		Token token = scanner.next(); 
@@ -99,10 +98,7 @@ Scanner scanner = new Scanner(input, config);
 	@Test
 	void testNumberFollowedByLetters() throws FileNotFoundException {
 		String input = "123min";
-		Assignment asst = new Assignment();
-		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
-
-		OracleProperties config = new OracleProperties(asst, "params");
+		
 		Scanner scanner = new Scanner(input, config);
 		assertThat(scanner.hasNext(), equalTo(true));
 		Token token = scanner.next(); 
@@ -119,11 +115,8 @@ Scanner scanner = new Scanner(input, config);
 	@Test
 	void testNumberFollowedByWS() throws FileNotFoundException {
 		String input = "123 ";
-		Assignment asst = new Assignment();
-		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
-
-		OracleProperties config = new OracleProperties(asst, "params");
-Scanner scanner = new Scanner(input, config);
+		
+		Scanner scanner = new Scanner(input, config);
 		assertThat(scanner.hasNext(), equalTo(true));
 		Token token = scanner.next(); 
 		assertThat(scanner.hasNext(), equalTo(false));
@@ -137,9 +130,7 @@ Scanner scanner = new Scanner(input, config);
 		String input = "traveling at -35 mph and\n"
 				+ "then at 42.50 mph, for 120sec";
 				Assignment asst = new Assignment();
-		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
 
-		OracleProperties config = new OracleProperties(asst, "params");
 		Scanner scanner = new Scanner(input, config);
 		
 		ArrayList<Token> tokens = new ArrayList<Token>();

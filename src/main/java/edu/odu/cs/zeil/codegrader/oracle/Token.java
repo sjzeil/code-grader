@@ -3,9 +3,9 @@ package edu.odu.cs.zeil.codegrader.oracle;
 public abstract class Token {
 	
 	private String lexeme;
-	private OracleProperties settings;
+	private Oracle settings;
 
-	public Token(String theLexeme, OracleProperties theSettings) {
+	public Token(String theLexeme, Oracle theSettings) {
 		lexeme = theLexeme;
 		settings = theSettings;
 	}
@@ -17,7 +17,7 @@ public abstract class Token {
 		return lexeme;
 	}
 	
-	public OracleProperties getSettings() {
+	public Oracle getSettings() {
 		return settings;
 	}
 	

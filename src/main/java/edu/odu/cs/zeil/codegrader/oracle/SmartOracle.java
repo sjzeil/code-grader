@@ -1,5 +1,7 @@
 package edu.odu.cs.zeil.codegrader.oracle;
 
+import edu.odu.cs.zeil.codegrader.TestCase;
+
 /**
  * Compares expected and actual outputs to determine if they match.
  * 
@@ -7,11 +9,9 @@ package edu.odu.cs.zeil.codegrader.oracle;
  *
  */
 public class SmartOracle extends Oracle {
-
-	private OracleProperties settings;
 	
-	public SmartOracle(OracleProperties config) {
-		super(config);
+	public SmartOracle(String config, TestCase testCase) {
+		super(config, testCase);
 	}
 
 	/**
@@ -22,9 +22,10 @@ public class SmartOracle extends Oracle {
 	 * @param actual  the string being examined
 	 * @return true if actual is an acceptable variant of expected.
 	 */
+	@Override
 	public OracleResult compare(String expected, String actual) {
-		Scanner expectedTokens = new Scanner(expected, settings);
-		Scanner actualTokens = new Scanner(actual, settings);
+		Scanner expectedTokens = new Scanner(expected, this);
+		Scanner actualTokens = new Scanner(actual, this);
 		while (expectedTokens.hasNext() && actualTokens.hasNext()) {
 			Token expectedToken = expectedTokens.next();
 			Token actualToken = actualTokens.next();

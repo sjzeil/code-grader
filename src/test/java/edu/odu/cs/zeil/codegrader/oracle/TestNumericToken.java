@@ -16,17 +16,26 @@ import org.junit.jupiter.api.Test;
 
 import edu.odu.cs.zeil.codegrader.Assignment;
 import edu.odu.cs.zeil.codegrader.FileUtils;
+import edu.odu.cs.zeil.codegrader.TestCase;
+import edu.odu.cs.zeil.codegrader.TestProperties;
 
 
 public class TestNumericToken {
 
 	public Path asstSrcPath = Paths.get("src", "test", "data", "assignment2");
 	public Path testSuitePath = Paths.get("build", "test-data", "assignment2");
+
+	Assignment asst;
+	TestCase testCase;
 	
 	@BeforeEach
 	public void setup() throws IOException {
 		testSuitePath.toFile().getParentFile().mkdirs();
 		FileUtils.copyDirectory(asstSrcPath, testSuitePath, StandardCopyOption.REPLACE_EXISTING);
+
+		asst = new Assignment();
+		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
+		testCase = new TestCase(new TestProperties(asst, "params"));
 	}
 	
 	@AfterEach
@@ -37,10 +46,8 @@ public class TestNumericToken {
 
 	@Test
 	void testIntegerComparisons() throws FileNotFoundException {
-		Assignment asst = new Assignment();
-		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
 
-		OracleProperties settings = new OracleProperties(asst, "params");
+		Oracle settings = new SmartOracle("", testCase);
 		NumberToken a = new NumberToken("42", settings);
 		StringToken b = new StringToken("42", settings);
 		assertThat (a, not(equalTo(b)));
@@ -58,10 +65,7 @@ public class TestNumericToken {
 
 	@Test
 	void testFloatingPointComparisons() throws FileNotFoundException {
-		Assignment asst = new Assignment();
-		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
-
-		OracleProperties settings = new OracleProperties(asst, "params");
+		Oracle settings = new SmartOracle("", testCase);
 		NumberToken a = new NumberToken("42.00", settings);
 		StringToken b = new StringToken("42", settings);
 		assertThat (a, not(equalTo(b)));

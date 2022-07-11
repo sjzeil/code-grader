@@ -2,7 +2,7 @@ package edu.odu.cs.zeil.codegrader.oracle;
 
 public class NumberToken extends Token {
 
-	public NumberToken(String lexeme, OracleProperties settings) {
+	public NumberToken(String lexeme, Oracle settings) {
 		super(lexeme, settings);
 	}
 

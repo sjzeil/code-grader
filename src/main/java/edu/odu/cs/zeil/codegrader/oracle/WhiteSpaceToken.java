@@ -2,7 +2,7 @@ package edu.odu.cs.zeil.codegrader.oracle;
 
 public class WhiteSpaceToken extends Token {
 
-	public WhiteSpaceToken(String lexeme, OracleProperties settings) {
+	public WhiteSpaceToken(String lexeme, Oracle settings) {
 		super(lexeme, settings);
 	}
 
