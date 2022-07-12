@@ -12,10 +12,6 @@ public class StringToken extends Token {
 			String thisLexeme = getLexeme();
 			StringToken act = (StringToken)actual;
 			String actualLexeme = act.getLexeme();
-			if (getSettings().getIgnoreCase()) {
-				thisLexeme = thisLexeme.toLowerCase();
-				actualLexeme = actualLexeme.toLowerCase();
-			}
 			return thisLexeme.equals(actualLexeme); 
 		} else 
 			return false;

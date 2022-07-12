@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.hamcrest.Matchers.endsWith;
 
 import org.junit.jupiter.api.AfterEach;
@@ -60,27 +61,38 @@ public class TestScanner {
 	}
 
 	@Test
-	void testIsolatedString2() throws FileNotFoundException {
+	void testPunctString1() throws FileNotFoundException {
 		String input = "-abc";
 		
 		Scanner scanner = new Scanner(input, config);
 		assertThat(scanner.hasNext(), equalTo(true));
 		Token token = scanner.next(); 
+		assertThat(scanner.hasNext(), equalTo(true));
+		assertTrue(token instanceof PunctuationToken);
+		assertThat(token.getLexeme(), equalTo("-"));
+
+		token = scanner.next(); 
 		assertThat(scanner.hasNext(), equalTo(false));
-		assertThat(token.getClass().getName(), endsWith("StringToken"));
-		assertThat(token.getLexeme(), equalTo(input));
+		assertTrue(token instanceof StringToken);
+		assertThat(token.getLexeme(), equalTo("abc"));
 	}
 
 	@Test
-	void testIsolatedString3() throws FileNotFoundException {
+	void testPunctString2() throws FileNotFoundException {
 		String input = "+abc";
 		
 		Scanner scanner = new Scanner(input, config);
 		assertThat(scanner.hasNext(), equalTo(true));
+		assertThat(scanner.hasNext(), equalTo(true));
+
 		Token token = scanner.next(); 
+		assertTrue(token instanceof PunctuationToken);
+		assertThat(token.getLexeme(), equalTo("+"));
+
+		token = scanner.next(); 
 		assertThat(scanner.hasNext(), equalTo(false));
-		assertThat(token.getClass().getName(), endsWith("StringToken"));
-		assertThat(token.getLexeme(), equalTo(input));
+		assertTrue(token instanceof StringToken);
+		assertThat(token.getLexeme(), equalTo("abc"));
 	}
 	
 	@Test
@@ -119,9 +131,15 @@ public class TestScanner {
 		Scanner scanner = new Scanner(input, config);
 		assertThat(scanner.hasNext(), equalTo(true));
 		Token token = scanner.next(); 
-		assertThat(scanner.hasNext(), equalTo(false));
-		assertThat(token.getClass().getName(), endsWith("NumberToken"));
+		assertThat(scanner.hasNext(), equalTo(true));
+		assertTrue(token instanceof NumberToken);
 		assertThat(token.getLexeme(), equalTo("123"));
+
+		token = scanner.next(); 
+		assertThat(scanner.hasNext(), equalTo(false));
+		assertTrue(token instanceof WhiteSpaceToken);
+		assertThat(token.getLexeme(), equalTo(" "));
+
 	}
 
 	
@@ -137,11 +155,11 @@ public class TestScanner {
 		while (scanner.hasNext()) {
 			tokens.add(scanner.next());
 		}
-		String[] expectedTokenClasses = {"StringToken", "StringToken", "NumberToken", "StringToken", "StringToken",
-				"StringToken", "StringToken", "NumberToken", "StringToken",
-				"StringToken", "NumberToken", "StringToken"}; 
-		String[] expectedLexemes = {"traveling", "at",  "-35",  "mph",  "and",
-				"then", "at", "42.50", "mph,",  "for",  "120", "sec"};
+		String[] expectedTokenClasses = {"StringToken", "WhiteSpaceToken", "StringToken", "WhiteSpaceToken", "NumberToken", "WhiteSpaceToken", "StringToken", "WhiteSpaceToken", "StringToken",
+			"WhiteSpaceToken", "StringToken", "WhiteSpaceToken", "StringToken", "WhiteSpaceToken", "NumberToken", "WhiteSpaceToken", "StringToken", "PunctuationToken",
+			"WhiteSpaceToken", "StringToken", "WhiteSpaceToken", "NumberToken", "StringToken"}; 
+		String[] expectedLexemes = {"traveling", " ", "at", " ", "-35",  " ", "mph",  " ", "and", "\n",
+				"then", " ", "at", " ", "42.50", " ", "mph", ",",  " ", "for",  " ", "120", "sec"};
 		assertThat(tokens.size(), equalTo(expectedTokenClasses.length));
 		for (int i = 0; i < tokens.size(); ++i) {
 			assertThat(tokens.get(i).getClass().getName(), endsWith(expectedTokenClasses[i]));

@@ -17,7 +17,9 @@ import edu.odu.cs.zeil.codegrader.TestCase;
  */
 public abstract class Oracle {
 
-	public enum ScoringOptions {All, ByLine, ByNonEmptyLine, ByToken};
+	public enum ScoringOptions {All, ByLine, ByNonEmptyLine, ByToken}
+
+	public static final String PassedTestMessage = "OK";
 
 	private boolean ignoreCase;
     private ScoringOptions scoring;
@@ -87,11 +89,15 @@ public abstract class Oracle {
 				if (propertyName.equals("ignorecase")) {
 					ignoreCase = parseAsBoolean(valueStr, ignoreCase);
 				} else if (propertyName.equals("scoring")) {
-					try {
-						scoring = ScoringOptions.valueOf(valueStr);
-					} catch (IllegalArgumentException ex) {
+					valueStr = valueStr.toLowerCase();
+					if (valueStr.equals("all"))
+						scoring = ScoringOptions.All;
+					else if (valueStr.equals("byline"))
+						scoring = ScoringOptions.ByLine;
+					else if (valueStr.equals("bytoken"))
+						scoring = ScoringOptions.ByToken;
+					else
 						logger.warn("Could not parse scoring value:" +  valueStr);
-					}
 				} else if (propertyName.equals("precision")) {
 					try {
 						precision = Double.parseDouble(valueStr);
@@ -159,6 +165,18 @@ public abstract class Oracle {
 	public boolean getIgnoreEmptyLines () {
 		return ignoreEmptyLines;
 	}
+
+	public boolean getIgnorePunctuation() {
+		//TODO
+		return false;
+	}
+
+
+	public boolean getNumbersOnly() {
+		//TODO
+		return false;
+	}
+
 	public String getCommand () {
 		return command;
 	}
@@ -204,7 +222,9 @@ public abstract class Oracle {
 		return this;
 	}
 
-
+	public TestCase getTestCase() {
+		return testCase;
+	}
 
 
 }

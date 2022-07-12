@@ -8,17 +8,24 @@ public class NumberToken extends Token {
 
 	public boolean equals(Object actual) {
 		if (actual instanceof NumberToken) {
-			NumberToken act = (NumberToken)actual;
+			NumberToken act = (NumberToken) actual;
 			if (getLexeme().contains(".")) {
+				double delta = getSettings().getPrecision();
 				// Floating point comparison
-				double delta = inferAbsoluteErrorBound(getLexeme());
+				if (delta < 0.0)
+					delta = inferAbsoluteErrorBound(getLexeme());
 				Double d1 = Double.parseDouble(getLexeme());
 				Double d2 = Double.parseDouble(act.getLexeme());
-				return (Math.abs(d1-d2) <= delta);
+				return (Math.abs(d1 - d2) <= delta);
 			} else {
 				if (act.getLexeme().contains(".")) {
 					// Integer to floating point comparison
-					return false;
+					double delta = getSettings().getPrecision();
+					if (delta < 0.0)
+						return false;
+					Double d1 = Double.parseDouble(getLexeme());
+					Double d2 = Double.parseDouble(act.getLexeme());
+					return (Math.abs(d1 - d2) <= delta);
 				} else {
 					// Integer to integer comparison
 					Integer n1 = Integer.parseInt(getLexeme());

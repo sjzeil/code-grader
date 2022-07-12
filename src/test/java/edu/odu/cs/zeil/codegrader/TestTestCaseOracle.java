@@ -60,7 +60,7 @@ public class TestTestCaseOracle {
         OracleResult result = oracle.compare(expectedOutput, actualOutput);
 
 		assertThat (result.score, is(100));
-		assertThat (result.message, is(""));
+		assertThat (result.message, is(Oracle.PassedTestMessage));
 
 		actualOutput = "a\nx\nc\n";
 		result = oracle.compare(expectedOutput, actualOutput);
@@ -73,13 +73,13 @@ public class TestTestCaseOracle {
 		result = oracle.compare(expectedOutput, actualOutput);
 
 		assertThat (result.score, is(0));
-		assertThat (result.message, not(is("")));
+		assertThat (result.message, not(is(Oracle.PassedTestMessage)));
 
 		actualOutput = "a\nb\n";
 		result = oracle.compare(expectedOutput, actualOutput);
 
 		assertThat (result.score, is(0));
-		assertThat (result.message, not(is("")));
+		assertThat (result.message, not(is(Oracle.PassedTestMessage)));
 
 	}
 
