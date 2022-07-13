@@ -133,7 +133,7 @@ task copyBake (type: Copy) {
 import edu.odu.cs.zeil.report_accumulator.ReportStats
 
 
-task collectStats (type: ReportStats, dependsOn: ['build','htmlDependencyReport', 'javadoc', 'check']) {
+task collectStats (type: ReportStats, dependsOn: ['build','htmlDependencyReport', 'check']) {
     description "Collect statistics from various reports & analysis tools"
     reportsURL = 'https://sjzeil.github.io/code-grader/'
     htmlSourceDir = file("build/reports")
