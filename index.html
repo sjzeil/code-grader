@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Project Documentation: code-grader</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="generator" content="JBake">
+
+    <link href="css/base.css" rel="stylesheet">
+    <link href="css/projectReports.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js" type="text/javascript"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="js/projectReports.js"></script>
+
+
+  </head>
+  <body>
+    <div id="mainBody">
+   
+
+	<div class="center">
+<div class="leftPart">
+  <div class="menuBlock">
+    <span class="menuBlockHeader"><a href="index.html">Home</a></span>
+  </div>
+  <div class="menuBlock">
+    <span class="menuBlockHeader">Project Info</span>
+	<ul>
+      <li><a href="javadoc.html">API (Javadoc)</a></li>
+      <li><a href="dependencies.html">Dependencies</a></li>
+	</ul>
+  </div>
+  <div class="menuBlock">
+    <span class="menuBlockHeader">Testing</span>
+	<ul>
+      <li><a href="junit.html">Unit
+		  Tests</a></li>
+	</ul>
+  </div>
+  <div class="menuBlock">
+ 	<span class="menuBlockHeader">Analysis Reports</span>
+	<ul>
+      <li><a href="checkstyle.html">Checkstyle</a></li>
+      <li><a href="spotbugs.html">SpotBugs</a></li>
+	</ul>
+  </div>
+</div>
+        <div class="rightPart">
+            <div class="page-header">
+                <h1>Project Documentation: code-grader</h1>
+            </div>
+            <p><em>01 April 2020</em></p>
+			<p><h1>code-grader - Automatic Grading of Programming Assignments</h1>
+<p>This project is the long-overdue replacement for the automatic grading script (in Perl) that I have been using for over 25 years.</p>
+<h2>Goals</h2>
+<p>Goals include</p>
+<ul>
+<li>Ease of use</li>
+<li>Support for arbitrary programming languages</li>
+<li>Test oracle (evaluation of pass/fail) based on any of
+<ul>
+<li>pre-supplied expected output files</li>
+<li>comparison of output against execution of a &quot;gold version&quot; of the code, supplied by the instructor</li>
+<li>arbitrary instructor-supplied scripts</li>
+</ul>
+</li>
+<li>Flexible grading schemes, including partial credit for common mistakes such as upper/lower-case mistakes and misspelled words in boilerplate text.</li>
+<li>Student grade reports written to spreadsheets, so that  instructors can compute overall scores in any way that they desire.</li>
+<li>Easy integration with GitHub Classroom or other use of GitHub to support student submissions.</li>
+</ul>
+<h2>Status</h2>
+<ul>
+<li>In development</li>
+<li>Key features have been prototyped in shell scripts and are being used to grade student programs in a summer 2022 Data Structures and Algorithms course.</li>
+</ul>
+<h1>Overview</h1>
+<h2>Inputs</h2>
+<p>There are five critical file directories:</p>
+<ol>
+<li>
+<p>The <em>Gold</em> directory (optional): Contains the instructor's code for the assignment.</p>
+<p>At the very least, this includes files provided by the instructor that students might not be expected to change.</p>
+<p>In many cases, this contains an entire working solution to the assignment.</p>
+</li>
+<li>
+<p>The <em>Submissions</em> directory, containing the submissions from all students, each in its own subdirectory. A student's individual submission directory contains all of a student's code, but may also contain copies of files from the <em>gold</em> directory provided by the instructor.</p>
+</li>
+<li>
+<p>The <em>Tests</em> directory: Contains files that define how the project is to be built and tested.</p>
+</li>
+<li>
+<p>The <em>Staging</em> directory: where the student code is collected, compiled, and tested.</p>
+</li>
+<li>
+<p>The <em>Reporting</em> directory: where info about the performance of the students' submissions is placed.</p>
+</li>
+</ol>
+<h2>The Grading Model</h2>
+<ol>
+<li>
+<p>Setup</p>
+<p>The contents of the Release directory, excluding selected files, are copied to the Submission directory.</p>
+</li>
+<li>
+<p>Build</p>
+<ol>
+<li>If a Gold directory has been provided, the program in it is built.</li>
+<li>The student's program in the Submission directory is built.</li>
+</ol>
+</li>
+<li>
+<p>Tests</p>
+<p>Each test case in the Test directory is run and scored.</p>
+</li>
+<li>
+<p>Reporting</p>
+<p>Build and test results are assembled into a spreadsheet, which<br />
+is deposited in the Submission directory</p>
+</li>
+</ol>
+</p>
+		</div>
+	</div>
+	<hr />
+
+    </div>
+    
+    <div class="footer">
+    &copy; 2020 Old Dominion University
+    </div>
+        
+  </body>
+</html>
