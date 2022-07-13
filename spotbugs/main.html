@@ -1,0 +1,755 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta charset="UTF-8"/>
+      <title>SpotBugs Report</title>
+      <style type="text/css">
+		.tablerow0 {
+			background: #EEEEEE;
+		}
+
+		.tablerow1 {
+			background: white;
+		}
+
+		.detailrow0 {
+			background: #EEEEEE;
+		}
+
+		.detailrow1 {
+			background: white;
+		}
+
+		.tableheader {
+			background: #b9b9fe;
+			font-size: larger;
+		}
+
+		.tablerow0:hover, .tablerow1:hover {
+			background: #aaffaa;
+		}
+
+		.priority-1 {
+				color: red;
+				font-weight: bold;
+		}
+		.priority-2 {
+				color: orange;
+				font-weight: bold;
+		}
+		.priority-3 {
+				color: green;
+				font-weight: bold;
+		}
+		.priority-4 {
+				color: blue;
+				font-weight: bold;
+		}
+		</style>
+      <script type="text/javascript">
+			function toggleRow(elid) {
+				if (document.getElementById) {
+					element = document.getElementById(elid);
+					if (element) {
+						if (element.style.display == 'none') {
+							element.style.display = 'block';
+							//window.status = 'Toggle on!';
+						} else {
+							element.style.display = 'none';
+							//window.status = 'Toggle off!';
+						}
+					}
+				}
+			}
+		</script>
+   </head>
+   <body>
+      <h1>
+         <a href="https://spotbugs.github.io/">SpotBugs</a> Report</h1>
+      <h2>Project Information</h2>
+      <p>Project: 
+		code-grader (spotbugsMain)</p>
+      <p>SpotBugs version: 4.7.0</p>
+      <p>Code analyzed:</p>
+      <ul>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/FileUtils$1.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/TestSuite.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/TestCase.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/FileUtils.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/Assignment.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/Submission.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/FileUtils$2.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/oracle/Token.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/oracle/OracleFactory.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/oracle/PunctuationToken.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/oracle/Scanner.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/oracle/SmartOracle.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/oracle/OracleResult.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/oracle/Oracle.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/oracle/Oracle$ScoringOptions.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/oracle/NumberToken.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/oracle/WhiteSpaceToken.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/oracle/LineBreakToken.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/oracle/ExternalOracle.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/oracle/StringToken.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/TestProperties.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/TestCase$StreamReader.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/Properties.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/Logging.class</li>
+      </ul>
+      <p>
+         <br/>
+         <br/>
+      </p>
+      <h2>Metrics</h2>
+      <p>964 lines of code analyzed,
+	in 24 classes, 
+	in 2 packages.</p>
+      <table width="500" cellpadding="5" cellspacing="2">
+         <tr class="tableheader">
+            <th align="left">Metric</th>
+            <th align="right">Total</th>
+            <th align="right">Density*</th>
+         </tr>
+         <tr class="tablerow0">
+            <td>High Priority Warnings</td>
+            <td align="right">9</td>
+            <td align="right">9.34</td>
+         </tr>
+         <tr class="tablerow1">
+            <td>Medium Priority Warnings</td>
+            <td align="right">14</td>
+            <td align="right">14.52</td>
+         </tr>
+         <tr class="$totalClass">
+            <td>
+               <b>Total Warnings</b>
+            </td>
+            <td align="right">
+               <b>23</b>
+            </td>
+            <td align="right">
+               <b>23.86</b>
+            </td>
+         </tr>
+      </table>
+      <p>
+         <i>(* Defects per Thousand lines of non-commenting source statements)</i>
+      </p>
+      <p>
+         <br/>
+         <br/>
+      </p>
+      <h2>Contents</h2>
+      <ul>
+         <li>
+            <a href="#Warnings_BAD_PRACTICE">Bad practice Warnings</a>
+         </li>
+         <li>
+            <a href="#Warnings_CORRECTNESS">Correctness Warnings</a>
+         </li>
+         <li>
+            <a href="#Warnings_EXPERIMENTAL">Experimental Warnings</a>
+         </li>
+         <li>
+            <a href="#Warnings_I18N">Internationalization Warnings</a>
+         </li>
+         <li>
+            <a href="#Warnings_MALICIOUS_CODE">Malicious code vulnerability Warnings</a>
+         </li>
+         <li>
+            <a href="#Warnings_PERFORMANCE">Performance Warnings</a>
+         </li>
+         <li>
+            <a href="#Warnings_STYLE">Dodgy code Warnings</a>
+         </li>
+         <li>
+            <a href="#Details">Details</a>
+         </li>
+      </ul>
+      <h1>Summary</h1>
+      <table width="500" cellpadding="5" cellspacing="2">
+         <tr class="tableheader">
+            <th align="left">Warning Type</th>
+            <th align="right">Number</th>
+         </tr>
+         <tr class="tablerow0">
+            <td>
+               <a href="#Warnings_BAD_PRACTICE">Bad practice Warnings</a>
+            </td>
+            <td align="right">4</td>
+         </tr>
+         <tr class="tablerow1">
+            <td>
+               <a href="#Warnings_CORRECTNESS">Correctness Warnings</a>
+            </td>
+            <td align="right">1</td>
+         </tr>
+         <tr class="tablerow0">
+            <td>
+               <a href="#Warnings_EXPERIMENTAL">Experimental Warnings</a>
+            </td>
+            <td align="right">1</td>
+         </tr>
+         <tr class="tablerow1">
+            <td>
+               <a href="#Warnings_I18N">Internationalization Warnings</a>
+            </td>
+            <td align="right">3</td>
+         </tr>
+         <tr class="tablerow0">
+            <td>
+               <a href="#Warnings_MALICIOUS_CODE">Malicious code vulnerability Warnings</a>
+            </td>
+            <td align="right">6</td>
+         </tr>
+         <tr class="tablerow1">
+            <td>
+               <a href="#Warnings_PERFORMANCE">Performance Warnings</a>
+            </td>
+            <td align="right">4</td>
+         </tr>
+         <tr class="tablerow0">
+            <td>
+               <a href="#Warnings_STYLE">Dodgy code Warnings</a>
+            </td>
+            <td align="right">4</td>
+         </tr>
+         <tr class="tablerow1">
+            <td>
+               <b>Total</b>
+            </td>
+            <td align="right">
+               <b>23</b>
+            </td>
+         </tr>
+      </table>
+      <h1>Warnings</h1>
+      <p>Click on a warning row to see full context information.</p>
+      <h2>
+         <a name="Warnings_BAD_PRACTICE">Bad practice Warnings</a>
+      </h2>
+      <table class="warningtable" width="100%" cellspacing="0">
+         <tr class="tableheader">
+            <th align="left">Code</th>
+            <th align="left">Warning</th>
+         </tr>
+         <tr class="tablerow1" onclick="toggleRow('d2e259');">
+            <td>
+               <span class="priority-1">HE</span>
+            </td>
+            <td>edu.odu.cs.zeil.codegrader.oracle.NumberToken defines equals and uses Object.hashCode()</td>
+         </tr>
+         <tr class="detailrow1">
+            <td/>
+            <td>
+               <p id="d2e259" style="display: none;">
+                  <a href="#HE_EQUALS_USE_HASHCODE">Bug type HE_EQUALS_USE_HASHCODE (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.oracle.NumberToken<br/>In method edu.odu.cs.zeil.codegrader.oracle.NumberToken.equals(Object)<br/>At NumberToken.java:[lines 10-37]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0" onclick="toggleRow('d2e304');">
+            <td>
+               <span class="priority-1">HE</span>
+            </td>
+            <td>edu.odu.cs.zeil.codegrader.oracle.PunctuationToken defines equals and uses Object.hashCode()</td>
+         </tr>
+         <tr class="detailrow0">
+            <td/>
+            <td>
+               <p id="d2e304" style="display: none;">
+                  <a href="#HE_EQUALS_USE_HASHCODE">Bug type HE_EQUALS_USE_HASHCODE (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.oracle.PunctuationToken<br/>In method edu.odu.cs.zeil.codegrader.oracle.PunctuationToken.equals(Object)<br/>At PunctuationToken.java:[lines 11-16]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1" onclick="toggleRow('d2e334');">
+            <td>
+               <span class="priority-1">HE</span>
+            </td>
+            <td>edu.odu.cs.zeil.codegrader.oracle.StringToken defines equals and uses Object.hashCode()</td>
+         </tr>
+         <tr class="detailrow1">
+            <td/>
+            <td>
+               <p id="d2e334" style="display: none;">
+                  <a href="#HE_EQUALS_USE_HASHCODE">Bug type HE_EQUALS_USE_HASHCODE (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.oracle.StringToken<br/>In method edu.odu.cs.zeil.codegrader.oracle.StringToken.equals(Object)<br/>At StringToken.java:[lines 11-17]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0" onclick="toggleRow('d2e381');">
+            <td>
+               <span class="priority-1">HE</span>
+            </td>
+            <td>edu.odu.cs.zeil.codegrader.oracle.WhiteSpaceToken defines equals and uses Object.hashCode()</td>
+         </tr>
+         <tr class="detailrow0">
+            <td/>
+            <td>
+               <p id="d2e381" style="display: none;">
+                  <a href="#HE_EQUALS_USE_HASHCODE">Bug type HE_EQUALS_USE_HASHCODE (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.oracle.WhiteSpaceToken<br/>In method edu.odu.cs.zeil.codegrader.oracle.WhiteSpaceToken.equals(Object)<br/>At WhiteSpaceToken.java:[lines 10-14]</p>
+            </td>
+         </tr>
+      </table>
+      <h2>
+         <a name="Warnings_CORRECTNESS">Correctness Warnings</a>
+      </h2>
+      <table class="warningtable" width="100%" cellspacing="0">
+         <tr class="tableheader">
+            <th align="left">Code</th>
+            <th align="left">Warning</th>
+         </tr>
+         <tr class="tablerow1" onclick="toggleRow('d2e271');">
+            <td>
+               <span class="priority-1">RC</span>
+            </td>
+            <td>Suspicious comparison of Integer references in edu.odu.cs.zeil.codegrader.oracle.NumberToken.equals(Object)</td>
+         </tr>
+         <tr class="detailrow1">
+            <td/>
+            <td>
+               <p id="d2e271" style="display: none;">
+                  <a href="#RC_REF_COMPARISON">Bug type RC_REF_COMPARISON (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.oracle.NumberToken<br/>In method edu.odu.cs.zeil.codegrader.oracle.NumberToken.equals(Object)<br/>Actual type Integer<br/>Value loaded from n2<br/>Value loaded from n1<br/>At NumberToken.java:[line 33]</p>
+            </td>
+         </tr>
+      </table>
+      <h2>
+         <a name="Warnings_EXPERIMENTAL">Experimental Warnings</a>
+      </h2>
+      <table class="warningtable" width="100%" cellspacing="0">
+         <tr class="tableheader">
+            <th align="left">Code</th>
+            <th align="left">Warning</th>
+         </tr>
+         <tr class="tablerow1" onclick="toggleRow('d2e59');">
+            <td>
+               <span class="priority-1">LG</span>
+            </td>
+            <td>Changes to logger could be lost in edu.odu.cs.zeil.codegrader.Logging.setup()</td>
+         </tr>
+         <tr class="detailrow1">
+            <td/>
+            <td>
+               <p id="d2e59" style="display: none;">
+                  <a href="#LG_LOST_LOGGER_DUE_TO_WEAK_REFERENCE">Bug type LG_LOST_LOGGER_DUE_TO_WEAK_REFERENCE (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.Logging<br/>In method edu.odu.cs.zeil.codegrader.Logging.setup()<br/>Local variable named logger<br/>At Logging.java:[line 19]<br/>Another occurrence at Logging.java:[line 24]<br/>Another occurrence at Logging.java:[line 32]</p>
+            </td>
+         </tr>
+      </table>
+      <h2>
+         <a name="Warnings_I18N">Internationalization Warnings</a>
+      </h2>
+      <table class="warningtable" width="100%" cellspacing="0">
+         <tr class="tableheader">
+            <th align="left">Code</th>
+            <th align="left">Warning</th>
+         </tr>
+         <tr class="tablerow1" onclick="toggleRow('d2e44');">
+            <td>
+               <span class="priority-1">Dm</span>
+            </td>
+            <td>Found reliance on default encoding in edu.odu.cs.zeil.codegrader.FileUtils.readTextFile(File): new java.io.FileReader(File)</td>
+         </tr>
+         <tr class="detailrow1">
+            <td/>
+            <td>
+               <p id="d2e44" style="display: none;">
+                  <a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.FileUtils<br/>In method edu.odu.cs.zeil.codegrader.FileUtils.readTextFile(File)<br/>Called method new java.io.FileReader(File)<br/>At FileUtils.java:[line 87]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0" onclick="toggleRow('d2e77');">
+            <td>
+               <span class="priority-1">Dm</span>
+            </td>
+            <td>Found reliance on default encoding in edu.odu.cs.zeil.codegrader.Properties.readContentsOf(File): new java.io.FileReader(File)</td>
+         </tr>
+         <tr class="detailrow0">
+            <td/>
+            <td>
+               <p id="d2e77" style="display: none;">
+                  <a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.Properties<br/>In method edu.odu.cs.zeil.codegrader.Properties.readContentsOf(File)<br/>Called method new java.io.FileReader(File)<br/>At Properties.java:[line 91]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1" onclick="toggleRow('d2e158');">
+            <td>
+               <span class="priority-1">Dm</span>
+            </td>
+            <td>Found reliance on default encoding in new edu.odu.cs.zeil.codegrader.TestCase$StreamReader(TestCase, InputStream): new java.io.InputStreamReader(InputStream)</td>
+         </tr>
+         <tr class="detailrow1">
+            <td/>
+            <td>
+               <p id="d2e158" style="display: none;">
+                  <a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.TestCase$StreamReader<br/>In method new edu.odu.cs.zeil.codegrader.TestCase$StreamReader(TestCase, InputStream)<br/>Called method new java.io.InputStreamReader(InputStream)<br/>At TestCase.java:[line 48]</p>
+            </td>
+         </tr>
+      </table>
+      <h2>
+         <a name="Warnings_MALICIOUS_CODE">Malicious code vulnerability Warnings</a>
+      </h2>
+      <table class="warningtable" width="100%" cellspacing="0">
+         <tr class="tableheader">
+            <th align="left">Code</th>
+            <th align="left">Warning</th>
+         </tr>
+         <tr class="tablerow1" onclick="toggleRow('d2e124');">
+            <td>
+               <span class="priority-2">EI</span>
+            </td>
+            <td>edu.odu.cs.zeil.codegrader.TestCase.getProperties() may expose internal representation by returning TestCase.properties</td>
+         </tr>
+         <tr class="detailrow1">
+            <td/>
+            <td>
+               <p id="d2e124" style="display: none;">
+                  <a href="#EI_EXPOSE_REP">Bug type EI_EXPOSE_REP (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.TestCase<br/>In method edu.odu.cs.zeil.codegrader.TestCase.getProperties()<br/>Field edu.odu.cs.zeil.codegrader.TestCase.properties<br/>At TestCase.java:[line 311]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0" onclick="toggleRow('d2e346');">
+            <td>
+               <span class="priority-2">EI</span>
+            </td>
+            <td>edu.odu.cs.zeil.codegrader.oracle.Token.getSettings() may expose internal representation by returning Token.settings</td>
+         </tr>
+         <tr class="detailrow0">
+            <td/>
+            <td>
+               <p id="d2e346" style="display: none;">
+                  <a href="#EI_EXPOSE_REP">Bug type EI_EXPOSE_REP (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.oracle.Token<br/>In method edu.odu.cs.zeil.codegrader.oracle.Token.getSettings()<br/>Field edu.odu.cs.zeil.codegrader.oracle.Token.settings<br/>At Token.java:[line 21]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1" onclick="toggleRow('d2e140');">
+            <td>
+               <span class="priority-2">EI2</span>
+            </td>
+            <td>new edu.odu.cs.zeil.codegrader.TestCase(TestProperties) may expose internal representation by storing an externally mutable object into TestCase.properties</td>
+         </tr>
+         <tr class="detailrow1">
+            <td/>
+            <td>
+               <p id="d2e140" style="display: none;">
+                  <a href="#EI_EXPOSE_REP2">Bug type EI_EXPOSE_REP2 (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.TestCase<br/>In method new edu.odu.cs.zeil.codegrader.TestCase(TestProperties)<br/>Field edu.odu.cs.zeil.codegrader.TestCase.properties<br/>Local variable named testProperties<br/>At TestCase.java:[line 29]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0" onclick="toggleRow('d2e228');">
+            <td>
+               <span class="priority-2">EI2</span>
+            </td>
+            <td>new edu.odu.cs.zeil.codegrader.TestSuite(TestProperties) may expose internal representation by storing an externally mutable object into TestSuite.properties</td>
+         </tr>
+         <tr class="detailrow0">
+            <td/>
+            <td>
+               <p id="d2e228" style="display: none;">
+                  <a href="#EI_EXPOSE_REP2">Bug type EI_EXPOSE_REP2 (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.TestSuite<br/>In method new edu.odu.cs.zeil.codegrader.TestSuite(TestProperties)<br/>Field edu.odu.cs.zeil.codegrader.TestSuite.properties<br/>Local variable named testProperties<br/>At TestSuite.java:[line 10]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1" onclick="toggleRow('d2e316');">
+            <td>
+               <span class="priority-2">EI2</span>
+            </td>
+            <td>new edu.odu.cs.zeil.codegrader.oracle.Scanner(String, Oracle) may expose internal representation by storing an externally mutable object into Scanner.settings</td>
+         </tr>
+         <tr class="detailrow1">
+            <td/>
+            <td>
+               <p id="d2e316" style="display: none;">
+                  <a href="#EI_EXPOSE_REP2">Bug type EI_EXPOSE_REP2 (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.oracle.Scanner<br/>In method new edu.odu.cs.zeil.codegrader.oracle.Scanner(String, Oracle)<br/>Field edu.odu.cs.zeil.codegrader.oracle.Scanner.settings<br/>Local variable named settings<br/>At Scanner.java:[line 12]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0" onclick="toggleRow('d2e363');">
+            <td>
+               <span class="priority-2">EI2</span>
+            </td>
+            <td>new edu.odu.cs.zeil.codegrader.oracle.Token(String, Oracle) may expose internal representation by storing an externally mutable object into Token.settings</td>
+         </tr>
+         <tr class="detailrow0">
+            <td/>
+            <td>
+               <p id="d2e363" style="display: none;">
+                  <a href="#EI_EXPOSE_REP2">Bug type EI_EXPOSE_REP2 (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.oracle.Token<br/>In method new edu.odu.cs.zeil.codegrader.oracle.Token(String, Oracle)<br/>Field edu.odu.cs.zeil.codegrader.oracle.Token.settings<br/>Local variable named theSettings<br/>At Token.java:[line 10]</p>
+            </td>
+         </tr>
+      </table>
+      <h2>
+         <a name="Warnings_PERFORMANCE">Performance Warnings</a>
+      </h2>
+      <table class="warningtable" width="100%" cellspacing="0">
+         <tr class="tableheader">
+            <th align="left">Code</th>
+            <th align="left">Warning</th>
+         </tr>
+         <tr class="tablerow1" onclick="toggleRow('d2e173');">
+            <td>
+               <span class="priority-2">SIC</span>
+            </td>
+            <td>Should edu.odu.cs.zeil.codegrader.TestCase$StreamReader be a _static_ inner class?</td>
+         </tr>
+         <tr class="detailrow1">
+            <td/>
+            <td>
+               <p id="d2e173" style="display: none;">
+                  <a href="#SIC_INNER_SHOULD_BE_STATIC">Bug type SIC_INNER_SHOULD_BE_STATIC (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.TestCase$StreamReader<br/>At TestCase.java:[lines 42-77]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0" onclick="toggleRow('d2e182');">
+            <td>
+               <span class="priority-2">SS</span>
+            </td>
+            <td>Unread field: edu.odu.cs.zeil.codegrader.TestCase$StreamReader.CaptureLimit; should this field be static?</td>
+         </tr>
+         <tr class="detailrow0">
+            <td/>
+            <td>
+               <p id="d2e182" style="display: none;">
+                  <a href="#SS_SHOULD_BE_STATIC">Bug type SS_SHOULD_BE_STATIC (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.TestCase$StreamReader<br/>Field edu.odu.cs.zeil.codegrader.TestCase$StreamReader.CaptureLimit<br/>At TestCase.java:[line 42]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1" onclick="toggleRow('d2e246');">
+            <td>
+               <span class="priority-2">UrF</span>
+            </td>
+            <td>Unread field: edu.odu.cs.zeil.codegrader.TestSuite.properties</td>
+         </tr>
+         <tr class="detailrow1">
+            <td/>
+            <td>
+               <p id="d2e246" style="display: none;">
+                  <a href="#URF_UNREAD_FIELD">Bug type URF_UNREAD_FIELD (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.TestSuite<br/>Field edu.odu.cs.zeil.codegrader.TestSuite.properties<br/>At TestSuite.java:[line 10]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0" onclick="toggleRow('d2e291');">
+            <td>
+               <span class="priority-2">UuF</span>
+            </td>
+            <td>Unused field: edu.odu.cs.zeil.codegrader.oracle.Oracle.testName</td>
+         </tr>
+         <tr class="detailrow0">
+            <td/>
+            <td>
+               <p id="d2e291" style="display: none;">
+                  <a href="#UUF_UNUSED_FIELD">Bug type UUF_UNUSED_FIELD (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.oracle.Oracle<br/>Field edu.odu.cs.zeil.codegrader.oracle.Oracle.testName<br/>In Oracle.java</p>
+            </td>
+         </tr>
+      </table>
+      <h2>
+         <a name="Warnings_STYLE">Dodgy code Warnings</a>
+      </h2>
+      <table class="warningtable" width="100%" cellspacing="0">
+         <tr class="tableheader">
+            <th align="left">Code</th>
+            <th align="left">Warning</th>
+         </tr>
+         <tr class="tablerow1" onclick="toggleRow('d2e92');">
+            <td>
+               <span class="priority-2">NP</span>
+            </td>
+            <td>Possible null pointer dereference in edu.odu.cs.zeil.codegrader.Properties.getProperty(String) due to return value of called method</td>
+         </tr>
+         <tr class="detailrow1">
+            <td/>
+            <td>
+               <p id="d2e92" style="display: none;">
+                  <a href="#NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE">Bug type NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.Properties<br/>In method edu.odu.cs.zeil.codegrader.Properties.getProperty(String)<br/>Value loaded from contents<br/>Dereferenced at Properties.java:[line 60]<br/>Known null at Properties.java:[line 58]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0" onclick="toggleRow('d2e108');">
+            <td>
+               <span class="priority-2">NP</span>
+            </td>
+            <td>Possible null pointer dereference in edu.odu.cs.zeil.codegrader.Properties.loadFirstYamlFile(Path) due to return value of called method</td>
+         </tr>
+         <tr class="detailrow0">
+            <td/>
+            <td>
+               <p id="d2e108" style="display: none;">
+                  <a href="#NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE">Bug type NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.Properties<br/>In method edu.odu.cs.zeil.codegrader.Properties.loadFirstYamlFile(Path)<br/>Value loaded from ?<br/>Dereferenced at Properties.java:[line 46]<br/>Known null at Properties.java:[line 46]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1" onclick="toggleRow('d2e196');">
+            <td>
+               <span class="priority-2">NP</span>
+            </td>
+            <td>Possible null pointer dereference in new edu.odu.cs.zeil.codegrader.TestProperties(Assignment, String) due to return value of called method</td>
+         </tr>
+         <tr class="detailrow1">
+            <td/>
+            <td>
+               <p id="d2e196" style="display: none;">
+                  <a href="#NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE">Bug type NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.TestProperties<br/>In method new edu.odu.cs.zeil.codegrader.TestProperties(Assignment, String)<br/>Value loaded from assignmentDir<br/>Method invoked at TestProperties.java:[line 43]<br/>Known null at TestProperties.java:[line 42]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0" onclick="toggleRow('d2e212');">
+            <td>
+               <span class="priority-2">NP</span>
+            </td>
+            <td>Possible null pointer dereference in edu.odu.cs.zeil.codegrader.TestProperties.getIn() due to return value of called method</td>
+         </tr>
+         <tr class="detailrow0">
+            <td/>
+            <td>
+               <p id="d2e212" style="display: none;">
+                  <a href="#NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE">Bug type NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.TestProperties<br/>In method edu.odu.cs.zeil.codegrader.TestProperties.getIn()<br/>Value loaded from ?<br/>Dereferenced at TestProperties.java:[line 52]<br/>Known null at TestProperties.java:[line 52]</p>
+            </td>
+         </tr>
+      </table>
+      <h1>
+         <a name="Details">Details</a>
+      </h1>
+      <h2>
+         <a name="DM_DEFAULT_ENCODING">DM_DEFAULT_ENCODING: Reliance on default encoding</a>
+      </h2>
+
+<p> Found a call to a method which will perform a byte to String (or String to byte) conversion,
+and will assume that the default platform encoding is suitable. This will cause the application
+behavior to vary between platforms. Use an alternative API and specify a charset name or Charset
+object explicitly.</p>
+
+      <h2>
+         <a name="EI_EXPOSE_REP">EI_EXPOSE_REP: May expose internal representation by returning reference to mutable object</a>
+      </h2>
+
+  <p> Returning a reference to a mutable object value stored in one of the object's fields
+  exposes the internal representation of the object.&nbsp;
+   If instances
+   are accessed by untrusted code, and unchecked changes to
+   the mutable object would compromise security or other
+   important properties, you will need to do something different.
+  Returning a new copy of the object is better approach in many situations.</p>
+
+    <h2>
+         <a name="EI_EXPOSE_REP2">EI_EXPOSE_REP2: May expose internal representation by incorporating reference to mutable object</a>
+      </h2>
+
+  <p> This code stores a reference to an externally mutable object into the
+  internal representation of the object.&nbsp;
+   If instances
+   are accessed by untrusted code, and unchecked changes to
+   the mutable object would compromise security or other
+   important properties, you will need to do something different.
+  Storing a copy of the object is better approach in many situations.</p>
+
+    <h2>
+         <a name="HE_EQUALS_USE_HASHCODE">HE_EQUALS_USE_HASHCODE: Class defines equals() and uses Object.hashCode()</a>
+      </h2>
+
+  <p> This class overrides <code>equals(Object)</code>, but does not
+  override <code>hashCode()</code>, and inherits the implementation of
+  <code>hashCode()</code> from <code>java.lang.Object</code> (which returns
+  the identity hash code, an arbitrary value assigned to the object
+  by the VM).&nbsp; Therefore, the class is very likely to violate the
+  invariant that equal objects must have equal hashcodes.</p>
+
+<p>If you don't think instances of this class will ever be inserted into a HashMap/HashTable,
+the recommended <code>hashCode</code> implementation to use is:</p>
+<pre><code>public int hashCode() {
+    assert false : "hashCode not designed";
+    return 42; // any arbitrary constant will do
+}
+</code></pre>
+
+    <h2>
+         <a name="LG_LOST_LOGGER_DUE_TO_WEAK_REFERENCE">LG_LOST_LOGGER_DUE_TO_WEAK_REFERENCE: Potential lost logger changes due to weak reference in OpenJDK</a>
+      </h2>
+          
+<p>OpenJDK introduces a potential incompatibility.
+ In particular, the java.util.logging.Logger behavior has
+  changed. Instead of using strong references, it now uses weak references
+  internally. That's a reasonable change, but unfortunately some code relies on
+  the old behavior - when changing logger configuration, it simply drops the
+  logger reference. That means that the garbage collector is free to reclaim
+  that memory, which means that the logger configuration is lost. For example,
+consider:
+</p>
+<pre><code>public static void initLogging() throws Exception {
+    Logger logger = Logger.getLogger("edu.umd.cs");
+    logger.addHandler(new FileHandler()); // call to change logger configuration
+    logger.setUseParentHandlers(false); // another call to change logger configuration
+}
+</code></pre>
+<p>The logger reference is lost at the end of the method (it doesn't
+escape the method), so if you have a garbage collection cycle just
+after the call to initLogging, the logger configuration is lost
+(because Logger only keeps weak references).</p>
+<pre><code>public static void main(String[] args) throws Exception {
+    initLogging(); // adds a file handler to the logger
+    System.gc(); // logger configuration lost
+    Logger.getLogger("edu.umd.cs").info("Some message"); // this isn't logged to the file as expected
+}
+</code></pre>
+<p><em>Ulf Ochsenfahrt and Eric Fellheimer</em></p>
+          
+      <h2>
+         <a name="NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE">NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE: Possible null pointer dereference due to return value of called method</a>
+      </h2>
+      
+<p> The return value from a method is dereferenced without a null check,
+and the return value of that method is one that should generally be checked
+for null.  This may lead to a <code>NullPointerException</code> when the code is executed.
+</p>
+      
+   <h2>
+         <a name="RC_REF_COMPARISON">RC_REF_COMPARISON: Suspicious reference comparison</a>
+      </h2>
+
+<p> This method compares two reference values using the == or != operator,
+where the correct way to compare instances of this type is generally
+with the equals() method.
+It is possible to create distinct instances that are equal but do not compare as == since
+they are different objects.
+Examples of classes which should generally
+not be compared by reference are java.lang.Integer, java.lang.Float, etc.</p>
+
+    <h2>
+         <a name="SIC_INNER_SHOULD_BE_STATIC">SIC_INNER_SHOULD_BE_STATIC: Should be a static inner class</a>
+      </h2>
+
+  <p> This class is an inner class, but does not use its embedded reference
+  to the object which created it.&nbsp; This reference makes the instances
+  of the class larger, and may keep the reference to the creator object
+  alive longer than necessary.&nbsp; If possible, the class should be
+   made static.
+</p>
+
+    <h2>
+         <a name="SS_SHOULD_BE_STATIC">SS_SHOULD_BE_STATIC: Unread field: should this field be static?</a>
+      </h2>
+
+  <p> This class contains an instance final field that
+   is initialized to a compile-time static value.
+   Consider making the field static.</p>
+
+    <h2>
+         <a name="URF_UNREAD_FIELD">URF_UNREAD_FIELD: Unread field</a>
+      </h2>
+
+  <p> This field is never read.&nbsp; Consider removing it from the class.</p>
+
+    <h2>
+         <a name="UUF_UNUSED_FIELD">UUF_UNUSED_FIELD: Unused field</a>
+      </h2>
+
+  <p> This field is never used.&nbsp; Consider removing it from the class.</p>
+
+    </body>
+</html>
