@@ -26,6 +26,8 @@ public abstract class Oracle {
     private double precision;
     private boolean ignoreWS;
 	private boolean ignoreEmptyLines;
+	private boolean ignorePunctuation;
+	private boolean numbersOnly;
 	private String command;
 	private int cap;
 
@@ -53,6 +55,8 @@ public abstract class Oracle {
 		precision = -1; // precision is based on the expected string
 		ignoreWS = true;
 		ignoreEmptyLines = true;
+		ignorePunctuation = false;
+		numbersOnly = false;
 		command = "";
 		cap = 100;
 
@@ -86,8 +90,8 @@ public abstract class Oracle {
 			if (k >= 0) {
 				String propertyName = assignment.substring(0, k).toLowerCase();
 				String valueStr = assignment.substring(k+1);
-				if (propertyName.equals("ignorecase")) {
-					ignoreCase = parseAsBoolean(valueStr, ignoreCase);
+				if (propertyName.equals("case")) {
+					ignoreCase = !parseAsBoolean(valueStr, ignoreCase);
 				} else if (propertyName.equals("scoring")) {
 					valueStr = valueStr.toLowerCase();
 					if (valueStr.equals("all"))
@@ -104,10 +108,15 @@ public abstract class Oracle {
 					} catch (NumberFormatException ex) {
 						logger.warn("Could not parse precision value:" +  valueStr);
 					}
-				} else if (propertyName.equals("ignorews")) {
-					ignoreWS = parseAsBoolean(valueStr, ignoreWS);
-				} else if (propertyName.equals("ignoreemptylines")) {
-					ignoreEmptyLines = parseAsBoolean(valueStr, ignoreEmptyLines);
+				} else if (propertyName.equals("ws")) {
+					ignoreWS = !parseAsBoolean(valueStr, ignoreWS);
+				} else if (propertyName.equals("emptylines")) {
+					ignoreEmptyLines = !parseAsBoolean(valueStr, ignoreEmptyLines);
+				} else if (propertyName.equals("punctuation")) {
+					ignorePunctuation = !parseAsBoolean(valueStr, ignoreEmptyLines);
+				} else if (propertyName.equals("numbersonly")) {
+					numbersOnly = parseAsBoolean(valueStr, ignoreEmptyLines);
+					ignoreWS = true;
 				} else if (propertyName.equals("command")) {
 					command = testCase.parameterSubstitution(valueStr);
 				} else if (propertyName.equals("cap")) {
@@ -167,14 +176,11 @@ public abstract class Oracle {
 	}
 
 	public boolean getIgnorePunctuation() {
-		//TODO
-		return false;
+		return ignorePunctuation;
 	}
 
-
 	public boolean getNumbersOnly() {
-		//TODO
-		return false;
+		return numbersOnly;
 	}
 
 	public String getCommand () {

@@ -61,7 +61,7 @@ public class TestOracle {
     @Test
 	void testImplicitSmartWithSettings() throws FileNotFoundException {
 		Oracle oracle = OracleFactory.getOracle(
-            "ignoreCase=true,precision=0.01,ignoreEmptyLines=0,cap=80", testCase);
+            "case=false,precision=0.01,emptyLines=1,cap=80", testCase);
         assertTrue(oracle instanceof SmartOracle);
         assertTrue(oracle.getIgnoreCase());
         assertThat(oracle.getScoring(), is(Oracle.ScoringOptions.All));
@@ -75,7 +75,7 @@ public class TestOracle {
     @Test
 	void testSmartByName() throws FileNotFoundException {
 		Oracle oracle = OracleFactory.getOracle(
-            "smart:ignoreCase=true,precision=0.01,ignoreEmptyLines=0,cap=80", testCase);
+            "smart:case=false,precision=0.01,emptyLines=1,cap=80", testCase);
         assertTrue(oracle instanceof SmartOracle);
         assertTrue(oracle.getIgnoreCase());
         assertThat(oracle.getScoring(), is(Oracle.ScoringOptions.All));
@@ -97,7 +97,7 @@ public class TestOracle {
     @Test
 	void testOracleFromClassName() throws FileNotFoundException {
 		Oracle oracle = OracleFactory.getOracle(
-            "edu.odu.cs.zeil.codegrader.oracle.ExternalOracle:scoring=ByLine,ignoreWS=false", testCase);
+            "edu.odu.cs.zeil.codegrader.oracle.ExternalOracle:scoring=ByLine,WS=true", testCase);
         assertTrue(oracle instanceof ExternalOracle);
         assertFalse(oracle.getIgnoreCase());
         assertThat(oracle.getScoring(), is(Oracle.ScoringOptions.ByLine));
