@@ -22,7 +22,7 @@
  	<span class="menuBlockHeader">Analysis Reports</span>
 	<ul>
       <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>checkstyle.html">Checkstyle</a></li>
-      <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>pmd.html">PMD</a></li>
+      <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>spotbugs.html">SpotBugs</a></li>
 	</ul>
   </div>
 </div>

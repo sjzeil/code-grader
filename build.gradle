@@ -5,7 +5,7 @@ plugins {
 	id 'checkstyle'
 	id "com.github.spotbugs" version "5.0.8"
 	id 'org.jbake.site' version "5.3.0"
-	id 'edu.odu.cs.report_accumulator' version '1.3'
+	id 'edu.odu.cs.report_accumulator' version '1.4'
 }
 
 version = '1.0-SNAPSHOT'
@@ -112,11 +112,6 @@ spotbugsTest.enabled = false
 
 
 
-reportStats.reportsURL = 'https://www.cs.odu.edu/~zeil/gitlab/' + "bcratchit" + '/reports'
-deployReports.deployDestination = 'rsync://zeil@atria.cs.odu.edu:bcratchit/reports/'
-
-
-
 
 task copyJDocs (type: Copy) {
     from 'build/docs'
@@ -135,9 +130,17 @@ task copyBake (type: Copy) {
     dependsOn 'bake'
 }
 
+import edu.odu.cs.zeil.report_accumulator.ReportStats
 
 
-task site (dependsOn: ['copyBake', 'copyJDocs']){
+task collectStats (type: ReportStats, dependsOn: ['build','htmlDependencyReport', 'javadoc', 'check']) {
+    description "Collect statistics from various reports & analysis tools"
+    reportsURL = 'https://sjzeil.github.io/code-grader/'
+    htmlSourceDir = file("build/reports")
+}
+
+
+task site (dependsOn: ['copyBake', 'copyJDocs', 'collectStats']){
     description "Build the project website (in build/reports)"
     group "reporting"
 }
