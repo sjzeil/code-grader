@@ -30,7 +30,7 @@ public class NumberToken extends Token {
 					// Integer to integer comparison
 					Integer n1 = Integer.parseInt(getLexeme());
 					Integer n2 = Integer.parseInt(act.getLexeme());
-					return n1 == n2;
+					return n1.intValue() == n2.intValue();
 				}
 			}
 		} else {
@@ -49,5 +49,9 @@ public class NumberToken extends Token {
 			delta /= 10.0;
 		}
 		return delta;
+	}
+
+	public int hashCode() {
+		return getLexeme().hashCode();
 	}
 }

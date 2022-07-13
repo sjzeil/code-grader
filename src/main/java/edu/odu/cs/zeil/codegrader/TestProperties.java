@@ -17,41 +17,52 @@ public class TestProperties {
     private Properties assignmentProperties;
     private Properties localProperties;
 
-    private static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    
-    
+    private static Logger logger = LoggerFactory.getLogger(
+            MethodHandles.lookup().lookupClass());
 
     /**
      * Create a test case directory based upon information in testDirectory and
      * in the assignment directory above it.
      * 
-     * @param asst an assignment
+     * @param asst          an assignment
      * @param testDirectory
-     * @throws FileNotFoundException if the assignment's test suite directory does not exist or
-     *                    does not contain a subdirectory matching testName
+     * @throws FileNotFoundException if the assignment's test suite directory
+     *                               does not exist or
+     *                               does not contain a subdirectory matching
+     *                               testName
      */
-    public TestProperties(Assignment asst, String testName) throws FileNotFoundException {
+    public TestProperties(Assignment asst, String testName)
+            throws FileNotFoundException {
         this.name = testName;
         this.assignment = asst;
         this.testDirectory = asst.getTestSuiteDirectory().resolve(testName);
-        if (!this.testDirectory.toFile().isDirectory() ) {
-            logger.error ("Could not find " + testDirectory.toString());
-            throw new FileNotFoundException("Could not find " + testDirectory.toString());
+        if (!this.testDirectory.toFile().isDirectory()) {
+            logger.error("Could not find " + testDirectory.toString());
+            throw new FileNotFoundException("Could not find "
+                    + testDirectory.toString());
         }
         localProperties = new Properties(testDirectory);
         Path assignmentDir = testDirectory.getParent();
-        assignmentProperties = new Properties(assignmentDir);
+        if (assignmentDir != null)
+            assignmentProperties = new Properties(assignmentDir);
+        else
+            throw new FileNotFoundException(testDirectory.toString()
+                    + " not within a suite.");
     }
-
 
     /**
      * Find the standard in file for a test (any file having a ".in" extension).
-     * @return a path to a ".in" file or the test suite directory if no such file exists.
+     * 
+     * @return a path to a ".in" file or the test suite directory if no such
+     *         file exists.
      */
     public Path getIn() {
-        for (File inFile: testDirectory.toFile().listFiles()) {
-            if (inFile.getName().endsWith(".in")) {
-                return inFile.toPath();
+        File[] files = testDirectory.toFile().listFiles();
+        if (files != null) {
+            for (File inFile : files) {
+                if (inFile.getName().endsWith(".in")) {
+                    return inFile.toPath();
+                }
             }
         }
         return testDirectory;
@@ -81,7 +92,6 @@ public class TestProperties {
         return "";
     }
 
-
     public String getLaunch() {
         return getProperty("launch");
     }
@@ -93,7 +103,7 @@ public class TestProperties {
         } else {
             try {
                 int v = Integer.parseInt(value);
-                return Math.max(1,v);
+                return Math.max(1, v);
             } catch (NumberFormatException ex) {
                 return 1;
             }
@@ -104,16 +114,13 @@ public class TestProperties {
         localProperties.setProperty("launch", command);
     }
 
-
     public Path getTestCaseDirectory() {
         return testDirectory;
     }
 
-
     public String getName() {
         return name;
     }
-
 
     public Assignment getAssignment() {
         return assignment;

@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.invoke.MethodHandles;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,8 @@ public class TestCase {
     private int statusCode;
     private boolean onTime;
 
-    private static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static Logger logger = LoggerFactory.getLogger(
+        MethodHandles.lookup().lookupClass());
 
     public TestCase(TestProperties testProperties) {
         properties = testProperties;
@@ -34,18 +36,19 @@ public class TestCase {
         statusCode = 0;
     }
 
-    class StreamReader extends Thread {
+    static class StreamReader extends Thread {
         public boolean finished;
         public boolean forceStop;
         private StringBuilder contents;
         private BufferedReader in;
-        private final int CaptureLimit = 2000000;
+        private static final int CaptureLimit = 2000000;
 
         public StreamReader(InputStream inputStream) {
             finished = false;
             forceStop = false;
             contents = new StringBuilder();
-            in = new BufferedReader(new InputStreamReader(inputStream));
+            in = new BufferedReader(new InputStreamReader(inputStream, 
+                Charset.forName("UTF-8")));
         }
 
         public String getContents() {
@@ -59,8 +62,10 @@ public class TestCase {
                     contents.append(line);
                     contents.append("\n");
                     if (contents.length() > CaptureLimit) {
-                        contents.append("** Test output clipped after " + contents.length() + " bytes.\n");
-                        logger.warn("** Test output clipped after " + contents.length() + " bytes.");
+                        contents.append("** Test output clipped after "
+                            + contents.length() + " bytes.\n");
+                        logger.warn("** Test output clipped after "
+                            + contents.length() + " bytes.");
                         break;
                     }
                     line = in.readLine();
@@ -86,11 +91,13 @@ public class TestCase {
      * @param submission code to use when running the test case
      */
     public void executeTest(Submission submission) {
-        String launchCommandStr = properties.getLaunch() + ' ' + properties.getParams();
+        String launchCommandStr = properties.getLaunch() + ' ' 
+            + properties.getParams();
         launchCommandStr = parameterSubstitution(launchCommandStr);
         List<String> launchCommand = parseCommand(launchCommandStr);
         ProcessBuilder pBuilder = new ProcessBuilder(launchCommand);
-        pBuilder.directory(properties.getAssignment().getStagingDirectory().toFile());
+        pBuilder.directory(properties.getAssignment()
+                .getStagingDirectory().toFile());
         capturedOutput = "";
         capturedError = "";
         crashed = false;
@@ -112,14 +119,17 @@ public class TestCase {
                 OutputStream stdInStr = process.getOutputStream();
                 stdInStr.close();
             }
-            StreamReader stdInReader = new StreamReader(process.getInputStream());
+            StreamReader stdInReader = new StreamReader(
+                process.getInputStream());
             stdInReader.start();
-            StreamReader stdErrReader = new StreamReader(process.getErrorStream());
+            StreamReader stdErrReader = new StreamReader(
+                process.getErrorStream());
             stdErrReader.start();
 
             onTime = process.waitFor(timeLimit, TimeUnit.SECONDS);
             if (onTime) {
-                for (int t = 0; t < 10; ++t) { // Wait up to 1 sec for readers to finish
+                for (int t = 0; t < 10; ++t) { // Wait up to 1 sec for readers 
+                                               // to finish
                     if (stdInReader.finished && stdErrReader.finished)
                         break;
                     Thread.sleep(100); // wait .1 sec then check again
@@ -138,14 +148,17 @@ public class TestCase {
                 statusCode = process.exitValue();
             } else {
                 process.destroy();
-                logger.warn("Shutting down execution of test case " + properties.getName() + " due to time out.");
+                logger.warn("Shutting down execution of test case " 
+                    + properties.getName() + " due to time out.");
             }
         } catch (IOException ex) {
-            logger.error("Could not launch test case " + properties.getName() + " with: " + properties.getLaunch(),
+            logger.error("Could not launch test case " + properties.getName()
+                + " with: " + properties.getLaunch(),
                     ex);
             crashed = true;
         } catch (InterruptedException e) {
-            logger.error("Test case " + properties.getName() + " interrupted.", e);
+            logger.error("Test case " + properties.getName() + " interrupted.",
+                 e);
             crashed = true;
         }
     }
@@ -162,7 +175,8 @@ public class TestCase {
      * A shortcut must be followed by a non-alphabetic character.
      * 
      * @param commandStr a string describing a command to be run
-     * @return the commandStr with shortcuts replaced by the appropriate path/value
+     * @return the commandStr with shortcuts replaced by the appropriate
+     *      path/value
      */
     public String parameterSubstitution(String launchCommandStr) {
         StringBuilder result = new StringBuilder();
@@ -174,21 +188,28 @@ public class TestCase {
                     char c2 = launchCommandStr.charAt(i + 1);
                     if (c2 == 'S' || c2 == 'T' || c2 == 't' || c2 == 'R') {
                         boolean OK = (i + 2 >= launchCommandStr.length())
-                                || !Character.isAlphabetic(launchCommandStr.charAt(i + 2));
+                                || !Character.isAlphabetic(
+                                        launchCommandStr.charAt(i + 2));
                         if (OK) {
                             i += 2;
                             try {
                                 if (c2 == 'S') {
                                     result.append(
-                                            properties.getAssignment().getStagingDirectory().toRealPath().toString());
+                                            properties.getAssignment()
+                                                .getStagingDirectory()
+                                                .toRealPath().toString());
                                 } else if (c2 == 'T') {
                                     result.append(
-                                            properties.getAssignment().getTestSuiteDirectory().toRealPath().toString());
+                                            properties.getAssignment()
+                                                .getTestSuiteDirectory()
+                                                .toRealPath().toString());
                                 } else if (c2 == 't') {
                                     result.append(properties.getName());
                                 } else if (c2 == 'R') {
                                     result.append(
-                                            properties.getAssignment().getRecordingDirectory().toRealPath().toString());
+                                            properties.getAssignment()
+                                                .getRecordingDirectory()
+                                                .toRealPath().toString());
                                 }
                             } catch (IOException ex) {
                                 // Path has not been set

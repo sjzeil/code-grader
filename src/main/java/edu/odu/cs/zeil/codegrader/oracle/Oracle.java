@@ -32,7 +32,6 @@ public abstract class Oracle {
 	private int cap;
 
 	private TestCase testCase;
-	private String testName;
 
 	private static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 

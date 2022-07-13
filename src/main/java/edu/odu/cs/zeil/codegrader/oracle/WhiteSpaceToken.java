@@ -13,4 +13,9 @@ public class WhiteSpaceToken extends Token {
 		} else
 			return false;
 	}
+
+	public int hashCode() {
+		return getLexeme().hashCode();
+	}
+
 }
