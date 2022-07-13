@@ -28,7 +28,7 @@ jobs:
       working-directory: .
       run: ./gradlew reports
     - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@v4.2.5
+      uses: JamesIves/github-pages-deploy-action@v4.3.4
       with:
         branch: gh-pages
         folder: build/reports
