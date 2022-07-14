@@ -38,7 +38,7 @@ public class SmartOracle extends Oracle {
 		int tokenCount = 0;
 		int correctTokens = 0;
 		int correctLines = 0;
-		String message = Oracle.PassedTestMessage;
+		String message = Oracle.PASSED_TEST_MESSAGE;
 		boolean noFailuresSoFar = true;
 
 		String[] expectedLines = expected.split("\n");

@@ -21,13 +21,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
-public class FileUtils {
+public final class FileUtils {
 
-    private static Logger log = LoggerFactory.getLogger(
+    /**
+     * error logging.
+     */
+    private static final Logger LOG = LoggerFactory.getLogger(
             MethodHandles.lookup().lookupClass());
 
     /**
-     * Directory copy utility
+     * Directory copy utility.
      * 
      * (from
      * https://stackoverflow.com/questions/29076439/java-8-copy-directory-recursively/60621544#60621544)
@@ -63,7 +66,7 @@ public class FileUtils {
     }
 
     /**
-     * Directory delete utility
+     * Directory delete utility.
      * 
      * @param dir directory to delete
      * @throws IOException if files cannot be accessed/deleted
@@ -89,35 +92,50 @@ public class FileUtils {
         });
     }
 
+    /**
+     * Read an entire test file into a string.
+     * 
+     * @param file file to be read
+     * @return contents of that file (empty if any IO error occurs)
+     */
     public static String readTextFile(File file) {
         StringBuffer result = new StringBuffer();
         try (BufferedReader in = new BufferedReader(
                 new FileReader(file, Charset.forName("UTF-8")))) {
             while (true) {
                 String line = in.readLine();
-                if (line == null)
+                if (line == null) {
                     break;
+                }
                 result.append(line);
                 result.append("\n");
             }
         } catch (IOException ex) {
-            log.warn("Error in readContentsOf when reading from "
+            LOG.warn("Error in readContentsOf when reading from "
                     + file.getAbsolutePath()
                     + ": treated as EOF.", ex);
         }
         return result.toString();
     }
 
+    /**
+     * Load a file of YAML content into a map structure.
+     * 
+     * @param yamlFile the file to read
+     * @return the YAML content as a map from field names onto objects.
+     */
     public static Map<String, Object> loadYaml(File yamlFile) {
         Yaml yaml = new Yaml();
         try (InputStream yamlIn = new FileInputStream(yamlFile)) {
             Map<String, Object> results = yaml.load(yamlIn);
             return results;
         } catch (IOException ex) {
-            log.error("unable to process yaml input from "
+            LOG.error("unable to process yaml input from "
                     + yamlFile.getAbsolutePath(), ex);
             return new HashMap<>();
         }
     }
 
+    private FileUtils() {
+    }
 }

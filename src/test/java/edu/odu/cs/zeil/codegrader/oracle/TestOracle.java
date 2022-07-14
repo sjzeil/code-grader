@@ -97,7 +97,8 @@ public class TestOracle {
     @Test
 	void testOracleFromClassName() throws FileNotFoundException {
 		Oracle oracle = OracleFactory.getOracle(
-            "edu.odu.cs.zeil.codegrader.oracle.ExternalOracle:scoring=ByLine,WS=true", testCase);
+"edu.odu.cs.zeil.codegrader.oracle.ExternalOracle:scoring=ByLine,WS=true",
+            testCase);
         assertTrue(oracle instanceof ExternalOracle);
         assertFalse(oracle.getIgnoreCase());
         assertThat(oracle.getScoring(), is(Oracle.ScoringOptions.ByLine));

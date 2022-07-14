@@ -1,0 +1,4 @@
+oracle: [
+  "smart: ws=1,case=1,cap=100",
+  "smart: ws=1,case=0,cap=80",
+]

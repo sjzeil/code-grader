@@ -9,31 +9,46 @@ import java.nio.file.Path;
  */
 public class Assignment {
 
-	/**
-	 * Instructor's code.
-	 */
-	private Path goldDirectory;
     /**
-     * Submissions from all students
+     * Instructor's code.
+     */
+    private Path goldDirectory;
+    /**
+     * Submissions from all students.
      */
     private Path submissionsDirectory;
+    /**
+     * Collection of all test cases.
+     */
     private Path testSuiteDirectory;
+    /**
+     * Spreadsheet for performing grading calculations.
+     */
     private Path gradingTemplate;
 
+    /**
+     * Directory in which a submission will be compiled and tested.
+     */
     private Path stagingDirectory;
+
+    /**
+     * Where to place information about the points earned for passing tests.
+     */
     private Path recordingDirectory;
-    
-    
+
+
     /**
      * The gold directory is the location of an instructor's solution to
      * the assignment. If available (non-null), the instructor's solution
      * is run prior to each test of the student's submission in order to collect
      * expected output and timing data.
-     * 
+     *
      * @return the path to the gold directory or null if no instructor's
      *         solution is being used.
      */
-    Path getGoldDirectory() { return goldDirectory; }
+    Path getGoldDirectory() {
+        return goldDirectory;
+    }
 
     /**
      * Set the path to the gold directory.
@@ -41,8 +56,9 @@ public class Assignment {
      * @param path the path to use
      * @return the modified assignment
      */
-    Assignment setGoldDirectory(Path path) {
-    	goldDirectory = path; return this; 
+    Assignment setGoldDirectory(final Path path) {
+        goldDirectory = path;
+        return this;
     }
 
     /**
@@ -53,7 +69,9 @@ public class Assignment {
      * 
      * @return the path to the submissions directory.
      */
-    Path getSubmissionsDirectory() { return submissionsDirectory; }
+    Path getSubmissionsDirectory() {
+        return submissionsDirectory;
+    }
 
     /**
      * Set the path to the submissions directory.
@@ -61,7 +79,7 @@ public class Assignment {
      * @param path the path to use
      * @return the modified assignment
      */
-    Assignment setSubmissionsDirectory(Path path) {
+    Assignment setSubmissionsDirectory(final Path path) {
         submissionsDirectory = path;
         return this;
     }
@@ -74,7 +92,9 @@ public class Assignment {
      * 
      * @return the path to the test suite directory.
      */
-    public Path getTestSuiteDirectory() { return testSuiteDirectory; }
+    public Path getTestSuiteDirectory() {
+        return testSuiteDirectory;
+    }
 
     /**
      * Set the path to the test suite directory.
@@ -82,7 +102,7 @@ public class Assignment {
      * @param path the path to use
      * @return the modified assignment
      */
-    public Assignment setTestSuiteDirectory(Path path) {
+    public Assignment setTestSuiteDirectory(final Path path) {
         testSuiteDirectory = path; return this;
     }
 
@@ -93,7 +113,7 @@ public class Assignment {
      * @return the path to the staging directory.
      */
     Path getStagingDirectory() {
-    	return stagingDirectory;
+        return stagingDirectory;
     }
 
     /**
@@ -102,7 +122,7 @@ public class Assignment {
      * @param path the path to use
      * @return the modified assignment
      */
-    Assignment setStagingDirectory(Path path) {
+    Assignment setStagingDirectory(final Path path) {
         stagingDirectory = path; 
         return this;
     }
@@ -113,7 +133,9 @@ public class Assignment {
      * 
      * @return the path to the recording directory.
      */
-    Path getRecordingDirectory() {return recordingDirectory;}
+    Path getRecordingDirectory() {
+        return recordingDirectory;
+    }
 
     /**
      * Set the path to the recording directory.
@@ -121,8 +143,10 @@ public class Assignment {
      * @param path the path to use
      * @return the modified assignment
      */
-    Assignment setRecordingDirectory(Path path) {recordingDirectory = path;
-        return this;}
+    Assignment setRecordingDirectory(final Path path) {
+        recordingDirectory = path;
+        return this;
+    }
 
     /**
      * The grading template is an Excel spreadsheet in which the instructor
@@ -133,7 +157,9 @@ public class Assignment {
      * 
      * @return the path to the grading template.
      */
-    Path getGradingTemplate() {return gradingTemplate;}
+    Path getGradingTemplate() {
+        return gradingTemplate;
+    }
 
     /**
      * Set the path to the recording directory.
@@ -141,8 +167,10 @@ public class Assignment {
      * @param path the path to use
      * @return the modified assignment
      */
-    Assignment setGradingTemplate(Path path) {gradingTemplate = path;
-        return this;}
+    Assignment setGradingTemplate(final Path path) {
+        gradingTemplate = path;
+        return this;
+    }
 
 
 }

@@ -112,7 +112,6 @@ spotbugsTest.enabled = false
 
 
 
-
 task copyJDocs (type: Copy) {
     from 'build/docs'
     into 'build/reports'

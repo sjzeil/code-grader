@@ -135,7 +135,7 @@ public class TestSmartOracle {
 
 		result = oracle.compare(expected, caseVariant);
 		assertThat (result.score, equalTo(100));
-		assertThat(result.message, is(Oracle.PassedTestMessage));
+		assertThat(result.message, is(Oracle.PASSED_TEST_MESSAGE));
 
 		result = oracle.compare(expected, ws);
 		assertThat (result.score, equalTo(100));  // By default, whitespace is ignored
