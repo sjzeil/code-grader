@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -153,7 +153,9 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(edu.odu.cs.zeil.codegrader.TestProperties)">TestCase</a></span>&#8203;(<a href="TestProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestProperties</a>&nbsp;testProperties)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Create a new test case.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -221,6 +223,13 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
+<td class="colFirst"><code>java.nio.file.Path</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#performTest(edu.odu.cs.zeil.codegrader.Submission)">performTest</a></span>&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission)</code></th>
+<td class="colLast">
+<div class="block">Runs the test case and evaluates the results.</div>
+</td>
+</tr>
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#timedOut()">timedOut</a></span>()</code></th>
 <td class="colLast">
@@ -258,6 +267,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>TestCase</h4>
 <pre>public&nbsp;TestCase&#8203;(<a href="TestProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestProperties</a>&nbsp;testProperties)</pre>
+<div class="block">Create a new test case.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>testProperties</code> - properties for the test.</dd>
+</dl>
 </li>
 </ul>
 </li>
@@ -305,10 +319,31 @@ extends java.lang.Object</pre>
  A shortcut must be followed by a non-alphabetic character.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>commandStr</code> - a string describing a command to be run</dd>
+<dd><code>launchCommandStr</code> - a string describing a command to be run</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the commandStr with shortcuts replaced by the appropriate
-      path/value</dd>
+<dd>the launchCommandStr with shortcuts replaced by the appropriate
+         path/value</dd>
+</dl>
+</li>
+</ul>
+<a id="performTest(edu.odu.cs.zeil.codegrader.Submission)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>performTest</h4>
+<pre class="methodSignature">public&nbsp;java.nio.file.Path&nbsp;performTest&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission)
+                               throws <a href="TestConfigurationError.html" title="class in edu.odu.cs.zeil.codegrader">TestConfigurationError</a></pre>
+<div class="block">Runs the test case and evaluates the results.
+ The actual output, score, and messages are recorded
+ in the recording directory.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>submission</code> - to evaluate</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>path to the recorded results</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="TestConfigurationError.html" title="class in edu.odu.cs.zeil.codegrader">TestConfigurationError</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -389,6 +424,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getProperties</h4>
 <pre class="methodSignature">public&nbsp;<a href="TestProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestProperties</a>&nbsp;getProperties()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the properties for this test case.</dd>
+</dl>
 </li>
 </ul>
 </li>

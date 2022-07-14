@@ -145,6 +145,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public static enum <span class="typeNameLabel">Oracle.ScoringOptions</span>
 extends java.lang.Enum&lt;<a href="Oracle.ScoringOptions.html" title="enum in edu.odu.cs.zeil.codegrader.oracle">Oracle.ScoringOptions</a>&gt;</pre>
+<div class="block">Possible scoring options for test cases.</div>
 </li>
 </ul>
 </div>
@@ -166,19 +167,21 @@ extends java.lang.Enum&lt;<a href="Oracle.ScoringOptions.html" title="enum in ed
 </tr>
 <tr class="altColor">
 <th class="colFirst" scope="row"><code><span class="memberNameLink"><a href="#All">All</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Entire output must be correct.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><code><span class="memberNameLink"><a href="#ByLine">ByLine</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Each line is checked individually.</div>
+</td>
 </tr>
 <tr class="altColor">
-<th class="colFirst" scope="row"><code><span class="memberNameLink"><a href="#ByNonEmptyLine">ByNonEmptyLine</a></span></code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr class="rowColor">
 <th class="colFirst" scope="row"><code><span class="memberNameLink"><a href="#ByToken">ByToken</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Each word/token is checked individually.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -251,6 +254,7 @@ the order they are declared.</div>
 <li class="blockList">
 <h4>All</h4>
 <pre>public static final&nbsp;<a href="Oracle.ScoringOptions.html" title="enum in edu.odu.cs.zeil.codegrader.oracle">Oracle.ScoringOptions</a> All</pre>
+<div class="block">Entire output must be correct. Only possible scores are 0 or 100.</div>
 </li>
 </ul>
 <a id="ByLine">
@@ -260,15 +264,7 @@ the order they are declared.</div>
 <li class="blockList">
 <h4>ByLine</h4>
 <pre>public static final&nbsp;<a href="Oracle.ScoringOptions.html" title="enum in edu.odu.cs.zeil.codegrader.oracle">Oracle.ScoringOptions</a> ByLine</pre>
-</li>
-</ul>
-<a id="ByNonEmptyLine">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>ByNonEmptyLine</h4>
-<pre>public static final&nbsp;<a href="Oracle.ScoringOptions.html" title="enum in edu.odu.cs.zeil.codegrader.oracle">Oracle.ScoringOptions</a> ByNonEmptyLine</pre>
+<div class="block">Each line is checked individually. Score is #correct/#lines.</div>
 </li>
 </ul>
 <a id="ByToken">
@@ -278,6 +274,8 @@ the order they are declared.</div>
 <li class="blockList">
 <h4>ByToken</h4>
 <pre>public static final&nbsp;<a href="Oracle.ScoringOptions.html" title="enum in edu.odu.cs.zeil.codegrader.oracle">Oracle.ScoringOptions</a> ByToken</pre>
+<div class="block">Each word/token is checked individually. Score is
+ #correct_tokens/#tokens. Should only be used if WS is being ignored.</div>
 </li>
 </ul>
 </li>
