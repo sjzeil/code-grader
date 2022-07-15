@@ -2,14 +2,10 @@ package edu.odu.cs.zeil.codegrader;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertNull;
-//import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.StringReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -18,26 +14,28 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import edu.odu.cs.zeil.codegrader.oracle.Oracle;
-import edu.odu.cs.zeil.codegrader.oracle.OracleFactory;
-import edu.odu.cs.zeil.codegrader.oracle.OracleResult;
 
 
 public class TestTestCaseOracle {
 	
-	public Path asstSrcPath = Paths.get("src", "test", "data", "assignment2");
-	public Path testSuitePath = Paths.get("build", "test-data", "assignment2");
-	public Path stagingPath = Paths.get("build", "test-data", "assignment2",
+
+	private Path asstSrcPath = Paths.get("src", "test", "data", "assignment2");
+	private Path testSuitePath = Paths.get("build", "test-data", "assignment2");
+	private Path stagingPath = Paths.get("build", "test-data", "assignment2",
 		 "stage");
-	public Path submissionsPath = Paths.get("build", "test-data", 
+	private Path submissionsPath = Paths.get("build", "test-data", 
 		"assignment2", "submissions");
-	public Path recordingPath = Paths.get("build", "test-data",
+	private Path recordingPath = Paths.get("build", "test-data",
 		"assignment2", "grades");
 
-	public Assignment asst;
-	public TestCase testCase;
-	public TestProperties testProperties;
+	private Assignment asst;
+	private TestCase testCase;
+	private TestProperties testProperties;
 	
+	/**
+	 * Set up assignment2 params test.
+	 * @throws IOException
+	 */
 	@BeforeEach
 	public void setup() throws IOException {
 		testSuitePath.toFile().getParentFile().mkdirs();
@@ -54,6 +52,11 @@ public class TestTestCaseOracle {
 		testCase = new TestCase(testProperties);
 	}
 	
+	/**
+	 * Clean up test data.
+	 * 
+	 * @throws IOException
+	 */
 	@AfterEach
 	public void teardown() throws IOException {
 		FileUtils.deleteDirectory(testSuitePath);
@@ -61,7 +64,7 @@ public class TestTestCaseOracle {
 	
 
 	@Test
-	void testPerformTest() throws FileNotFoundException  {
+	void testPerformTest() throws FileNotFoundException, TestConfigurationError  {
 
 		Submission student1 = new Submission(asst, "student1");
 		String javaHome = System.getProperty("java.home");
@@ -69,21 +72,22 @@ public class TestTestCaseOracle {
 		String launcher = javaExec + " -cp " 
 			+ System.getProperty("java.class.path")
 			+ " edu.odu.cs.zeil.codegrader.samples.ParamLister";
-		testProperties.setLaunch (launcher);
+		testProperties.setLaunch(launcher);
         
 
-		testCase.executeTest(student1);
+		Path recordedAt = testCase.performTest(student1);
 
 		Path studentGrades = recordingPath.resolve("student1");
 		assertTrue(studentGrades.toFile().exists());
+		assertTrue(recordedAt.normalize().equals(studentGrades.normalize()));
 		Path studentTestResults = studentGrades.resolve("params");
-		assertTrue (studentTestResults.toFile().exists());
+		assertTrue(studentTestResults.toFile().exists());
 		Path studentScoreFile = studentTestResults.resolve("test.score");
-		assertTrue (studentScoreFile.toFile().exists());
+		assertTrue(studentScoreFile.toFile().exists());
 		String scoreContents = FileUtils.readTextFile(
 				studentScoreFile.toFile());
 		scoreContents = scoreContents.trim();
-		assertThat (scoreContents, is("100"));
+		assertThat(scoreContents, is("100"));
 	}
 
 }
