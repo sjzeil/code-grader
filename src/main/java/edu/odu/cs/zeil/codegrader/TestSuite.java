@@ -3,10 +3,10 @@ package edu.odu.cs.zeil.codegrader;
 
 public class TestSuite {
 
-	TestProperties properties;
+	TestCaseProperties properties;
 	
 	
-    public TestSuite(TestProperties testProperties) {
+    public TestSuite(TestCaseProperties testProperties) {
     	properties = testProperties;
     }
 

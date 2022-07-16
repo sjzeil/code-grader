@@ -30,14 +30,15 @@ public class TestTestCaseOracle {
 
 	private Assignment asst;
 	private TestCase testCase;
-	private TestProperties testProperties;
+	private TestCaseProperties testProperties;
 	
 	/**
 	 * Set up assignment2 params test.
 	 * @throws IOException
+	 * @throws TestConfigurationError
 	 */
 	@BeforeEach
-	public void setup() throws IOException {
+	public void setup() throws IOException, TestConfigurationError {
 		testSuitePath.toFile().getParentFile().mkdirs();
 		stagingPath.toFile().mkdirs();
 		FileUtils.copyDirectory(asstSrcPath, testSuitePath,
@@ -48,7 +49,7 @@ public class TestTestCaseOracle {
 		asst.setStagingDirectory(stagingPath);
 		asst.setSubmissionsDirectory(submissionsPath);
 
-		testProperties = new TestProperties(asst, "params");
+		testProperties = new TestCaseProperties(asst, "params");
 		testCase = new TestCase(testProperties);
 	}
 	

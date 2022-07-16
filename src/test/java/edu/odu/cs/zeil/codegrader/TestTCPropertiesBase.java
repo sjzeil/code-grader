@@ -25,7 +25,7 @@ public class TestTCPropertiesBase {
 	@Test
 	void testReadWrite() 
         throws TestConfigurationError {
-        TCPropertiesBase tcp = new TCPropertiesBase();
+        TestCasePropertiesBase tcp = new TestCasePropertiesBase();
         tcp.params = Optional.of("a b c");
         tcp.launch = Optional.of("./myProgram");
         tcp.points = OptionalInt.of(42);
@@ -45,7 +45,7 @@ public class TestTCPropertiesBase {
         assertThat(tcpAsString, containsString("42"));
         System.err.println(tcpAsString);
 
-        TCPropertiesBase tcp2 = TCPropertiesBase.loadYAML(tcpAsString);
+        TestCasePropertiesBase tcp2 = TestCasePropertiesBase.loadYAML(tcpAsString);
         assertThat(tcp2.params.get(), equalTo(tcp.params.get()));
         assertThat(tcp2.launch.get(), equalTo(tcp.launch.get()));
         assertThat(tcp2.points.getAsInt(), equalTo(tcp.points.getAsInt()));
@@ -57,7 +57,7 @@ public class TestTCPropertiesBase {
         
         String input = "params: \"a b\"\npoints: 42\n";
 
-        TCPropertiesBase tcp = TCPropertiesBase.loadYAML(input);
+        TestCasePropertiesBase tcp = TestCasePropertiesBase.loadYAML(input);
         assertThat(tcp.params.get(), equalTo("a b"));
         assertThat(tcp.points.getAsInt(), equalTo(42));
         assertThat(tcp.grading.size(), equalTo(0));

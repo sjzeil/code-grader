@@ -21,7 +21,7 @@ public class TestCase {
     /**
      * The collected properties for this test.
      */
-    private TestProperties properties;
+    private TestCaseProperties properties;
 
     /**
      * Standard output from executing this test.
@@ -59,7 +59,7 @@ public class TestCase {
      * 
      * @param testProperties properties for the test.
      */
-    public TestCase(TestProperties testProperties) {
+    public TestCase(TestCaseProperties testProperties) {
         properties = testProperties;
         capturedOutput = "";
         capturedError = "";
@@ -156,8 +156,7 @@ public class TestCase {
         launchCommandStr = parameterSubstitution(launchCommandStr);
         List<String> launchCommand = parseCommand(launchCommandStr);
         ProcessBuilder pBuilder = new ProcessBuilder(launchCommand);
-        pBuilder.directory(properties.getAssignment()
-                .getStagingDirectory().toFile());
+        pBuilder.directory(properties.getStagingDirectory().toFile());
         capturedOutput = "";
         capturedError = "";
         crashed = false;
@@ -168,15 +167,15 @@ public class TestCase {
             if (timeLimit <= 0) {
                 timeLimit = 1;
             }
-            Path stdIn = properties.getIn();
-            if (!stdIn.toFile().isDirectory()) {
-                pBuilder.redirectInput(stdIn.toFile());
+            File stdIn = properties.getIn();
+            if (stdIn != null) {
+                pBuilder.redirectInput(stdIn);
             }
 
             Process process = pBuilder.start();
 
             // If there is no standard in content, close the input stream
-            if (stdIn.toFile().isDirectory()) {
+            if (stdIn != null) {
                 OutputStream stdInStr = process.getOutputStream();
                 stdInStr.close();
             }
@@ -262,20 +261,17 @@ public class TestCase {
                             try {
                                 if (c2 == 'S') {
                                     result.append(
-                                            properties.getAssignment()
-                                                    .getStagingDirectory()
+                                            properties.getStagingDirectory()
                                                     .toRealPath().toString());
                                 } else if (c2 == 'T') {
                                     result.append(
-                                            properties.getAssignment()
-                                                    .getTestSuiteDirectory()
+                                            properties.getTestSuiteDirectory()
                                                     .toRealPath().toString());
                                 } else if (c2 == 't') {
                                     result.append(properties.getName());
                                 } else if (c2 == 'R') {
                                     result.append(
-                                            properties.getAssignment()
-                                                    .getRecordingDirectory()
+                                            properties.getRecordingDirectory()
                                                     .toRealPath().toString());
                                 }
                             } catch (IOException ex) {
@@ -410,7 +406,7 @@ public class TestCase {
      * 
      * @return the properties for this test case.
      */
-    public TestProperties getProperties() {
+    public TestCaseProperties getProperties() {
         return properties;
     }
 

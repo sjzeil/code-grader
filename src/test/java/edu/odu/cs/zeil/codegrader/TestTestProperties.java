@@ -37,22 +37,28 @@ public class TestTestProperties {
 	
 
 	@Test
-	void testInlineProperty() throws FileNotFoundException {
-		TestProperties testProperties = new TestProperties(asst, "largeTests");
+	void testInlineProperty() 
+		throws FileNotFoundException, TestConfigurationError {
+		TestCaseProperties testProperties
+			= new TestCaseProperties(asst, "largeTests");
 		int value = testProperties.getTimelimit();
 		assertThat(value, is(2));
 	}
 
 	@Test
-	void testYamlProperty() throws FileNotFoundException {
-		TestProperties testProperties = new TestProperties(asst, "simpleTests");
+	void testYamlProperty() 
+		throws FileNotFoundException, TestConfigurationError {
+		TestCaseProperties testProperties 
+			= new TestCaseProperties(asst, "simpleTests");
 		int value = testProperties.getPoints();
 		assertThat(value, is(5));
 	}
 
 	@Test
-	void testDefaultProperty() throws FileNotFoundException {
-		TestProperties testProperties = new TestProperties(asst, "simpleTests");
+	void testDefaultProperty() 
+		throws FileNotFoundException, TestConfigurationError {
+		TestCaseProperties testProperties
+			= new TestCaseProperties(asst, "simpleTests");
 		String value = testProperties.getLaunch();
 		assertThat(value, is("./dividers"));
 	}
@@ -60,7 +66,7 @@ public class TestTestProperties {
 	@Test
 	void testTestCaseBadCase() {
 		assertThrows (FileNotFoundException.class,
-	        () -> new TestProperties(asst, "bogus"));
+	        () -> new TestCaseProperties(asst, "bogus"));
 	}
 
 

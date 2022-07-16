@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
  * 
  * Each may be null if it has been left unspecified.
  */
-public class TCPropertiesBase {
+public class TestCasePropertiesBase {
 
     /**
      * error logging.
@@ -49,22 +49,23 @@ public class TCPropertiesBase {
     public Optional<String> launch;
 
     /**
-     * The string to supply to standard input when the program under
-     * evaluation is run.
-     */
-    public Optional<String> in;
-
-    /**
      * A string containing expected output when the program under
      * evaluation is run.
      */
     public Optional<String> expected;
 
     /**
+     * How many seconds to allow a test execution to run before concluding
+     * that the program is hanging, caught in an infinite loop, or simply
+     * unacceptably slow.
+     */
+    public OptionalInt timelimit;
+
+    /**
      * Should the standard error stream be captures and included in the
      * program output being evaluated?
      */
-    public Optional<Boolean> stdErr;
+    public Optional<Boolean> stderr;
 
     /**
      * The grading criteria for this test case.
@@ -74,7 +75,13 @@ public class TCPropertiesBase {
     /**
      * Create a property set with an empty list of grading options.
      */
-    public TCPropertiesBase() {
+    public TestCasePropertiesBase() {
+        params = Optional.empty();
+        points = OptionalInt.empty();
+        launch = Optional.empty();
+        expected = Optional.empty();
+        timelimit = OptionalInt.empty();
+        stderr = Optional.empty();
         grading = new ArrayList<>();
     }
 
@@ -85,12 +92,12 @@ public class TCPropertiesBase {
      * @return the properties
      * @throws TestConfigurationError if input cannot be parsed
      */
-    public static TCPropertiesBase loadYAML(String input)
+    public static TestCasePropertiesBase loadYAML(String input)
         throws TestConfigurationError {
         ObjectMapper mapper = getMapper();
         try {
-            TCPropertiesBase result = mapper.readValue(input, 
-                TCPropertiesBase.class);
+            TestCasePropertiesBase result = mapper.readValue(input, 
+                TestCasePropertiesBase.class);
             return result;
         } catch (JsonProcessingException e) {
             String message = "Cannot load YAML from string input\n"
@@ -107,12 +114,12 @@ public class TCPropertiesBase {
      * @return the properties
      * @throws TestConfigurationError if input cannot be parsed
      */
-    public static TCPropertiesBase loadYAML(File input)
+    public static TestCasePropertiesBase loadYAML(File input)
         throws TestConfigurationError {
         ObjectMapper mapper = getMapper();
         try {
-            TCPropertiesBase result = mapper.readValue(input, 
-                TCPropertiesBase.class);
+            TestCasePropertiesBase result = mapper.readValue(input, 
+                TestCasePropertiesBase.class);
             return result;
         } catch (IOException e) {
             String message = "Cannot load YAML from " + input.toString() + "\n"

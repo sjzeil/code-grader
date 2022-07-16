@@ -17,7 +17,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import edu.odu.cs.zeil.codegrader.Assignment;
 import edu.odu.cs.zeil.codegrader.FileUtils;
 import edu.odu.cs.zeil.codegrader.TestCase;
-import edu.odu.cs.zeil.codegrader.TestProperties;
+import edu.odu.cs.zeil.codegrader.TestCaseProperties;
+import edu.odu.cs.zeil.codegrader.TestConfigurationError;
 
 
 public class TestOracle {
@@ -30,13 +31,14 @@ public class TestOracle {
 	
 
 	@BeforeEach
-	public void setup() throws IOException {
+	public void setup() throws IOException, TestConfigurationError {
 		testSuitePath.toFile().getParentFile().mkdirs();
-		FileUtils.copyDirectory(asstSrcPath, testSuitePath, StandardCopyOption.REPLACE_EXISTING);
+		FileUtils.copyDirectory(asstSrcPath, testSuitePath, 
+            StandardCopyOption.REPLACE_EXISTING);
 
 		asst = new Assignment();
 		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
-		testCase = new TestCase(new TestProperties(asst, "params"));
+		testCase = new TestCase(new TestCaseProperties(asst, "params"));
 	}
 	
 	@AfterEach

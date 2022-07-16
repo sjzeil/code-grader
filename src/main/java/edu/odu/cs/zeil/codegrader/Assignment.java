@@ -7,7 +7,13 @@ import java.nio.file.Path;
  * An Assignment indicates the various files and directories that will be
  * employed during grading.
  */
-public class Assignment {
+public class Assignment implements Cloneable {
+
+    /**
+     * The directory containing code supplied by the instructor.
+     * (Often the same as the gold directory).
+     */
+    private Path instructorCodeDirectory;
 
     /**
      * Instructor's code.
@@ -36,6 +42,31 @@ public class Assignment {
      */
     private Path recordingDirectory;
 
+
+    /**
+     * The instructor code directory is the location of an instructor's code
+     * intended to be included along with the student-supplied code as part of
+     * the total build. When a gold version (instructor's solution) is
+     * available, the instructor code directory will usually be the instructor
+     * code directory as well.
+     *
+     * @return the path to the directory containing instructor-supplied
+     *         code or null if no instructor's code is supplied.
+     */
+    Path getInstructorCodeDirectory() {
+        return instructorCodeDirectory;
+    }
+
+    /**
+     * Set the path to the instructor code directory.
+     * 
+     * @param path the path to use
+     * @return the modified assignment
+     */
+    Assignment setInstructorCodeDirectory(final Path path) {
+        instructorCodeDirectory = path;
+        return this;
+    }
 
     /**
      * The gold directory is the location of an instructor's solution to
@@ -173,4 +204,18 @@ public class Assignment {
     }
 
 
+    /**
+     * Copy an assignment.
+     */
+    @Override
+    public Assignment clone() {
+        Assignment theClone = new Assignment();
+        theClone.setStagingDirectory(stagingDirectory)
+            .setInstructorCodeDirectory(instructorCodeDirectory)
+            .setRecordingDirectory(recordingDirectory)
+            .setGoldDirectory(goldDirectory)
+            .setTestSuiteDirectory(testSuiteDirectory)
+            .setGradingTemplate(gradingTemplate);
+        return theClone;
+    }
 }

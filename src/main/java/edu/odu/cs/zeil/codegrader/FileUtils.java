@@ -16,6 +16,7 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -136,6 +137,25 @@ public final class FileUtils {
         }
     }
 
+    /**
+     * Find a file with the given extension in a directory.
+     * @param dir a path to a directory 
+     * @param extension the desired file extension
+     * @return a file with the desired extension, if one exists.
+     */
+    public static Optional<File> findFile(Path dir, String extension) {
+        File[] files = dir.toFile().listFiles();
+        if (files != null) {
+            for (File file: files) {
+                if (file.getName().endsWith(extension)) {
+                    return Optional.of(file);
+                }
+            }
+        }
+        return Optional.empty();
+    }
+
     private FileUtils() {
     }
+
 }
