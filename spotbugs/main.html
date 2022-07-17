@@ -78,6 +78,8 @@
          <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/TestSuite.class</li>
          <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/TestCase.class</li>
          <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/TestConfigurationError.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/TestSuitePropertiesBase.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/TestCasePropertiesBase.class</li>
          <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/FileUtils.class</li>
          <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/Assignment.class</li>
          <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/Submission.class</li>
@@ -92,12 +94,11 @@
          <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/oracle/Oracle$ScoringOptions.class</li>
          <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/oracle/NumberToken.class</li>
          <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/oracle/WhiteSpaceToken.class</li>
-         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/oracle/LineBreakToken.class</li>
          <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/oracle/ExternalOracle.class</li>
          <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/oracle/StringToken.class</li>
-         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/TestProperties.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/OracleProperties.class</li>
          <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/TestCase$StreamReader.class</li>
-         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/Properties.class</li>
+         <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/TestCaseProperties.class</li>
          <li>/home/runner/work/code-grader/code-grader/build/classes/java/main/edu/odu/cs/zeil/codegrader/Logging.class</li>
       </ul>
       <p>
@@ -105,8 +106,8 @@
          <br/>
       </p>
       <h2>Metrics</h2>
-      <p>1001 lines of code analyzed,
-	in 25 classes, 
+      <p>1092 lines of code analyzed,
+	in 26 classes, 
 	in 2 packages.</p>
       <table width="500" cellpadding="5" cellspacing="2">
          <tr class="tableheader">
@@ -117,22 +118,22 @@
          <tr class="tablerow0">
             <td>High Priority Warnings</td>
             <td align="right">1</td>
-            <td align="right">1.00</td>
+            <td align="right">0.92</td>
          </tr>
          <tr class="tablerow1">
             <td>Medium Priority Warnings</td>
-            <td align="right">7</td>
-            <td align="right">6.99</td>
+            <td align="right">9</td>
+            <td align="right">8.24</td>
          </tr>
          <tr class="$totalClass">
             <td>
                <b>Total Warnings</b>
             </td>
             <td align="right">
-               <b>8</b>
+               <b>10</b>
             </td>
             <td align="right">
-               <b>7.99</b>
+               <b>9.16</b>
             </td>
          </tr>
       </table>
@@ -146,6 +147,9 @@
       <h2>Contents</h2>
       <ul>
          <li>
+            <a href="#Warnings_BAD_PRACTICE">Bad practice Warnings</a>
+         </li>
+         <li>
             <a href="#Warnings_EXPERIMENTAL">Experimental Warnings</a>
          </li>
          <li>
@@ -153,6 +157,9 @@
          </li>
          <li>
             <a href="#Warnings_PERFORMANCE">Performance Warnings</a>
+         </li>
+         <li>
+            <a href="#Warnings_STYLE">Dodgy code Warnings</a>
          </li>
          <li>
             <a href="#Details">Details</a>
@@ -166,33 +173,68 @@
          </tr>
          <tr class="tablerow0">
             <td>
-               <a href="#Warnings_EXPERIMENTAL">Experimental Warnings</a>
+               <a href="#Warnings_BAD_PRACTICE">Bad practice Warnings</a>
             </td>
             <td align="right">1</td>
          </tr>
          <tr class="tablerow1">
             <td>
-               <a href="#Warnings_MALICIOUS_CODE">Malicious code vulnerability Warnings</a>
+               <a href="#Warnings_EXPERIMENTAL">Experimental Warnings</a>
             </td>
-            <td align="right">6</td>
+            <td align="right">1</td>
          </tr>
          <tr class="tablerow0">
             <td>
+               <a href="#Warnings_MALICIOUS_CODE">Malicious code vulnerability Warnings</a>
+            </td>
+            <td align="right">3</td>
+         </tr>
+         <tr class="tablerow1">
+            <td>
                <a href="#Warnings_PERFORMANCE">Performance Warnings</a>
             </td>
-            <td align="right">1</td>
+            <td align="right">2</td>
+         </tr>
+         <tr class="tablerow0">
+            <td>
+               <a href="#Warnings_STYLE">Dodgy code Warnings</a>
+            </td>
+            <td align="right">3</td>
          </tr>
          <tr class="tablerow1">
             <td>
                <b>Total</b>
             </td>
             <td align="right">
-               <b>8</b>
+               <b>10</b>
             </td>
          </tr>
       </table>
       <h1>Warnings</h1>
       <p>Click on a warning row to see full context information.</p>
+      <h2>
+         <a name="Warnings_BAD_PRACTICE">Bad practice Warnings</a>
+      </h2>
+      <table class="warningtable" width="100%" cellspacing="0">
+         <tr class="tableheader">
+            <th align="left">Code</th>
+            <th align="left">Warning</th>
+         </tr>
+         <tr class="tablerow1" onclick="toggleRow('d2e52');">
+            <td>
+               <span class="priority-2">CN</span>
+            </td>
+            <td>edu.odu.cs.zeil.codegrader.Assignment.clone() does not call super.clone()</td>
+         </tr>
+         <tr class="detailrow1">
+            <td/>
+            <td>
+               <p id="d2e52" style="display: none;">
+                  <a href="#CN_IDIOM_NO_SUPER_CALL">Bug type CN_IDIOM_NO_SUPER_CALL (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.Assignment<br/>In method edu.odu.cs.zeil.codegrader.Assignment.clone()<br/>At Assignment.java:[lines 212-219]</p>
+            </td>
+         </tr>
+      </table>
       <h2>
          <a name="Warnings_EXPERIMENTAL">Experimental Warnings</a>
       </h2>
@@ -201,7 +243,7 @@
             <th align="left">Code</th>
             <th align="left">Warning</th>
          </tr>
-         <tr class="tablerow1" onclick="toggleRow('d2e45');">
+         <tr class="tablerow1" onclick="toggleRow('d2e64');">
             <td>
                <span class="priority-1">LG</span>
             </td>
@@ -210,7 +252,7 @@
          <tr class="detailrow1">
             <td/>
             <td>
-               <p id="d2e45" style="display: none;">
+               <p id="d2e64" style="display: none;">
                   <a href="#LG_LOST_LOGGER_DUE_TO_WEAK_REFERENCE">Bug type LG_LOST_LOGGER_DUE_TO_WEAK_REFERENCE (click for details)</a>
                   <br/>In class edu.odu.cs.zeil.codegrader.Logging<br/>In method edu.odu.cs.zeil.codegrader.Logging.setup()<br/>Local variable named logger<br/>At Logging.java:[line 19]<br/>Another occurrence at Logging.java:[line 24]<br/>Another occurrence at Logging.java:[line 32]</p>
             </td>
@@ -224,7 +266,7 @@
             <th align="left">Code</th>
             <th align="left">Warning</th>
          </tr>
-         <tr class="tablerow1" onclick="toggleRow('d2e63');">
+         <tr class="tablerow1" onclick="toggleRow('d2e121');">
             <td>
                <span class="priority-2">EI</span>
             </td>
@@ -233,79 +275,37 @@
          <tr class="detailrow1">
             <td/>
             <td>
-               <p id="d2e63" style="display: none;">
+               <p id="d2e121" style="display: none;">
                   <a href="#EI_EXPOSE_REP">Bug type EI_EXPOSE_REP (click for details)</a>
-                  <br/>In class edu.odu.cs.zeil.codegrader.TestCase<br/>In method edu.odu.cs.zeil.codegrader.TestCase.getProperties()<br/>Field edu.odu.cs.zeil.codegrader.TestCase.properties<br/>At TestCase.java:[line 414]</p>
+                  <br/>In class edu.odu.cs.zeil.codegrader.TestCase<br/>In method edu.odu.cs.zeil.codegrader.TestCase.getProperties()<br/>Field edu.odu.cs.zeil.codegrader.TestCase.properties<br/>At TestCase.java:[line 410]</p>
             </td>
          </tr>
-         <tr class="tablerow0" onclick="toggleRow('d2e146');">
+         <tr class="tablerow0" onclick="toggleRow('d2e137');">
             <td>
-               <span class="priority-2">EI</span>
+               <span class="priority-2">EI2</span>
             </td>
-            <td>edu.odu.cs.zeil.codegrader.oracle.Token.getSettings() may expose internal representation by returning Token.settings</td>
+            <td>new edu.odu.cs.zeil.codegrader.TestCase(TestCaseProperties) may expose internal representation by storing an externally mutable object into TestCase.properties</td>
          </tr>
          <tr class="detailrow0">
             <td/>
             <td>
-               <p id="d2e146" style="display: none;">
-                  <a href="#EI_EXPOSE_REP">Bug type EI_EXPOSE_REP (click for details)</a>
-                  <br/>In class edu.odu.cs.zeil.codegrader.oracle.Token<br/>In method edu.odu.cs.zeil.codegrader.oracle.Token.getSettings()<br/>Field edu.odu.cs.zeil.codegrader.oracle.Token.settings<br/>At Token.java:[line 21]</p>
+               <p id="d2e137" style="display: none;">
+                  <a href="#EI_EXPOSE_REP2">Bug type EI_EXPOSE_REP2 (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.TestCase<br/>In method new edu.odu.cs.zeil.codegrader.TestCase(TestCaseProperties)<br/>Field edu.odu.cs.zeil.codegrader.TestCase.properties<br/>Local variable named testProperties<br/>At TestCase.java:[line 63]</p>
             </td>
          </tr>
-         <tr class="tablerow1" onclick="toggleRow('d2e79');">
+         <tr class="tablerow1" onclick="toggleRow('d2e168');">
             <td>
                <span class="priority-2">EI2</span>
             </td>
-            <td>new edu.odu.cs.zeil.codegrader.TestCase(TestProperties) may expose internal representation by storing an externally mutable object into TestCase.properties</td>
+            <td>new edu.odu.cs.zeil.codegrader.TestSuite(TestCaseProperties) may expose internal representation by storing an externally mutable object into TestSuite.properties</td>
          </tr>
          <tr class="detailrow1">
             <td/>
             <td>
-               <p id="d2e79" style="display: none;">
+               <p id="d2e168" style="display: none;">
                   <a href="#EI_EXPOSE_REP2">Bug type EI_EXPOSE_REP2 (click for details)</a>
-                  <br/>In class edu.odu.cs.zeil.codegrader.TestCase<br/>In method new edu.odu.cs.zeil.codegrader.TestCase(TestProperties)<br/>Field edu.odu.cs.zeil.codegrader.TestCase.properties<br/>Local variable named testProperties<br/>At TestCase.java:[line 63]</p>
-            </td>
-         </tr>
-         <tr class="tablerow0" onclick="toggleRow('d2e97');">
-            <td>
-               <span class="priority-2">EI2</span>
-            </td>
-            <td>new edu.odu.cs.zeil.codegrader.TestSuite(TestProperties) may expose internal representation by storing an externally mutable object into TestSuite.properties</td>
-         </tr>
-         <tr class="detailrow0">
-            <td/>
-            <td>
-               <p id="d2e97" style="display: none;">
-                  <a href="#EI_EXPOSE_REP2">Bug type EI_EXPOSE_REP2 (click for details)</a>
-                  <br/>In class edu.odu.cs.zeil.codegrader.TestSuite<br/>In method new edu.odu.cs.zeil.codegrader.TestSuite(TestProperties)<br/>Field edu.odu.cs.zeil.codegrader.TestSuite.properties<br/>Local variable named testProperties<br/>At TestSuite.java:[line 10]</p>
-            </td>
-         </tr>
-         <tr class="tablerow1" onclick="toggleRow('d2e128');">
-            <td>
-               <span class="priority-2">EI2</span>
-            </td>
-            <td>new edu.odu.cs.zeil.codegrader.oracle.Scanner(String, Oracle) may expose internal representation by storing an externally mutable object into Scanner.settings</td>
-         </tr>
-         <tr class="detailrow1">
-            <td/>
-            <td>
-               <p id="d2e128" style="display: none;">
-                  <a href="#EI_EXPOSE_REP2">Bug type EI_EXPOSE_REP2 (click for details)</a>
-                  <br/>In class edu.odu.cs.zeil.codegrader.oracle.Scanner<br/>In method new edu.odu.cs.zeil.codegrader.oracle.Scanner(String, Oracle)<br/>Field edu.odu.cs.zeil.codegrader.oracle.Scanner.settings<br/>Local variable named settings<br/>At Scanner.java:[line 12]</p>
-            </td>
-         </tr>
-         <tr class="tablerow0" onclick="toggleRow('d2e162');">
-            <td>
-               <span class="priority-2">EI2</span>
-            </td>
-            <td>new edu.odu.cs.zeil.codegrader.oracle.Token(String, Oracle) may expose internal representation by storing an externally mutable object into Token.settings</td>
-         </tr>
-         <tr class="detailrow0">
-            <td/>
-            <td>
-               <p id="d2e162" style="display: none;">
-                  <a href="#EI_EXPOSE_REP2">Bug type EI_EXPOSE_REP2 (click for details)</a>
-                  <br/>In class edu.odu.cs.zeil.codegrader.oracle.Token<br/>In method new edu.odu.cs.zeil.codegrader.oracle.Token(String, Oracle)<br/>Field edu.odu.cs.zeil.codegrader.oracle.Token.settings<br/>Local variable named theSettings<br/>At Token.java:[line 10]</p>
+                  <br/>In class edu.odu.cs.zeil.codegrader.TestSuite<br/>In method new edu.odu.cs.zeil.codegrader.TestSuite(TestCaseProperties)<br/>Field edu.odu.cs.zeil.codegrader.TestSuite.properties<br/>Local variable named testProperties<br/>At TestSuite.java:[line 10]</p>
             </td>
          </tr>
       </table>
@@ -317,18 +317,83 @@
             <th align="left">Code</th>
             <th align="left">Warning</th>
          </tr>
-         <tr class="tablerow1" onclick="toggleRow('d2e115');">
+         <tr class="tablerow1" onclick="toggleRow('d2e155');">
+            <td>
+               <span class="priority-2">UrF</span>
+            </td>
+            <td>Unread field: edu.odu.cs.zeil.codegrader.TestCaseProperties.grading</td>
+         </tr>
+         <tr class="detailrow1">
+            <td/>
+            <td>
+               <p id="d2e155" style="display: none;">
+                  <a href="#URF_UNREAD_FIELD">Bug type URF_UNREAD_FIELD (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.TestCaseProperties<br/>Field edu.odu.cs.zeil.codegrader.TestCaseProperties.grading<br/>At TestCaseProperties.java:[line 128]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0" onclick="toggleRow('d2e186');">
             <td>
                <span class="priority-2">UrF</span>
             </td>
             <td>Unread field: edu.odu.cs.zeil.codegrader.TestSuite.properties</td>
          </tr>
+         <tr class="detailrow0">
+            <td/>
+            <td>
+               <p id="d2e186" style="display: none;">
+                  <a href="#URF_UNREAD_FIELD">Bug type URF_UNREAD_FIELD (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.TestSuite<br/>Field edu.odu.cs.zeil.codegrader.TestSuite.properties<br/>At TestSuite.java:[line 10]</p>
+            </td>
+         </tr>
+      </table>
+      <h2>
+         <a name="Warnings_STYLE">Dodgy code Warnings</a>
+      </h2>
+      <table class="warningtable" width="100%" cellspacing="0">
+         <tr class="tableheader">
+            <th align="left">Code</th>
+            <th align="left">Warning</th>
+         </tr>
+         <tr class="tablerow1" onclick="toggleRow('d2e82');">
+            <td>
+               <span class="priority-2">UrF</span>
+            </td>
+            <td>Unread public/protected field: edu.odu.cs.zeil.codegrader.OracleProperties.cap</td>
+         </tr>
          <tr class="detailrow1">
             <td/>
             <td>
-               <p id="d2e115" style="display: none;">
-                  <a href="#URF_UNREAD_FIELD">Bug type URF_UNREAD_FIELD (click for details)</a>
-                  <br/>In class edu.odu.cs.zeil.codegrader.TestSuite<br/>Field edu.odu.cs.zeil.codegrader.TestSuite.properties<br/>At TestSuite.java:[line 10]</p>
+               <p id="d2e82" style="display: none;">
+                  <a href="#URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD">Bug type URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.OracleProperties<br/>Field edu.odu.cs.zeil.codegrader.OracleProperties.cap<br/>At OracleProperties.java:[line 48]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0" onclick="toggleRow('d2e95');">
+            <td>
+               <span class="priority-2">UrF</span>
+            </td>
+            <td>Unread public/protected field: edu.odu.cs.zeil.codegrader.OracleProperties.oracle</td>
+         </tr>
+         <tr class="detailrow0">
+            <td/>
+            <td>
+               <p id="d2e95" style="display: none;">
+                  <a href="#URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD">Bug type URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.OracleProperties<br/>Field edu.odu.cs.zeil.codegrader.OracleProperties.oracle<br/>At OracleProperties.java:[line 49]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1" onclick="toggleRow('d2e108');">
+            <td>
+               <span class="priority-2">UrF</span>
+            </td>
+            <td>Unread public/protected field: edu.odu.cs.zeil.codegrader.OracleProperties.ws</td>
+         </tr>
+         <tr class="detailrow1">
+            <td/>
+            <td>
+               <p id="d2e108" style="display: none;">
+                  <a href="#URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD">Bug type URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.OracleProperties<br/>Field edu.odu.cs.zeil.codegrader.OracleProperties.ws<br/>At OracleProperties.java:[line 50]</p>
             </td>
          </tr>
       </table>
@@ -336,6 +401,19 @@
          <a name="Details">Details</a>
       </h1>
       <h2>
+         <a name="CN_IDIOM_NO_SUPER_CALL">CN_IDIOM_NO_SUPER_CALL: clone method does not call super.clone()</a>
+      </h2>
+
+<p> This non-final class defines a clone() method that does not call super.clone().
+If this class ("<i>A</i>") is extended by a subclass ("<i>B</i>"),
+and the subclass <i>B</i> calls super.clone(), then it is likely that
+<i>B</i>'s clone() method will return an object of type <i>A</i>,
+which violates the standard contract for clone().</p>
+
+<p> If all clone() methods call super.clone(), then they are guaranteed
+to use Object.clone(), which always returns an object of the correct type.</p>
+
+    <h2>
          <a name="EI_EXPOSE_REP">EI_EXPOSE_REP: May expose internal representation by returning reference to mutable object</a>
       </h2>
 
@@ -395,6 +473,15 @@ after the call to initLogging, the logger configuration is lost
       </h2>
 
   <p> This field is never read.&nbsp; Consider removing it from the class.</p>
+
+    <h2>
+         <a name="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD">URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD: Unread public/protected field</a>
+      </h2>
+
+  <p> This field is never read.&nbsp;
+The field is public or protected, so perhaps
+    it is intended to be used with classes not seen as part of the analysis. If not,
+consider removing it from the class.</p>
 
     </body>
 </html>

@@ -132,6 +132,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public class <span class="typeNameLabel">Scanner</span>
 extends java.lang.Object</pre>
+<div class="block">Scanner used to break outputs (actual and expected) into discrete tokens.</div>
 </li>
 </ul>
 </div>
@@ -154,7 +155,9 @@ extends java.lang.Object</pre>
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.String,edu.odu.cs.zeil.codegrader.oracle.Oracle)">Scanner</a></span>&#8203;(java.lang.String&nbsp;input,
        <a href="Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Oracle</a>&nbsp;settings)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Create a scanner.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -182,7 +185,9 @@ extends java.lang.Object</pre>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="Token.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Token</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#next()">next</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Advance to the next token.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -216,6 +221,12 @@ extends java.lang.Object</pre>
 <h4>Scanner</h4>
 <pre>public&nbsp;Scanner&#8203;(java.lang.String&nbsp;input,
                <a href="Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Oracle</a>&nbsp;settings)</pre>
+<div class="block">Create a scanner.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>input</code> - the string to be divided into tokens</dd>
+<dd><code>settings</code> - Settings affecting the way that tokens are generated.</dd>
+</dl>
 </li>
 </ul>
 </li>
@@ -235,6 +246,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>hasNext</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;hasNext()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true iff there are more tokens to be found.</dd>
+</dl>
 </li>
 </ul>
 <a id="next()">
@@ -244,6 +259,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>next</h4>
 <pre class="methodSignature">public&nbsp;<a href="Token.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Token</a>&nbsp;next()</pre>
+<div class="block">Advance to the next token.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the current token, before advancing.</dd>
+</dl>
 </li>
 </ul>
 </li>

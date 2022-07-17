@@ -3,7 +3,7 @@
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Assignment.java">
 </file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/FileUtils.java">
-<error line="36" severity="warning" message="Line is longer than 80 characters (found 104)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="37" severity="warning" message="Line is longer than 80 characters (found 104)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Logging.java">
 <error line="12" column="1" severity="warning" message="Utility classes should not have a public or default constructor." source="com.puppycrawl.tools.checkstyle.checks.design.HideUtilityClassConstructorCheck"/>
@@ -12,26 +12,12 @@
 <error line="16" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
 <error line="16" column="12" severity="warning" message="&apos;public&apos; modifier out of order with the JLS suggestions." source="com.puppycrawl.tools.checkstyle.checks.modifier.ModifierOrderCheck"/>
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Properties.java">
-<error line="27" severity="warning" message="Line is longer than 80 characters (found 97)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="38" severity="warning" message="Line is longer than 80 characters (found 82)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="55" column="5" severity="warning" message="Class &apos;Properties&apos; looks like designed for extension (can be subclassed), but the method &apos;getProperty&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;Properties&apos; final or making the method &apos;getProperty&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="55" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="72" column="5" severity="warning" message="Class &apos;Properties&apos; looks like designed for extension (can be subclassed), but the method &apos;getProperty&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;Properties&apos; final or making the method &apos;getProperty&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="72" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="74" severity="warning" message="Line is longer than 80 characters (found 94)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="92" column="17" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="100" severity="warning" message="Line is longer than 80 characters (found 99)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="105" column="5" severity="warning" message="Class &apos;Properties&apos; looks like designed for extension (can be subclassed), but the method &apos;setProperty&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;Properties&apos; final or making the method &apos;setProperty&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="105" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="109" column="5" severity="warning" message="Class &apos;Properties&apos; looks like designed for extension (can be subclassed), but the method &apos;getScope&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;Properties&apos; final or making the method &apos;getScope&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="109" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="113" severity="warning" message="Line is longer than 80 characters (found 106)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="113" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="116" column="9" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="118" column="9" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="122" severity="warning" message="Line is longer than 80 characters (found 92)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="122" column="13" severity="warning" message="Conditional logic can be removed." source="com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanReturnCheck"/>
+<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/OracleProperties.java">
+<error line="18" column="29" severity="warning" message="Variable &apos;oracle&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="24" column="24" severity="warning" message="Variable &apos;cap&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="32" column="30" severity="warning" message="Variable &apos;ws&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="42" column="30" severity="warning" message="Variable &apos;caseSig&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="48" column="30" severity="warning" message="&apos;100&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 </file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Submission.java">
 <error line="18" column="8" severity="warning" message="Unused @param tag for &apos;testDirectory&apos;." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
@@ -43,39 +29,24 @@
 <error line="51" column="5" severity="warning" message="&apos;{&apos; at column 5 should be on the previous line." source="com.puppycrawl.tools.checkstyle.checks.blocks.LeftCurlyCheck"/>
 </file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestCase.java">
-<error line="4" column="8" severity="warning" message="Unused import - java.io.File." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
 <error line="79" column="24" severity="warning" message="Variable &apos;finished&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
 <error line="84" column="24" severity="warning" message="Variable &apos;forceStop&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
 </file>
+<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestCaseProperties.java">
+</file>
+<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestCasePropertiesBase.java">
+<error line="39" column="29" severity="warning" message="Variable &apos;params&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="44" column="24" severity="warning" message="Variable &apos;points&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="49" column="29" severity="warning" message="Variable &apos;launch&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="55" column="29" severity="warning" message="Variable &apos;expected&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="62" column="24" severity="warning" message="Variable &apos;timelimit&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="68" column="30" severity="warning" message="Variable &apos;stderr&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="73" column="35" severity="warning" message="Variable &apos;grading&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+</file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestConfigurationError.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestProperties.java">
-<error line="28" column="8" severity="warning" message="Unused @param tag for &apos;testDirectory&apos;." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
-<error line="34" column="51" severity="warning" message="Expected @param tag for &apos;testName&apos;." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
-<error line="46" column="9" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="48" column="9" severity="warning" message="&apos;else&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="71" column="5" severity="warning" message="Class &apos;TestProperties&apos; looks like designed for extension (can be subclassed), but the method &apos;getParams&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;TestProperties&apos; final or making the method &apos;getParams&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="71" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="75" column="5" severity="warning" message="Class &apos;TestProperties&apos; looks like designed for extension (can be subclassed), but the method &apos;getPoints&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;TestProperties&apos; final or making the method &apos;getPoints&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="75" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="85" column="39" severity="warning" message="&apos;name&apos; hides a field." source="com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck"/>
-<error line="87" column="9" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="90" column="9" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="95" column="5" severity="warning" message="Class &apos;TestProperties&apos; looks like designed for extension (can be subclassed), but the method &apos;getLaunch&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;TestProperties&apos; final or making the method &apos;getLaunch&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="95" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="99" column="5" severity="warning" message="Class &apos;TestProperties&apos; looks like designed for extension (can be subclassed), but the method &apos;getTimelimit&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;TestProperties&apos; final or making the method &apos;getTimelimit&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="99" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="113" column="5" severity="warning" message="Class &apos;TestProperties&apos; looks like designed for extension (can be subclassed), but the method &apos;setLaunch&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;TestProperties&apos; final or making the method &apos;setLaunch&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="113" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="117" column="5" severity="warning" message="Class &apos;TestProperties&apos; looks like designed for extension (can be subclassed), but the method &apos;getTestCaseDirectory&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;TestProperties&apos; final or making the method &apos;getTestCaseDirectory&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="117" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="121" column="5" severity="warning" message="Class &apos;TestProperties&apos; looks like designed for extension (can be subclassed), but the method &apos;getName&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;TestProperties&apos; final or making the method &apos;getName&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="121" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="125" column="5" severity="warning" message="Class &apos;TestProperties&apos; looks like designed for extension (can be subclassed), but the method &apos;getAssignment&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;TestProperties&apos; final or making the method &apos;getAssignment&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="125" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-</file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestSuite.java">
-<error line="6" column="20" severity="warning" message="Variable &apos;properties&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="6" column="24" severity="warning" message="Variable &apos;properties&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
 <error line="9" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
 <error line="13" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
 <error line="17" column="5" severity="warning" message="Class &apos;TestSuite&apos; looks like designed for extension (can be subclassed), but the method &apos;getOutput&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;TestSuite&apos; final or making the method &apos;getOutput&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
@@ -85,46 +56,21 @@
 <error line="25" column="5" severity="warning" message="Class &apos;TestSuite&apos; looks like designed for extension (can be subclassed), but the method &apos;getTime&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;TestSuite&apos; final or making the method &apos;getTime&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
 <error line="25" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
 </file>
+<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestSuitePropertiesBase.java">
+<error line="32" column="35" severity="warning" message="Variable &apos;test&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="37" column="19" severity="warning" message="Variable &apos;build&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+</file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/ExternalOracle.java">
 <error line="5" severity="warning" message="First sentence should end with a period." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
 <error line="13" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
 <error line="28" column="33" severity="warning" message="&apos;100&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/LineBreakToken.java">
-<error line="5" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="9" column="5" severity="warning" message="Class &apos;LineBreakToken&apos; looks like designed for extension (can be subclassed), but the method &apos;equals&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;LineBreakToken&apos; final or making the method &apos;equals&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="9" column="5" severity="warning" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
-<error line="9" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-</file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/NumberToken.java">
-<error line="5" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="9" column="5" severity="warning" message="Class &apos;NumberToken&apos; looks like designed for extension (can be subclassed), but the method &apos;equals&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;NumberToken&apos; final or making the method &apos;equals&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="9" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="15" column="17" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="24" column="21" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="49" column="22" severity="warning" message="&apos;10.0&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="54" column="5" severity="warning" message="Class &apos;NumberToken&apos; looks like designed for extension (can be subclassed), but the method &apos;hashCode&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;NumberToken&apos; final or making the method &apos;hashCode&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="54" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="67" column="22" severity="warning" message="&apos;10.0&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 </file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/Oracle.java">
 </file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/OracleFactory.java">
-<error line="6" column="8" severity="warning" message="Unused import - java.util.ArrayList." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="7" column="8" severity="warning" message="Unused import - java.util.List." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="14" column="1" severity="warning" message="Utility classes should not have a public or default constructor." source="com.puppycrawl.tools.checkstyle.checks.design.HideUtilityClassConstructorCheck"/>
-<error line="16" severity="warning" message="Line is longer than 80 characters (found 97)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="18" severity="warning" message="Line is longer than 80 characters (found 83)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="18" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="38" severity="warning" message="Line is longer than 80 characters (found 90)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="41" severity="warning" message="Line is longer than 80 characters (found 90)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="42" severity="warning" message="Line is longer than 80 characters (found 93)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="44" severity="warning" message="Line is longer than 80 characters (found 90)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="45" severity="warning" message="Line is longer than 80 characters (found 92)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="47" severity="warning" message="Line is longer than 80 characters (found 88)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="48" severity="warning" message="Line is longer than 80 characters (found 92)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="49" severity="warning" message="Line is longer than 80 characters (found 103)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="51" severity="warning" message="Line is longer than 80 characters (found 93)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="52" severity="warning" message="Line is longer than 80 characters (found 92)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/OracleResult.java">
 <error line="7" column="16" severity="warning" message="Variable &apos;score&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
@@ -135,23 +81,8 @@
 <error line="15" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
 </file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/PunctuationToken.java">
-<error line="6" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="10" column="5" severity="warning" message="Class &apos;PunctuationToken&apos; looks like designed for extension (can be subclassed), but the method &apos;equals&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;PunctuationToken&apos; final or making the method &apos;equals&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="10" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="13" column="53" severity="warning" message="&apos;typecast&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
-<error line="15" column="11" severity="warning" message="&apos;else&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="19" column="5" severity="warning" message="Class &apos;PunctuationToken&apos; looks like designed for extension (can be subclassed), but the method &apos;hashCode&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;PunctuationToken&apos; final or making the method &apos;hashCode&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="19" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
 </file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/Scanner.java">
-<error line="10" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="10" column="41" severity="warning" message="&apos;settings&apos; hides a field." source="com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck"/>
-<error line="16" column="39" severity="warning" message="&apos;source&apos; hides a field." source="com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck"/>
-<error line="39" severity="warning" message="Line is longer than 80 characters (found 93)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="139" column="5" severity="warning" message="Class &apos;Scanner&apos; looks like designed for extension (can be subclassed), but the method &apos;hasNext&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;Scanner&apos; final or making the method &apos;hasNext&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="139" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="143" column="5" severity="warning" message="Class &apos;Scanner&apos; looks like designed for extension (can be subclassed), but the method &apos;next&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;Scanner&apos; final or making the method &apos;next&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="143" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
 </file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/SmartOracle.java">
 <error line="16" column="34" severity="warning" message="Name &apos;windowsLineEndings&apos; must match pattern &apos;^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.ConstantNameCheck"/>
@@ -183,30 +114,10 @@
 <error line="135" column="21" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
 </file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/StringToken.java">
-<error line="6" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="10" column="5" severity="warning" message="Class &apos;StringToken&apos; looks like designed for extension (can be subclassed), but the method &apos;equals&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;StringToken&apos; final or making the method &apos;equals&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="10" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="13" column="43" severity="warning" message="&apos;typecast&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
-<error line="16" column="11" severity="warning" message="&apos;else&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="20" column="5" severity="warning" message="Class &apos;StringToken&apos; looks like designed for extension (can be subclassed), but the method &apos;hashCode&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;StringToken&apos; final or making the method &apos;hashCode&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="20" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
 </file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/Token.java">
-<error line="8" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="16" column="5" severity="warning" message="Class &apos;Token&apos; looks like designed for extension (can be subclassed), but the method &apos;getLexeme&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;Token&apos; final or making the method &apos;getLexeme&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="16" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="20" column="5" severity="warning" message="Class &apos;Token&apos; looks like designed for extension (can be subclassed), but the method &apos;getSettings&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;Token&apos; final or making the method &apos;getSettings&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="20" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="24" column="5" severity="warning" message="Class &apos;Token&apos; looks like designed for extension (can be subclassed), but the method &apos;toString&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;Token&apos; final or making the method &apos;toString&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="24" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
 </file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/WhiteSpaceToken.java">
-<error line="5" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="9" column="5" severity="warning" message="Class &apos;WhiteSpaceToken&apos; looks like designed for extension (can be subclassed), but the method &apos;equals&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;WhiteSpaceToken&apos; final or making the method &apos;equals&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="9" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="11" column="53" severity="warning" message="&apos;typecast&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
-<error line="13" column="11" severity="warning" message="&apos;else&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="17" column="5" severity="warning" message="Class &apos;WhiteSpaceToken&apos; looks like designed for extension (can be subclassed), but the method &apos;hashCode&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;WhiteSpaceToken&apos; final or making the method &apos;hashCode&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
-<error line="17" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="23" column="53" severity="warning" message="&apos;typecast&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
 </file>
 </checkstyle>

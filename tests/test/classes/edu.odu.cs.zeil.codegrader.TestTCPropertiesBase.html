@@ -3,17 +3,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="x-ua-compatible" content="IE=edge"/>
-<title>Test results - TestScanner</title>
+<title>Test results - TestTCPropertiesBase</title>
 <link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
 <link href="../css/style.css" rel="stylesheet" type="text/css"/>
 <script src="../js/report.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="content">
-<h1>TestScanner</h1>
+<h1>TestTCPropertiesBase</h1>
 <div class="breadcrumbs">
 <a href="../index.html">all</a> &gt; 
-<a href="../packages/edu.odu.cs.zeil.codegrader.oracle.html">edu.odu.cs.zeil.codegrader.oracle</a> &gt; TestScanner</div>
+<a href="../packages/edu.odu.cs.zeil.codegrader.html">edu.odu.cs.zeil.codegrader</a> &gt; TestTCPropertiesBase</div>
 <div id="summary">
 <table>
 <tr>
@@ -23,7 +23,7 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">7</div>
+<div class="counter">2</div>
 <p>tests</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.124s</div>
+<div class="counter">1.233s</div>
 <p>duration</p>
 </div>
 </td>
@@ -63,6 +63,9 @@
 <li>
 <a href="#tab0">Tests</a>
 </li>
+<li>
+<a href="#tab1">Standard error</a>
+</li>
 </ul>
 <div id="tab0" class="tab">
 <h2>Tests</h2>
@@ -75,41 +78,39 @@
 </tr>
 </thead>
 <tr>
-<td class="success">testIsolatedNumber()</td>
-<td class="success">0.010s</td>
+<td class="success">testRead()</td>
+<td class="success">1.180s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">testIsolatedString1()</td>
-<td class="success">0.006s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testNonWSExtraction()</td>
-<td class="success">0.023s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testNumberFollowedByLetters()</td>
-<td class="success">0.017s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testNumberFollowedByWS()</td>
-<td class="success">0.021s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testPunctString1()</td>
-<td class="success">0.020s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testPunctString2()</td>
-<td class="success">0.027s</td>
+<td class="success">testReadWrite()</td>
+<td class="success">0.053s</td>
 <td class="success">passed</td>
 </tr>
 </table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard error</h2>
+<span class="code">
+<pre>---
+params: &quot;a b c&quot;
+points: 42
+launch: &quot;./myProgram&quot;
+expected: null
+timelimit: null
+stderr: null
+grading:
+- oracle: &quot;edu.odu.cs.zeil.codegrader.oracle.SmartOracle&quot;
+  cap: 100
+  ws: false
+  case: true
+- oracle: &quot;smart&quot;
+  cap: 80
+  ws: false
+  case: false
+
+</pre>
+</span>
 </div>
 </div>
 <div id="footer">

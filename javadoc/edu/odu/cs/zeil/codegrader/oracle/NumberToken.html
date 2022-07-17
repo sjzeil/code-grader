@@ -137,6 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public class <span class="typeNameLabel">NumberToken</span>
 extends <a href="Token.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Token</a></pre>
+<div class="block">A token denoting a number.</div>
 </li>
 </ul>
 </div>
@@ -157,9 +158,11 @@ extends <a href="Token.html" title="class in edu.odu.cs.zeil.codegrader.oracle">
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.String,edu.odu.cs.zeil.codegrader.oracle.Oracle)">NumberToken</a></span>&#8203;(java.lang.String&nbsp;lexeme,
-           <a href="Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Oracle</a>&nbsp;settings)</code></th>
-<td class="colLast">&nbsp;</td>
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.String,double)">NumberToken</a></span>&#8203;(java.lang.String&nbsp;lexeme,
+           double&nbsp;precision)</code></th>
+<td class="colLast">
+<div class="block">Create a token.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -182,7 +185,10 @@ extends <a href="Token.html" title="class in edu.odu.cs.zeil.codegrader.oracle">
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(java.lang.Object&nbsp;actual)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Compares the numeric value of two numbers based upon the precision
+ value recorded for the first number.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>int</code></td>
@@ -195,7 +201,7 @@ extends <a href="Token.html" title="class in edu.odu.cs.zeil.codegrader.oracle">
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;edu.odu.cs.zeil.codegrader.oracle.<a href="Token.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Token</a></h3>
-<code><a href="Token.html#getLexeme()">getLexeme</a>, <a href="Token.html#getSettings()">getSettings</a>, <a href="Token.html#toString()">toString</a></code></li>
+<code><a href="Token.html#getLexeme()">getLexeme</a>, <a href="Token.html#toString()">toString</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
@@ -220,14 +226,21 @@ extends <a href="Token.html" title="class in edu.odu.cs.zeil.codegrader.oracle">
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a id="&lt;init&gt;(java.lang.String,edu.odu.cs.zeil.codegrader.oracle.Oracle)">
+<a id="&lt;init&gt;(java.lang.String,double)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>NumberToken</h4>
 <pre>public&nbsp;NumberToken&#8203;(java.lang.String&nbsp;lexeme,
-                   <a href="Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Oracle</a>&nbsp;settings)</pre>
+                   double&nbsp;precision)</pre>
+<div class="block">Create a token.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>lexeme</code> - the string denoting the number.</dd>
+<dd><code>precision</code> - How close this must be to another number to be
+          judged equal.</dd>
+</dl>
 </li>
 </ul>
 </li>
@@ -247,9 +260,16 @@ extends <a href="Token.html" title="class in edu.odu.cs.zeil.codegrader.oracle">
 <li class="blockList">
 <h4>equals</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;equals&#8203;(java.lang.Object&nbsp;actual)</pre>
+<div class="block">Compares the numeric value of two numbers based upon the precision
+ value recorded for the first number.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="Token.html#equals(java.lang.Object)">equals</a></code>&nbsp;in class&nbsp;<code><a href="Token.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Token</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>actual</code> - another token</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true iff actual is a NumberToken and their values are
+             within the specified precision.</dd>
 </dl>
 </li>
 </ul>
@@ -263,6 +283,8 @@ extends <a href="Token.html" title="class in edu.odu.cs.zeil.codegrader.oracle">
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>hash code.</dd>
 </dl>
 </li>
 </ul>
