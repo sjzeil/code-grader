@@ -1,27 +1,24 @@
 package edu.odu.cs.zeil.codegrader.oracle;
 
+/**
+ * Scanner used to break outputs (actual and expected) into discrete tokens.
+ */
 public class Scanner {
 
 	private String source;
-	private Oracle settings;
+	private double precision;
 	private int pos = 0;
 	private Token next;
 
+	/**
+	 * Create a scanner.
+	 * @param input the string to be divided into tokens
+	 * @param settings Settings affecting the way that tokens are generated.
+	 */
 	public Scanner(String input, Oracle settings) {
 		source = input;
-		this.settings = settings;
+		precision = settings.getPrecision();
 		fetchNext();
-	}
-
-	private int skipWhiteSpace(String source, int startingAt) {
-		char c = source.charAt(startingAt);
-		while (Character.isWhitespace(c) && startingAt < source.length()) {
-			++startingAt;
-			if (startingAt < source.length()) {
-				c = source.charAt(startingAt);
-			}
-		}
-		return startingAt;
 	}
 
 	private Token scanForNumber() {
@@ -36,7 +33,8 @@ public class Scanner {
 				c = source.charAt(pos);
 			}
 		}
-		while (pos < source.length() && canParseAsNumber(source.substring(start, pos + 1))) {
+		while (pos < source.length() 
+				&& canParseAsNumber(source.substring(start, pos + 1))) {
 			pos++;
 		}
 		if (pos > start) {
@@ -48,7 +46,7 @@ public class Scanner {
 		}
 		String lexeme = source.substring(start, pos);
 		if (canParseAsNumber(lexeme)) {
-			return new NumberToken(lexeme, settings);
+			return new NumberToken(lexeme, precision);
 		} else {
 			pos = start;
 			return null;
@@ -69,7 +67,7 @@ public class Scanner {
 		}
 		if (pos > start) {
 			String lexeme = source.substring(start, pos);
-			return new WhiteSpaceToken(lexeme, settings);
+			return new WhiteSpaceToken(lexeme);
 		} else {
 			return null;
 		}
@@ -89,7 +87,7 @@ public class Scanner {
 		}
 		if (pos > start) {
 			String lexeme = source.substring(start, pos);
-			return new StringToken(lexeme, settings);
+			return new StringToken(lexeme);
 		} else {
 			return null;
 		}
@@ -101,7 +99,7 @@ public class Scanner {
 		}
 		String lexeme = source.substring(pos, pos + 1);
 		++pos;
-		return new PunctuationToken(lexeme, settings);
+		return new PunctuationToken(lexeme);
 	}
 
 	private void fetchNext() {
@@ -136,10 +134,18 @@ public class Scanner {
 		}
 	}
 
+	/**
+	 * 
+	 * @return true iff there are more tokens to be found.
+	 */
 	public boolean hasNext() {
 		return next != null;
 	}
 
+	/**
+	 * Advance to the next token.
+	 * @return the current token, before advancing.
+	 */
 	public Token next() {
 		Token tok = next;
 		fetchNext();

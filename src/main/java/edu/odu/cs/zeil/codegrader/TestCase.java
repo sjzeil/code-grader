@@ -175,7 +175,7 @@ public class TestCase {
             Process process = pBuilder.start();
 
             // If there is no standard in content, close the input stream
-            if (stdIn != null) {
+            if (stdIn == null) {
                 OutputStream stdInStr = process.getOutputStream();
                 stdInStr.close();
             }

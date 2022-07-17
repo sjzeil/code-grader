@@ -65,7 +65,7 @@ public class TestTestProperties {
 
 	@Test
 	void testTestCaseBadCase() {
-		assertThrows (FileNotFoundException.class,
+		assertThrows (TestConfigurationError.class,
 	        () -> new TestCaseProperties(asst, "bogus"));
 	}
 

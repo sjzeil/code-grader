@@ -1,28 +1,46 @@
 package edu.odu.cs.zeil.codegrader.oracle;
 
+/**
+ * A token denoting a number.
+ */
 public class NumberToken extends Token {
 
-	public NumberToken(String lexeme, Oracle settings) {
-		super(lexeme, settings);
+	private double delta;
+
+	/**
+	 * Create a token.
+	 * @param lexeme the string denoting the number.
+	 * @param precision How close this must be to another number to be
+	 *          judged equal.
+	 */
+	public NumberToken(String lexeme, double precision) {
+		super(lexeme);
+		delta = precision;
 	}
 
+	/**
+	 * Compares the numeric value of two numbers based upon the precision
+	 * value recorded for the first number.
+	 * @param actual another token
+	 * @return true iff actual is a NumberToken and their values are
+	 *             within the specified precision.
+	 */
 	public boolean equals(Object actual) {
 		if (actual instanceof NumberToken) {
 			NumberToken act = (NumberToken) actual;
 			if (getLexeme().contains(".")) {
-				double delta = getSettings().getPrecision();
-				// Floating point comparison
-				if (delta < 0.0)
-					delta = inferAbsoluteErrorBound(getLexeme());
+				if (delta < 0.0) {
+					inferAbsoluteErrorBound(getLexeme());
+				}
 				Double d1 = Double.parseDouble(getLexeme());
 				Double d2 = Double.parseDouble(act.getLexeme());
 				return (Math.abs(d1 - d2) <= delta);
 			} else {
 				if (act.getLexeme().contains(".")) {
 					// Integer to floating point comparison
-					double delta = getSettings().getPrecision();
-					if (delta < 0.0)
+					if (delta < 0.0) {
 						return false;
+					}
 					Double d1 = Double.parseDouble(getLexeme());
 					Double d2 = Double.parseDouble(act.getLexeme());
 					return (Math.abs(d1 - d2) <= delta);
@@ -40,17 +58,19 @@ public class NumberToken extends Token {
 
 	// Look at the number of digits after the decimal point to
 	// infer the desired precision of comparison.
-	private double inferAbsoluteErrorBound(String lexeme) {
+	private void inferAbsoluteErrorBound(String lexeme) {
 		int decimalPos = lexeme.indexOf('.');
-		double delta = 1.0;
+		delta = 1.0;
 		int k = decimalPos + 1;
 		while (k < lexeme.length()) {
 			++k;
 			delta /= 10.0;
 		}
-		return delta;
 	}
 
+	/**
+	 * @return hash code.
+	 */
 	public int hashCode() {
 		return getLexeme().hashCode();
 	}

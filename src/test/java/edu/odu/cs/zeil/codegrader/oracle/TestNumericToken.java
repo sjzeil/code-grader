@@ -5,87 +5,52 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import edu.odu.cs.zeil.codegrader.Assignment;
-import edu.odu.cs.zeil.codegrader.FileUtils;
-import edu.odu.cs.zeil.codegrader.TestCase;
-import edu.odu.cs.zeil.codegrader.TestCaseProperties;
-import edu.odu.cs.zeil.codegrader.TestConfigurationError;
 
 
-public class TestNumericToken {
+public final class TestNumericToken {
 
-	private Path asstSrcPath = Paths.get("src", "test", "data", "assignment2");
-	private Path testSuitePath = Paths.get("build", "test-data", "assignment2");
-
-	private Assignment asst;
-	private TestCase testCase;
-	
-	@BeforeEach
-	public void setup() throws IOException, TestConfigurationError {
-		testSuitePath.toFile().getParentFile().mkdirs();
-		FileUtils.copyDirectory(asstSrcPath, testSuitePath, 
-			StandardCopyOption.REPLACE_EXISTING);
-
-		asst = new Assignment();
-		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
-		testCase = new TestCase(new TestCaseProperties(asst, "params"));
-	}
-	
-	@AfterEach
-	public void teardown() throws IOException {
-		FileUtils.deleteDirectory(testSuitePath);
-	}
-	
 
 	@Test
 	void testIntegerComparisons() throws FileNotFoundException {
 
-		Oracle settings = new SmartOracle("", testCase);
-		NumberToken a = new NumberToken("42", settings);
-		StringToken b = new StringToken("42", settings);
-		assertThat (a, not(equalTo(b)));
-		NumberToken c = new NumberToken("42", settings);
-		assertThat (a, equalTo(c));
-		NumberToken d = new NumberToken("43", settings);
-		assertThat (a, not(equalTo(d)));
-		NumberToken e = new NumberToken("42.0", settings);
-		assertThat (a, not(equalTo(e)));
-		NumberToken f = new NumberToken("+42", settings);
-		assertThat (a, equalTo(f));
-	    assertThat(new NumberToken("-42", settings), 
-	    		equalTo(new NumberToken("-42", settings)));
+		NumberToken a = new NumberToken("42", -1.0);
+		StringToken b = new StringToken("42");
+		assertThat(a, not(equalTo(b)));
+		NumberToken c = new NumberToken("42", -1.0);
+		assertThat(a, equalTo(c));
+		NumberToken d = new NumberToken("43", -1.0);
+		assertThat(a, not(equalTo(d)));
+		NumberToken e = new NumberToken("42.0", -1.0);
+		assertThat(a, not(equalTo(e)));
+		NumberToken f = new NumberToken("+42", -1.0);
+		assertThat(a, equalTo(f));
+	    assertThat(new NumberToken("-42", -1.0), 
+	    		equalTo(new NumberToken("-42", 0.01)));
 	}
 
 	@Test
 	void testFloatingPointComparisons() throws FileNotFoundException {
-		Oracle settings = new SmartOracle("", testCase);
-		NumberToken a = new NumberToken("42.00", settings);
-		StringToken b = new StringToken("42", settings);
-		assertThat (a, not(equalTo(b)));
-		NumberToken c = new NumberToken("42.01", settings);
-		assertThat (a, equalTo(c));
-		c = new NumberToken("41.99", settings);
-		assertThat (a, equalTo(c));
-		c = new NumberToken("42.009", settings);
-		assertThat (a, equalTo(c));
-		c = new NumberToken("41.991", settings);
-		assertThat (a, equalTo(c));
-		c = new NumberToken("42.011", settings);
-		assertThat (a, not(equalTo(c)));
-		c = new NumberToken("42.899", settings);
-		assertThat (a, not(equalTo(c)));
-		c = new NumberToken("42", settings);
-		assertThat (a, equalTo(c));
-		assertThat (c, not(equalTo(a))); // Intentional asymmetry
+		NumberToken a = new NumberToken("42.00", -1.0);
+		StringToken b = new StringToken("42");
+		assertThat(a, not(equalTo(b)));
+		NumberToken c = new NumberToken("42.01", -1.0);
+		assertThat(a, equalTo(c));
+		c = new NumberToken("41.99", -1.0);
+		assertThat(a, equalTo(c));
+		c = new NumberToken("42.009", -1.0);
+		assertThat(a, equalTo(c));
+		c = new NumberToken("41.991", -1.0);
+		assertThat(a, equalTo(c));
+		c = new NumberToken("42.011", -1.0);
+		assertThat(a, not(equalTo(c)));
+		c = new NumberToken("42.899", -1.0);
+		assertThat(a, not(equalTo(c)));
+		c = new NumberToken("42", -1.0);
+		assertThat(a, equalTo(c));
+		assertThat(c, not(equalTo(a))); // Intentional asymmetry
 		
 	}
 

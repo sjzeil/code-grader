@@ -1,4 +1,4 @@
 test:
   launch: ./dividers
-  timeLimit: 1
+  timelimit: 1
   stderr: 1

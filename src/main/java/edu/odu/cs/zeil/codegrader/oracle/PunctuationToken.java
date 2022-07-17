@@ -1,21 +1,36 @@
 package edu.odu.cs.zeil.codegrader.oracle;
 
+/**
+ * A token representing a punctuation character.
+ */
 public class PunctuationToken extends Token {
 
-
-	public PunctuationToken(String lexeme, Oracle settings) {
-		super(lexeme, settings);
+	/**
+	 * Create a token.
+	 * @param lexeme the punctuation string
+	 */
+	public PunctuationToken(String lexeme) {
+		super(lexeme);
 	}
 
+	/**
+	 * Compare two tokens.
+	 * @param actual the other token
+	 * @return true iff actual is a PunctuationToken and their lexemes match.
+	 */
 	public boolean equals(Object actual) {
 		if (actual instanceof PunctuationToken) {
 			String thisLexeme = getLexeme();
-			PunctuationToken act = (PunctuationToken)actual;
+			PunctuationToken act = (PunctuationToken) actual;
 			return thisLexeme.equals(act.getLexeme()); 
-		} else 
+		} else {
 			return false;
+		}
 	}
 
+	/**
+	 * @return hash code
+	 */
 	public int hashCode() {
 		return getLexeme().hashCode();
 	}

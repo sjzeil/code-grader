@@ -1,4 +1,8 @@
-oracle: [
-  "smart: ws=1,case=1,cap=100",
-  "smart: ws=1,case=0,cap=80",
-]
+grading:
+- oracle: "smart"
+  ws: true
+  case: true
+  cap: 100
+- ws: true
+  case: true
+  cap: 80

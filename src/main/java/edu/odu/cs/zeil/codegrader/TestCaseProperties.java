@@ -1,7 +1,6 @@
 package edu.odu.cs.zeil.codegrader;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
 import java.util.NoSuchElementException;
@@ -144,7 +143,7 @@ public class TestCaseProperties {
         Optional<File> propertyFile = FileUtils.findFile(testDirectory,
                 "." + propertyName);
         if (propertyFile.isPresent()) {
-            return FileUtils.readTextFile(propertyFile.get());
+            return FileUtils.readTextFile(propertyFile.get()).trim();
         } else if (caseValue.isPresent()) {
             return caseValue.get();
         } else if (suiteValue.isPresent()) {
@@ -160,7 +159,7 @@ public class TestCaseProperties {
         Optional<File> propertyFile = FileUtils.findFile(testDirectory,
                 "." + propertyName);
         if (propertyFile.isPresent()) {
-            String value = FileUtils.readTextFile(propertyFile.get());
+            String value = FileUtils.readTextFile(propertyFile.get()).trim();
             try {
                 return Integer.parseInt(value);
             } catch (NumberFormatException ex) {
@@ -185,7 +184,7 @@ public class TestCaseProperties {
         Optional<File> propertyFile = FileUtils.findFile(testDirectory,
                 "." + propertyName);
         if (propertyFile.isPresent()) {
-            String value = FileUtils.readTextFile(propertyFile.get());
+            String value = FileUtils.readTextFile(propertyFile.get()).trim();
             try {
                 return Boolean.parseBoolean(value);
             } catch (NumberFormatException ex) {
@@ -212,6 +211,28 @@ public class TestCaseProperties {
     public File getIn() {
         return stdIn;
     }
+
+
+    /**
+     * The expected output from the program.
+     * 
+     * @return the input path
+     */
+    public String getExpected() {
+        return expected;
+    }
+
+    /**
+     * Should the contents of the standard error stream be appended to
+     * the actual output?  Otherwise output sent by the program to the
+     * standard error stream will be ignored.
+     * 
+     * @return true iff the standard error stream should be appended.
+     */
+    public boolean getStderr() {
+        return stderr;
+    }
+
 
     /**
      * @return command line parameters for running the test case.
