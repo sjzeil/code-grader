@@ -315,4 +315,14 @@ public class TestCaseProperties {
         return assignment.getTestSuiteDirectory();
     }
 
+
+    /**
+     * Permits iteration over the grading options specified
+     * for this test case.
+     * @return iterable over OracleProperties
+     */
+    public Iterable<OracleProperties> getGradingOptions() {
+        return grading;
+    }
+
 }

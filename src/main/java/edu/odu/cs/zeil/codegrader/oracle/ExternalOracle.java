@@ -1,5 +1,6 @@
 package edu.odu.cs.zeil.codegrader.oracle;
 
+import edu.odu.cs.zeil.codegrader.OracleProperties;
 import edu.odu.cs.zeil.codegrader.TestCase;
 
 /**
@@ -10,7 +11,7 @@ import edu.odu.cs.zeil.codegrader.TestCase;
  */
 public class ExternalOracle extends Oracle {
 	
-	public ExternalOracle(String config, TestCase testCase) {
+	public ExternalOracle(OracleProperties config, TestCase testCase) {
 		super(config, testCase);
 	}
 

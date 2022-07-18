@@ -1,10 +1,12 @@
 package edu.odu.cs.zeil.codegrader;
 
 import java.util.Optional;
+import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import edu.odu.cs.zeil.codegrader.oracle.Oracle;
 import edu.odu.cs.zeil.codegrader.oracle.SmartOracle;
 
 public class OracleProperties {
@@ -40,6 +42,44 @@ public class OracleProperties {
      */
     @JsonProperty("case")
     public Optional<Boolean> caseSig;
+
+    /**
+	 * Scoring option for this test case.
+	 */
+    public Optional<Oracle.ScoringOptions> scoring;
+
+
+	/**
+	 * How far floating point numbers may vary and still be considered equal.
+	 * If negative, the comparison precision is derived from the expected
+	 * value. E.g., if the expected value is printed with 2 digits after the
+	 * decimal point, then the precision is 0.01.
+	 */
+    public OptionalDouble precision;
+
+	/**
+	 * Are empty lines counted as part of the evaluation?
+	 */
+	public Optional<Boolean> emptylines;
+
+	/**
+	 * Is punctuation checked during the evaluation?
+	 */
+	public Optional<Boolean> punctuation;
+
+	/**
+	 * Should only numbers be checked, ignoring everything else?
+	 */
+	public Optional<Boolean> numbersonly;
+
+	/**
+	 * Command string to launch an external oracle.
+	 */
+	public Optional<String> command;
+
+
+
+
 
     /**
      * Create a set of oracle properties with the defaults preset.

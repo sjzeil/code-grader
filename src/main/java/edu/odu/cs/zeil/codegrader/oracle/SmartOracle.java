@@ -3,6 +3,7 @@ package edu.odu.cs.zeil.codegrader.oracle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import edu.odu.cs.zeil.codegrader.OracleProperties;
 import edu.odu.cs.zeil.codegrader.TestCase;
 
 /**
@@ -18,7 +19,7 @@ public class SmartOracle extends Oracle {
 	private static final Pattern multiWS = Pattern.compile("[ \t\r\f]+");
 	private static final Pattern multiWsLF = Pattern.compile("[ \t\r\n\f]+");
 
-	public SmartOracle(String config, TestCase testCase) {
+	public SmartOracle(OracleProperties config, TestCase testCase) {
 		super(config, testCase);
 	}
 

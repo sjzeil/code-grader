@@ -76,7 +76,7 @@ public class TestTestCaseOracle {
 		testProperties.setLaunch(launcher);
         
 
-		Path recordedAt = testCase.performTest(student1);
+		Path recordedAt = testCase.performTest(student1, false);
 
 		Path studentGrades = recordingPath.resolve("student1");
 		assertTrue(studentGrades.toFile().exists());

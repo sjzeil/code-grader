@@ -158,4 +158,7 @@ public final class FileUtils {
     private FileUtils() {
     }
 
+    public static void writeTextFile(Path resolve, String output) {
+    }
+
 }

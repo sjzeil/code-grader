@@ -16,6 +16,10 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.odu.cs.zeil.codegrader.oracle.Oracle;
+import edu.odu.cs.zeil.codegrader.oracle.OracleFactory;
+import edu.odu.cs.zeil.codegrader.oracle.OracleResult;
+
 public class TestCase {
 
     /**
@@ -305,12 +309,91 @@ public class TestCase {
      * in the recording directory.
      * 
      * @param submission to evaluate
+     * @param asGold true if the gold version is being run, false if
+     *                      student version is being run.
      * @return path to the recorded results
      */
-    public Path performTest(Submission submission)
+    public Path performTest(Submission submission, boolean asGold)
             throws TestConfigurationError {
-        // TODO
-        return null;
+        executeTest(submission);
+        Path testRecordingDir = properties.getRecordingDirectory()
+            .resolve(submission.getSubmittedBy())
+            .resolve(properties.getName());
+        testRecordingDir.toFile().mkdirs();
+        String testName = properties.getName();
+        String outExtension = (asGold) ? ".expected" : ".out";
+        String timeExtension = (asGold) ? ".timelimit" : ".time";
+        FileUtils.writeTextFile (
+            testRecordingDir.resolve(testName + outExtension), 
+            getOutput());
+        FileUtils.writeTextFile (
+            testRecordingDir.resolve(testName + ".err"), 
+            getErr());
+        String time = "" + getTime() + "\n";
+        FileUtils.writeTextFile (
+            testRecordingDir.resolve(testName + timeExtension), 
+            time);
+        if (crashed()) {
+            FileUtils.writeTextFile (
+                testRecordingDir.resolve(testName + ".message"), 
+                "***Program crashed with status code " 
+                    + statusCode + "\n");
+            if (asGold) {
+                throw new TestConfigurationError(
+                    "Gold version crashed on test " + testName 
+                    + ", status " + statusCode);
+            } else {
+                FileUtils.writeTextFile(
+                    testRecordingDir.resolve(testName + ".score"), 
+                    "0\n");
+            }
+        } else if (!onTime) {
+            FileUtils.writeTextFile (
+                testRecordingDir.resolve(testName + ".message"), 
+                "***Program still running after " + properties.getTimelimit()
+                + " seconds. Shut down.\n");
+            if (asGold) {
+                throw new TestConfigurationError(
+                    "Gold version timed out on test " + testName 
+                    + ", status " + statusCode);
+            } else {
+                FileUtils.writeTextFile(
+                    testRecordingDir.resolve(testName + ".score"), 
+                    "0\n");
+            }
+        } else if (!asGold) {
+            int bestScore = -1;
+            String firstMessage = "";
+            for (OracleProperties option: properties.getGradingOptions()) {
+                Oracle oracle = OracleFactory.getOracle(option, this);
+                OracleResult evaluation = oracle.compare(
+                    properties.getExpected(), 
+                    getOutput());
+                if (evaluation.score > bestScore) {
+                    bestScore = evaluation.score;
+                    if (!firstMessage.equals("")) {
+                        firstMessage = evaluation.message;
+                    }
+                }
+            }
+            if (bestScore < 0) {
+                // No options were explicitly specified. Fall back to default.
+                Oracle oracle = OracleFactory.getOracle(
+                    new OracleProperties(), this);
+                OracleResult evaluation = oracle.compare(
+                    properties.getExpected(), 
+                    getOutput());
+                bestScore = evaluation.score;
+                firstMessage = evaluation.message;
+            }
+            FileUtils.writeTextFile(
+                testRecordingDir.resolve(testName + ".score"), 
+                "" + bestScore + "\n");
+            FileUtils.writeTextFile(
+                    testRecordingDir.resolve(testName + ".message"), 
+                    firstMessage + "\n");
+        }
+        return testRecordingDir;
     }
 
     /**

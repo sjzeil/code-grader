@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.odu.cs.zeil.codegrader.OracleProperties;
 import edu.odu.cs.zeil.codegrader.TestCase;
 
 /**
@@ -106,109 +107,30 @@ public abstract class Oracle {
 	private static Logger logger 
 		= LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-	protected Oracle(final String properties, final TestCase theTestCase) {
+	protected Oracle(
+			final OracleProperties properties, 
+			final TestCase theTestCase) {
 		this.testCase = theTestCase;
-		setProperties(properties);
+		ignoreCase = properties.caseSig.isPresent() ? 
+			!properties.caseSig.get(): false;
+		scoring = properties.scoring.isPresent() ? 
+			properties.scoring.get(): ScoringOptions.All;
+		precision = properties.precision.isPresent() ? 
+			properties.precision.getAsDouble() : -1; 
+		ignoreWS = properties.ws.isPresent() ?
+			!properties.ws.get() : true;
+		ignoreEmptyLines = properties.emptylines.isPresent() ?
+			!properties.emptylines.get() : true;
+		ignorePunctuation = properties.punctuation.isPresent() ?
+			!properties.punctuation.get() : false;
+		numbersOnly = properties.numbersonly.isPresent() ?
+			!properties.numbersonly.get() : false;
+		command = properties.command.isPresent() ?
+			properties.command.get() : "";
+		cap = properties.cap.isPresent() ?
+			properties.cap.getAsInt() : DEFAULT_POINT_CAP;
 	}
 
-	/**
-	 * Parse a properties specification line and set the Oracle properties
-	 * accordingly. Properties are written as a comma-separated
-	 * list of assignments property=value. Values may be quoted with "" or ''.
-	 * 
-	 * @param properties properties specification
-	 */
-	protected void setProperties(final String properties) {
-		// Defaults
-		ignoreCase = false;
-		scoring = ScoringOptions.All;
-		precision = -1; // precision is based on the expected string
-		ignoreWS = true;
-		ignoreEmptyLines = true;
-		ignorePunctuation = false;
-		numbersOnly = false;
-		command = "";
-		cap = DEFAULT_POINT_CAP;
-
-		ArrayList<String> assignments = new ArrayList<>();
-		StringBuilder soFar = new StringBuilder();
-		boolean inSQuote = false;
-		boolean inDQuote = false;
-		int i = 0;
-		while (i < properties.length()) {
-			char c = properties.charAt(i);
-			if ((!inSQuote) && c == '"') {
-				inDQuote = !inDQuote;
-			} else if ((!inDQuote) && c == '\'') {
-				inSQuote = !inSQuote;
-			} else if ((!inDQuote) && (!inSQuote) && c == ',') {
-				if (soFar.length() > 0) {
-					assignments.add(soFar.toString());
-					soFar = new StringBuilder();
-				}
-			} else {
-				soFar.append(c);
-			}
-			++i;
-		}
-		if ((!inDQuote) && (!inSQuote) && soFar.length() > 0) {
-			assignments.add(soFar.toString());
-		}
-
-		for (String assignment : assignments) {
-			int k = assignment.indexOf('=');
-			if (k >= 0) {
-				String propertyName = assignment.substring(0, k).toLowerCase();
-				String valueStr = assignment.substring(k + 1);
-				if (propertyName.equals("case")) {
-					ignoreCase = !parseAsBoolean(valueStr, ignoreCase);
-				} else if (propertyName.equals("scoring")) {
-					valueStr = valueStr.toLowerCase();
-					if (valueStr.equals("all")) {
-						scoring = ScoringOptions.All;
-					} else if (valueStr.equals("byline")) {
-						scoring = ScoringOptions.ByLine;
-					} else if (valueStr.equals("bytoken")) {
-						scoring = ScoringOptions.ByToken;
-					} else {
-						logger.warn("Could not parse scoring value:" 
-							+ valueStr);
-					}
-				} else if (propertyName.equals("precision")) {
-					try {
-						precision = Double.parseDouble(valueStr);
-					} catch (NumberFormatException ex) {
-						logger.warn("Could not parse precision value:"
-							+ valueStr);
-					}
-				} else if (propertyName.equals("ws")) {
-					ignoreWS = !parseAsBoolean(valueStr, ignoreWS);
-				} else if (propertyName.equals("emptylines")) {
-					ignoreEmptyLines = !parseAsBoolean(valueStr,
-						ignoreEmptyLines);
-				} else if (propertyName.equals("punctuation")) {
-					ignorePunctuation = !parseAsBoolean(valueStr,
-						ignoreEmptyLines);
-				} else if (propertyName.equals("numbersonly")) {
-					numbersOnly = parseAsBoolean(valueStr, ignoreEmptyLines);
-					ignoreWS = true;
-				} else if (propertyName.equals("command")) {
-					command = testCase.parameterSubstitution(valueStr);
-				} else if (propertyName.equals("cap")) {
-					try {
-						cap = Integer.parseInt(valueStr);
-					} catch (NumberFormatException ex) {
-						logger.warn("Could not parse cap value:" + valueStr);
-					}
-				} else {
-					logger.warn("Did not recognize property name: "
-						+ propertyName);
-				}
-			} else {
-				logger.warn("Property not set with '=': " + assignment);
-			}
-		}
-	}
 
 	private boolean parseAsBoolean(
 			final String valueString,
@@ -259,7 +181,7 @@ public abstract class Oracle {
 	 * If negative, the comparison precision is derived from the expected
 	 * value. E.g., if the expected value is printed with 2 digits after the
 	 * decimal point, then the precision is 0.01.
-
+	 *
 	 * @return precision used when comparing floating point numbers.
 	 */
 	public double getPrecision() {

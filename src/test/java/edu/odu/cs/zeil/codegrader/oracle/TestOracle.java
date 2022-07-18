@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import edu.odu.cs.zeil.codegrader.Assignment;
 import edu.odu.cs.zeil.codegrader.FileUtils;
+import edu.odu.cs.zeil.codegrader.OracleProperties;
 import edu.odu.cs.zeil.codegrader.TestCase;
 import edu.odu.cs.zeil.codegrader.TestCaseProperties;
 import edu.odu.cs.zeil.codegrader.TestConfigurationError;
@@ -49,7 +53,7 @@ public class TestOracle {
 
 	@Test
 	void testDefaults() throws FileNotFoundException {
-		Oracle oracle = OracleFactory.getOracle("", testCase);
+		Oracle oracle = OracleFactory.getOracle(new OracleProperties(), testCase);
         assertTrue(oracle instanceof SmartOracle);
         assertFalse(oracle.getIgnoreCase());
         assertThat(oracle.getScoring(), is(Oracle.ScoringOptions.All));
@@ -62,8 +66,12 @@ public class TestOracle {
 
     @Test
 	void testImplicitSmartWithSettings() throws FileNotFoundException {
-		Oracle oracle = OracleFactory.getOracle(
-            "case=false,precision=0.01,emptyLines=1,cap=80", testCase);
+        OracleProperties prop = new OracleProperties();
+        prop.caseSig = Optional.of(false);
+        prop.precision = OptionalDouble.of(0.01);
+        prop.emptylines = Optional.of(true);
+        prop.cap = OptionalInt.of(80);
+		Oracle oracle = OracleFactory.getOracle(prop, testCase);
         assertTrue(oracle instanceof SmartOracle);
         assertTrue(oracle.getIgnoreCase());
         assertThat(oracle.getScoring(), is(Oracle.ScoringOptions.All));
@@ -76,8 +84,14 @@ public class TestOracle {
 
     @Test
 	void testSmartByName() throws FileNotFoundException {
-		Oracle oracle = OracleFactory.getOracle(
-            "smart:case=false,precision=0.01,emptyLines=1,cap=80", testCase);
+        OracleProperties prop = new OracleProperties();
+        prop.oracle = Optional.of("smart");
+        prop.caseSig = Optional.of(false);
+        prop.precision = OptionalDouble.of(0.01);
+        prop.emptylines = Optional.of(true);
+        prop.cap = OptionalInt.of(80);
+		
+		Oracle oracle = OracleFactory.getOracle(prop, testCase);
         assertTrue(oracle instanceof SmartOracle);
         assertTrue(oracle.getIgnoreCase());
         assertThat(oracle.getScoring(), is(Oracle.ScoringOptions.All));
@@ -90,7 +104,12 @@ public class TestOracle {
 
     @Test
 	void testCommandByName() throws FileNotFoundException {
-		Oracle oracle = OracleFactory.getOracle("external:command=diff -b,cap=75", testCase);
+        OracleProperties prop = new OracleProperties();
+        prop.oracle = Optional.of("external");
+        prop.command = Optional.of("diff -b");
+        prop.cap = OptionalInt.of(75);
+
+        Oracle oracle = OracleFactory.getOracle(prop, testCase);
         assertTrue(oracle instanceof ExternalOracle);
         assertThat(oracle.getCommand(), is("diff -b"));
         assertThat(oracle.getCap(), is(75));
@@ -98,9 +117,12 @@ public class TestOracle {
 
     @Test
 	void testOracleFromClassName() throws FileNotFoundException {
-		Oracle oracle = OracleFactory.getOracle(
-"edu.odu.cs.zeil.codegrader.oracle.ExternalOracle:scoring=ByLine,WS=true",
-            testCase);
+        OracleProperties prop = new OracleProperties();
+        prop.oracle = Optional.of("edu.odu.cs.zeil.codegrader.oracle.ExternalOracle");
+        prop.scoring = Optional.of(Oracle.ScoringOptions.ByLine);
+        prop.ws = Optional.of(true);
+
+        Oracle oracle = OracleFactory.getOracle(prop, testCase);
         assertTrue(oracle instanceof ExternalOracle);
         assertFalse(oracle.getIgnoreCase());
         assertThat(oracle.getScoring(), is(Oracle.ScoringOptions.ByLine));
