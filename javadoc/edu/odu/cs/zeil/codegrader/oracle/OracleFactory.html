@@ -154,7 +154,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>static <a href="Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Oracle</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getOracle(java.lang.String,edu.odu.cs.zeil.codegrader.TestCase)">getOracle</a></span>&#8203;(java.lang.String&nbsp;oracleSpecification,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getOracle(edu.odu.cs.zeil.codegrader.OracleProperties,edu.odu.cs.zeil.codegrader.TestCase)">getOracle</a></span>&#8203;(<a href="../OracleProperties.html" title="class in edu.odu.cs.zeil.codegrader">OracleProperties</a>&nbsp;option,
          <a href="../TestCase.html" title="class in edu.odu.cs.zeil.codegrader">TestCase</a>&nbsp;testCase)</code></th>
 <td class="colLast">
 <div class="block">Create an instance of an oracle.</div>
@@ -184,19 +184,19 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="getOracle(java.lang.String,edu.odu.cs.zeil.codegrader.TestCase)">
+<a id="getOracle(edu.odu.cs.zeil.codegrader.OracleProperties,edu.odu.cs.zeil.codegrader.TestCase)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getOracle</h4>
-<pre class="methodSignature">public static&nbsp;<a href="Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Oracle</a>&nbsp;getOracle&#8203;(java.lang.String&nbsp;oracleSpecification,
+<pre class="methodSignature">public static&nbsp;<a href="Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Oracle</a>&nbsp;getOracle&#8203;(<a href="../OracleProperties.html" title="class in edu.odu.cs.zeil.codegrader">OracleProperties</a>&nbsp;option,
                                <a href="../TestCase.html" title="class in edu.odu.cs.zeil.codegrader">TestCase</a>&nbsp;testCase)</pre>
 <div class="block">Create an instance of an oracle.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>oracleSpecification</code> - name of the desired oracle, either a
-           predefined shortcut or a fully qualified Java class name</dd>
+<dd><code>option</code> - describes a grading option, including the desired oracle
+                 and the test point cap.</dd>
 <dd><code>testCase</code> - the test case for which this oracle will be used</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>an oracle instance, or null if not oracle can be created.</dd>

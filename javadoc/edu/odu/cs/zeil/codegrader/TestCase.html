@@ -224,7 +224,8 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#performTest(edu.odu.cs.zeil.codegrader.Submission)">performTest</a></span>&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#performTest(edu.odu.cs.zeil.codegrader.Submission,boolean)">performTest</a></span>&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission,
+           boolean&nbsp;asGold)</code></th>
 <td class="colLast">
 <div class="block">Runs the test case and evaluates the results.</div>
 </td>
@@ -326,13 +327,14 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a id="performTest(edu.odu.cs.zeil.codegrader.Submission)">
+<a id="performTest(edu.odu.cs.zeil.codegrader.Submission,boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>performTest</h4>
-<pre class="methodSignature">public&nbsp;java.nio.file.Path&nbsp;performTest&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission)
+<pre class="methodSignature">public&nbsp;java.nio.file.Path&nbsp;performTest&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission,
+                                      boolean&nbsp;asGold)
                                throws <a href="TestConfigurationError.html" title="class in edu.odu.cs.zeil.codegrader">TestConfigurationError</a></pre>
 <div class="block">Runs the test case and evaluates the results.
  The actual output, score, and messages are recorded
@@ -340,6 +342,8 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>submission</code> - to evaluate</dd>
+<dd><code>asGold</code> - true if the gold version is being run, false if
+                      student version is being run.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>path to the recorded results</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>

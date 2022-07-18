@@ -145,6 +145,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Copy an assignment.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/OracleProperties.html#command">command</a></span> - Variable in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/OracleProperties.html" title="class in edu.odu.cs.zeil.codegrader">OracleProperties</a></dt>
+<dd>
+<div class="block">Command string to launch an external oracle.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/oracle/ExternalOracle.html#compare(java.lang.String,java.lang.String)">compare(String, String)</a></span> - Method in class edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/ExternalOracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">ExternalOracle</a></dt>
 <dd>
 <div class="block">Compare two strings to see if one is an acceptable variant of the other.</div>
@@ -185,6 +189,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><a href="edu/odu/cs/zeil/codegrader/oracle/package-summary.html">edu.odu.cs.zeil.codegrader.oracle</a> - package edu.odu.cs.zeil.codegrader.oracle</dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/OracleProperties.html#emptylines">emptylines</a></span> - Variable in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/OracleProperties.html" title="class in edu.odu.cs.zeil.codegrader">OracleProperties</a></dt>
+<dd>
+<div class="block">Are empty lines counted as part of the evaluation?</div>
+</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/oracle/NumberToken.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/NumberToken.html" title="class in edu.odu.cs.zeil.codegrader.oracle">NumberToken</a></dt>
 <dd>
 <div class="block">Compares the numeric value of two numbers based upon the precision
@@ -215,7 +223,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Oracle that works by running an external command</div>
 </dd>
-<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/oracle/ExternalOracle.html#%3Cinit%3E(java.lang.String,edu.odu.cs.zeil.codegrader.TestCase)">ExternalOracle(String, TestCase)</a></span> - Constructor for class edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/ExternalOracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">ExternalOracle</a></dt>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/oracle/ExternalOracle.html#%3Cinit%3E(edu.odu.cs.zeil.codegrader.OracleProperties,edu.odu.cs.zeil.codegrader.TestCase)">ExternalOracle(OracleProperties, TestCase)</a></span> - Constructor for class edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/ExternalOracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">ExternalOracle</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <a id="I:F">
@@ -249,6 +257,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">The expected output from the program.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestCaseProperties.html#getGradingOptions()">getGradingOptions()</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCaseProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestCaseProperties</a></dt>
+<dd>
+<div class="block">Permits iteration over the grading options specified
+ for this test case.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html#getIgnoreCase()">getIgnoreCase()</a></span> - Method in class edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Oracle</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html#getIgnoreEmptyLines()">getIgnoreEmptyLines()</a></span> - Method in class edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Oracle</a></dt>
@@ -271,7 +284,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html#getNumbersOnly()">getNumbersOnly()</a></span> - Method in class edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Oracle</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/oracle/OracleFactory.html#getOracle(java.lang.String,edu.odu.cs.zeil.codegrader.TestCase)">getOracle(String, TestCase)</a></span> - Static method in class edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/OracleFactory.html" title="class in edu.odu.cs.zeil.codegrader.oracle">OracleFactory</a></dt>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/oracle/OracleFactory.html#getOracle(edu.odu.cs.zeil.codegrader.OracleProperties,edu.odu.cs.zeil.codegrader.TestCase)">getOracle(OracleProperties, TestCase)</a></span> - Static method in class edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/OracleFactory.html" title="class in edu.odu.cs.zeil.codegrader.oracle">OracleFactory</a></dt>
 <dd>
 <div class="block">Create an instance of an oracle.</div>
 </dd>
@@ -398,6 +411,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Advance to the next token.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/OracleProperties.html#numbersonly">numbersonly</a></span> - Variable in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/OracleProperties.html" title="class in edu.odu.cs.zeil.codegrader">OracleProperties</a></dt>
+<dd>
+<div class="block">Should only numbers be checked, ignoring everything else?</div>
+</dd>
 <dt><a href="edu/odu/cs/zeil/codegrader/oracle/NumberToken.html" title="class in edu.odu.cs.zeil.codegrader.oracle"><span class="typeNameLink">NumberToken</span></a> - Class in <a href="edu/odu/cs/zeil/codegrader/oracle/package-summary.html">edu.odu.cs.zeil.codegrader.oracle</a></dt>
 <dd>
 <div class="block">A token denoting a number.</div>
@@ -420,7 +437,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Compares expected and actual outputs to determine if they match.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html#%3Cinit%3E(java.lang.String,edu.odu.cs.zeil.codegrader.TestCase)">Oracle(String, TestCase)</a></span> - Constructor for class edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Oracle</a></dt>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html#%3Cinit%3E(edu.odu.cs.zeil.codegrader.OracleProperties,edu.odu.cs.zeil.codegrader.TestCase)">Oracle(OracleProperties, TestCase)</a></span> - Constructor for class edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Oracle</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.ScoringOptions.html" title="enum in edu.odu.cs.zeil.codegrader.oracle"><span class="typeNameLink">Oracle.ScoringOptions</span></a> - Enum in <a href="edu/odu/cs/zeil/codegrader/oracle/package-summary.html">edu.odu.cs.zeil.codegrader.oracle</a></dt>
 <dd>
@@ -459,13 +476,21 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">What message will be recorded when a test passes with 100 pts.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestCase.html#performTest(edu.odu.cs.zeil.codegrader.Submission)">performTest(Submission)</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCase.html" title="class in edu.odu.cs.zeil.codegrader">TestCase</a></dt>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestCase.html#performTest(edu.odu.cs.zeil.codegrader.Submission,boolean)">performTest(Submission, boolean)</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCase.html" title="class in edu.odu.cs.zeil.codegrader">TestCase</a></dt>
 <dd>
 <div class="block">Runs the test case and evaluates the results.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestCasePropertiesBase.html#points">points</a></span> - Variable in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCasePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader">TestCasePropertiesBase</a></dt>
 <dd>
 <div class="block">How many points this test case is worth?</div>
+</dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/OracleProperties.html#precision">precision</a></span> - Variable in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/OracleProperties.html" title="class in edu.odu.cs.zeil.codegrader">OracleProperties</a></dt>
+<dd>
+<div class="block">How far floating point numbers may vary and still be considered equal.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/OracleProperties.html#punctuation">punctuation</a></span> - Variable in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/OracleProperties.html" title="class in edu.odu.cs.zeil.codegrader">OracleProperties</a></dt>
+<dd>
+<div class="block">Is punctuation checked during the evaluation?</div>
 </dd>
 <dt><a href="edu/odu/cs/zeil/codegrader/oracle/PunctuationToken.html" title="class in edu.odu.cs.zeil.codegrader.oracle"><span class="typeNameLink">PunctuationToken</span></a> - Class in <a href="edu/odu/cs/zeil/codegrader/oracle/package-summary.html">edu.odu.cs.zeil.codegrader.oracle</a></dt>
 <dd>
@@ -503,14 +528,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/oracle/OracleResult.html#score">score</a></span> - Variable in class edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/OracleResult.html" title="class in edu.odu.cs.zeil.codegrader.oracle">OracleResult</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/OracleProperties.html#scoring">scoring</a></span> - Variable in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/OracleProperties.html" title="class in edu.odu.cs.zeil.codegrader">OracleProperties</a></dt>
+<dd>
+<div class="block">Scoring option for this test case.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestCaseProperties.html#setLaunch(java.lang.String)">setLaunch(String)</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCaseProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestCaseProperties</a></dt>
 <dd>
 <div class="block">Change the command string used to launch the program under evaluation.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html#setProperties(java.lang.String)">setProperties(String)</a></span> - Method in class edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Oracle</a></dt>
-<dd>
-<div class="block">Parse a properties specification line and set the Oracle properties
- accordingly.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/Assignment.html#setTestSuiteDirectory(java.nio.file.Path)">setTestSuiteDirectory(Path)</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></dt>
 <dd>
@@ -522,7 +546,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Compares expected and actual outputs to determine if they match.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/oracle/SmartOracle.html#%3Cinit%3E(java.lang.String,edu.odu.cs.zeil.codegrader.TestCase)">SmartOracle(String, TestCase)</a></span> - Constructor for class edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/SmartOracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">SmartOracle</a></dt>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/oracle/SmartOracle.html#%3Cinit%3E(edu.odu.cs.zeil.codegrader.OracleProperties,edu.odu.cs.zeil.codegrader.TestCase)">SmartOracle(OracleProperties, TestCase)</a></span> - Constructor for class edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/SmartOracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">SmartOracle</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestCasePropertiesBase.html#stderr">stderr</a></span> - Variable in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCasePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader">TestCasePropertiesBase</a></dt>
 <dd>
@@ -657,6 +681,8 @@ the order they are declared.</div>
 <dd>
 <div class="block">Create a token.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/FileUtils.html#writeTextFile(java.nio.file.Path,java.lang.String)">writeTextFile(Path, String)</a></span> - Static method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/FileUtils.html" title="class in edu.odu.cs.zeil.codegrader">FileUtils</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/OracleProperties.html#ws">ws</a></span> - Variable in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/OracleProperties.html" title="class in edu.odu.cs.zeil.codegrader">OracleProperties</a></dt>
 <dd>
 <div class="block">True iff ws is considered significant - a test can be failed because

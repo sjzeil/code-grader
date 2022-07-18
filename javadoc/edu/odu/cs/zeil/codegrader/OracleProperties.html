@@ -164,9 +164,51 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>java.util.Optional&lt;java.lang.String&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#command">command</a></span></code></th>
+<td class="colLast">
+<div class="block">Command string to launch an external oracle.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>java.util.Optional&lt;java.lang.Boolean&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#emptylines">emptylines</a></span></code></th>
+<td class="colLast">
+<div class="block">Are empty lines counted as part of the evaluation?</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>java.util.Optional&lt;java.lang.Boolean&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#numbersonly">numbersonly</a></span></code></th>
+<td class="colLast">
+<div class="block">Should only numbers be checked, ignoring everything else?</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>java.util.Optional&lt;java.lang.String&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#oracle">oracle</a></span></code></th>
 <td class="colLast">
 <div class="block">Name of the oracle to be employed.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>java.util.OptionalDouble</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#precision">precision</a></span></code></th>
+<td class="colLast">
+<div class="block">How far floating point numbers may vary and still be considered equal.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>java.util.Optional&lt;java.lang.Boolean&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#punctuation">punctuation</a></span></code></th>
+<td class="colLast">
+<div class="block">Is punctuation checked during the evaluation?</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>java.util.Optional&lt;<a href="oracle/Oracle.ScoringOptions.html" title="enum in edu.odu.cs.zeil.codegrader.oracle">Oracle.ScoringOptions</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#scoring">scoring</a></span></code></th>
+<td class="colLast">
+<div class="block">Scoring option for this test case.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -274,7 +316,7 @@ extends java.lang.Object</pre>
 <a id="caseSig">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>caseSig</h4>
 <pre>public&nbsp;java.util.Optional&lt;java.lang.Boolean&gt; caseSig</pre>
@@ -283,6 +325,69 @@ extends java.lang.Object</pre>
  upper/lower case.
  
  Default is false;</div>
+</li>
+</ul>
+<a id="scoring">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>scoring</h4>
+<pre>public&nbsp;java.util.Optional&lt;<a href="oracle/Oracle.ScoringOptions.html" title="enum in edu.odu.cs.zeil.codegrader.oracle">Oracle.ScoringOptions</a>&gt; scoring</pre>
+<div class="block">Scoring option for this test case.</div>
+</li>
+</ul>
+<a id="precision">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>precision</h4>
+<pre>public&nbsp;java.util.OptionalDouble precision</pre>
+<div class="block">How far floating point numbers may vary and still be considered equal.
+ If negative, the comparison precision is derived from the expected
+ value. E.g., if the expected value is printed with 2 digits after the
+ decimal point, then the precision is 0.01.</div>
+</li>
+</ul>
+<a id="emptylines">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>emptylines</h4>
+<pre>public&nbsp;java.util.Optional&lt;java.lang.Boolean&gt; emptylines</pre>
+<div class="block">Are empty lines counted as part of the evaluation?</div>
+</li>
+</ul>
+<a id="punctuation">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>punctuation</h4>
+<pre>public&nbsp;java.util.Optional&lt;java.lang.Boolean&gt; punctuation</pre>
+<div class="block">Is punctuation checked during the evaluation?</div>
+</li>
+</ul>
+<a id="numbersonly">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>numbersonly</h4>
+<pre>public&nbsp;java.util.Optional&lt;java.lang.Boolean&gt; numbersonly</pre>
+<div class="block">Should only numbers be checked, ignoring everything else?</div>
+</li>
+</ul>
+<a id="command">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>command</h4>
+<pre>public&nbsp;java.util.Optional&lt;java.lang.String&gt; command</pre>
+<div class="block">Command string to launch an external oracle.</div>
 </li>
 </ul>
 </li>
