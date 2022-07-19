@@ -8,9 +8,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,13 +24,17 @@ import edu.odu.cs.zeil.codegrader.TestConfigurationError;
 
 public class TestOracle {
 
-	public Path asstSrcPath = Paths.get("src", "test", "data", "assignment2");
-	public Path testSuitePath = Paths.get("build", "test-data", "assignment2");
+	private Path asstSrcPath = Paths.get("src", "test", "data", "assignment2");
+	private Path testSuitePath = Paths.get("build", "test-data", "assignment2");
 	
-	Assignment asst;
-	TestCase testCase;
+	private Assignment asst;
+	private TestCase testCase;
 	
-
+    /**
+     * .
+     * @throws IOException
+     * @throws TestConfigurationError
+     */
 	@BeforeEach
 	public void setup() throws IOException, TestConfigurationError {
 		testSuitePath.toFile().getParentFile().mkdirs();
@@ -45,6 +46,10 @@ public class TestOracle {
 		testCase = new TestCase(new TestCaseProperties(asst, "params"));
 	}
 	
+    /**
+     * .
+     * @throws IOException
+     */
 	@AfterEach
 	public void teardown() throws IOException {
 		FileUtils.deleteDirectory(testSuitePath);
@@ -53,7 +58,8 @@ public class TestOracle {
 
 	@Test
 	void testDefaults() throws FileNotFoundException {
-		Oracle oracle = OracleFactory.getOracle(new OracleProperties(), testCase);
+		Oracle oracle = OracleFactory.getOracle(new OracleProperties(),
+            testCase);
         assertTrue(oracle instanceof SmartOracle);
         assertFalse(oracle.getIgnoreCase());
         assertThat(oracle.getScoring(), is(Oracle.ScoringOptions.All));
@@ -61,66 +67,73 @@ public class TestOracle {
         assertTrue(oracle.getIgnoreWS());
         assertTrue(oracle.getIgnoreEmptyLines());
         assertThat(oracle.getCommand(), is(""));
-        assertThat(oracle.getCap(), is(100));
+        assertThat(oracle.getCap(), is(OracleProperties.DEFAULT_POINT_CAP));
 	}
 
     @Test
 	void testImplicitSmartWithSettings() throws FileNotFoundException {
+        final double tPrecision = 0.01;
+        final int tCap = 80;
         OracleProperties prop = new OracleProperties();
-        prop.caseSig = Optional.of(false);
-        prop.precision = OptionalDouble.of(0.01);
-        prop.emptylines = Optional.of(true);
-        prop.cap = OptionalInt.of(80);
+        prop.caseSig = false;
+        prop.precision = tPrecision;
+        prop.emptyLines = true;
+        prop.cap = tCap;
 		Oracle oracle = OracleFactory.getOracle(prop, testCase);
         assertTrue(oracle instanceof SmartOracle);
         assertTrue(oracle.getIgnoreCase());
         assertThat(oracle.getScoring(), is(Oracle.ScoringOptions.All));
-        assertThat(oracle.getPrecision(), is(0.01));
+        assertThat(oracle.getPrecision(), is(tPrecision));
         assertTrue(oracle.getIgnoreWS());
         assertFalse(oracle.getIgnoreEmptyLines());
         assertThat(oracle.getCommand(), is(""));
-        assertThat(oracle.getCap(), is(80));
+        assertThat(oracle.getCap(), is(tCap));
 	}
 
     @Test
 	void testSmartByName() throws FileNotFoundException {
+        final double tPrecision = 0.01;
+        final int tCap = 80;
+
         OracleProperties prop = new OracleProperties();
-        prop.oracle = Optional.of("smart");
-        prop.caseSig = Optional.of(false);
-        prop.precision = OptionalDouble.of(0.01);
-        prop.emptylines = Optional.of(true);
-        prop.cap = OptionalInt.of(80);
+        prop.oracle = "smart";
+        prop.caseSig = false;
+        prop.precision = tPrecision;
+        prop.emptyLines = true;
+        prop.cap = tCap;
 		
 		Oracle oracle = OracleFactory.getOracle(prop, testCase);
         assertTrue(oracle instanceof SmartOracle);
         assertTrue(oracle.getIgnoreCase());
         assertThat(oracle.getScoring(), is(Oracle.ScoringOptions.All));
-        assertThat(oracle.getPrecision(), is(0.01));
+        assertThat(oracle.getPrecision(), is(tPrecision));
         assertTrue(oracle.getIgnoreWS());
         assertFalse(oracle.getIgnoreEmptyLines());
         assertThat(oracle.getCommand(), is(""));
-        assertThat(oracle.getCap(), is(80));
+        assertThat(oracle.getCap(), is(tCap));
 	}
 
     @Test
 	void testCommandByName() throws FileNotFoundException {
+        final int tCap = 80;
+
         OracleProperties prop = new OracleProperties();
-        prop.oracle = Optional.of("external");
-        prop.command = Optional.of("diff -b");
-        prop.cap = OptionalInt.of(75);
+        prop.oracle = "external";
+        prop.command = "diff -b";
+        prop.cap = tCap;
 
         Oracle oracle = OracleFactory.getOracle(prop, testCase);
         assertTrue(oracle instanceof ExternalOracle);
         assertThat(oracle.getCommand(), is("diff -b"));
-        assertThat(oracle.getCap(), is(75));
+        assertThat(oracle.getCap(), is(tCap));
 	}
 
     @Test
 	void testOracleFromClassName() throws FileNotFoundException {
         OracleProperties prop = new OracleProperties();
-        prop.oracle = Optional.of("edu.odu.cs.zeil.codegrader.oracle.ExternalOracle");
-        prop.scoring = Optional.of(Oracle.ScoringOptions.ByLine);
-        prop.ws = Optional.of(true);
+        prop.oracle = "edu.odu.cs.zeil.codegrader.oracle.ExternalOracle";
+        prop.scoring = Oracle.ScoringOptions.ByLine;
+        prop.ws = true;
 
         Oracle oracle = OracleFactory.getOracle(prop, testCase);
         assertTrue(oracle instanceof ExternalOracle);
@@ -130,7 +143,7 @@ public class TestOracle {
         assertFalse(oracle.getIgnoreWS());
         assertTrue(oracle.getIgnoreEmptyLines());
         assertThat(oracle.getCommand(), is(""));
-        assertThat(oracle.getCap(), is(100));
+        assertThat(oracle.getCap(), is(OracleProperties.DEFAULT_POINT_CAP));
 	}
 
 }

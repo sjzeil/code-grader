@@ -31,11 +31,11 @@ public class TestTCPropertiesBase {
         tcp.points = OptionalInt.of(42);
 
         OracleProperties option1 = new OracleProperties();
-        option1.caseSig = Optional.of(true);
+        option1.caseSig = true;
         OracleProperties option2 = new OracleProperties();
-        option2.oracle = Optional.of("smart");
-        option2.cap = OptionalInt.of(80);
-        option2.caseSig = Optional.of(false);
+        option2.oracle = "smart";
+        option2.cap = 80;
+        option2.caseSig = false;
         tcp.grading.add(option1);
         tcp.grading.add(option2);
 

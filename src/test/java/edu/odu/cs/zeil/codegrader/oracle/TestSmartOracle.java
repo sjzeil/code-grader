@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Optional;
-import java.util.OptionalDouble;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,11 +53,12 @@ public class TestSmartOracle {
 	private String emptyLine =
 	  "76 trombones led the big parade,\n\nWith 110.00 cornets close at hand.";
 	private String badPunct =
-	  "76 trombones led the big parade\nWith 110.00 cornets close at hand.";;
-	
+	  "76 trombones led the big parade\nWith 110.00 cornets close at hand.";
 
+	private static final int OK = OracleProperties.DEFAULT_POINT_CAP;
+	
 	@BeforeEach
-	public void setup() throws IOException, TestConfigurationError {
+	private void setup() throws IOException, TestConfigurationError {
 		testSuitePath.toFile().getParentFile().mkdirs();
 		FileUtils.copyDirectory(asstSrcPath, testSuitePath,
 			StandardCopyOption.REPLACE_EXISTING);
@@ -71,7 +70,7 @@ public class TestSmartOracle {
 	}
 	
 	@AfterEach
-	public void teardown() throws IOException {
+	private void teardown() throws IOException {
 		FileUtils.deleteDirectory(testSuitePath);
 	}
 	
@@ -80,7 +79,7 @@ public class TestSmartOracle {
 	void testDefaults() throws FileNotFoundException {
 		Oracle oracle = new SmartOracle(new OracleProperties(), testCase);
 		OracleResult result = oracle.compare(expected, expected);
-		assertThat(result.score, equalTo(100));
+		assertThat(result.score, equalTo(OracleProperties.DEFAULT_POINT_CAP));
 
 		result = oracle.compare(expected, badWord1);
 		assertThat(result.score, equalTo(0));
@@ -98,13 +97,16 @@ public class TestSmartOracle {
 		assertThat(result.message.contains("Trombones"), is(true));
 
 		result = oracle.compare(expected, ws);
-		assertThat(result.score, equalTo(100));  // By default, whitespace is ignored
+		assertThat(result.score, 
+			equalTo(OK));  // By default, whitespace is ignored
 
 		result = oracle.compare(expected, lineBreak);
-		assertThat(result.score, equalTo(100));  // By default, whitespace is ignored
+		assertThat(result.score, 
+			equalTo(OK));  // By default, whitespace is ignored
 
 		result = oracle.compare(expected, emptyLine);
-		assertThat(result.score, equalTo(100));  // By default, empty lines are ignored
+		assertThat(result.score,
+			equalTo(OK));  // By default, empty lines are ignored
 
 		result = oracle.compare(expected, badPunct);
 		assertThat(result.score, equalTo(0));  
@@ -115,7 +117,7 @@ public class TestSmartOracle {
 	void testNumericCompare() throws FileNotFoundException {
 		Oracle oracle = new SmartOracle(new OracleProperties(), testCase);
 		OracleResult result = oracle.compare(expected, expected);
-		assertThat(result.score, equalTo(100));
+		assertThat(result.score, equalTo(OK));
 
 		result = oracle.compare(expected, numberFormat);
 		assertThat(result.score, equalTo(0));
@@ -138,10 +140,10 @@ public class TestSmartOracle {
 
 	@Test
 	void testIgnoreCase() throws FileNotFoundException {
-		prop.caseSig = Optional.of(false);
+		prop.caseSig = false;
 		Oracle oracle = new SmartOracle(prop, testCase);
 		OracleResult result = oracle.compare(expected, expected);
-		assertThat(result.score, equalTo(100));
+		assertThat(result.score, equalTo(OK));
 
 		result = oracle.compare(expected, badWord1);
 		assertThat(result.score, equalTo(0));
@@ -154,17 +156,20 @@ public class TestSmartOracle {
 		assertThat(result.message.contains("trumpets"), is(true));
 
 		result = oracle.compare(expected, caseVariant);
-		assertThat(result.score, equalTo(100));
+		assertThat(result.score, equalTo(OK));
 		assertThat(result.message, is(Oracle.PASSED_TEST_MESSAGE));
 
 		result = oracle.compare(expected, ws);
-		assertThat(result.score, equalTo(100));  // By default, whitespace is ignored
+		assertThat(result.score,
+			equalTo(OK));  // By default, whitespace is ignored
 
 		result = oracle.compare(expected, lineBreak);
-		assertThat(result.score, equalTo(100));  // By default, whitespace is ignored
+		assertThat(result.score,
+			equalTo(OK));  // By default, whitespace is ignored
 
 		result = oracle.compare(expected, emptyLine);
-		assertThat(result.score, equalTo(100));  // By default, empty lines are ignored
+		assertThat(result.score,
+			equalTo(OK));  // By default, empty lines are ignored
 
 		result = oracle.compare(expected, badPunct);
 		assertThat(result.score, equalTo(0));  
@@ -174,10 +179,10 @@ public class TestSmartOracle {
 
 	@Test
 	void testIgnoreWS() throws FileNotFoundException {
-		prop.ws = Optional.of(true);
+		prop.ws = true;
 		Oracle oracle = new SmartOracle(prop, testCase);
 		OracleResult result = oracle.compare(expected, expected);
-		assertThat(result.score, equalTo(100));
+		assertThat(result.score, equalTo(OK));
 
 		result = oracle.compare(expected, badWord1);
 		assertThat(result.score, equalTo(0));
@@ -195,13 +200,16 @@ public class TestSmartOracle {
 		assertThat(result.message.contains("Trombones"), is(true));
 
 		result = oracle.compare(expected, ws);
-		assertThat(result.score, equalTo(0));  // By default, whitespace is ignored
+		assertThat(result.score, 
+			equalTo(0));  // By default, whitespace is ignored
 
 		result = oracle.compare(expected, lineBreak);
-		assertThat(result.score, equalTo(0));  // By default, whitespace is ignored
+		assertThat(result.score, 
+			equalTo(0));  // By default, whitespace is ignored
 
 		result = oracle.compare(expected, emptyLine);
-		assertThat(result.score, equalTo(100));  // By default, empty lines are ignored
+		assertThat(result.score, 
+			equalTo(OK));  // By default, empty lines are ignored
 
 		result = oracle.compare(expected, badPunct);
 		assertThat(result.score, equalTo(0));  
@@ -211,11 +219,11 @@ public class TestSmartOracle {
 
 	@Test
 	void testIgnoreEmptyLines() throws FileNotFoundException {
-		prop.ws = Optional.of(true);
-		prop.emptylines = Optional.of(true);
+		prop.ws = true;
+		prop.emptyLines = true;
 		Oracle oracle = new SmartOracle(prop, testCase);
 		OracleResult result = oracle.compare(expected, expected);
-		assertThat(result.score, equalTo(100));
+		assertThat(result.score, equalTo(OK));
 
 		result = oracle.compare(expected, badWord1);
 		assertThat(result.score, equalTo(0));
@@ -233,13 +241,16 @@ public class TestSmartOracle {
 		assertThat(result.message.contains("Trombones"), is(true));
 
 		result = oracle.compare(expected, ws);
-		assertThat(result.score, equalTo(0));  // By default, whitespace is ignored
+		assertThat(result.score, 
+			equalTo(0));  // By default, whitespace is ignored
 
 		result = oracle.compare(expected, lineBreak);
-		assertThat(result.score, equalTo(0));  // By default, whitespace is ignored
+		assertThat(result.score, 
+			equalTo(0));  // By default, whitespace is ignored
 
 		result = oracle.compare(expected, emptyLine);
-		assertThat(result.score, equalTo(0));  // By default, empty lines are ignored
+		assertThat(result.score, 
+			equalTo(0));  // By default, empty lines are ignored
 
 		result = oracle.compare(expected, badPunct);
 		assertThat(result.score, equalTo(0));  
@@ -248,10 +259,10 @@ public class TestSmartOracle {
 
 	@Test
 	void testIgnorePunct() throws FileNotFoundException {
-		prop.punctuation = Optional.of(false);
+		prop.punctuation = false;
 		Oracle oracle = new SmartOracle(prop, testCase);
 		OracleResult result = oracle.compare(expected, expected);
-		assertThat(result.score, equalTo(100));
+		assertThat(result.score, equalTo(OK));
 
 		result = oracle.compare(expected, badWord1);
 		assertThat(result.score, equalTo(0));
@@ -269,55 +280,58 @@ public class TestSmartOracle {
 		assertThat(result.message.contains("Trombones"), is(true));
 
 		result = oracle.compare(expected, ws);
-		assertThat(result.score, equalTo(100));  // By default, whitespace is ignored
+		assertThat(result.score, 
+			equalTo(OK));  // By default, whitespace is ignored
 
 		result = oracle.compare(expected, lineBreak);
-		assertThat(result.score, equalTo(100));  // By default, whitespace is ignored
+		assertThat(result.score, 
+			equalTo(OK));  // By default, whitespace is ignored
 
 		result = oracle.compare(expected, emptyLine);
-		assertThat(result.score, equalTo(100));  // By default, empty lines are ignored
+		assertThat(result.score, 
+			equalTo(OK));  // By default, empty lines are ignored
 
 		result = oracle.compare(expected, badPunct);
-		assertThat(result.score, equalTo(100));  
+		assertThat(result.score, equalTo(OK));  
 
 	}
 
 
 	@Test
 	void testNumericPrecision1() throws FileNotFoundException {
-		prop.precision = OptionalDouble.of(0.02);
+		prop.precision = 0.02;
 		Oracle oracle = new SmartOracle(prop, testCase);
 		OracleResult result = oracle.compare(expected, expected);
-		assertThat(result.score, equalTo(100));
+		assertThat(result.score, equalTo(OK));
 
 		result = oracle.compare(expected, numberFormat);
-		assertThat(result.score, equalTo(100));
+		assertThat(result.score, equalTo(OK));
 
 		result = oracle.compare(expected, badNumber1);
 		assertThat(result.score, equalTo(0));
 		assertThat(result.message.contains("76.1"), is(true));
 
 		result = oracle.compare(expected, badFloatHigh);
-		assertThat(result.score, equalTo(100));
+		assertThat(result.score, equalTo(OK));
 
 		result = oracle.compare(expected, badFloatLow);
-		assertThat(result.score, equalTo(100));
+		assertThat(result.score, equalTo(OK));
 	}
 
 
 	@Test
 	void testNumbersOnly() throws FileNotFoundException {
-		prop.ws = Optional.of(false);
-		prop.numbersonly = Optional.of(true);
+		prop.ws = false;
+		prop.numbersOnly = true;
 		Oracle oracle = new SmartOracle(prop, testCase);
 		OracleResult result = oracle.compare(expected, expected);
-		assertThat(result.score, equalTo(100));
+		assertThat(result.score, equalTo(OK));
 
 		String expected1 = "a 42 \n 1.414";
 		String actual1 = "b 42 1.413";
 
 		result = oracle.compare(expected1, actual1);
-		assertThat(result.score, equalTo(100));
+		assertThat(result.score, equalTo(OK));
 
 		String actual2 = "b 42 1.412";
 
@@ -330,10 +344,10 @@ public class TestSmartOracle {
 
 	@Test
 	void testScoringByLine() throws FileNotFoundException {
-		prop.scoring = Optional.of(Oracle.ScoringOptions.ByLine);
+		prop.scoring = Oracle.ScoringOptions.ByLine;
 		Oracle oracle = new SmartOracle(prop, testCase);
 		OracleResult result = oracle.compare(expected, expected);
-		assertThat(result.score, equalTo(100));
+		assertThat(result.score, equalTo(OK));
 
 		result = oracle.compare(expected, badWord1);
 		assertThat(result.score, equalTo(50));
@@ -348,8 +362,8 @@ public class TestSmartOracle {
 
 	@Test
 	void testScoringByToken() throws FileNotFoundException {
-		prop.scoring = Optional.of(Oracle.ScoringOptions.ByLine);
-		prop.ws = Optional.of(false);
+		prop.scoring = Oracle.ScoringOptions.ByToken;
+		prop.ws = false;
 		Oracle oracle = new SmartOracle(prop, testCase);
 		OracleResult result = oracle.compare("1 2 3 a b", "1 2 z a b");
 

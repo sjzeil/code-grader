@@ -27,8 +27,7 @@ public final class OracleFactory {
             OracleProperties option,
             TestCase testCase) {
 
-        String oracleName = 
-            (option.oracle.isPresent()) ? option.oracle.get() : "smart";
+        String oracleName = option.oracle;
         if (oracleName.toLowerCase().equals("smart")) {
             return new SmartOracle(option, testCase);
         } else if (oracleName.toLowerCase().equals("external")) {
@@ -38,7 +37,7 @@ public final class OracleFactory {
                 Class<?> oracleClass = Class.forName(oracleName);
                 Class<?>[] argTypes = new Class<?>[2];
                 Object[] args = new Object[2];
-                argTypes[0] = "".getClass();
+                argTypes[0] = option.getClass();
                 args[0] = option;
                 argTypes[1] = testCase.getClass();
                 args[1] = testCase;

@@ -4,13 +4,19 @@ import edu.odu.cs.zeil.codegrader.OracleProperties;
 import edu.odu.cs.zeil.codegrader.TestCase;
 
 /**
- * Oracle that works by running an external command
+ * Oracle that works by running an external command.
  * 
  * @author zeil
  *
  */
 public class ExternalOracle extends Oracle {
 	
+	/**
+	 * Create an oracle that launches an external command.
+	 * 
+	 * @param config properties
+	 * @param testCase the test case on which it is applied
+	 */
 	public ExternalOracle(OracleProperties config, TestCase testCase) {
 		super(config, testCase);
 	}
@@ -26,7 +32,7 @@ public class ExternalOracle extends Oracle {
 	@Override
 	public OracleResult compare(String expected, String actual) {
         //TODO
-		return new OracleResult(100, "");
+		return new OracleResult(OracleProperties.DEFAULT_POINT_CAP, "");
 	}
 
 }

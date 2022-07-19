@@ -1,7 +1,6 @@
 package edu.odu.cs.zeil.codegrader.oracle;
 
 import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +16,6 @@ import edu.odu.cs.zeil.codegrader.TestCase;
  */
 public abstract class Oracle {
 
-	/**
-	 * Max number of points scored by a test case.
-	 */
-	private static final int DEFAULT_POINT_CAP = 100;
 
 	/**
 	 * Possible scoring options for test cases.
@@ -111,24 +106,15 @@ public abstract class Oracle {
 			final OracleProperties properties, 
 			final TestCase theTestCase) {
 		this.testCase = theTestCase;
-		ignoreCase = properties.caseSig.isPresent() ? 
-			!properties.caseSig.get(): false;
-		scoring = properties.scoring.isPresent() ? 
-			properties.scoring.get(): ScoringOptions.All;
-		precision = properties.precision.isPresent() ? 
-			properties.precision.getAsDouble() : -1; 
-		ignoreWS = properties.ws.isPresent() ?
-			!properties.ws.get() : true;
-		ignoreEmptyLines = properties.emptylines.isPresent() ?
-			!properties.emptylines.get() : true;
-		ignorePunctuation = properties.punctuation.isPresent() ?
-			!properties.punctuation.get() : false;
-		numbersOnly = properties.numbersonly.isPresent() ?
-			!properties.numbersonly.get() : false;
-		command = properties.command.isPresent() ?
-			properties.command.get() : "";
-		cap = properties.cap.isPresent() ?
-			properties.cap.getAsInt() : DEFAULT_POINT_CAP;
+		ignoreCase = !properties.caseSig;
+		scoring = properties.scoring;
+		precision = properties.precision;
+		ignoreWS = !properties.ws;
+		ignoreEmptyLines = !properties.emptyLines;
+		ignorePunctuation = !properties.punctuation;
+		numbersOnly = properties.numbersOnly;
+		command = properties.command;
+		cap = properties.cap;
 	}
 
 
