@@ -48,6 +48,7 @@ public class TestTestCaseOracle {
 		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
 		asst.setStagingDirectory(stagingPath);
 		asst.setSubmissionsDirectory(submissionsPath);
+		asst.setRecordingDirectory(recordingPath);
 
 		testProperties = new TestCaseProperties(asst, "params");
 		testCase = new TestCase(testProperties);
@@ -65,7 +66,8 @@ public class TestTestCaseOracle {
 	
 
 	@Test
-	void testPerformTest() throws FileNotFoundException, TestConfigurationError  {
+	void testPerformTest() 
+	throws FileNotFoundException, TestConfigurationError  {
 
 		Submission student1 = new Submission(asst, "student1");
 		String javaHome = System.getProperty("java.home");
@@ -78,12 +80,13 @@ public class TestTestCaseOracle {
 
 		Path recordedAt = testCase.performTest(student1, false);
 
-		Path studentGrades = recordingPath.resolve("student1");
+		Path studentGrades = recordingPath.resolve("student1")
+			.resolve("params");
 		assertTrue(studentGrades.toFile().exists());
-		assertTrue(recordedAt.normalize().equals(studentGrades.normalize()));
-		Path studentTestResults = studentGrades.resolve("params");
+		assertThat(recordedAt.normalize(), equalTo(studentGrades.normalize()));
+		Path studentTestResults = studentGrades;
 		assertTrue(studentTestResults.toFile().exists());
-		Path studentScoreFile = studentTestResults.resolve("test.score");
+		Path studentScoreFile = studentTestResults.resolve("params.score");
 		assertTrue(studentScoreFile.toFile().exists());
 		String scoreContents = FileUtils.readTextFile(
 				studentScoreFile.toFile());

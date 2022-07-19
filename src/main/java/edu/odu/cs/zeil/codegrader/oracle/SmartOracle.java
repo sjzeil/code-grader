@@ -14,11 +14,17 @@ import edu.odu.cs.zeil.codegrader.TestCase;
  */
 public class SmartOracle extends Oracle {
 
-	private static final Pattern windowsLineEndings = Pattern.compile("\r\n");
-	private static final Pattern multiLF = Pattern.compile("\n\n+");
-	private static final Pattern multiWS = Pattern.compile("[ \t\r\f]+");
-	private static final Pattern multiWsLF = Pattern.compile("[ \t\r\n\f]+");
+	private static final Pattern WINDOWS_LINE_ENDINGS = Pattern.compile("\r\n");
+	private static final Pattern MULTI_LF = Pattern.compile("\n\n+");
+	private static final Pattern MULTI_WS = Pattern.compile("[ \t\r\f]+");
+	private static final Pattern MULTI_WS_LF = Pattern.compile("[ \t\r\n\f]+");
 
+	/**
+	 * Create a new smart oracle.
+	 * 
+	 * @param config   configuration properties
+	 * @param testCase the test case to which this oracle will apply
+	 */
 	public SmartOracle(OracleProperties config, TestCase testCase) {
 		super(config, testCase);
 	}
@@ -27,8 +33,8 @@ public class SmartOracle extends Oracle {
 	 * Compare two strings to see if one is an acceptable variant of the other.
 	 * The precise meaning of "acceptable" depends on the settings.
 	 * 
-	 * @param expected  the expected string
-	 * @param actual  the string being examined
+	 * @param expected the expected string
+	 * @param actual   the string being examined
 	 * @return true if actual is an acceptable variant of expected.
 	 */
 	@Override
@@ -59,15 +65,20 @@ public class SmartOracle extends Oracle {
 				if (!expectedToken.equals(actualToken)) {
 					lineOK = false;
 					if (noFailuresSoFar) {
-						message = "expected: " + expectedToken + "\nobserved: " + actualToken;
+						message = "expected: " + expectedToken
+								+ "\nobserved: " + actualToken;
 						noFailuresSoFar = false;
 					}
-				 } else {
-					if (!(expectedToken instanceof WhiteSpaceToken) || !getIgnoreWS())
+				} else {
+					if (!(expectedToken instanceof WhiteSpaceToken)
+							|| !getIgnoreWS()) {
 						++correctTokens;
-				 }
-				 if (!(expectedToken instanceof WhiteSpaceToken) || !getIgnoreWS())
-				 	++tokenCount;
+					}
+				}
+				if (!(expectedToken instanceof WhiteSpaceToken)
+						|| !getIgnoreWS()) {
+					++tokenCount;
+				}
 			}
 			if (expectedTokens.hasNext()) {
 				lineOK = false;
@@ -76,8 +87,10 @@ public class SmartOracle extends Oracle {
 					noFailuresSoFar = false;
 					while ((expectedTokens.hasNext())) {
 						Token expectedToken = expectedTokens.next();
-						if (!(expectedToken instanceof WhiteSpaceToken) || !getIgnoreWS())
+						if (!(expectedToken instanceof WhiteSpaceToken)
+								|| !getIgnoreWS()) {
 							++tokenCount;
+						}
 					}
 				}
 			} else if (actualTokens.hasNext()) {
@@ -87,13 +100,16 @@ public class SmartOracle extends Oracle {
 					noFailuresSoFar = false;
 					while ((actualTokens.hasNext())) {
 						Token actualToken = actualTokens.next();
-						if (!(actualToken instanceof WhiteSpaceToken) || !getIgnoreWS())
+						if (!(actualToken instanceof WhiteSpaceToken)
+							|| !getIgnoreWS()) {
 							++tokenCount;
+							}
 					}
 				}
-			}	
-			if (lineOK)
+			}
+			if (lineOK) {
 				++correctLines;
+			}
 		}
 		if (expectedLines.length > actualLines.length) {
 			if (noFailuresSoFar) {
@@ -109,22 +125,23 @@ public class SmartOracle extends Oracle {
 			}
 		}
 		if (getScoring() == ScoringOptions.All) {
-			return new OracleResult(((noFailuresSoFar) ? getCap(): 0), message);
+			return new OracleResult((
+				(noFailuresSoFar) ? getCap() : 0), message);
 		} else if (getScoring() == ScoringOptions.ByLine) {
-			double score = ((double)correctLines) / ((double)lineCount);
-			score *= (double)getCap();
-			int iScore = (int)(score + 0.5);
+			double score = ((double) correctLines) / ((double) lineCount);
+			score *= (double) getCap();
+			int iScore = (int) Math.round(score);
 			return new OracleResult(iScore, message);
 		} else { // ByToken
-			double score = ((double)correctTokens) / ((double)tokenCount);
-			score *= (double)getCap();
-			int iScore = (int)(score + 0.5);
+			double score = ((double) correctTokens) / ((double) tokenCount);
+			score *= (double) getCap();
+			int iScore = (int) Math.round(score);
 			return new OracleResult(iScore, message);
 		}
 	}
 
 	private String preprocess(String str) {
-		Matcher leMatcher = windowsLineEndings.matcher(str);
+		Matcher leMatcher = WINDOWS_LINE_ENDINGS.matcher(str);
 		String result = leMatcher.replaceAll("\n");
 		if (getNumbersOnly()) {
 			StringBuilder numbersTokens = new StringBuilder();
@@ -133,8 +150,9 @@ public class SmartOracle extends Oracle {
 			while (scanner.hasNext()) {
 				Token token = scanner.next();
 				if (token instanceof NumberToken) {
-					if (!first)
+					if (!first) {
 						numbersTokens.append(' ');
+					}
 					numbersTokens.append(token.getLexeme());
 				}
 			}
@@ -158,22 +176,20 @@ public class SmartOracle extends Oracle {
 				result = result.toLowerCase();
 			}
 			if (getIgnoreEmptyLines()) {
-				Matcher lfMatcher = multiLF.matcher(result);
+				Matcher lfMatcher = MULTI_LF.matcher(result);
 				result = lfMatcher.replaceAll("\n");
 			}
 			if (getIgnoreWS()) {
 				if (getScoring() == ScoringOptions.ByLine) {
-					Matcher wsMatcher = multiWS.matcher(result);
+					Matcher wsMatcher = MULTI_WS.matcher(result);
 					result = wsMatcher.replaceAll(" ");
 				} else {
-					Matcher wsLfMatcher = multiWsLF.matcher(result);
+					Matcher wsLfMatcher = MULTI_WS_LF.matcher(result);
 					result = wsLfMatcher.replaceAll(" ");
 				}
 			}
 		}
 		return result;
 	}
-
-
 
 }

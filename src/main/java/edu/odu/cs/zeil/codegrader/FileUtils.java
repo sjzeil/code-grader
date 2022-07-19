@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
@@ -158,7 +159,22 @@ public final class FileUtils {
     private FileUtils() {
     }
 
-    public static void writeTextFile(Path resolve, String output) {
+    /**
+     * WWrite a string into a file.
+     * @param destination path at which to write
+     * @param outputString string to write
+     * @throws TestConfigurationError if file cannot be written.
+     */
+    public static void writeTextFile(Path destination, String outputString)
+            throws TestConfigurationError {
+        try (FileWriter output = new FileWriter(destination.toFile())) {
+            output.write(outputString);
+        } catch (IOException ex) {
+            String message = "Could not write to " 
+                + destination.toString();
+            LOG.error(message, ex);
+            throw new TestConfigurationError(message + "\n" + ex.getMessage());
+        }
     }
 
 }

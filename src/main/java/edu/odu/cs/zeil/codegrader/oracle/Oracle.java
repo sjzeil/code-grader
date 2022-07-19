@@ -1,10 +1,5 @@
 package edu.odu.cs.zeil.codegrader.oracle;
 
-import java.lang.invoke.MethodHandles;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import edu.odu.cs.zeil.codegrader.OracleProperties;
 import edu.odu.cs.zeil.codegrader.TestCase;
 
@@ -96,11 +91,6 @@ public abstract class Oracle {
 	 */
 	private TestCase testCase;
 
-	/**
-	 * Logger.
-	 */
-	private static Logger logger 
-		= LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	protected Oracle(
 			final OracleProperties properties, 
@@ -117,23 +107,6 @@ public abstract class Oracle {
 		cap = properties.cap;
 	}
 
-
-	private boolean parseAsBoolean(
-			final String valueString,
-			final boolean defaultValue) {
-		String valueStr = valueString.toLowerCase();
-		if (valueStr.equals("true") || valueStr.equals("t")
-				|| valueStr.equals("yes") || valueStr.equals("y")
-				|| valueStr.equals("1")) {
-			return true;
-		} else if (valueStr.equals("false") || valueStr.equals("f") 
-				|| valueStr.equals("no") || valueStr.equals("n")
-				|| valueStr.equals("0")) {
-			return false;
-		} else {
-			return defaultValue;
-		}
-	}
 
 	/**
 	 * Compare two strings to see if one is an acceptable variant of the other.

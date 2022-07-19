@@ -192,20 +192,20 @@ public class TestCase {
 
             onTime = process.waitFor(timeLimit, TimeUnit.SECONDS);
             if (onTime) {
-                final int deciSeconds = 100;
-                final int deciSecondsPerSecond = 10;
-                for (int t = 0; t < deciSecondsPerSecond; ++t) { 
+                final int tenthSeconds = 100;
+                final int tenthSecondsPerSecond = 10;
+                for (int t = 0; t < tenthSecondsPerSecond; ++t) { 
                     // Wait up to 1 sec for readers to finish
                     if (stdInReader.finished && stdErrReader.finished) {
                         break;
                     }
-                    Thread.sleep(deciSeconds); // wait .1 sec then check again
+                    Thread.sleep(tenthSeconds); // wait .1 sec then check again
                 }
                 if (!stdInReader.finished) {
                     stdInReader.forceStop = true;
                     stdErrReader.forceStop = true;
                 }
-                Thread.sleep(deciSeconds); // wait .1 sec after signaling
+                Thread.sleep(tenthSeconds); // wait .1 sec after signaling
                                            // for a finish
                 if (!stdErrReader.finished) {
                     stdErrReader.interrupt();
@@ -323,18 +323,18 @@ public class TestCase {
         String testName = properties.getName();
         String outExtension = (asGold) ? ".expected" : ".out";
         String timeExtension = (asGold) ? ".timelimit" : ".time";
-        FileUtils.writeTextFile (
+        FileUtils.writeTextFile(
             testRecordingDir.resolve(testName + outExtension), 
             getOutput());
-        FileUtils.writeTextFile (
+        FileUtils.writeTextFile(
             testRecordingDir.resolve(testName + ".err"), 
             getErr());
         String time = "" + getTime() + "\n";
-        FileUtils.writeTextFile (
+        FileUtils.writeTextFile(
             testRecordingDir.resolve(testName + timeExtension), 
             time);
         if (crashed()) {
-            FileUtils.writeTextFile (
+            FileUtils.writeTextFile(
                 testRecordingDir.resolve(testName + ".message"), 
                 "***Program crashed with status code " 
                     + statusCode + "\n");
@@ -348,7 +348,7 @@ public class TestCase {
                     "0\n");
             }
         } else if (!onTime) {
-            FileUtils.writeTextFile (
+            FileUtils.writeTextFile(
                 testRecordingDir.resolve(testName + ".message"), 
                 "***Program still running after " + properties.getTimelimit()
                 + " seconds. Shut down.\n");
@@ -383,6 +383,10 @@ public class TestCase {
                 OracleResult evaluation = oracle.compare(
                     properties.getExpected(), 
                     getOutput());
+                float scoreScaling = ((float) oracle.getCap()) 
+                    / ((float) OracleProperties.DEFAULT_POINT_CAP);
+                evaluation.score = Math.round(
+                    scoreScaling * (float) evaluation.score);
                 bestScore = evaluation.score;
                 firstMessage = evaluation.message;
             }
