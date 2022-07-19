@@ -192,9 +192,11 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeTextFile(java.nio.file.Path,java.lang.String)">writeTextFile</a></span>&#8203;(java.nio.file.Path&nbsp;resolve,
-             java.lang.String&nbsp;output)</code></th>
-<td class="colLast">&nbsp;</td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeTextFile(java.nio.file.Path,java.lang.String)">writeTextFile</a></span>&#8203;(java.nio.file.Path&nbsp;destination,
+             java.lang.String&nbsp;outputString)</code></th>
+<td class="colLast">
+<div class="block">WWrite a string into a file.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -317,8 +319,17 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>writeTextFile</h4>
-<pre class="methodSignature">public static&nbsp;void&nbsp;writeTextFile&#8203;(java.nio.file.Path&nbsp;resolve,
-                                 java.lang.String&nbsp;output)</pre>
+<pre class="methodSignature">public static&nbsp;void&nbsp;writeTextFile&#8203;(java.nio.file.Path&nbsp;destination,
+                                 java.lang.String&nbsp;outputString)
+                          throws <a href="TestConfigurationError.html" title="class in edu.odu.cs.zeil.codegrader">TestConfigurationError</a></pre>
+<div class="block">WWrite a string into a file.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>destination</code> - path at which to write</dd>
+<dd><code>outputString</code> - string to write</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="TestConfigurationError.html" title="class in edu.odu.cs.zeil.codegrader">TestConfigurationError</a></code> - if file cannot be written.</dd>
+</dl>
 </li>
 </ul>
 </li>
