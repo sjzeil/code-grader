@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10};
+var data = {"i0":10,"i1":10,"i2":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -152,7 +152,7 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(edu.odu.cs.zeil.codegrader.TestCaseProperties)">TestSuite</a></span>&#8203;(<a href="TestCaseProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestCaseProperties</a>&nbsp;testProperties)</code></th>
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(edu.odu.cs.zeil.codegrader.Assignment)">TestSuite</a></span>&#8203;(<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;asst)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 </table>
@@ -174,23 +174,18 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>java.lang.Object</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getErr()">getErr</a></span>()</code></th>
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#performTests(edu.odu.cs.zeil.codegrader.Submission)">performTests</a></span>&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;student1)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>java.lang.Object</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getOutput()">getOutput</a></span>()</code></th>
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setLaunch(java.lang.String)">setLaunch</a></span>&#8203;(java.lang.String&nbsp;launcher)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>java.lang.Object</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTime()">getTime</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#run()">run</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSelectedTests(java.util.List)">setSelectedTests</a></span>&#8203;(java.util.List&lt;java.lang.String&gt;&nbsp;asList)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 </table>
@@ -217,13 +212,13 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a id="&lt;init&gt;(edu.odu.cs.zeil.codegrader.TestCaseProperties)">
+<a id="&lt;init&gt;(edu.odu.cs.zeil.codegrader.Assignment)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>TestSuite</h4>
-<pre>public&nbsp;TestSuite&#8203;(<a href="TestCaseProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestCaseProperties</a>&nbsp;testProperties)</pre>
+<pre>public&nbsp;TestSuite&#8203;(<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;asst)</pre>
 </li>
 </ul>
 </li>
@@ -236,40 +231,31 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="run()">
+<a id="setLaunch(java.lang.String)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>run</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;run()</pre>
+<h4>setLaunch</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setLaunch&#8203;(java.lang.String&nbsp;launcher)</pre>
 </li>
 </ul>
-<a id="getOutput()">
+<a id="setSelectedTests(java.util.List)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getOutput</h4>
-<pre class="methodSignature">public&nbsp;java.lang.Object&nbsp;getOutput()</pre>
+<h4>setSelectedTests</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setSelectedTests&#8203;(java.util.List&lt;java.lang.String&gt;&nbsp;asList)</pre>
 </li>
 </ul>
-<a id="getErr()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getErr</h4>
-<pre class="methodSignature">public&nbsp;java.lang.Object&nbsp;getErr()</pre>
-</li>
-</ul>
-<a id="getTime()">
+<a id="performTests(edu.odu.cs.zeil.codegrader.Submission)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>getTime</h4>
-<pre class="methodSignature">public&nbsp;java.lang.Object&nbsp;getTime()</pre>
+<h4>performTests</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;performTests&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;student1)</pre>
 </li>
 </ul>
 </li>

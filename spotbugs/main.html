@@ -106,7 +106,7 @@
          <br/>
       </p>
       <h2>Metrics</h2>
-      <p>1114 lines of code analyzed,
+      <p>1111 lines of code analyzed,
 	in 26 classes, 
 	in 2 packages.</p>
       <table width="500" cellpadding="5" cellspacing="2">
@@ -122,18 +122,18 @@
          </tr>
          <tr class="tablerow1">
             <td>Medium Priority Warnings</td>
-            <td align="right">8</td>
-            <td align="right">7.18</td>
+            <td align="right">7</td>
+            <td align="right">6.30</td>
          </tr>
          <tr class="$totalClass">
             <td>
                <b>Total Warnings</b>
             </td>
             <td align="right">
-               <b>10</b>
+               <b>9</b>
             </td>
             <td align="right">
-               <b>8.98</b>
+               <b>8.10</b>
             </td>
          </tr>
       </table>
@@ -193,7 +193,7 @@
             <td>
                <a href="#Warnings_MALICIOUS_CODE">Malicious code vulnerability Warnings</a>
             </td>
-            <td align="right">4</td>
+            <td align="right">3</td>
          </tr>
          <tr class="tablerow0">
             <td>
@@ -206,7 +206,7 @@
                <b>Total</b>
             </td>
             <td align="right">
-               <b>10</b>
+               <b>9</b>
             </td>
          </tr>
       </table>
@@ -359,20 +359,6 @@
                   <br/>In class edu.odu.cs.zeil.codegrader.TestCase<br/>In method new edu.odu.cs.zeil.codegrader.TestCase(TestCaseProperties)<br/>Field edu.odu.cs.zeil.codegrader.TestCase.properties<br/>Local variable named testProperties<br/>At TestCase.java:[line 74]</p>
             </td>
          </tr>
-         <tr class="tablerow0" onclick="toggleRow('d2e174');">
-            <td>
-               <span class="priority-2">EI2</span>
-            </td>
-            <td>new edu.odu.cs.zeil.codegrader.TestSuite(TestCaseProperties) may expose internal representation by storing an externally mutable object into TestSuite.properties</td>
-         </tr>
-         <tr class="detailrow0">
-            <td/>
-            <td>
-               <p id="d2e174" style="display: none;">
-                  <a href="#EI_EXPOSE_REP2">Bug type EI_EXPOSE_REP2 (click for details)</a>
-                  <br/>In class edu.odu.cs.zeil.codegrader.TestSuite<br/>In method new edu.odu.cs.zeil.codegrader.TestSuite(TestCaseProperties)<br/>Field edu.odu.cs.zeil.codegrader.TestSuite.properties<br/>Local variable named testProperties<br/>At TestSuite.java:[line 10]</p>
-            </td>
-         </tr>
       </table>
       <h2>
          <a name="Warnings_PERFORMANCE">Performance Warnings</a>
@@ -382,18 +368,18 @@
             <th align="left">Code</th>
             <th align="left">Warning</th>
          </tr>
-         <tr class="tablerow1" onclick="toggleRow('d2e192');">
+         <tr class="tablerow1" onclick="toggleRow('d2e174');">
             <td>
-               <span class="priority-2">UrF</span>
+               <span class="priority-2">UuF</span>
             </td>
-            <td>Unread field: edu.odu.cs.zeil.codegrader.TestSuite.properties</td>
+            <td>Unused field: edu.odu.cs.zeil.codegrader.TestSuite.properties</td>
          </tr>
          <tr class="detailrow1">
             <td/>
             <td>
-               <p id="d2e192" style="display: none;">
-                  <a href="#URF_UNREAD_FIELD">Bug type URF_UNREAD_FIELD (click for details)</a>
-                  <br/>In class edu.odu.cs.zeil.codegrader.TestSuite<br/>Field edu.odu.cs.zeil.codegrader.TestSuite.properties<br/>At TestSuite.java:[line 10]</p>
+               <p id="d2e174" style="display: none;">
+                  <a href="#UUF_UNUSED_FIELD">Bug type UUF_UNUSED_FIELD (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.TestSuite<br/>Field edu.odu.cs.zeil.codegrader.TestSuite.properties<br/>In TestSuite.java</p>
             </td>
          </tr>
       </table>
@@ -491,10 +477,10 @@ signals unexpected behavior by returning an atypical return value.
 </p>
 
     <h2>
-         <a name="URF_UNREAD_FIELD">URF_UNREAD_FIELD: Unread field</a>
+         <a name="UUF_UNUSED_FIELD">UUF_UNUSED_FIELD: Unused field</a>
       </h2>
 
-  <p> This field is never read.&nbsp; Consider removing it from the class.</p>
+  <p> This field is never used.&nbsp; Consider removing it from the class.</p>
 
     </body>
 </html>
