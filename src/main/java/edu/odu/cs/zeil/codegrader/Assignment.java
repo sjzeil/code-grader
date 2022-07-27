@@ -53,7 +53,7 @@ public class Assignment implements Cloneable {
      * @return the path to the directory containing instructor-supplied
      *         code or null if no instructor's code is supplied.
      */
-    Path getInstructorCodeDirectory() {
+    public Path getInstructorCodeDirectory() {
         return instructorCodeDirectory;
     }
 
@@ -63,7 +63,7 @@ public class Assignment implements Cloneable {
      * @param path the path to use
      * @return the modified assignment
      */
-    Assignment setInstructorCodeDirectory(final Path path) {
+    public Assignment setInstructorCodeDirectory(final Path path) {
         instructorCodeDirectory = path;
         return this;
     }
@@ -77,7 +77,7 @@ public class Assignment implements Cloneable {
      * @return the path to the gold directory or null if no instructor's
      *         solution is being used.
      */
-    Path getGoldDirectory() {
+    public Path getGoldDirectory() {
         return goldDirectory;
     }
 
@@ -87,7 +87,7 @@ public class Assignment implements Cloneable {
      * @param path the path to use
      * @return the modified assignment
      */
-    Assignment setGoldDirectory(final Path path) {
+    public Assignment setGoldDirectory(final Path path) {
         goldDirectory = path;
         return this;
     }
@@ -100,7 +100,7 @@ public class Assignment implements Cloneable {
      * 
      * @return the path to the submissions directory.
      */
-    Path getSubmissionsDirectory() {
+    public Path getSubmissionsDirectory() {
         return submissionsDirectory;
     }
 
@@ -110,7 +110,7 @@ public class Assignment implements Cloneable {
      * @param path the path to use
      * @return the modified assignment
      */
-    Assignment setSubmissionsDirectory(final Path path) {
+    public Assignment setSubmissionsDirectory(final Path path) {
         submissionsDirectory = path;
         return this;
     }
@@ -143,7 +143,7 @@ public class Assignment implements Cloneable {
      * 
      * @return the path to the staging directory.
      */
-    Path getStagingDirectory() {
+    public Path getStagingDirectory() {
         return stagingDirectory;
     }
 
@@ -153,7 +153,7 @@ public class Assignment implements Cloneable {
      * @param path the path to use
      * @return the modified assignment
      */
-    Assignment setStagingDirectory(final Path path) {
+    public Assignment setStagingDirectory(final Path path) {
         stagingDirectory = path; 
         return this;
     }
@@ -164,7 +164,7 @@ public class Assignment implements Cloneable {
      * 
      * @return the path to the recording directory.
      */
-    Path getRecordingDirectory() {
+    public Path getRecordingDirectory() {
         return recordingDirectory;
     }
 
@@ -174,7 +174,7 @@ public class Assignment implements Cloneable {
      * @param path the path to use
      * @return the modified assignment
      */
-    Assignment setRecordingDirectory(final Path path) {
+    public Assignment setRecordingDirectory(final Path path) {
         recordingDirectory = path;
         return this;
     }
@@ -188,7 +188,7 @@ public class Assignment implements Cloneable {
      * 
      * @return the path to the grading template.
      */
-    Path getGradingTemplate() {
+    public Path getGradingTemplate() {
         return gradingTemplate;
     }
 
@@ -198,7 +198,7 @@ public class Assignment implements Cloneable {
      * @param path the path to use
      * @return the modified assignment
      */
-    Assignment setGradingTemplate(final Path path) {
+    public Assignment setGradingTemplate(final Path path) {
         gradingTemplate = path;
         return this;
     }
