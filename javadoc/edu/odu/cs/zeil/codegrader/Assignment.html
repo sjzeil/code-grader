@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -189,13 +189,104 @@ implements java.lang.Cloneable</pre>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getGoldDirectory()">getGoldDirectory</a></span>()</code></th>
+<td class="colLast">
+<div class="block">The gold directory is the location of an instructor's solution to
+ the assignment.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>java.nio.file.Path</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getGradingTemplate()">getGradingTemplate</a></span>()</code></th>
+<td class="colLast">
+<div class="block">The grading template is an Excel spreadsheet in which the instructor
+ can specify how an overall grade for the assignment is to be computed.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>java.nio.file.Path</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getInstructorCodeDirectory()">getInstructorCodeDirectory</a></span>()</code></th>
+<td class="colLast">
+<div class="block">The instructor code directory is the location of an instructor's code
+ intended to be included along with the student-supplied code as part of
+ the total build.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>java.nio.file.Path</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRecordingDirectory()">getRecordingDirectory</a></span>()</code></th>
+<td class="colLast">
+<div class="block">The recording directory is the location where the student code will be
+ compiled and tested.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>java.nio.file.Path</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getStagingDirectory()">getStagingDirectory</a></span>()</code></th>
+<td class="colLast">
+<div class="block">The staging directory is the location where the student code will be
+ compiled and tested.</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><code>java.nio.file.Path</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSubmissionsDirectory()">getSubmissionsDirectory</a></span>()</code></th>
+<td class="colLast">
+<div class="block">The submissions directory is the location of the collected submissions
+ from an entire class.</div>
+</td>
+</tr>
+<tr id="i7" class="rowColor">
+<td class="colFirst"><code>java.nio.file.Path</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTestSuiteDirectory()">getTestSuiteDirectory</a></span>()</code></th>
 <td class="colLast">
 <div class="block">The test suite directory is the location of the test suite
  that will be used to evaluate the submissions.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i8" class="altColor">
+<td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setGoldDirectory(java.nio.file.Path)">setGoldDirectory</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
+<td class="colLast">
+<div class="block">Set the path to the gold directory.</div>
+</td>
+</tr>
+<tr id="i9" class="rowColor">
+<td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setGradingTemplate(java.nio.file.Path)">setGradingTemplate</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
+<td class="colLast">
+<div class="block">Set the path to the recording directory.</div>
+</td>
+</tr>
+<tr id="i10" class="altColor">
+<td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setInstructorCodeDirectory(java.nio.file.Path)">setInstructorCodeDirectory</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
+<td class="colLast">
+<div class="block">Set the path to the instructor code directory.</div>
+</td>
+</tr>
+<tr id="i11" class="rowColor">
+<td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setRecordingDirectory(java.nio.file.Path)">setRecordingDirectory</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
+<td class="colLast">
+<div class="block">Set the path to the recording directory.</div>
+</td>
+</tr>
+<tr id="i12" class="altColor">
+<td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setStagingDirectory(java.nio.file.Path)">setStagingDirectory</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
+<td class="colLast">
+<div class="block">Set the path to the staging directory.</div>
+</td>
+</tr>
+<tr id="i13" class="rowColor">
+<td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSubmissionsDirectory(java.nio.file.Path)">setSubmissionsDirectory</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
+<td class="colLast">
+<div class="block">Set the path to the submissions directory.</div>
+</td>
+</tr>
+<tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setTestSuiteDirectory(java.nio.file.Path)">setTestSuiteDirectory</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
 <td class="colLast">
@@ -245,6 +336,108 @@ implements java.lang.Cloneable</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a id="getInstructorCodeDirectory()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getInstructorCodeDirectory</h4>
+<pre class="methodSignature">public&nbsp;java.nio.file.Path&nbsp;getInstructorCodeDirectory()</pre>
+<div class="block">The instructor code directory is the location of an instructor's code
+ intended to be included along with the student-supplied code as part of
+ the total build. When a gold version (instructor's solution) is
+ available, the instructor code directory will usually be the instructor
+ code directory as well.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the path to the directory containing instructor-supplied
+         code or null if no instructor's code is supplied.</dd>
+</dl>
+</li>
+</ul>
+<a id="setInstructorCodeDirectory(java.nio.file.Path)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setInstructorCodeDirectory</h4>
+<pre class="methodSignature">public&nbsp;<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;setInstructorCodeDirectory&#8203;(java.nio.file.Path&nbsp;path)</pre>
+<div class="block">Set the path to the instructor code directory.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>path</code> - the path to use</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the modified assignment</dd>
+</dl>
+</li>
+</ul>
+<a id="getGoldDirectory()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getGoldDirectory</h4>
+<pre class="methodSignature">public&nbsp;java.nio.file.Path&nbsp;getGoldDirectory()</pre>
+<div class="block">The gold directory is the location of an instructor's solution to
+ the assignment. If available (non-null), the instructor's solution
+ is run prior to each test of the student's submission in order to collect
+ expected output and timing data.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the path to the gold directory or null if no instructor's
+         solution is being used.</dd>
+</dl>
+</li>
+</ul>
+<a id="setGoldDirectory(java.nio.file.Path)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setGoldDirectory</h4>
+<pre class="methodSignature">public&nbsp;<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;setGoldDirectory&#8203;(java.nio.file.Path&nbsp;path)</pre>
+<div class="block">Set the path to the gold directory.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>path</code> - the path to use</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the modified assignment</dd>
+</dl>
+</li>
+</ul>
+<a id="getSubmissionsDirectory()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getSubmissionsDirectory</h4>
+<pre class="methodSignature">public&nbsp;java.nio.file.Path&nbsp;getSubmissionsDirectory()</pre>
+<div class="block">The submissions directory is the location of the collected submissions
+ from an entire class. Each subdirectory of this one represents one 
+ submission and should be named with the identifier of the student who
+ submitted it.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the path to the submissions directory.</dd>
+</dl>
+</li>
+</ul>
+<a id="setSubmissionsDirectory(java.nio.file.Path)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setSubmissionsDirectory</h4>
+<pre class="methodSignature">public&nbsp;<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;setSubmissionsDirectory&#8203;(java.nio.file.Path&nbsp;path)</pre>
+<div class="block">Set the path to the submissions directory.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>path</code> - the path to use</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the modified assignment</dd>
+</dl>
+</li>
+</ul>
 <a id="getTestSuiteDirectory()">
 <!--   -->
 </a>
@@ -270,6 +463,102 @@ implements java.lang.Cloneable</pre>
 <h4>setTestSuiteDirectory</h4>
 <pre class="methodSignature">public&nbsp;<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;setTestSuiteDirectory&#8203;(java.nio.file.Path&nbsp;path)</pre>
 <div class="block">Set the path to the test suite directory.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>path</code> - the path to use</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the modified assignment</dd>
+</dl>
+</li>
+</ul>
+<a id="getStagingDirectory()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getStagingDirectory</h4>
+<pre class="methodSignature">public&nbsp;java.nio.file.Path&nbsp;getStagingDirectory()</pre>
+<div class="block">The staging directory is the location where the student code will be
+ compiled and tested.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the path to the staging directory.</dd>
+</dl>
+</li>
+</ul>
+<a id="setStagingDirectory(java.nio.file.Path)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setStagingDirectory</h4>
+<pre class="methodSignature">public&nbsp;<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;setStagingDirectory&#8203;(java.nio.file.Path&nbsp;path)</pre>
+<div class="block">Set the path to the staging directory.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>path</code> - the path to use</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the modified assignment</dd>
+</dl>
+</li>
+</ul>
+<a id="getRecordingDirectory()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getRecordingDirectory</h4>
+<pre class="methodSignature">public&nbsp;java.nio.file.Path&nbsp;getRecordingDirectory()</pre>
+<div class="block">The recording directory is the location where the student code will be
+ compiled and tested.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the path to the recording directory.</dd>
+</dl>
+</li>
+</ul>
+<a id="setRecordingDirectory(java.nio.file.Path)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setRecordingDirectory</h4>
+<pre class="methodSignature">public&nbsp;<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;setRecordingDirectory&#8203;(java.nio.file.Path&nbsp;path)</pre>
+<div class="block">Set the path to the recording directory.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>path</code> - the path to use</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the modified assignment</dd>
+</dl>
+</li>
+</ul>
+<a id="getGradingTemplate()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getGradingTemplate</h4>
+<pre class="methodSignature">public&nbsp;java.nio.file.Path&nbsp;getGradingTemplate()</pre>
+<div class="block">The grading template is an Excel spreadsheet in which the instructor
+ can specify how an overall grade for the assignment is to be computed.
+ 
+ A report is generated from this spreadsheet for each submission and
+ placed in the recording directory.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the path to the grading template.</dd>
+</dl>
+</li>
+</ul>
+<a id="setGradingTemplate(java.nio.file.Path)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setGradingTemplate</h4>
+<pre class="methodSignature">public&nbsp;<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;setGradingTemplate&#8203;(java.nio.file.Path&nbsp;path)</pre>
+<div class="block">Set the path to the recording directory.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>path</code> - the path to use</dd>
