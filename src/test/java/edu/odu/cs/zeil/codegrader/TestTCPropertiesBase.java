@@ -35,7 +35,7 @@ public class TestTCPropertiesBase {
         assertThat(tcpAsString, containsString("a b c"));
         assertThat(tcpAsString, containsString("./myProgram"));
         assertThat(tcpAsString, containsString("42"));
-        System.err.println(tcpAsString);
+        //System.err.println(tcpAsString);
 
         TestCasePropertiesBase tcp2 
                 = TestCasePropertiesBase.loadYAML(tcpAsString);
