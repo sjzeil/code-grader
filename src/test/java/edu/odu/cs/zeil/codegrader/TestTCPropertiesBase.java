@@ -3,17 +3,9 @@ package edu.odu.cs.zeil.codegrader;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-import java.io.FileNotFoundException;
 
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 
 import java.util.Optional;
 import java.util.OptionalInt;
@@ -45,7 +37,8 @@ public class TestTCPropertiesBase {
         assertThat(tcpAsString, containsString("42"));
         System.err.println(tcpAsString);
 
-        TestCasePropertiesBase tcp2 = TestCasePropertiesBase.loadYAML(tcpAsString);
+        TestCasePropertiesBase tcp2 
+                = TestCasePropertiesBase.loadYAML(tcpAsString);
         assertThat(tcp2.params.get(), equalTo(tcp.params.get()));
         assertThat(tcp2.launch.get(), equalTo(tcp.launch.get()));
         assertThat(tcp2.points.getAsInt(), equalTo(tcp.points.getAsInt()));

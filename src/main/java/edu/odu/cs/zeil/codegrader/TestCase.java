@@ -77,15 +77,31 @@ public class TestCase {
      * from a running process.
      */
     static class StreamReader extends Thread {
+
         /**
          * True iff the thread has stopped due to the data stream being closed.
          */
-        public boolean finished;
+        private boolean finished;
+
+        /**
+         * @return true iff the thread has stopped due to the data stream 
+         *      being closed.
+         */
+        public boolean isFinished() {
+            return finished;
+        }
+
+        /**
+         * Force a stop after the next input is read.
+         */
+        public void setForceStop() {
+            this.forceStop = true;
+        }
 
         /**
          * Setting this to true will force a stop after the next input is read.
          */
-        public boolean forceStop;
+        private boolean forceStop;
 
         /**
          * Data accumulated so far.

@@ -26,13 +26,19 @@ import edu.odu.cs.zeil.codegrader.TestConfigurationError;
 
 public class TestScanner {
 
-	public Path asstSrcPath = Paths.get("src", "test", "data", "assignment2");
-	public Path testSuitePath = Paths.get("build", "test-data", "assignment2");
+	private Path asstSrcPath = Paths.get("src", "test", "data", "assignment2");
+	private Path testSuitePath = Paths.get("build", "test-data", "assignment2");
 	
-	Assignment asst;
-	TestCase testCase;
-	Oracle config;
+	private Assignment asst;
+	private TestCase testCase;
+	private Oracle config;
 
+	/**
+	 * Common setup for tests.
+	 * 
+	 * @throws IOException
+	 * @throws TestConfigurationError
+	 */
 	@BeforeEach
 	public void setup() throws IOException, TestConfigurationError {
 		testSuitePath.toFile().getParentFile().mkdirs();
@@ -45,6 +51,10 @@ public class TestScanner {
 		config = new SmartOracle(new OracleProperties(), testCase);
 	}
 	
+	/**
+	 * Common cleanup for tests.
+	 * @throws IOException
+	 */
 	@AfterEach
 	public void teardown() throws IOException {
 		FileUtils.deleteDirectory(testSuitePath);
@@ -150,7 +160,6 @@ public class TestScanner {
 	void testNonWSExtraction() throws FileNotFoundException {
 		String input = "traveling at -35 mph and\n"
 				+ "then at 42.50 mph, for 120sec";
-				Assignment asst = new Assignment();
 
 		Scanner scanner = new Scanner(input, config);
 		
@@ -158,14 +167,22 @@ public class TestScanner {
 		while (scanner.hasNext()) {
 			tokens.add(scanner.next());
 		}
-		String[] expectedTokenClasses = {"StringToken", "WhiteSpaceToken", "StringToken", "WhiteSpaceToken", "NumberToken", "WhiteSpaceToken", "StringToken", "WhiteSpaceToken", "StringToken",
-			"WhiteSpaceToken", "StringToken", "WhiteSpaceToken", "StringToken", "WhiteSpaceToken", "NumberToken", "WhiteSpaceToken", "StringToken", "PunctuationToken",
-			"WhiteSpaceToken", "StringToken", "WhiteSpaceToken", "NumberToken", "StringToken"}; 
-		String[] expectedLexemes = {"traveling", " ", "at", " ", "-35",  " ", "mph",  " ", "and", "\n",
-				"then", " ", "at", " ", "42.50", " ", "mph", ",",  " ", "for",  " ", "120", "sec"};
+		String[] expectedTokenClasses = {"StringToken", "WhiteSpaceToken",
+			"StringToken", "WhiteSpaceToken", "NumberToken", "WhiteSpaceToken",
+			"StringToken", "WhiteSpaceToken", "StringToken",
+			"WhiteSpaceToken", "StringToken", "WhiteSpaceToken",
+			"StringToken", "WhiteSpaceToken", "NumberToken", "WhiteSpaceToken",
+			"StringToken", "PunctuationToken",
+			"WhiteSpaceToken", "StringToken", "WhiteSpaceToken", "NumberToken",
+			"StringToken"}; 
+		String[] expectedLexemes = {"traveling", " ", "at", " ", "-35",  " ",
+			"mph",  " ", "and", "\n",
+			"then", " ", "at", " ", "42.50", " ", "mph", ",",  " ", "for", 
+			" ", "120", "sec"};
 		assertThat(tokens.size(), equalTo(expectedTokenClasses.length));
 		for (int i = 0; i < tokens.size(); ++i) {
-			assertThat(tokens.get(i).getClass().getName(), endsWith(expectedTokenClasses[i]));
+			assertThat(tokens.get(i).getClass().getName(), 
+				endsWith(expectedTokenClasses[i]));
 			assertThat(tokens.get(i).getLexeme(), equalTo(expectedLexemes[i]));
 		}
 	}
