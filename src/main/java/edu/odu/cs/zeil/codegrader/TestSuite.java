@@ -1,29 +1,37 @@
 package edu.odu.cs.zeil.codegrader;
 
+import java.util.List;
 
 public class TestSuite {
 
-	TestCaseProperties properties;
+	TestSuitePropertiesBase properties;
 	
-	
-    public TestSuite(TestCaseProperties testProperties) {
-    	properties = testProperties;
-    }
 
-    public void run() {
-		// TODO
-    }
 
-    public Object getOutput() {
-        return null;
-    }
+    public TestSuite(Assignment asst) {
+		// TODO Auto-generated constructor stub
+	}
 
-    public Object getErr() {
-        return null;
-    }
 
-    public Object getTime() {
-        return null;
-    }
+
+	public void setLaunch(String launcher) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public void setSelectedTests(List<String> asList) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public void performTests(Submission student1) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

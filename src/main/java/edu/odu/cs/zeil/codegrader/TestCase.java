@@ -9,6 +9,8 @@ import java.io.OutputStream;
 import java.lang.invoke.MethodHandles;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -51,6 +53,11 @@ public class TestCase {
      * True iff last test execution finished in an acceptable time.
      */
     private boolean onTime;
+    
+    /**
+     * Time in seconds of last execution.
+     */
+    private int expiredTime;
 
     /**
      * Error logging.
@@ -70,6 +77,7 @@ public class TestCase {
         crashed = false;
         onTime = true;
         statusCode = 0;
+        expiredTime  = -1;
     }
 
     /**
@@ -192,6 +200,7 @@ public class TestCase {
                 pBuilder.redirectInput(stdIn);
             }
 
+            Instant startTime = Instant.now();
             Process process = pBuilder.start();
 
             // If there is no standard in content, close the input stream
@@ -207,6 +216,11 @@ public class TestCase {
             stdErrReader.start();
 
             onTime = process.waitFor(timeLimit, TimeUnit.SECONDS);
+            Instant stopTime = Instant.now();
+            long elapsed = Duration.between(startTime, stopTime).toMillis();
+            expiredTime = (int)((elapsed+500L)/1000L); // round to closest second
+            
+            
             if (onTime) {
                 final int tenthSeconds = 100;
                 final int tenthSecondsPerSecond = 10;
@@ -484,7 +498,7 @@ public class TestCase {
      * @return time
      */
     public int getTime() {
-        return 0;
+        return expiredTime;
     }
 
     /**

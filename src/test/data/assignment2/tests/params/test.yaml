@@ -4,5 +4,5 @@ grading:
   case: true
   cap: 100
 - ws: true
-  case: true
+  case: false
   cap: 80

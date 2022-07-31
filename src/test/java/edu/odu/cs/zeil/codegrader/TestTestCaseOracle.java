@@ -86,12 +86,57 @@ public class TestTestCaseOracle {
 		assertThat(recordedAt.normalize(), equalTo(studentGrades.normalize()));
 		Path studentTestResults = studentGrades;
 		assertTrue(studentTestResults.toFile().exists());
+		
 		Path studentScoreFile = studentTestResults.resolve("params.score");
 		assertTrue(studentScoreFile.toFile().exists());
 		String scoreContents = FileUtils.readTextFile(
 				studentScoreFile.toFile());
 		scoreContents = scoreContents.trim();
 		assertThat(scoreContents, is("100"));
+		
+		Path studentTimeFile = studentTestResults.resolve("params.time");
+		assertTrue(studentTimeFile.toFile().exists());
+		String timeContents = FileUtils.readTextFile(
+				studentTimeFile.toFile());
+		timeContents = timeContents.trim();
+		int expiredTime = Integer.parseInt(timeContents);
+		assertThat (expiredTime, lessThanOrEqualTo(1));
+		assertThat (expiredTime, greaterThanOrEqualTo(0));
+	}
+
+	@Test
+	void testPartialCredit() 
+	throws FileNotFoundException, TestConfigurationError  {
+
+		FileUtils.writeTextFile(testSuitePath.resolve("tests")
+				.resolve("params").resolve("test.params"), "A b C");
+		
+		testProperties = new TestCaseProperties(asst, "params");
+		testCase = new TestCase(testProperties);
+
+		Submission student1 = new Submission(asst, "student1");
+		String javaHome = System.getProperty("java.home");
+		Path javaExec = Paths.get(javaHome, "bin", "java");
+		String launcher = javaExec + " -cp " 
+			+ System.getProperty("java.class.path")
+			+ " edu.odu.cs.zeil.codegrader.samples.ParamLister";
+		testProperties.setLaunch(launcher);
+        
+
+		Path recordedAt = testCase.performTest(student1, false);
+
+		Path studentGrades = recordingPath.resolve("student1")
+			.resolve("params");
+		assertTrue(studentGrades.toFile().exists());
+		assertThat(recordedAt.normalize(), equalTo(studentGrades.normalize()));
+		Path studentTestResults = studentGrades;
+		assertTrue(studentTestResults.toFile().exists());
+		Path studentScoreFile = studentTestResults.resolve("params.score");
+		assertTrue(studentScoreFile.toFile().exists());
+		String scoreContents = FileUtils.readTextFile(
+				studentScoreFile.toFile());
+		scoreContents = scoreContents.trim();
+		assertThat(scoreContents, is("80"));
 	}
 
 }
