@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -175,18 +175,32 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#performTests(edu.odu.cs.zeil.codegrader.Submission)">performTests</a></span>&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;student1)</code></th>
-<td class="colLast">&nbsp;</td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#performTests()">performTests</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Perform all selected tests for all selected submissions.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setLaunch(java.lang.String)">setLaunch</a></span>&#8203;(java.lang.String&nbsp;launcher)</code></th>
-<td class="colLast">&nbsp;</td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#runTests(edu.odu.cs.zeil.codegrader.Submission)">runTests</a></span>&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission)</code></th>
+<td class="colLast">
+<div class="block">Runs all selected tests for a given submission.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSelectedTests(java.util.List)">setSelectedTests</a></span>&#8203;(java.util.List&lt;java.lang.String&gt;&nbsp;asList)</code></th>
-<td class="colLast">&nbsp;</td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setLaunch(java.lang.String)">setLaunch</a></span>&#8203;(java.lang.String&nbsp;launcher)</code></th>
+<td class="colLast">
+<div class="block">Set the default launch command for all test cases in this suite.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSelectedTests(java.util.List)">setSelectedTests</a></span>&#8203;(java.util.List&lt;java.lang.String&gt;&nbsp;testList)</code></th>
+<td class="colLast">
+<div class="block">Limits the set of tests that will actually be run by
+ performTests.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -238,6 +252,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setLaunch</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setLaunch&#8203;(java.lang.String&nbsp;launcher)</pre>
+<div class="block">Set the default launch command for all test cases in this suite.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>launcher</code> - launcher command</dd>
+</dl>
 </li>
 </ul>
 <a id="setSelectedTests(java.util.List)">
@@ -246,16 +265,50 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>setSelectedTests</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;setSelectedTests&#8203;(java.util.List&lt;java.lang.String&gt;&nbsp;asList)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;setSelectedTests&#8203;(java.util.List&lt;java.lang.String&gt;&nbsp;testList)</pre>
+<div class="block">Limits the set of tests that will actually be run by
+ performTests.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>testList</code> - list of test case names</dd>
+</dl>
 </li>
 </ul>
-<a id="performTests(edu.odu.cs.zeil.codegrader.Submission)">
+<a id="performTests()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>performTests</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;performTests()</pre>
+<div class="block">Perform all selected tests for all selected submissions.
+ 
+ The entire sequence is performed:
+ 1) build gold version (if available)
+ for each submission,
+ 2) set up submission code in staging area
+ 3) build code in staging area
+ for all selected test cases
+ 4) if a gold version is available, run the test on it and collect the
+    expected output and expected time limit.
+ 5) run and evaluate the test on the submission , putting results in
+    the recording area</div>
+</li>
+</ul>
+<a id="runTests(edu.odu.cs.zeil.codegrader.Submission)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>performTests</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;performTests&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;student1)</pre>
+<h4>runTests</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;runTests&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission)</pre>
+<div class="block">Runs all selected tests for a given submission. Assumes that code
+ for gold version and submission have been built. Test results are
+ recorded in the recording area.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>submission</code> - submission to be tested</dd>
+</dl>
 </li>
 </ul>
 </li>

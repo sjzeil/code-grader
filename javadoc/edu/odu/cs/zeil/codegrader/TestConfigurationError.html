@@ -122,7 +122,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li>java.lang.Exception</li>
 <li>
 <ul class="inheritance">
+<li>java.lang.RuntimeException</li>
+<li>
+<ul class="inheritance">
 <li>edu.odu.cs.zeil.codegrader.TestConfigurationError</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -139,10 +144,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dl>
 <hr>
 <pre>public class <span class="typeNameLabel">TestConfigurationError</span>
-extends java.lang.Exception</pre>
+extends java.lang.RuntimeException</pre>
 <div class="block">Indicates an error in the test configuration significant enough that
  continuing to execute would likely result in inappropriate scores
- being assigned.</div>
+ being assigned.
+ 
+ This is derived from RuntimeException rather than Exception because this
+ is intended for situations where it is safest to stop the program. This
+ should probably only be caught at the "main()" level.</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../../serialized-form.html#edu.odu.cs.zeil.codegrader.TestConfigurationError">Serialized Form</a></dd>

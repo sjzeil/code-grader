@@ -523,8 +523,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Runs the test case and evaluates the results.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestSuite.html#performTests(edu.odu.cs.zeil.codegrader.Submission)">performTests(Submission)</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestSuite.html" title="class in edu.odu.cs.zeil.codegrader">TestSuite</a></dt>
-<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestSuite.html#performTests()">performTests()</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestSuite.html" title="class in edu.odu.cs.zeil.codegrader">TestSuite</a></dt>
+<dd>
+<div class="block">Perform all selected tests for all selected submissions.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestCasePropertiesBase.html#points">points</a></span> - Variable in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCasePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader">TestCasePropertiesBase</a></dt>
 <dd>
 <div class="block">How many points this test case is worth?</div>
@@ -554,6 +556,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/FileUtils.html#readTextFile(java.io.File)">readTextFile(File)</a></span> - Static method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/FileUtils.html" title="class in edu.odu.cs.zeil.codegrader">FileUtils</a></dt>
 <dd>
 <div class="block">Read an entire test file into a string.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestSuite.html#runTests(edu.odu.cs.zeil.codegrader.Submission)">runTests(Submission)</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestSuite.html" title="class in edu.odu.cs.zeil.codegrader">TestSuite</a></dt>
+<dd>
+<div class="block">Runs all selected tests for a given submission.</div>
 </dd>
 </dl>
 <a id="I:S">
@@ -592,13 +598,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">Change the command string used to launch the program under evaluation.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestSuite.html#setLaunch(java.lang.String)">setLaunch(String)</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestSuite.html" title="class in edu.odu.cs.zeil.codegrader">TestSuite</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Set the default launch command for all test cases in this suite.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/Assignment.html#setRecordingDirectory(java.nio.file.Path)">setRecordingDirectory(Path)</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></dt>
 <dd>
 <div class="block">Set the path to the recording directory.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestSuite.html#setSelectedTests(java.util.List)">setSelectedTests(List&lt;String&gt;)</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestSuite.html" title="class in edu.odu.cs.zeil.codegrader">TestSuite</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Limits the set of tests that will actually be run by
+ performTests.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/Assignment.html#setStagingDirectory(java.nio.file.Path)">setStagingDirectory(Path)</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></dt>
 <dd>
 <div class="block">Set the path to the staging directory.</div>
