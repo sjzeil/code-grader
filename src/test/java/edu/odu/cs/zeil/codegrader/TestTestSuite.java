@@ -79,14 +79,14 @@ public class TestTestSuite {
 		TestSuite suite = new TestSuite(asst);
 		suite.setLaunch(launcher);
 
-		suite.performTests(student1);
+		suite.runTests(student1);
 
 		Path studentGrades = recordingPath.resolve("student1");
 
 		File[] tests = asst.getTestSuiteDirectory().toFile().listFiles();
 		for (File testDir: tests) {
 			String testName = testDir.getName();
-			Path recordedTest = asst.getRecordingDirectory().resolve(testName);
+			Path recordedTest = studentGrades.resolve(testName);
 			assertTrue (Files.exists(recordedTest));
 			Path recordedScore = recordedTest.resolve(testName + ".score");
 			assertTrue (Files.exists(recordedScore));
@@ -109,7 +109,7 @@ public class TestTestSuite {
 		String[] selections = {"params"};
 		suite.setSelectedTests(Arrays.asList(selections));
 
-		suite.performTests(student1);
+		suite.runTests(student1);
 
 		Path studentGrades = recordingPath.resolve("student1");
 
@@ -117,7 +117,7 @@ public class TestTestSuite {
 		for (File testDir: tests) {
 			String testName = testDir.getName();
 			if (testName.equals("params")) {
-				Path recordedTest = asst.getRecordingDirectory().resolve(testName);
+				Path recordedTest = studentGrades.resolve(testName);
 				assertTrue (Files.exists(recordedTest));
 				Path recordedScore = recordedTest.resolve(testName + ".score");
 				assertTrue (Files.exists(recordedScore));

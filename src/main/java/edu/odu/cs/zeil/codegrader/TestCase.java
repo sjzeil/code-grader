@@ -218,8 +218,8 @@ public class TestCase {
             onTime = process.waitFor(timeLimit, TimeUnit.SECONDS);
             Instant stopTime = Instant.now();
             long elapsed = Duration.between(startTime, stopTime).toMillis();
-            expiredTime = (int)((elapsed+500L)/1000L); // round to closest second
-            
+            expiredTime = (int) ((elapsed + 500L) / 1000L); // round to closest 
+                                                            // sec.
             
             if (onTime) {
                 final int tenthSeconds = 100;
