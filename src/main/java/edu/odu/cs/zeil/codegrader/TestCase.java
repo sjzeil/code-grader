@@ -11,7 +11,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -59,6 +58,7 @@ public class TestCase {
      */
     private int expiredTime;
 
+
     /**
      * Error logging.
      */
@@ -80,95 +80,6 @@ public class TestCase {
         expiredTime  = -1;
     }
 
-    /**
-     * Threaded reader for accumulating standard output and standard error
-     * from a running process.
-     */
-    static class StreamReader extends Thread {
-
-        /**
-         * True iff the thread has stopped due to the data stream being closed.
-         */
-        private boolean finished;
-
-        /**
-         * @return true iff the thread has stopped due to the data stream 
-         *      being closed.
-         */
-        public boolean isFinished() {
-            return finished;
-        }
-
-        /**
-         * Force a stop after the next input is read.
-         */
-        public void setForceStop() {
-            this.forceStop = true;
-        }
-
-        /**
-         * Setting this to true will force a stop after the next input is read.
-         */
-        private boolean forceStop;
-
-        /**
-         * Data accumulated so far.
-         */
-        private StringBuilder contents;
-
-        /**
-         * The reader attached to the process standard output/error.
-         */
-        private BufferedReader in;
-
-        /**
-         * Maximum number of characters that will be accumulated before deciding
-         * that the process is stuck in a loop.
-         */
-        private static final int CAPTURE_LIMIT = 2000000;
-
-        /**
-         * Create the reader thread.
-         * @param inputStream  Stream form which it will read.
-         */
-        StreamReader(InputStream inputStream) {
-            finished = false;
-            forceStop = false;
-            contents = new StringBuilder();
-            in = new BufferedReader(new InputStreamReader(inputStream,
-                    Charset.forName("UTF-8")));
-        }
-
-        public String getContents() {
-            return contents.toString();
-        }
-
-        public void run() {
-            try {
-                String line = in.readLine();
-                while ((!forceStop) && (line != null)) {
-                    contents.append(line);
-                    contents.append("\n");
-                    if (contents.length() > CAPTURE_LIMIT) {
-                        contents.append("** Test output clipped after "
-                                + contents.length() + " bytes.\n");
-                        logger.warn("** Test output clipped after "
-                                + contents.length() + " bytes.");
-                        break;
-                    }
-                    line = in.readLine();
-                }
-                in.close();
-                finished = true;
-            } catch (IOException ex) {
-                finished = true;
-                try {
-                    in.close();
-                } catch (IOException e) {
-                }
-            }
-        }
-    }
 
     /**
      * Runs the test case using the code in submission.
@@ -181,158 +92,33 @@ public class TestCase {
     public void executeTest(Submission submission) {
         String launchCommandStr = properties.getLaunch() + ' '
                 + properties.getParams();
-        launchCommandStr = parameterSubstitution(launchCommandStr);
-        List<String> launchCommand = parseCommand(launchCommandStr);
-        ProcessBuilder pBuilder = new ProcessBuilder(launchCommand);
-        pBuilder.directory(properties.getStagingDirectory().toFile());
-        capturedOutput = "";
-        capturedError = "";
-        crashed = false;
-        statusCode = 0;
-        onTime = true;
-        try {
-            int timeLimit = properties.getTimelimit();
-            if (timeLimit <= 0) {
-                timeLimit = 1;
-            }
-            File stdIn = properties.getIn();
-            if (stdIn != null) {
-                pBuilder.redirectInput(stdIn);
-            }
-
-            Instant startTime = Instant.now();
-            Process process = pBuilder.start();
-
-            // If there is no standard in content, close the input stream
-            if (stdIn == null) {
-                OutputStream stdInStr = process.getOutputStream();
-                stdInStr.close();
-            }
-            StreamReader stdInReader = new StreamReader(
-                    process.getInputStream());
-            stdInReader.start();
-            StreamReader stdErrReader = new StreamReader(
-                    process.getErrorStream());
-            stdErrReader.start();
-
-            onTime = process.waitFor(timeLimit, TimeUnit.SECONDS);
-            Instant stopTime = Instant.now();
-            long elapsed = Duration.between(startTime, stopTime).toMillis();
-            expiredTime = (int) ((elapsed + 500L) / 1000L); // round to closest 
-                                                            // sec.
-            
-            if (onTime) {
-                final int tenthSeconds = 100;
-                final int tenthSecondsPerSecond = 10;
-                for (int t = 0; t < tenthSecondsPerSecond; ++t) { 
-                    // Wait up to 1 sec for readers to finish
-                    if (stdInReader.finished && stdErrReader.finished) {
-                        break;
-                    }
-                    Thread.sleep(tenthSeconds); // wait .1 sec then check again
-                }
-                if (!stdInReader.finished) {
-                    stdInReader.forceStop = true;
-                    stdErrReader.forceStop = true;
-                }
-                Thread.sleep(tenthSeconds); // wait .1 sec after signaling
-                                           // for a finish
-                if (!stdErrReader.finished) {
-                    stdErrReader.interrupt();
-                }
-                if (!stdInReader.finished) {
-                    stdInReader.interrupt();
-                }
-                capturedOutput = stdInReader.getContents();
-                capturedError = stdErrReader.getContents();
-                statusCode = process.exitValue();
-            } else {
-                process.destroy();
-                logger.warn("Shutting down execution of test case "
-                        + properties.getName() + " due to time out.");
-            }
-        } catch (IOException ex) {
-            logger.error("Could not launch test case " + properties.getName()
-                    + " with: " + properties.getLaunch(),
-                    ex);
-            crashed = true;
-        } catch (InterruptedException e) {
-            logger.error("Test case " + properties.getName() + " interrupted.",
-                    e);
-            crashed = true;
+        Assignment asst = properties.getAssignment();
+        launchCommandStr = asst.parameterSubstitution(launchCommandStr, 
+            properties.getName());
+        int timeLimit = properties.getTimelimit();
+        if (timeLimit <= 0) {
+            timeLimit = 1;
         }
+        File stdIn = properties.getIn();
+        ExternalProcess process = new ExternalProcess(
+            properties.getStagingDirectory(),
+            launchCommandStr,
+            timeLimit,
+            stdIn, 
+            "test case " + properties.getName());
+        process.execute();
+        capturedOutput = process.getOutput();
+        capturedError = process.getErr();
+        crashed = process.crashed();
+        onTime = process.getOnTime();
+        statusCode = process.getStatusCode();
+        expiredTime  = process.getTime();
+
     }
 
-    /**
-     * Scans a string for shortcuts, replacing by the appropriate string.
-     * Shortcuts are
-     * <ul>
-     * <li>@S the staging directory</li>
-     * <li>@T the test suite directory</li>
-     * <li>@t the test case name</li>
-     * <li>@R the reporting directory</li>
-     * </ul>
-     * A shortcut must be followed by a non-alphabetic character.
-     * 
-     * @param launchCommandStr a string describing a command to be run
-     * @return the launchCommandStr with shortcuts replaced by the appropriate
-     *         path/value
-     */
-    public String parameterSubstitution(String launchCommandStr) {
-        StringBuilder result = new StringBuilder();
-        int i = 0;
-        while (i < launchCommandStr.length()) {
-            char c = launchCommandStr.charAt(i);
-            if (c == '@') {
-                if (i + 1 < launchCommandStr.length()) {
-                    char c2 = launchCommandStr.charAt(i + 1);
-                    if (c2 == 'S' || c2 == 'T' || c2 == 't' || c2 == 'R') {
-                        boolean ok = (i + 2 >= launchCommandStr.length())
-                                || !Character.isAlphabetic(
-                                        launchCommandStr.charAt(i + 2));
-                        if (ok) {
-                            i += 2;
-                            try {
-                                if (c2 == 'S') {
-                                    result.append(
-                                            properties.getStagingDirectory()
-                                                    .toRealPath().toString());
-                                } else if (c2 == 'T') {
-                                    result.append(
-                                            properties.getTestSuiteDirectory()
-                                                    .toRealPath().toString());
-                                } else if (c2 == 't') {
-                                    result.append(properties.getName());
-                                } else if (c2 == 'R') {
-                                    result.append(
-                                            properties.getRecordingDirectory()
-                                                    .toRealPath().toString());
-                                }
-                            } catch (IOException ex) {
-                                // Path has not been set
-                                i -= 1;
-                                result.append(c);
-                            }
-                        } else {
-                            i += 1;
-                            result.append(c);
-                        }
-                    } else {
-                        i += 1;
-                        result.append(c);
-                    }
-                } else {
-                    result.append(c);
-                    ++i;
-                }
-            } else {
-                result.append(c);
-                ++i;
-            }
-        }
-        return result.toString();
-    }
 
+
+    
     /**
      * Runs the test case and evaluates the results.
      * The actual output, score, and messages are recorded
@@ -430,49 +216,6 @@ public class TestCase {
         return testRecordingDir;
     }
 
-    /**
-     * Split a string into space-separated tokens, respecting "" and '' quoted
-     * substrings.
-     * 
-     * @param launch a command line
-     * @return tokenized versions of the command line
-     */
-    private List<String> parseCommand(String launch) {
-        ArrayList<String> result = new ArrayList<>();
-        StringBuffer token = new StringBuffer();
-        boolean inQuotes1 = false;
-        boolean inQuotes2 = false;
-        for (int i = 0; i < launch.length(); ++i) {
-            char c = launch.charAt(i);
-            if (c != ' ') {
-                token.append(c);
-                if (c == '"') {
-                    if (inQuotes2) {
-                        inQuotes2 = false;
-                    } else if (!inQuotes1) {
-                        inQuotes2 = true;
-                    }
-                } else if (c == '\'') {
-                    if (inQuotes1) {
-                        inQuotes1 = false;
-                    } else if (!inQuotes2) {
-                        inQuotes1 = true;
-                    }
-                }
-            } else {
-                if (inQuotes1 || inQuotes2) {
-                    token.append(c);
-                } else {
-                    result.add(token.toString());
-                    token = new StringBuffer();
-                }
-            }
-        }
-        if (token.length() > 0) {
-            result.add(token.toString());
-        }
-        return result;
-    }
 
     /**
      * Return the captured output from a runTest call.

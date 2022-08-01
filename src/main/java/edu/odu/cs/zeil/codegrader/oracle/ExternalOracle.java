@@ -1,7 +1,7 @@
 package edu.odu.cs.zeil.codegrader.oracle;
 
 import edu.odu.cs.zeil.codegrader.OracleProperties;
-import edu.odu.cs.zeil.codegrader.TestCase;
+import edu.odu.cs.zeil.codegrader.ExternalProcess;
 
 /**
  * Oracle that works by running an external command.
@@ -17,7 +17,7 @@ public class ExternalOracle extends Oracle {
 	 * @param config properties
 	 * @param testCase the test case on which it is applied
 	 */
-	public ExternalOracle(OracleProperties config, TestCase testCase) {
+	public ExternalOracle(OracleProperties config, ExternalProcess testCase) {
 		super(config, testCase);
 	}
 

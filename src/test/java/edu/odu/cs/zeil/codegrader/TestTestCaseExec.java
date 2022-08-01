@@ -48,7 +48,7 @@ public class TestTestCaseExec {
 			TestConfigurationError  {
         TestCaseProperties testProperties = 
 			new TestCaseProperties(asst, "params");
-        TestCase testCase = new TestCase(testProperties);
+        ExternalProcess testCase = new ExternalProcess(testProperties);
 		assertThat(testCase.getOutput(), is(""));
 		assertThat(testCase.getErr(), is(""));
 		assertThat(testCase.timedOut(), is(false));
@@ -69,7 +69,7 @@ public class TestTestCaseExec {
 		//System.err.println(launcher);
 		testProperties.setLaunch(launcher);
         Submission submission = new Submission(asst, "student1");
-        TestCase testCase = new TestCase(testProperties);
+        ExternalProcess testCase = new ExternalProcess(testProperties);
 		testCase.executeTest(submission);
 		assertThat(testCase.crashed(), is(false));
 		assertThat(testCase.timedOut(), is(false));
@@ -88,7 +88,7 @@ public class TestTestCaseExec {
 		// System.err.println(launcher);
 		testProperties.setLaunch (launcher);
         Submission submission = new Submission (asst, "student1");
-        TestCase testCase = new TestCase(testProperties);
+        ExternalProcess testCase = new ExternalProcess(testProperties);
 		testCase.executeTest(submission);
 		assertThat(testCase.crashed(), is(false));
 		assertThat(testCase.timedOut(), is(false));
@@ -111,7 +111,7 @@ public class TestTestCaseExec {
 		// System.err.println(launcher);
 		testProperties.setLaunch(launcher);
         Submission submission = new Submission(asst, "student1");
-        TestCase testCase = new TestCase(testProperties);
+        ExternalProcess testCase = new ExternalProcess(testProperties);
 		testCase.executeTest(submission);
 		assertThat(testCase.crashed(), is(true));
 		assertThat(testCase.timedOut(), is(false));
@@ -130,7 +130,7 @@ public class TestTestCaseExec {
 		// System.err.println(launcher);
 		testProperties.setLaunch (launcher);
         Submission submission = new Submission (asst, "student1");
-        TestCase testCase = new TestCase(testProperties);
+        ExternalProcess testCase = new ExternalProcess(testProperties);
 		testCase.executeTest(submission);
 		assertThat(testCase.crashed(), is(false));
 		assertThat(testCase.timedOut(), is(true));
@@ -146,7 +146,7 @@ public class TestTestCaseExec {
 		// System.err.println(launcher);
 		testProperties.setLaunch (launcher);
         Submission submission = new Submission (asst, "student1");
-        TestCase testCase = new TestCase(testProperties);
+        ExternalProcess testCase = new ExternalProcess(testProperties);
 		testCase.executeTest(submission);
 		assertThat(testCase.crashed(), is(false));
 		assertThat(testCase.timedOut(), is(false));
@@ -173,7 +173,7 @@ public class TestTestCaseExec {
 		//System.err.println(launcher);
 		testProperties.setLaunch (launcher);
         Submission submission = new Submission (asst, "student1");
-        TestCase testCase = new TestCase(testProperties);
+        ExternalProcess testCase = new ExternalProcess(testProperties);
 		testCase.executeTest(submission);
 		assertThat(testCase.crashed(), is(false));
 		assertThat(testCase.timedOut(), is(false));
@@ -194,7 +194,7 @@ public class TestTestCaseExec {
 		//System.err.println(launcher);
 		testProperties.setLaunch (launcher);
         Submission submission = new Submission (asst, "student1");
-        TestCase testCase = new TestCase(testProperties);
+        ExternalProcess testCase = new ExternalProcess(testProperties);
 		testCase.executeTest(submission);
 		assertThat(testCase.crashed(), is(false));
 		assertThat(testCase.timedOut(), is(false));

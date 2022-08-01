@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.odu.cs.zeil.codegrader.OracleProperties;
-import edu.odu.cs.zeil.codegrader.TestCase;
+import edu.odu.cs.zeil.codegrader.ExternalProcess;
 
 /**
  * Compares expected and actual outputs to determine if they match.
@@ -25,7 +25,7 @@ public class SmartOracle extends Oracle {
 	 * @param config   configuration properties
 	 * @param testCase the test case to which this oracle will apply
 	 */
-	public SmartOracle(OracleProperties config, TestCase testCase) {
+	public SmartOracle(OracleProperties config, ExternalProcess testCase) {
 		super(config, testCase);
 	}
 

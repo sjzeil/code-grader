@@ -18,6 +18,7 @@ public class TestCaseProperties {
 
     private Assignment assignment;
 
+
     /**
      * Command line parameters for running the test case.
      */
@@ -324,5 +325,14 @@ public class TestCaseProperties {
     public Iterable<OracleProperties> getGradingOptions() {
         return grading;
     }
+
+    /**
+     * 
+     * @return the assignment settings
+     */
+    public Assignment getAssignment() {
+        return assignment;
+    }
+
 
 }
