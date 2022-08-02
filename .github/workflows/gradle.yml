@@ -28,7 +28,7 @@ jobs:
     - name: Prepare artifacts
       run: |
         mkdir downloads
-        cp build/lib/*.jar downloads/code-grader.jar
+        cp build/libs/*.jar downloads/code-grader.jar
     - name: Publish artifacts
       uses: actions/upload-artifact@v3
       with:
