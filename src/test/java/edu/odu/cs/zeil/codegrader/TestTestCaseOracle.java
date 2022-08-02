@@ -100,8 +100,8 @@ public class TestTestCaseOracle {
 				studentTimeFile.toFile());
 		timeContents = timeContents.trim();
 		int expiredTime = Integer.parseInt(timeContents);
-		assertThat (expiredTime, lessThanOrEqualTo(1));
-		assertThat (expiredTime, greaterThanOrEqualTo(0));
+		assertThat(expiredTime, lessThanOrEqualTo(1));
+		assertThat(expiredTime, greaterThanOrEqualTo(0));
 	}
 
 	@Test

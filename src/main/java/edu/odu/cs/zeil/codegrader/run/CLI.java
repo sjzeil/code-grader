@@ -43,7 +43,10 @@ public class CLI {
     private static Logger logger = LoggerFactory.getLogger(
             MethodHandles.lookup().lookupClass());
 
-
+    /**
+     * Create the CLI processor.
+     * @param args command-line arguments
+     */
     public CLI(String[] args) {
         assignment = new Assignment();
         CommandLineParser parser = new DefaultParser();
@@ -121,6 +124,10 @@ public class CLI {
         }
     }
 
+    /**
+     * Run the grader via CLI arguments.
+     * @param args command lien arguments
+     */
     public static void main(String[] args) {
         CLI run = new CLI(args);
         run.go();

@@ -3,6 +3,8 @@ package edu.odu.cs.zeil.codegrader;
 import java.io.File;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -34,14 +36,21 @@ public class TestSuitePropertiesBase {
     /**
      * Properties related to setup and build.
      */
-    public String build; //TODO
+    public BuildProperties build;
+
+    /**
+     * Default grading criteria for this test case.
+     */
+    public List<OracleProperties> grading;
+
 
     /**
      * Create a property set with an empty list of grading options.
      */
     public TestSuitePropertiesBase() {
         test = new TestCasePropertiesBase();
-        build = "";
+        build = new BuildProperties();
+        grading = new ArrayList<>();
     }
 
     /**

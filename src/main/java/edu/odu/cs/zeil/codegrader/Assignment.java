@@ -236,10 +236,13 @@ public class Assignment implements Cloneable {
      * A shortcut must be followed by a non-alphabetic character.
      * 
      * @param launchCommandStr a string describing a command to be run
+     * @param testName name of the current test case, if applicable
      * @return the launchCommandStr with shortcuts replaced by the appropriate
      *         path/value
      */
-    public String parameterSubstitution(String launchCommandStr, String testName) {
+    public String parameterSubstitution(
+            String launchCommandStr, 
+            String testName) {
         StringBuilder result = new StringBuilder();
         int i = 0;
         while (i < launchCommandStr.length()) {
@@ -356,4 +359,25 @@ public class Assignment implements Cloneable {
             .setGradingTemplate(gradingTemplate);
         return theClone;
     }
+
+    /**
+     * Get the staging directory for the submitted version.
+     * @return a subdirectory within the staging area.
+     */
+    public Path getSubmitterStage() {
+        return stagingDirectory.resolve("submission");
+   }
+
+   /**
+     * Get the staging directory for the gold version.
+     * @return a subdirectory within the staging area or null if no gold
+     *       version is supplied.
+     */
+    public Path getGoldStage() {
+        if (goldDirectory != null) {
+            return stagingDirectory.resolve("gold");
+        } else {
+            return null;
+        }
+   }
 }

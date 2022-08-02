@@ -2,12 +2,8 @@ package edu.odu.cs.zeil.codegrader;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +26,11 @@ public class TestSuite {
 	private static Logger logger = LoggerFactory.getLogger(
 			MethodHandles.lookup().lookupClass());
 
+	/**
+	 * Create a new test suite.
+	 * 
+	 * @param asst the assignment that this test suite is intended to assess.
+	 */
 	public TestSuite(Assignment asst) {
 		assignment = asst;
 		testsToPerform = new HashSet<String>();
@@ -81,15 +82,16 @@ public class TestSuite {
 	 *   7) Prepare summary reports of test results
 	 */
 	public void performTests() {
+		Path stage = assignment.getStagingDirectory();
+		clearTheStage(stage);
 		buildGoldVersionIfAvailable();
 		Path submissionsDir = assignment.getSubmissionsDirectory();
 		File[] submissions = submissionsDir.toFile().listFiles();
 		if (submissions == null || submissions.length == 0) {
 			throw new TestConfigurationError(
-					"No submission directories in " + submissionsDir.toString());
+					"No submission directories in " 
+					+ submissionsDir.toString());
 		}
-		Path stage = assignment.getStagingDirectory();
-		clearTheStage(stage);
 		for (File submissionFile : submissions) {
 			if (isAValidSubmission(submissionFile)) {
 				String submissionName = submissionFile.getName();
@@ -145,7 +147,7 @@ public class TestSuite {
 	 * Delete the entire staging area after use.
 	 * @param stage the staging area
 	 */
-	private void clearTheStage(Path stage) {
+	void clearTheStage(Path stage) {
 		try {
 			FileUtils.deleteDirectory(stage);
 		} catch (IOException ex) {
@@ -169,10 +171,15 @@ public class TestSuite {
 		}
 	}
 
-	static public class BuildResult {
+	public static  class BuildResult {
 		public int statusCode;
 		public String message;
 
+		/**
+		 * Create a build result.
+		 * @param code status code from the build process
+		 * @param msg output printed by the build process
+		 */
 		public BuildResult(int code, String msg) {
 			statusCode = code;
 			message = msg;
@@ -183,16 +190,26 @@ public class TestSuite {
 	 * If the instructor has provided a gold version of the program,
 	 * build the code.
 	 */
-	private void buildGoldVersionIfAvailable() {
+	void buildGoldVersionIfAvailable() {
 		Path goldDir = assignment.getGoldDirectory();
 		if (goldDir != null) {
 			if (goldDir.toFile().exists() && goldDir.toFile().isDirectory()) {
-				 BuildResult result = buildCode(goldDir);
+				Path goldStage = assignment.getGoldStage();
+				if (!goldStage.toFile().exists()) {
+				try {
+					FileUtils.copyDirectory(goldDir, goldStage);
+				} catch (IOException e) {
+					throw new TestConfigurationError(
+						"Cannot create staging directory for gold version\n"
+						+ e.getMessage());
+				}
+				 BuildResult result = buildCode(goldStage);
 				 if (result.statusCode != 0) {
 					throw new TestConfigurationError(
 						"Gold code does not build\n"
 						+ result.message);
 				 }
+				}
 			}
 		}
 	}
@@ -225,29 +242,93 @@ public class TestSuite {
 		ExternalProcess process = new ExternalProcess(
 			stage, 
 			buildCommand, 
-			5*60,
+			properties.build.timeLimit,
 			null,
 			"build process (" + buildCommand + ")");
 		process.execute();
 		String buildInfo = process.getOutput() + "\n\n" + process.getErr();
 		if (process.getOnTime()) {
 			if (process.getStatusCode() == 0) {
-				return new BuildResult(100, buildInfo);
+				return new BuildResult(0, buildInfo);
 			} else {
-				return new BuildResult(0, 
+				return new BuildResult(process.getStatusCode(), 
 				"Build failed with status code " + process.getStatusCode()
 					+ ".\n" + buildInfo);
 			}
 		} else {
-			return new BuildResult(0, 
-				"Build exceeded 5 minutes.\n" + buildInfo);
+			return new BuildResult(-1, 
+				"Build exceeded " + properties.build.timeLimit 
+					+ " seconds.\n" + buildInfo);
 		}
 
 	}
 
+	/**
+	 * Determine the command used to build the code.
+	 * Can be set as a suite property or will attempt to infer the command
+	 * from the build directory contents.
+	 * 
+	 * @param buildDir the directory containing the code to be built.
+	 * @return a build command
+	 * @throws TestConfigurationError if no build command can be determined.
+	 */
 	private String getBuildCommand(Path buildDir) {
-		// TODO
-		return "echo done";
+		String command = properties.build.command;
+		if (command == null || command.equals("")) {
+			// Try to infer the command from the contents of the
+			// build directory.
+			if (buildDir.resolve("makefile").toFile().exists()) {
+				command = "make";
+			} else if (buildDir.resolve("Makefile").toFile().exists()) {
+				command = "make";
+			} else if (buildDir.resolve("build.gradle").toFile().exists()) {
+				if (buildDir.resolve("gradlew").toFile().exists()) {
+					command = "." + File.separator + "gradlew build";
+				} else {
+					command = "gradle build";
+				}
+			} else if (buildDir.resolve("pom.xml").toFile().exists()) {
+				command = "mvn compile";
+			} else if (buildDir.resolve("pom.xml").toFile().exists()) {
+				command = "ant";
+			} else {
+				List<File> javaDirs = FileUtils.findDirectoriesContaining(
+					buildDir, ".java");
+				if (javaDirs.size() > 0) {
+					StringBuilder commandStr = new StringBuilder();
+					commandStr.append("java ");
+					if (buildDir.resolve("lib").toFile().isDirectory()) {
+						List<File> jars = FileUtils.findAllFiles(
+							buildDir.resolve("lib"), ".jar");
+						if (jars.size() > 0) {
+							commandStr.append("-cp ." + File.pathSeparator
+								+ "'lib/*.java' ");
+						}
+					}
+					for (File srcDir: javaDirs) {
+						commandStr.append(srcDir.toString() 
+							+ File.separator + "*.java ");
+					}
+					command = commandStr.toString();
+				} else {
+					StringBuilder commandStr = new StringBuilder();
+					commandStr.append("g++ -g -std=c++17 ");
+					List<File> cppDirs = FileUtils.findDirectoriesContaining(
+						buildDir, ".cpp");
+					for (File srcDir: cppDirs) {
+						commandStr.append(srcDir.toString() 
+							+ File.separator + "*.cpp ");
+					}
+					command = commandStr.toString();
+				}
+			}			
+		}
+		if (command == null || command.equals("")) {
+			throw new TestConfigurationError(
+				"Could not infer a build command for "
+				+ buildDir.toString());
+		}
+		return command;
 	}
 
 	private void setupStage(File submission, Path stage) {

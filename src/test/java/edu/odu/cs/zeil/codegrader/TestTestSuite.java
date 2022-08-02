@@ -23,14 +23,17 @@ import org.junit.jupiter.api.Test;
 public class TestTestSuite {
 
 
-	private Path asstSrcPath = Paths.get("src", "test", "data", "assignment2");
-	private Path testSuitePath = Paths.get("build", "test-data", "assignment2");
-	private Path stagingPath = Paths.get("build", "test-data", "assignment2",
-			"stage");
-	private Path submissionsPath = Paths.get("build", "test-data", 
-			"assignment2", "submissions");
-	private Path recordingPath = Paths.get("build", "test-data",
-			"assignment2", "grades");
+	private Path asstSrcPath = Paths.get("src", "test", "data", 
+		"java-sqrt-assignment");
+
+	private Path asstDestPath = Paths.get("build", "test-data", 
+		"java-sqrt-assignment");
+
+	private Path testSuitePath = asstDestPath.resolve("Tests");
+	private Path stagingPath = Paths.get("build", "test-data", "stage");
+	private Path submissionsPath = asstDestPath.resolve("submissions");
+	private Path recordingPath = asstDestPath.resolve("Grades");
+	private Path goldPath = asstDestPath.resolve("Gold");
 
 	private Assignment asst;
 
@@ -41,9 +44,9 @@ public class TestTestSuite {
 	 */
 	@BeforeEach
 	public void setup() throws IOException, TestConfigurationError {
-		testSuitePath.toFile().getParentFile().mkdirs();
+		asstDestPath.toFile().getParentFile().mkdirs();
 		stagingPath.toFile().mkdirs();
-		FileUtils.copyDirectory(asstSrcPath, testSuitePath,
+		FileUtils.copyDirectory(asstSrcPath, asstDestPath,
 				StandardCopyOption.REPLACE_EXISTING);
 
 		asst = new Assignment();
@@ -51,6 +54,7 @@ public class TestTestSuite {
 		asst.setStagingDirectory(stagingPath);
 		asst.setSubmissionsDirectory(submissionsPath);
 		asst.setRecordingDirectory(recordingPath);
+		asst.setGoldDirectory(goldPath);
 
 	}
 
@@ -64,6 +68,20 @@ public class TestTestSuite {
 		FileUtils.deleteDirectory(testSuitePath);
 	}
 
+	@Test
+	void testGoldBuild() {
+		TestSuite suite = new TestSuite(asst);
+		suite.clearTheStage(stagingPath);
+
+		suite.buildGoldVersionIfAvailable();
+
+		assertTrue(asst.getGoldStage().toFile().exists());
+		assertTrue(asst.getGoldStage().resolve("sqrtProg.java")
+			.toFile().exists());
+		assertTrue(asst.getGoldStage().resolve("sqrtProg.class")
+			.toFile().exists());
+
+	}
 
 	@Test
 	void testRunAllTests() 
@@ -87,9 +105,9 @@ public class TestTestSuite {
 		for (File testDir: tests) {
 			String testName = testDir.getName();
 			Path recordedTest = studentGrades.resolve(testName);
-			assertTrue (Files.exists(recordedTest));
+			assertTrue(Files.exists(recordedTest));
 			Path recordedScore = recordedTest.resolve(testName + ".score");
-			assertTrue (Files.exists(recordedScore));
+			assertTrue(Files.exists(recordedScore));
 		}
 	}
 
@@ -118,12 +136,13 @@ public class TestTestSuite {
 			String testName = testDir.getName();
 			if (testName.equals("params")) {
 				Path recordedTest = studentGrades.resolve(testName);
-				assertTrue (Files.exists(recordedTest));
+				assertTrue(Files.exists(recordedTest));
 				Path recordedScore = recordedTest.resolve(testName + ".score");
-				assertTrue (Files.exists(recordedScore));
+				assertTrue(Files.exists(recordedScore));
 			} else {
-				Path recordedTest = asst.getRecordingDirectory().resolve(testName);
-				assertFalse (Files.exists(recordedTest));
+				Path recordedTest = asst.getRecordingDirectory()
+					.resolve(testName);
+				assertFalse(Files.exists(recordedTest));
 			}
 		}
 	}

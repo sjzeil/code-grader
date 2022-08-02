@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * Launches external commands
+ * Launches external commands.
  */
 public class ExternalProcess {
 
@@ -68,7 +68,7 @@ public class ExternalProcess {
             MethodHandles.lookup().lookupClass());
 
     /**
-     * Create a external process runner
+     * Create a external process runner.
      * 
      * @param cwd working directory in which to run the process
      * @param commandLine the command to run
@@ -236,7 +236,6 @@ public class ExternalProcess {
      * Standard out and standard err are captured and available as
      * getOutput() and getErr(). The status code is also available.
      * 
-     * @param submission code to use when running the test case
      */
     public void execute() {
         List<String> launchCommand = parseCommand(commandStr);

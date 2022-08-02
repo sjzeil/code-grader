@@ -15,9 +15,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -139,7 +143,7 @@ public final class FileUtils {
     }
 
     /**
-     * Find a file with the given extension in a directory.
+     * Find a file with the given extension in a directory tree.
      * @param dir a path to a directory 
      * @param extension the desired file extension
      * @return a file with the desired extension, if one exists.
@@ -154,6 +158,47 @@ public final class FileUtils {
             }
         }
         return Optional.empty();
+    }
+
+    /**
+     * Find all files with the given extension in a directory tree.
+     * @param dir a path to a directory 
+     * @param extension the desired file extension
+     * @return a list of files with the desired extension.
+     */
+    public static List<File> findAllFiles(Path dir, String extension) {
+        List<File> results = new ArrayList<>();
+        File[] files = dir.toFile().listFiles();
+        if (files != null) {
+            for (File file: files) {
+                if (file.getName().endsWith(extension)) {
+                    results.add(file);
+                }
+            }
+        }
+        return results;
+    }
+
+    /**
+     * Find all directories containing files with the given extension in
+     * a directory tree.
+     * @param dir a path to a directory 
+     * @param extension the desired file extension
+     * @return a list of directories 
+     */
+    public static List<File> findDirectoriesContaining(
+            Path dir, 
+            String extension) {
+        Set<File> results = new HashSet<>();
+        File[] files = dir.toFile().listFiles();
+        if (files != null) {
+            for (File file: files) {
+                if (file.getName().endsWith(extension)) {
+                    results.add(file.getParentFile());
+                }
+            }
+        }
+        return new ArrayList<File>(results);
     }
 
     private FileUtils() {
