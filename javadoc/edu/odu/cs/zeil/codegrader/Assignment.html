@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -245,48 +245,65 @@ implements java.lang.Cloneable</pre>
 </td>
 </tr>
 <tr id="i8" class="altColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#parameterSubstitution(java.lang.String,java.lang.String)">parameterSubstitution</a></span>&#8203;(java.lang.String&nbsp;launchCommandStr,
+                     java.lang.String&nbsp;testName)</code></th>
+<td class="colLast">
+<div class="block">Scans a string for shortcuts, replacing by the appropriate string.</div>
+</td>
+</tr>
+<tr id="i9" class="rowColor">
+<td class="colFirst"><code>java.util.List&lt;java.lang.String&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#parseCommandString(java.lang.String,java.lang.String)">parseCommandString</a></span>&#8203;(java.lang.String&nbsp;launchCommandStr,
+                  java.lang.String&nbsp;testName)</code></th>
+<td class="colLast">
+<div class="block">Parses a command line string, substituting paths for selected shortcut 
+ codes.</div>
+</td>
+</tr>
+<tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setGoldDirectory(java.nio.file.Path)">setGoldDirectory</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Set the path to the gold directory.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setGradingTemplate(java.nio.file.Path)">setGradingTemplate</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Set the path to the recording directory.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setInstructorCodeDirectory(java.nio.file.Path)">setInstructorCodeDirectory</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Set the path to the instructor code directory.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setRecordingDirectory(java.nio.file.Path)">setRecordingDirectory</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Set the path to the recording directory.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setStagingDirectory(java.nio.file.Path)">setStagingDirectory</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Set the path to the staging directory.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSubmissionsDirectory(java.nio.file.Path)">setSubmissionsDirectory</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Set the path to the submissions directory.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setTestSuiteDirectory(java.nio.file.Path)">setTestSuiteDirectory</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
 <td class="colLast">
@@ -564,6 +581,53 @@ implements java.lang.Cloneable</pre>
 <dd><code>path</code> - the path to use</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the modified assignment</dd>
+</dl>
+</li>
+</ul>
+<a id="parseCommandString(java.lang.String,java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>parseCommandString</h4>
+<pre class="methodSignature">public&nbsp;java.util.List&lt;java.lang.String&gt;&nbsp;parseCommandString&#8203;(java.lang.String&nbsp;launchCommandStr,
+                                                           java.lang.String&nbsp;testName)</pre>
+<div class="block">Parses a command line string, substituting paths for selected shortcut 
+ codes.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>launchCommandStr</code> - a command string</dd>
+<dd><code>testName</code> - name of test case, if applicable</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>list of tokens suitable for a ProcessBuilder</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><code>AssertionError#parameterSubstitution</code></dd>
+</dl>
+</li>
+</ul>
+<a id="parameterSubstitution(java.lang.String,java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>parameterSubstitution</h4>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;parameterSubstitution&#8203;(java.lang.String&nbsp;launchCommandStr,
+                                              java.lang.String&nbsp;testName)</pre>
+<div class="block">Scans a string for shortcuts, replacing by the appropriate string.
+ Shortcuts are
+ <ul>
+ <li>@S the staging directory</li>
+ <li>@T the test suite directory</li>
+ <li>@t the test case name</li>
+ <li>@R the reporting directory</li>
+ </ul>
+ A shortcut must be followed by a non-alphabetic character.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>launchCommandStr</code> - a string describing a command to be run</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the launchCommandStr with shortcuts replaced by the appropriate
+         path/value</dd>
 </dl>
 </li>
 </ul>

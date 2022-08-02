@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -178,13 +178,18 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAssignment()">getAssignment</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getExpected()">getExpected</a></span>()</code></th>
 <td class="colLast">
 <div class="block">The expected output from the program.</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>java.lang.Iterable&lt;<a href="OracleProperties.html" title="class in edu.odu.cs.zeil.codegrader">OracleProperties</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getGradingOptions()">getGradingOptions</a></span>()</code></th>
 <td class="colLast">
@@ -192,44 +197,44 @@ extends java.lang.Object</pre>
  for this test case.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.io.File</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getIn()">getIn</a></span>()</code></th>
 <td class="colLast">
 <div class="block">The file to be sent to the standard input of a running test.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLaunch()">getLaunch</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getName()">getName</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getParams()">getParams</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPoints()">getPoints</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRecordingDirectory()">getRecordingDirectory</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getStagingDirectory()">getStagingDirectory</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getStderr()">getStderr</a></span>()</code></th>
 <td class="colLast">
@@ -238,17 +243,17 @@ extends java.lang.Object</pre>
  standard error stream will be ignored.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTestCaseDirectory()">getTestCaseDirectory</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTestSuiteDirectory()">getTestSuiteDirectory</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTimelimit()">getTimelimit</a></span>()</code></th>
 <td class="colLast">
@@ -257,7 +262,7 @@ extends java.lang.Object</pre>
  unacceptably slow.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setLaunch(java.lang.String)">setLaunch</a></span>&#8203;(java.lang.String&nbsp;command)</code></th>
 <td class="colLast">
@@ -505,7 +510,7 @@ extends java.lang.Object</pre>
 <a id="getGradingOptions()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>getGradingOptions</h4>
 <pre class="methodSignature">public&nbsp;java.lang.Iterable&lt;<a href="OracleProperties.html" title="class in edu.odu.cs.zeil.codegrader">OracleProperties</a>&gt;&nbsp;getGradingOptions()</pre>
@@ -514,6 +519,19 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>iterable over OracleProperties</dd>
+</dl>
+</li>
+</ul>
+<a id="getAssignment()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>getAssignment</h4>
+<pre class="methodSignature">public&nbsp;<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;getAssignment()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the assignment settings</dd>
 </dl>
 </li>
 </ul>
