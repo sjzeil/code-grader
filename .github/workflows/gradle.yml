@@ -25,6 +25,15 @@ jobs:
     - name: Build (gradle)
       working-directory: .
       run: ./gradlew build
+    - name: Prepare artifacts
+      run: |
+        mkdir downloads
+        cp build/lib/*.jar downloads/code-grader.jar
+    - name: Publish artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: jar-file
+        path: downloads/code-grader.jar
     - name: Documentation
       working-directory: .
       run: ./gradlew reports
