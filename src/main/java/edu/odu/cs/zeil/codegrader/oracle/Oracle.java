@@ -1,7 +1,7 @@
 package edu.odu.cs.zeil.codegrader.oracle;
 
 import edu.odu.cs.zeil.codegrader.OracleProperties;
-import edu.odu.cs.zeil.codegrader.ExternalProcess;
+import edu.odu.cs.zeil.codegrader.TestCase;
 
 /**
  * Compares expected and actual outputs to determine if they match.
@@ -89,12 +89,12 @@ public abstract class Oracle {
 	/**
 	 * The test case being examined.
 	 */
-	private ExternalProcess testCase;
+	private TestCase testCase;
 
 
 	protected Oracle(
 			final OracleProperties properties, 
-			final ExternalProcess theTestCase) {
+			final TestCase theTestCase) {
 		this.testCase = theTestCase;
 		ignoreCase = !properties.caseSig;
 		scoring = properties.scoring;
@@ -199,7 +199,7 @@ public abstract class Oracle {
 	 * 
 	 * @return the test case being examined.
 	 */
-	public ExternalProcess getTestCase() {
+	public TestCase getTestCase() {
 		return testCase;
 	}
 

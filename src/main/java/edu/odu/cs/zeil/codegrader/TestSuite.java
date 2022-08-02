@@ -216,7 +216,8 @@ public class TestSuite {
 	private BuildResult buildCode(Path stage) {
 		String buildCommand = getBuildCommand(stage);
 		if (buildCommand == null || buildCommand.equals("")) {
-			throw new TestConfigurationError("Could not deduce build command in "
+			throw new TestConfigurationError(
+				"Could not deduce build command in "
 				+ stage.toString());
 		}
 		buildCommand = assignment.parameterSubstitution(buildCommand, "");
@@ -246,6 +247,7 @@ public class TestSuite {
 
 	private String getBuildCommand(Path buildDir) {
 		// TODO
+		return "echo done";
 	}
 
 	private void setupStage(File submission, Path stage) {
@@ -275,7 +277,7 @@ public class TestSuite {
 				
 				TestCaseProperties tcProperties = new TestCaseProperties(
 						testAssignment, testName);
-				ExternalProcess tc = new ExternalProcess(tcProperties);
+				TestCase tc = new TestCase(tcProperties);
 				if (testAssignment.getGoldDirectory() != null) {
 					runGoldVersion(tcProperties);
 				}
@@ -314,7 +316,9 @@ public class TestSuite {
 	}
 
 	private Path getStudentRecordingDir(Submission submission) {
-		Path studentRecordingArea = getStudentRecordingDir(submission);
+		Path studentRecordingArea = assignment.getRecordingDirectory()
+			.resolve(submission.getSubmittedBy())
+			.resolve("Grading");
 		return studentRecordingArea;
 	}
 

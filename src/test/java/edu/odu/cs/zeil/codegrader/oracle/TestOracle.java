@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import edu.odu.cs.zeil.codegrader.Assignment;
 import edu.odu.cs.zeil.codegrader.FileUtils;
 import edu.odu.cs.zeil.codegrader.OracleProperties;
-import edu.odu.cs.zeil.codegrader.ExternalProcess;
+import edu.odu.cs.zeil.codegrader.TestCase;
 import edu.odu.cs.zeil.codegrader.TestCaseProperties;
 import edu.odu.cs.zeil.codegrader.TestConfigurationError;
 
@@ -28,7 +28,7 @@ public class TestOracle {
 	private Path testSuitePath = Paths.get("build", "test-data", "assignment2");
 	
 	private Assignment asst;
-	private ExternalProcess testCase;
+	private TestCase testCase;
 	
     /**
      * .
@@ -43,7 +43,7 @@ public class TestOracle {
 
 		asst = new Assignment();
 		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
-		testCase = new ExternalProcess(new TestCaseProperties(asst, "params"));
+		testCase = new TestCase(new TestCaseProperties(asst, "params"));
 	}
 	
     /**

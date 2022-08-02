@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 import edu.odu.cs.zeil.codegrader.Assignment;
 import edu.odu.cs.zeil.codegrader.FileUtils;
 import edu.odu.cs.zeil.codegrader.OracleProperties;
-import edu.odu.cs.zeil.codegrader.ExternalProcess;
+import edu.odu.cs.zeil.codegrader.TestCase;
 import edu.odu.cs.zeil.codegrader.TestCaseProperties;
 import edu.odu.cs.zeil.codegrader.TestConfigurationError;
 
@@ -30,7 +30,7 @@ public class TestScanner {
 	private Path testSuitePath = Paths.get("build", "test-data", "assignment2");
 	
 	private Assignment asst;
-	private ExternalProcess testCase;
+	private TestCase testCase;
 	private Oracle config;
 
 	/**
@@ -47,7 +47,7 @@ public class TestScanner {
 
 		asst = new Assignment();
 		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
-		testCase = new ExternalProcess(new TestCaseProperties(asst, "params"));
+		testCase = new TestCase(new TestCaseProperties(asst, "params"));
 		config = new SmartOracle(new OracleProperties(), testCase);
 	}
 	

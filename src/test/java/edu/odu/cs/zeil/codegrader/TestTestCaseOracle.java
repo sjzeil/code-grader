@@ -29,7 +29,7 @@ public class TestTestCaseOracle {
 		"assignment2", "grades");
 
 	private Assignment asst;
-	private ExternalProcess testCase;
+	private TestCase testCase;
 	private TestCaseProperties testProperties;
 	
 	/**
@@ -51,7 +51,7 @@ public class TestTestCaseOracle {
 		asst.setRecordingDirectory(recordingPath);
 
 		testProperties = new TestCaseProperties(asst, "params");
-		testCase = new ExternalProcess(testProperties);
+		testCase = new TestCase(testProperties);
 	}
 	
 	/**
@@ -112,7 +112,7 @@ public class TestTestCaseOracle {
 				.resolve("params").resolve("test.params"), "A b C");
 		
 		testProperties = new TestCaseProperties(asst, "params");
-		testCase = new ExternalProcess(testProperties);
+		testCase = new TestCase(testProperties);
 
 		Submission student1 = new Submission(asst, "student1");
 		String javaHome = System.getProperty("java.home");
