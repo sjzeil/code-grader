@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9};
+var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -169,28 +169,45 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i2" class="altColor">
+<td class="colFirst"><code>static java.util.List&lt;java.io.File&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#findAllFiles(java.nio.file.Path,java.lang.String)">findAllFiles</a></span>&#8203;(java.nio.file.Path&nbsp;dir,
+            java.lang.String&nbsp;extension)</code></th>
+<td class="colLast">
+<div class="block">Find all files with the given extension in a directory tree.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>static java.util.List&lt;java.io.File&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#findDirectoriesContaining(java.nio.file.Path,java.lang.String)">findDirectoriesContaining</a></span>&#8203;(java.nio.file.Path&nbsp;dir,
+                         java.lang.String&nbsp;extension)</code></th>
+<td class="colLast">
+<div class="block">Find all directories containing files with the given extension in
+ a directory tree.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>static java.util.Optional&lt;java.io.File&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#findFile(java.nio.file.Path,java.lang.String)">findFile</a></span>&#8203;(java.nio.file.Path&nbsp;dir,
         java.lang.String&nbsp;extension)</code></th>
 <td class="colLast">
-<div class="block">Find a file with the given extension in a directory.</div>
+<div class="block">Find a file with the given extension in a directory tree.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>static java.util.Map&lt;java.lang.String,&#8203;java.lang.Object&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#loadYaml(java.io.File)">loadYaml</a></span>&#8203;(java.io.File&nbsp;yamlFile)</code></th>
 <td class="colLast">
 <div class="block">Load a file of YAML content into a map structure.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>static java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#readTextFile(java.io.File)">readTextFile</a></span>&#8203;(java.io.File&nbsp;file)</code></th>
 <td class="colLast">
 <div class="block">Read an entire test file into a string.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#writeTextFile(java.nio.file.Path,java.lang.String)">writeTextFile</a></span>&#8203;(java.nio.file.Path&nbsp;destination,
              java.lang.String&nbsp;outputString)</code></th>
@@ -303,13 +320,50 @@ extends java.lang.Object</pre>
 <h4>findFile</h4>
 <pre class="methodSignature">public static&nbsp;java.util.Optional&lt;java.io.File&gt;&nbsp;findFile&#8203;(java.nio.file.Path&nbsp;dir,
                                                         java.lang.String&nbsp;extension)</pre>
-<div class="block">Find a file with the given extension in a directory.</div>
+<div class="block">Find a file with the given extension in a directory tree.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>dir</code> - a path to a directory</dd>
 <dd><code>extension</code> - the desired file extension</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a file with the desired extension, if one exists.</dd>
+</dl>
+</li>
+</ul>
+<a id="findAllFiles(java.nio.file.Path,java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>findAllFiles</h4>
+<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.io.File&gt;&nbsp;findAllFiles&#8203;(java.nio.file.Path&nbsp;dir,
+                                                        java.lang.String&nbsp;extension)</pre>
+<div class="block">Find all files with the given extension in a directory tree.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>dir</code> - a path to a directory</dd>
+<dd><code>extension</code> - the desired file extension</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a list of files with the desired extension.</dd>
+</dl>
+</li>
+</ul>
+<a id="findDirectoriesContaining(java.nio.file.Path,java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>findDirectoriesContaining</h4>
+<pre class="methodSignature">public static&nbsp;java.util.List&lt;java.io.File&gt;&nbsp;findDirectoriesContaining&#8203;(java.nio.file.Path&nbsp;dir,
+                                                                     java.lang.String&nbsp;extension)</pre>
+<div class="block">Find all directories containing files with the given extension in
+ a directory tree.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>dir</code> - a path to a directory</dd>
+<dd><code>extension</code> - the desired file extension</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a list of directories</dd>
 </dl>
 </li>
 </ul>
