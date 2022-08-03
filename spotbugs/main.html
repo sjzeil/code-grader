@@ -110,7 +110,7 @@
          <br/>
       </p>
       <h2>Metrics</h2>
-      <p>1552 lines of code analyzed,
+      <p>1586 lines of code analyzed,
 	in 30 classes, 
 	in 3 packages.</p>
       <table width="500" cellpadding="5" cellspacing="2">
@@ -122,22 +122,22 @@
          <tr class="tablerow0">
             <td>High Priority Warnings</td>
             <td align="right">2</td>
-            <td align="right">1.29</td>
+            <td align="right">1.26</td>
          </tr>
          <tr class="tablerow1">
             <td>Medium Priority Warnings</td>
-            <td align="right">12</td>
-            <td align="right">7.73</td>
+            <td align="right">15</td>
+            <td align="right">9.46</td>
          </tr>
          <tr class="$totalClass">
             <td>
                <b>Total Warnings</b>
             </td>
             <td align="right">
-               <b>14</b>
+               <b>17</b>
             </td>
             <td align="right">
-               <b>9.02</b>
+               <b>10.72</b>
             </td>
          </tr>
       </table>
@@ -185,7 +185,7 @@
             <td>
                <a href="#Warnings_BAD_PRACTICE">Bad practice Warnings</a>
             </td>
-            <td align="right">5</td>
+            <td align="right">6</td>
          </tr>
          <tr class="tablerow1">
             <td>
@@ -221,14 +221,14 @@
             <td>
                <a href="#Warnings_STYLE">Dodgy code Warnings</a>
             </td>
-            <td align="right">1</td>
+            <td align="right">3</td>
          </tr>
          <tr class="tablerow1">
             <td>
                <b>Total</b>
             </td>
             <td align="right">
-               <b>14</b>
+               <b>17</b>
             </td>
          </tr>
       </table>
@@ -256,7 +256,7 @@
                   <br/>In class edu.odu.cs.zeil.codegrader.Assignment<br/>In method edu.odu.cs.zeil.codegrader.Assignment.clone()<br/>At Assignment.java:[lines 353-360]</p>
             </td>
          </tr>
-         <tr class="tablerow0" onclick="toggleRow('d2e115');">
+         <tr class="tablerow0" onclick="toggleRow('d2e147');">
             <td>
                <span class="priority-2">CN</span>
             </td>
@@ -265,12 +265,12 @@
          <tr class="detailrow0">
             <td/>
             <td>
-               <p id="d2e115" style="display: none;">
+               <p id="d2e147" style="display: none;">
                   <a href="#CN_IDIOM_NO_SUPER_CALL">Bug type CN_IDIOM_NO_SUPER_CALL (click for details)</a>
                   <br/>In class edu.odu.cs.zeil.codegrader.OracleProperties<br/>In method edu.odu.cs.zeil.codegrader.OracleProperties.clone()<br/>At OracleProperties.java:[lines 108-120]</p>
             </td>
          </tr>
-         <tr class="tablerow1" onclick="toggleRow('d2e208');">
+         <tr class="tablerow1" onclick="toggleRow('d2e255');">
             <td>
                <span class="priority-2">Dm</span>
             </td>
@@ -279,12 +279,12 @@
          <tr class="detailrow1">
             <td/>
             <td>
-               <p id="d2e208" style="display: none;">
+               <p id="d2e255" style="display: none;">
                   <a href="#DM_EXIT">Bug type DM_EXIT (click for details)</a>
                   <br/>In class edu.odu.cs.zeil.codegrader.run.CLI<br/>In method new edu.odu.cs.zeil.codegrader.run.CLI(String[])<br/>At CLI.java:[line 64]<br/>Another occurrence at CLI.java:[line 72]<br/>Another occurrence at CLI.java:[line 85]<br/>Another occurrence at CLI.java:[line 98]<br/>Another occurrence at CLI.java:[line 106]<br/>Another occurrence at CLI.java:[line 123]</p>
             </td>
          </tr>
-         <tr class="tablerow0" onclick="toggleRow('d2e161');">
+         <tr class="tablerow0" onclick="toggleRow('d2e193');">
             <td>
                <span class="priority-2">RV</span>
             </td>
@@ -293,23 +293,37 @@
          <tr class="detailrow0">
             <td/>
             <td>
-               <p id="d2e161" style="display: none;">
+               <p id="d2e193" style="display: none;">
                   <a href="#RV_RETURN_VALUE_IGNORED_BAD_PRACTICE">Bug type RV_RETURN_VALUE_IGNORED_BAD_PRACTICE (click for details)</a>
                   <br/>In class edu.odu.cs.zeil.codegrader.TestCase<br/>In method edu.odu.cs.zeil.codegrader.TestCase.performTest(Submission, boolean)<br/>Called method java.io.File.mkdirs()<br/>At TestCase.java:[line 128]</p>
             </td>
          </tr>
-         <tr class="tablerow1" onclick="toggleRow('d2e192');">
+         <tr class="tablerow1" onclick="toggleRow('d2e225');">
+            <td>
+               <span class="priority-2">RV</span>
+            </td>
+            <td>Exceptional return value of java.io.File.mkdirs() ignored in edu.odu.cs.zeil.codegrader.TestSuite.processThisSubmission(Submission)</td>
+         </tr>
+         <tr class="detailrow1">
+            <td/>
+            <td>
+               <p id="d2e225" style="display: none;">
+                  <a href="#RV_RETURN_VALUE_IGNORED_BAD_PRACTICE">Bug type RV_RETURN_VALUE_IGNORED_BAD_PRACTICE (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.TestSuite<br/>In method edu.odu.cs.zeil.codegrader.TestSuite.processThisSubmission(Submission)<br/>Called method java.io.File.mkdirs()<br/>At TestSuite.java:[line 144]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0" onclick="toggleRow('d2e240');">
             <td>
                <span class="priority-2">RV</span>
             </td>
             <td>Exceptional return value of java.io.File.mkdirs() ignored in edu.odu.cs.zeil.codegrader.TestSuite.setupStage(File, Path)</td>
          </tr>
-         <tr class="detailrow1">
+         <tr class="detailrow0">
             <td/>
             <td>
-               <p id="d2e192" style="display: none;">
+               <p id="d2e240" style="display: none;">
                   <a href="#RV_RETURN_VALUE_IGNORED_BAD_PRACTICE">Bug type RV_RETURN_VALUE_IGNORED_BAD_PRACTICE (click for details)</a>
-                  <br/>In class edu.odu.cs.zeil.codegrader.TestSuite<br/>In method edu.odu.cs.zeil.codegrader.TestSuite.setupStage(File, Path)<br/>Called method java.io.File.mkdirs()<br/>At TestSuite.java:[line 335]</p>
+                  <br/>In class edu.odu.cs.zeil.codegrader.TestSuite<br/>In method edu.odu.cs.zeil.codegrader.TestSuite.setupStage(File, Path)<br/>Called method java.io.File.mkdirs()<br/>At TestSuite.java:[line 345]</p>
             </td>
          </tr>
       </table>
@@ -321,7 +335,7 @@
             <th align="left">Code</th>
             <th align="left">Warning</th>
          </tr>
-         <tr class="tablerow1" onclick="toggleRow('d2e256');">
+         <tr class="tablerow1" onclick="toggleRow('d2e303');">
             <td>
                <span class="priority-2">UwF</span>
             </td>
@@ -330,7 +344,7 @@
          <tr class="detailrow1">
             <td/>
             <td>
-               <p id="d2e256" style="display: none;">
+               <p id="d2e303" style="display: none;">
                   <a href="#UWF_UNWRITTEN_FIELD">Bug type UWF_UNWRITTEN_FIELD (click for details)</a>
                   <br/>In class edu.odu.cs.zeil.codegrader.run.CLI<br/>Field edu.odu.cs.zeil.codegrader.run.CLI.student<br/>At CLI.java:[line 114]</p>
             </td>
@@ -344,7 +358,7 @@
             <th align="left">Code</th>
             <th align="left">Warning</th>
          </tr>
-         <tr class="tablerow1" onclick="toggleRow('d2e97');">
+         <tr class="tablerow1" onclick="toggleRow('d2e129');">
             <td>
                <span class="priority-1">LG</span>
             </td>
@@ -353,7 +367,7 @@
          <tr class="detailrow1">
             <td/>
             <td>
-               <p id="d2e97" style="display: none;">
+               <p id="d2e129" style="display: none;">
                   <a href="#LG_LOST_LOGGER_DUE_TO_WEAK_REFERENCE">Bug type LG_LOST_LOGGER_DUE_TO_WEAK_REFERENCE (click for details)</a>
                   <br/>In class edu.odu.cs.zeil.codegrader.Logging<br/>In method edu.odu.cs.zeil.codegrader.Logging.setup()<br/>Local variable named logger<br/>At Logging.java:[line 19]<br/>Another occurrence at Logging.java:[line 24]<br/>Another occurrence at Logging.java:[line 32]</p>
             </td>
@@ -378,7 +392,7 @@
             <td>
                <p id="d2e82" style="display: none;">
                   <a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
-                  <br/>In class edu.odu.cs.zeil.codegrader.FileUtils<br/>In method edu.odu.cs.zeil.codegrader.FileUtils.writeTextFile(Path, String)<br/>Called method new java.io.FileWriter(File)<br/>At FileUtils.java:[line 215]</p>
+                  <br/>In class edu.odu.cs.zeil.codegrader.FileUtils<br/>In method edu.odu.cs.zeil.codegrader.FileUtils.writeTextFile(Path, String)<br/>Called method new java.io.FileWriter(File)<br/>At FileUtils.java:[line 262]</p>
             </td>
          </tr>
       </table>
@@ -390,7 +404,7 @@
             <th align="left">Code</th>
             <th align="left">Warning</th>
          </tr>
-         <tr class="tablerow1" onclick="toggleRow('d2e127');">
+         <tr class="tablerow1" onclick="toggleRow('d2e159');">
             <td>
                <span class="priority-2">EI</span>
             </td>
@@ -399,12 +413,12 @@
          <tr class="detailrow1">
             <td/>
             <td>
-               <p id="d2e127" style="display: none;">
+               <p id="d2e159" style="display: none;">
                   <a href="#EI_EXPOSE_REP">Bug type EI_EXPOSE_REP (click for details)</a>
                   <br/>In class edu.odu.cs.zeil.codegrader.TestCase<br/>In method edu.odu.cs.zeil.codegrader.TestCase.getProperties()<br/>Field edu.odu.cs.zeil.codegrader.TestCase.properties<br/>At TestCase.java:[line 260]</p>
             </td>
          </tr>
-         <tr class="tablerow0" onclick="toggleRow('d2e176');">
+         <tr class="tablerow0" onclick="toggleRow('d2e209');">
             <td>
                <span class="priority-2">EI</span>
             </td>
@@ -413,12 +427,12 @@
          <tr class="detailrow0">
             <td/>
             <td>
-               <p id="d2e176" style="display: none;">
+               <p id="d2e209" style="display: none;">
                   <a href="#EI_EXPOSE_REP">Bug type EI_EXPOSE_REP (click for details)</a>
                   <br/>In class edu.odu.cs.zeil.codegrader.TestCaseProperties<br/>In method edu.odu.cs.zeil.codegrader.TestCaseProperties.getGradingOptions()<br/>Field edu.odu.cs.zeil.codegrader.TestCaseProperties.grading<br/>At TestCaseProperties.java:[line 326]</p>
             </td>
          </tr>
-         <tr class="tablerow1" onclick="toggleRow('d2e143');">
+         <tr class="tablerow1" onclick="toggleRow('d2e175');">
             <td>
                <span class="priority-2">EI2</span>
             </td>
@@ -427,7 +441,7 @@
          <tr class="detailrow1">
             <td/>
             <td>
-               <p id="d2e143" style="display: none;">
+               <p id="d2e175" style="display: none;">
                   <a href="#EI_EXPOSE_REP2">Bug type EI_EXPOSE_REP2 (click for details)</a>
                   <br/>In class edu.odu.cs.zeil.codegrader.TestCase<br/>In method new edu.odu.cs.zeil.codegrader.TestCase(TestCaseProperties)<br/>Field edu.odu.cs.zeil.codegrader.TestCase.properties<br/>Local variable named testProperties<br/>At TestCase.java:[line 64]</p>
             </td>
@@ -441,7 +455,7 @@
             <th align="left">Code</th>
             <th align="left">Warning</th>
          </tr>
-         <tr class="tablerow1" onclick="toggleRow('d2e230');">
+         <tr class="tablerow1" onclick="toggleRow('d2e277');">
             <td>
                <span class="priority-2">UrF</span>
             </td>
@@ -450,12 +464,12 @@
          <tr class="detailrow1">
             <td/>
             <td>
-               <p id="d2e230" style="display: none;">
+               <p id="d2e277" style="display: none;">
                   <a href="#URF_UNREAD_FIELD">Bug type URF_UNREAD_FIELD (click for details)</a>
                   <br/>In class edu.odu.cs.zeil.codegrader.run.CLI<br/>Field edu.odu.cs.zeil.codegrader.run.CLI.selectedStudent<br/>At CLI.java:[line 115]</p>
             </td>
          </tr>
-         <tr class="tablerow0" onclick="toggleRow('d2e243');">
+         <tr class="tablerow0" onclick="toggleRow('d2e290');">
             <td>
                <span class="priority-2">UrF</span>
             </td>
@@ -464,7 +478,7 @@
          <tr class="detailrow0">
             <td/>
             <td>
-               <p id="d2e243" style="display: none;">
+               <p id="d2e290" style="display: none;">
                   <a href="#URF_UNREAD_FIELD">Bug type URF_UNREAD_FIELD (click for details)</a>
                   <br/>In class edu.odu.cs.zeil.codegrader.run.CLI<br/>Field edu.odu.cs.zeil.codegrader.run.CLI.selectedTest<br/>At CLI.java:[line 118]</p>
             </td>
@@ -477,6 +491,34 @@
          <tr class="tableheader">
             <th align="left">Code</th>
             <th align="left">Warning</th>
+         </tr>
+         <tr class="tablerow1" onclick="toggleRow('d2e97');">
+            <td>
+               <span class="priority-2">NP</span>
+            </td>
+            <td>Possible null pointer dereference in edu.odu.cs.zeil.codegrader.FileUtils$1.visitFile(Path, BasicFileAttributes) due to return value of called method</td>
+         </tr>
+         <tr class="detailrow1">
+            <td/>
+            <td>
+               <p id="d2e97" style="display: none;">
+                  <a href="#NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE">Bug type NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.FileUtils$1<br/>In method edu.odu.cs.zeil.codegrader.FileUtils$1.visitFile(Path, BasicFileAttributes)<br/>Local variable stored in JVM register ?<br/>Dereferenced at FileUtils.java:[line 78]<br/>Known null at FileUtils.java:[line 78]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0" onclick="toggleRow('d2e113');">
+            <td>
+               <span class="priority-2">NP</span>
+            </td>
+            <td>Possible null pointer dereference in edu.odu.cs.zeil.codegrader.FileUtils$1.visitFile(Path, BasicFileAttributes) due to return value of called method</td>
+         </tr>
+         <tr class="detailrow0">
+            <td/>
+            <td>
+               <p id="d2e113" style="display: none;">
+                  <a href="#NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE">Bug type NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.FileUtils$1<br/>In method edu.odu.cs.zeil.codegrader.FileUtils$1.visitFile(Path, BasicFileAttributes)<br/>Local variable stored in JVM register ?<br/>Method invoked at FileUtils.java:[line 79]<br/>Known null at FileUtils.java:[line 79]</p>
+            </td>
          </tr>
          <tr class="tablerow1" onclick="toggleRow('d2e69');">
             <td>
@@ -583,6 +625,15 @@ after the call to initLogging, the logger configuration is lost
 <p><em>Ulf Ochsenfahrt and Eric Fellheimer</em></p>
           
       <h2>
+         <a name="NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE">NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE: Possible null pointer dereference due to return value of called method</a>
+      </h2>
+      
+<p> The return value from a method is dereferenced without a null check,
+and the return value of that method is one that should generally be checked
+for null.  This may lead to a <code>NullPointerException</code> when the code is executed.
+</p>
+      
+   <h2>
          <a name="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE">RV_RETURN_VALUE_IGNORED_BAD_PRACTICE: Method ignores exceptional return value</a>
       </h2>
 

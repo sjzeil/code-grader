@@ -154,8 +154,10 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>static void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyDirectory(java.nio.file.Path,java.nio.file.Path,java.nio.file.CopyOption...)">copyDirectory</a></span>&#8203;(java.nio.file.Path&nbsp;source,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#copyDirectory(java.nio.file.Path,java.nio.file.Path,java.util.List,java.util.List,java.nio.file.CopyOption...)">copyDirectory</a></span>&#8203;(java.nio.file.Path&nbsp;source,
              java.nio.file.Path&nbsp;target,
+             java.util.List&lt;java.lang.String&gt;&nbsp;inclusions,
+             java.util.List&lt;java.lang.String&gt;&nbsp;exclusions,
              java.nio.file.CopyOption...&nbsp;options)</code></th>
 <td class="colLast">
 <div class="block">Directory copy utility.</div>
@@ -239,7 +241,7 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="copyDirectory(java.nio.file.Path,java.nio.file.Path,java.nio.file.CopyOption...)">
+<a id="copyDirectory(java.nio.file.Path,java.nio.file.Path,java.util.List,java.util.List,java.nio.file.CopyOption...)">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -247,16 +249,20 @@ extends java.lang.Object</pre>
 <h4>copyDirectory</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;copyDirectory&#8203;(java.nio.file.Path&nbsp;source,
                                  java.nio.file.Path&nbsp;target,
+                                 java.util.List&lt;java.lang.String&gt;&nbsp;inclusions,
+                                 java.util.List&lt;java.lang.String&gt;&nbsp;exclusions,
                                  java.nio.file.CopyOption...&nbsp;options)
                           throws java.io.IOException</pre>
-<div class="block">Directory copy utility.
- 
- (from
- https://stackoverflow.com/questions/29076439/java-8-copy-directory-recursively/60621544#60621544)</div>
+<div class="block">Directory copy utility.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>source</code> - directory to copy</dd>
 <dd><code>target</code> - destination for copy</dd>
+<dd><code>inclusions</code> - list of patterns to include.
+                   If null or empty, copy all files.</dd>
+<dd><code>exclusions</code> - list of patterns to include.
+                   If null or empty, exclude no files.
+                   Exclusions are applied after inclusions.</dd>
 <dd><code>options</code> - copy options, e.g., StandardCopyOption.REPLACE_EXISTING</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.io.IOException</code> - if files cannot be accessed/copied</dd>

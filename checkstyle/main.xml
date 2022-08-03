@@ -13,7 +13,8 @@
 <error line="276" column="53" severity="warning" message="&apos;1000L&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 </file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/FileUtils.java">
-<error line="42" severity="warning" message="Line is longer than 80 characters (found 104)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="92" severity="warning" message="Line is longer than 80 characters (found 104)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="106" severity="warning" message="Line is longer than 80 characters (found 104)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Logging.java">
 <error line="12" column="1" severity="warning" message="Utility classes should not have a public or default constructor." source="com.puppycrawl.tools.checkstyle.checks.design.HideUtilityClassConstructorCheck"/>
@@ -59,8 +60,8 @@
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestConfigurationError.java">
 </file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestSuite.java">
-<error line="175" column="20" severity="warning" message="Variable &apos;statusCode&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
-<error line="176" column="23" severity="warning" message="Variable &apos;message&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="182" column="20" severity="warning" message="Variable &apos;statusCode&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="183" column="23" severity="warning" message="Variable &apos;message&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
 </file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestSuitePropertiesBase.java">
 <error line="34" column="35" severity="warning" message="Variable &apos;test&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
