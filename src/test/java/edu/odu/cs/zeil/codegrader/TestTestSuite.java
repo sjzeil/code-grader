@@ -84,10 +84,36 @@ public class TestTestSuite {
 	}
 
 	@Test
+	void testSubmissionBuild() {
+		TestSuite suite = new TestSuite(asst);
+		suite.clearTheStage(stagingPath);
+
+		suite.buildGoldVersionIfAvailable();
+
+		Submission submission = new Submission(asst, "perfect");
+		suite.processThisSubmission(submission);
+
+		// Check first on the submitter stage setup
+		assertTrue(asst.getSubmitterStage().toFile().exists());
+		assertTrue(asst.getSubmitterStage().resolve("sqrtProg.java")
+			.toFile().exists());
+		assertTrue(asst.getSubmitterStage().resolve("makefile")
+			.toFile().exists());
+
+		// Now check if the build ran.
+		assertTrue(asst.getGoldStage().resolve("sqrtProg.class")
+			.toFile().exists());
+
+	}
+
+
+
+
+	@Test
 	void testRunAllTests() 
 			throws FileNotFoundException, TestConfigurationError  {
 
-		Submission student1 = new Submission(asst, "student1");
+		Submission student1 = new Submission(asst, "perfect");
 		String javaHome = System.getProperty("java.home");
 		Path javaExec = Paths.get(javaHome, "bin", "java");
 		String launcher = javaExec + " -cp " 
@@ -115,7 +141,7 @@ public class TestTestSuite {
 	void testRunSelectedTest()
 	throws FileNotFoundException, TestConfigurationError  {
 
-		Submission student1 = new Submission(asst, "student1");
+		Submission student1 = new Submission(asst, "perfect");
 		String javaHome = System.getProperty("java.home");
 		Path javaExec = Paths.get(javaHome, "bin", "java");
 		String launcher = javaExec + " -cp " 
@@ -129,7 +155,7 @@ public class TestTestSuite {
 
 		suite.runTests(student1);
 
-		Path studentGrades = recordingPath.resolve("student1");
+		Path studentGrades = recordingPath.resolve("perfect");
 
 		File[] tests = asst.getTestSuiteDirectory().toFile().listFiles();
 		for (File testDir: tests) {

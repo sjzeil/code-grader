@@ -83,7 +83,6 @@ public class TestSuite {
 	 */
 	public void performTests() {
 		Path stage = assignment.getStagingDirectory();
-		clearTheStage(stage);
 		buildGoldVersionIfAvailable();
 		Path submissionsDir = assignment.getSubmissionsDirectory();
 		File[] submissions = submissionsDir.toFile().listFiles();
@@ -97,10 +96,10 @@ public class TestSuite {
 				String submissionName = submissionFile.getName();
 				Submission submission = new Submission(assignment, 
 					submissionName);
-				processThisSubmission(stage, submission);
+				processThisSubmission(submission);
 			}
 		}
-
+		clearTheStage(stage);
 	}
 
 	/**
@@ -130,17 +129,25 @@ public class TestSuite {
 	 * 
 	 *   4) Prepare summary reports of test results
 	 * 
-	 * @param stage the staging area
 	 * @param submission the submission to process
 	 */
-	private void processThisSubmission(Path stage, Submission submission) {
+	public void processThisSubmission(Submission submission) {
+		Path stage = assignment.getSubmitterStage();
+		try {
+			FileUtils.deleteDirectory(stage);
+		} catch (IOException e) {
+			logger.warn("Problem clearing the staging area " 
+				+ stage.toString(), e);
+		}
+		Path recordAt = assignment.getRecordingDirectory()
+			.resolve(submission.getSubmittedBy());
+		recordAt.toFile().mkdirs();
 		copyTestSuiteToRecordingArea(submission);
 		File submissionFile = assignment.getSubmissionsDirectory()
 			.resolve(submission.getSubmittedBy()).toFile();
 		setupStage(submissionFile, stage);
-		buildStagedCode(stage);
+		buildStagedCode(stage, submission);
 		runTests(submission);
-		clearTheStage(stage);
 	}
 
 	/**
@@ -218,15 +225,18 @@ public class TestSuite {
 	 * Build the submitted code (in the staging area).
 	 * @param stage staging area containing submitted code & 
 	 * 		instructor-provided code
+	 * @param submission submission being graded
 	 */
-	private void buildStagedCode(Path stage) {
+	private void buildStagedCode(Path stage, Submission submission) {
 		BuildResult result = buildCode(stage);
 		String buildScore = (result.statusCode == 0) ? "100" : "0";
+		Path recordAt = assignment.getRecordingDirectory()
+			.resolve(submission.getSubmittedBy());
 		FileUtils.writeTextFile(
-			assignment.getRecordingDirectory().resolve("build.score"), 
+			recordAt.resolve("build.score"), 
 			buildScore);
 		FileUtils.writeTextFile(
-			assignment.getRecordingDirectory().resolve("build.message"), 
+			recordAt.resolve("build.message"), 
 			result.message);			
 	}
 
