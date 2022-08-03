@@ -35,7 +35,7 @@ public class TestTestCaseExec {
 	public void setup() throws IOException {
 		testSuitePath.toFile().getParentFile().mkdirs();
 		stagingPath.toFile().mkdirs();
-		FileUtils.copyDirectory(asstSrcPath, testSuitePath,
+		FileUtils.copyDirectory(asstSrcPath, testSuitePath, null, null,
 			StandardCopyOption.REPLACE_EXISTING);
 
 		asst = new Assignment();

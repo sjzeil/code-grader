@@ -46,7 +46,7 @@ public class TestTestSuite {
 	public void setup() throws IOException, TestConfigurationError {
 		asstDestPath.toFile().getParentFile().mkdirs();
 		stagingPath.toFile().mkdirs();
-		FileUtils.copyDirectory(asstSrcPath, asstDestPath,
+		FileUtils.copyDirectory(asstSrcPath, asstDestPath, null, null,
 				StandardCopyOption.REPLACE_EXISTING);
 
 		asst = new Assignment();

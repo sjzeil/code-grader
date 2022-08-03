@@ -164,7 +164,7 @@ public class TestSuite {
 		Path studentRecordingArea = getStudentRecordingDir(submission);
 		try {
 		FileUtils.copyDirectory(assignment.getTestSuiteDirectory(),
-			studentRecordingArea);
+			studentRecordingArea, null, null);
 		} catch (IOException ex) {
 			logger.warn("Problem copying the suite to the recordingArea "
 					+ studentRecordingArea.toString(), ex);
@@ -197,7 +197,7 @@ public class TestSuite {
 				Path goldStage = assignment.getGoldStage();
 				if (!goldStage.toFile().exists()) {
 				try {
-					FileUtils.copyDirectory(goldDir, goldStage);
+					FileUtils.copyDirectory(goldDir, goldStage, null, null);
 				} catch (IOException e) {
 					throw new TestConfigurationError(
 						"Cannot create staging directory for gold version\n"

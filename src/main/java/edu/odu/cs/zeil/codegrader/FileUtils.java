@@ -10,9 +10,11 @@ import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 import java.nio.charset.Charset;
 import java.nio.file.CopyOption;
+import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
@@ -38,15 +40,20 @@ public final class FileUtils {
     /**
      * Directory copy utility.
      * 
-     * (from
-     * https://stackoverflow.com/questions/29076439/java-8-copy-directory-recursively/60621544#60621544)
      * 
-     * @param source  directory to copy
-     * @param target  destination for copy
-     * @param options copy options, e.g., StandardCopyOption.REPLACE_EXISTING
+     * @param source     directory to copy
+     * @param target     destination for copy
+     * @param inclusions list of patterns to include.
+     *                   If null or empty, copy all files.
+     * @param exclusions list of patterns to include.
+     *                   If null or empty, exclude no files.
+     *                   Exclusions are applied after inclusions.
+     * @param options    copy options, e.g., StandardCopyOption.REPLACE_EXISTING
      * @throws IOException if files cannot be accessed/copied
      */
     public static void copyDirectory(Path source, Path target,
+            List<String> inclusions,
+            List<String> exclusions,
             CopyOption... options)
             throws IOException {
         Files.walkFileTree(source, new SimpleFileVisitor<Path>() {
@@ -55,8 +62,8 @@ public final class FileUtils {
             public FileVisitResult preVisitDirectory(Path dir,
                     BasicFileAttributes attrs)
                     throws IOException {
-                Path newDir = target.resolve(source.relativize(dir));
-                Files.createDirectories(newDir);
+                // Path newDir = target.resolve(source.relativize(dir));
+                // Files.createDirectories(newDir);
                 return FileVisitResult.CONTINUE;
             }
 
@@ -64,10 +71,46 @@ public final class FileUtils {
             public FileVisitResult visitFile(Path file,
                     BasicFileAttributes attrs)
                     throws IOException {
-                Files.copy(file, target.resolve(source.relativize(file)),
-                        options);
+                Path relativeSrc = source.relativize(file);
+                if (matchesAny(relativeSrc, inclusions)
+                        && matchesNone(relativeSrc, exclusions)) {
+                    Path destinationPath = target.resolve(relativeSrc);
+                    if (!destinationPath.getParent().toFile().exists()) {
+                        Files.createDirectories(destinationPath.getParent());
+                    }
+                    Files.copy(file, destinationPath, options);
+                }
                 return FileVisitResult.CONTINUE;
             }
+
+            private boolean matchesAny(Path relativeSrc,
+                    List<String> patterns) {
+                if (patterns == null || patterns.size() == 0) {
+                    return true;
+                }
+                for (String patternStr : patterns) {
+                    PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + patternStr);
+                    if (matcher.matches(relativeSrc)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            private boolean matchesNone(Path relativeSrc,
+                    List<String> patterns) {
+                if (patterns == null || patterns.size() == 0) {
+                    return true;
+                }
+                for (String patternStr : patterns) {
+                    PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + patternStr);
+                    if (matcher.matches(relativeSrc)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
         });
     }
 
@@ -144,14 +187,15 @@ public final class FileUtils {
 
     /**
      * Find a file with the given extension in a directory tree.
-     * @param dir a path to a directory 
+     * 
+     * @param dir       a path to a directory
      * @param extension the desired file extension
      * @return a file with the desired extension, if one exists.
      */
     public static Optional<File> findFile(Path dir, String extension) {
         File[] files = dir.toFile().listFiles();
         if (files != null) {
-            for (File file: files) {
+            for (File file : files) {
                 if (file.getName().endsWith(extension)) {
                     return Optional.of(file);
                 }
@@ -162,7 +206,8 @@ public final class FileUtils {
 
     /**
      * Find all files with the given extension in a directory tree.
-     * @param dir a path to a directory 
+     * 
+     * @param dir       a path to a directory
      * @param extension the desired file extension
      * @return a list of files with the desired extension.
      */
@@ -170,7 +215,7 @@ public final class FileUtils {
         List<File> results = new ArrayList<>();
         File[] files = dir.toFile().listFiles();
         if (files != null) {
-            for (File file: files) {
+            for (File file : files) {
                 if (file.getName().endsWith(extension)) {
                     results.add(file);
                 }
@@ -182,17 +227,18 @@ public final class FileUtils {
     /**
      * Find all directories containing files with the given extension in
      * a directory tree.
-     * @param dir a path to a directory 
+     * 
+     * @param dir       a path to a directory
      * @param extension the desired file extension
-     * @return a list of directories 
+     * @return a list of directories
      */
     public static List<File> findDirectoriesContaining(
-            Path dir, 
+            Path dir,
             String extension) {
         Set<File> results = new HashSet<>();
         File[] files = dir.toFile().listFiles();
         if (files != null) {
-            for (File file: files) {
+            for (File file : files) {
                 if (file.getName().endsWith(extension)) {
                     results.add(file.getParentFile());
                 }
@@ -206,7 +252,8 @@ public final class FileUtils {
 
     /**
      * WWrite a string into a file.
-     * @param destination path at which to write
+     * 
+     * @param destination  path at which to write
      * @param outputString string to write
      * @throws TestConfigurationError if file cannot be written.
      */
@@ -215,8 +262,8 @@ public final class FileUtils {
         try (FileWriter output = new FileWriter(destination.toFile())) {
             output.write(outputString);
         } catch (IOException ex) {
-            String message = "Could not write to " 
-                + destination.toString();
+            String message = "Could not write to "
+                    + destination.toString();
             LOG.error(message, ex);
             throw new TestConfigurationError(message + "\n" + ex.getMessage());
         }

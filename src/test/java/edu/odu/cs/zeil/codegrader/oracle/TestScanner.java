@@ -42,7 +42,7 @@ public class TestScanner {
 	@BeforeEach
 	public void setup() throws IOException, TestConfigurationError {
 		testSuitePath.toFile().getParentFile().mkdirs();
-		FileUtils.copyDirectory(asstSrcPath, testSuitePath,
+		FileUtils.copyDirectory(asstSrcPath, testSuitePath, null, null,
 			StandardCopyOption.REPLACE_EXISTING);
 
 		asst = new Assignment();

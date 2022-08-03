@@ -27,7 +27,8 @@ public class TestTestProperties {
 		asst.setTestSuiteDirectory(asst1DirPath.resolve("tests"));
 		asst1DirPath.toFile().getParentFile().mkdirs();
 		Path asst1SrcPath = Paths.get("src", "test", "data", "assignment1");
-		FileUtils.copyDirectory(asst1SrcPath, asst1DirPath, StandardCopyOption.REPLACE_EXISTING);
+		FileUtils.copyDirectory(asst1SrcPath, asst1DirPath, null, null, 
+			StandardCopyOption.REPLACE_EXISTING);
 	}
 	
 	@AfterEach
