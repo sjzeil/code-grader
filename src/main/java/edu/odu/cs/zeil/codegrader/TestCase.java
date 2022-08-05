@@ -124,6 +124,7 @@ public class TestCase {
         executeTest(submission);
         Path testRecordingDir = properties.getRecordingDirectory()
             .resolve(submission.getSubmittedBy())
+            .resolve("Grading")
             .resolve(properties.getName());
         testRecordingDir.toFile().mkdirs();
         String testName = properties.getName();

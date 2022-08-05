@@ -89,7 +89,8 @@ public final class FileUtils {
                     return true;
                 }
                 for (String patternStr : patterns) {
-                    PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + patternStr);
+                    PathMatcher matcher = FileSystems.getDefault()
+                        .getPathMatcher("glob:" + patternStr);
                     if (matcher.matches(relativeSrc)) {
                         return true;
                     }
@@ -103,7 +104,8 @@ public final class FileUtils {
                     return true;
                 }
                 for (String patternStr : patterns) {
-                    PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + patternStr);
+                    PathMatcher matcher = FileSystems.getDefault()
+                        .getPathMatcher("glob:" + patternStr);
                     if (matcher.matches(relativeSrc)) {
                         return false;
                     }

@@ -57,7 +57,11 @@ public class Assignment implements Cloneable {
      *         code or null if no instructor's code is supplied.
      */
     public Path getInstructorCodeDirectory() {
-        return instructorCodeDirectory;
+        if (instructorCodeDirectory != null) {
+            return instructorCodeDirectory;
+        } else {
+            return goldDirectory;
+        }
     }
 
     /**

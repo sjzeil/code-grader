@@ -50,7 +50,7 @@ public class TestTestSuite {
 				StandardCopyOption.REPLACE_EXISTING);
 
 		asst = new Assignment();
-		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
+		asst.setTestSuiteDirectory(testSuitePath);
 		asst.setStagingDirectory(stagingPath);
 		asst.setSubmissionsDirectory(submissionsPath);
 		asst.setRecordingDirectory(recordingPath);
@@ -106,14 +106,74 @@ public class TestTestSuite {
 
 	}
 
+	@Test
+	void testJavaDefaultLaunchBuild() {
+		TestSuite suite = new TestSuite(asst);
+		suite.clearTheStage(stagingPath);
+
+		suite.buildGoldVersionIfAvailable();
+
+		Submission submission = new Submission(asst, "perfect");
+
+		submissionsPath.resolve("perfect").resolve("makefile")
+		.toFile().delete();  // use default Java launch
+
+		suite.processThisSubmission(submission);
+
+		// Check first on the submitter stage setup
+		assertTrue(asst.getSubmitterStage().toFile().exists());
+		assertTrue(asst.getSubmitterStage().resolve("sqrtProg.java")
+			.toFile().exists());
+		assertTrue(asst.getSubmitterStage().resolve("makefile")
+			.toFile().exists());
+
+		// Now check if the build ran.
+		assertTrue(asst.getGoldStage().resolve("sqrtProg.class")
+			.toFile().exists());
+
+	}
+
+	@Test
+	void testJavaSetup() {
+		TestSuite suite = new TestSuite(asst);
+		suite.clearTheStage(stagingPath);
+
+		suite.buildGoldVersionIfAvailable();
+
+		Submission submission = new Submission(asst, "flattened");
+		suite.addJavaSrcDir("src;");
+		submissionsPath.resolve("flattened").resolve("makefile")
+			.toFile().delete();  // use default Java launch
+
+		suite.processThisSubmission(submission);
+
+		// Check first on the submitter stage setup
+		assertTrue(asst.getSubmitterStage().toFile().exists());
+		assertTrue(asst.getSubmitterStage().resolve("src").toFile().exists());
+		assertTrue(asst.getSubmitterStage().resolve("src")
+			.resolve("sqrtProg.java")
+			.toFile().exists());
+		assertTrue(asst.getSubmitterStage().resolve("src").resolve("unexpected")
+			.toFile().isDirectory());
+		assertTrue(asst.getSubmitterStage().resolve("src")
+			.resolve("unexpected")
+			.resolve("sqrtPrinter")
+			.toFile().exists());
+
+		// Now check if the build ran.
+		assertTrue(asst.getGoldStage().resolve("src").resolve("sqrtProg.class")
+			.toFile().exists());
+
+	}
 
 
 
 	@Test
 	void testRunAllTests() 
-			throws FileNotFoundException, TestConfigurationError  {
+			throws TestConfigurationError, IOException  {
 
-		Submission student1 = new Submission(asst, "perfect");
+		String studentName = "perfect";
+		Submission student1 = new Submission(asst, studentName);
 		String javaHome = System.getProperty("java.home");
 		Path javaExec = Paths.get(javaHome, "bin", "java");
 		String launcher = javaExec + " -cp " 
@@ -123,13 +183,23 @@ public class TestTestSuite {
 		TestSuite suite = new TestSuite(asst);
 		suite.setLaunch(launcher);
 
-		suite.runTests(student1);
+		Path studentGrades = recordingPath.resolve(studentName)
+			.resolve("Grading");
+		if (studentGrades.toFile().exists()) {
+			FileUtils.deleteDirectory(studentGrades);
+		}
+		FileUtils.copyDirectory(asst.getTestSuiteDirectory(), 
+			studentGrades, null, null);
 
-		Path studentGrades = recordingPath.resolve("student1");
+		suite.runTests(student1);
 
 		File[] tests = asst.getTestSuiteDirectory().toFile().listFiles();
 		for (File testDir: tests) {
+			if (!testDir.isDirectory()) {
+				continue;
+			}
 			String testName = testDir.getName();
+
 			Path recordedTest = studentGrades.resolve(testName);
 			assertTrue(Files.exists(recordedTest));
 			Path recordedScore = recordedTest.resolve(testName + ".score");
