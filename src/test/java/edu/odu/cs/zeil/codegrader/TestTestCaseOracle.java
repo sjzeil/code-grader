@@ -81,6 +81,7 @@ public class TestTestCaseOracle {
 		Path recordedAt = testCase.performTest(student1, false);
 
 		Path studentGrades = recordingPath.resolve("student1")
+			.resolve("Grading")
 			.resolve("params");
 		assertTrue(studentGrades.toFile().exists());
 		assertThat(recordedAt.normalize(), equalTo(studentGrades.normalize()));
@@ -126,6 +127,7 @@ public class TestTestCaseOracle {
 		Path recordedAt = testCase.performTest(student1, false);
 
 		Path studentGrades = recordingPath.resolve("student1")
+			.resolve("Grading")
 			.resolve("params");
 		assertTrue(studentGrades.toFile().exists());
 		assertThat(recordedAt.normalize(), equalTo(studentGrades.normalize()));
