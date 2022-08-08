@@ -90,7 +90,7 @@ public final class FileUtils {
                 }
                 for (String patternStr : patterns) {
                     PathMatcher matcher = FileSystems.getDefault()
-                        .getPathMatcher("glob:" + patternStr);
+                            .getPathMatcher("glob:" + patternStr);
                     if (matcher.matches(relativeSrc)) {
                         return true;
                     }
@@ -105,7 +105,7 @@ public final class FileUtils {
                 }
                 for (String patternStr : patterns) {
                     PathMatcher matcher = FileSystems.getDefault()
-                        .getPathMatcher("glob:" + patternStr);
+                            .getPathMatcher("glob:" + patternStr);
                     if (matcher.matches(relativeSrc)) {
                         return false;
                     }
@@ -188,7 +188,7 @@ public final class FileUtils {
     }
 
     /**
-     * Find a file with the given extension in a directory tree.
+     * Find a file with the given extension in a directory.
      * 
      * @param dir       a path to a directory
      * @param extension the desired file extension
@@ -207,7 +207,7 @@ public final class FileUtils {
     }
 
     /**
-     * Find all files with the given extension in a directory tree.
+     * Find all files with the given extension in a directory.
      * 
      * @param dir       a path to a directory
      * @param extension the desired file extension
@@ -227,6 +227,42 @@ public final class FileUtils {
     }
 
     /**
+     * Find all files with the given extension in a directory tree.
+     * 
+     * @param dir       a path to a directory
+     * @param extension the desired file extension
+     * @return a list of files with the desired extension.
+     */
+    public static List<File> findAllDeepFiles(Path dir, String extension) {
+        List<File> results = new ArrayList<>();
+        try {
+            Files.walkFileTree(dir, new SimpleFileVisitor<Path>() {
+
+                @Override
+                public FileVisitResult postVisitDirectory(Path dir,
+                        IOException exc)
+                        throws IOException {
+                    return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult visitFile(Path file,
+                        BasicFileAttributes attrs)
+                        throws IOException {
+                    if (file.toFile().getName().endsWith(extension)) {
+                        results.add(file.toFile());
+                    }
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        } catch (IOException e) {
+            LOG.warn("Problem walking the directory tree " + dir.toString()
+                    + "\n" + e.getMessage());
+        }
+        return results;
+    }
+
+    /**
      * Find all directories containing files with the given extension in
      * a directory tree.
      * 
@@ -238,14 +274,31 @@ public final class FileUtils {
             Path dir,
             String extension) {
         Set<File> results = new HashSet<>();
-        File[] files = dir.toFile().listFiles();
-        if (files != null) {
-            for (File file : files) {
-                if (file.getName().endsWith(extension)) {
-                    results.add(file.getParentFile());
+        try {
+            Files.walkFileTree(dir, new SimpleFileVisitor<Path>() {
+
+                @Override
+                public FileVisitResult postVisitDirectory(Path dir,
+                        IOException exc)
+                        throws IOException {
+                    return FileVisitResult.CONTINUE;
                 }
-            }
+
+                @Override
+                public FileVisitResult visitFile(Path file,
+                        BasicFileAttributes attrs)
+                        throws IOException {
+                    if (file.toFile().getName().endsWith(extension)) {
+                        results.add(file.getParent().toFile());
+                    }
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        } catch (IOException e) {
+            LOG.warn("Problem walking the directory tree " + dir.toString()
+                    + "\n" + e.getMessage());
         }
+
         return new ArrayList<File>(results);
     }
 

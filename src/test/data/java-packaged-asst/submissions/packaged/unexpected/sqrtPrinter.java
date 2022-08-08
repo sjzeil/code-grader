@@ -1,10 +1,4 @@
-/**
- * package foo;   I'm just being difficult here.
- */
-
-// package bar;
-package /* what will
-           it be? */ unexpected;
+package unexpected;
 
 public class sqrtPrinter {
 

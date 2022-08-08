@@ -3,7 +3,9 @@ package edu.odu.cs.zeil.codegrader;
 import java.io.File;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -214,8 +216,8 @@ public class TestSuite {
 						FileUtils.copyDirectory(goldDir, goldStage, null, null);
 					} catch (IOException e) {
 						throw new TestConfigurationError(
-							"Cannot create staging directory for gold version\n"
-							+ e.getMessage());
+								"Cannot create staging directory for gold version\n"
+										+ e.getMessage());
 					}
 					BuildResult result = buildCode(goldStage);
 					if (result.statusCode != 0) {
@@ -270,8 +272,8 @@ public class TestSuite {
 				return new BuildResult(0, buildInfo);
 			} else {
 				return new BuildResult(process.getStatusCode(),
-					"Build failed with status code " + process.getStatusCode()
-					+ ".\n" + buildInfo);
+						"Build failed with status code " + process.getStatusCode()
+								+ ".\n" + buildInfo);
 			}
 		} else {
 			return new BuildResult(-1,
@@ -307,24 +309,25 @@ public class TestSuite {
 				}
 			} else if (buildDir.resolve("pom.xml").toFile().exists()) {
 				command = "mvn compile";
-			} else if (buildDir.resolve("pom.xml").toFile().exists()) {
+			} else if (buildDir.resolve("build.xml").toFile().exists()) {
 				command = "ant";
 			} else {
 				List<File> javaDirs = FileUtils.findDirectoriesContaining(
 						buildDir, ".java");
 				if (javaDirs.size() > 0) {
 					StringBuilder commandStr = new StringBuilder();
-					commandStr.append("java ");
+					commandStr.append("javac ");
 					if (buildDir.resolve("lib").toFile().isDirectory()) {
 						List<File> jars = FileUtils.findAllFiles(
 								buildDir.resolve("lib"), ".jar");
 						if (jars.size() > 0) {
 							commandStr.append("-cp ." + File.pathSeparator
-									+ "'lib/*.java' ");
+									+ "'lib/*.jar' ");
 						}
 					}
 					for (File srcDir : javaDirs) {
-						commandStr.append(srcDir.toString()
+						Path relativeDir = buildDir.relativize(srcDir.toPath());
+						commandStr.append(relativeDir.toString()
 								+ File.separator + "*.java ");
 					}
 					command = commandStr.toString();
@@ -354,33 +357,30 @@ public class TestSuite {
 		List<String> requiredStudentFiles = listRequiredStudentFiles();
 		try {
 			FileUtils.copyDirectory(
-				assignment.getInstructorCodeDirectory(), 
-				stage, 
-				null, 
-				requiredStudentFiles);
+					assignment.getInstructorCodeDirectory(),
+					stage,
+					null,
+					requiredStudentFiles);
 		} catch (IOException e) {
 			throw new TestConfigurationError(
-				"Could not copy instructor files from "
-				+ assignment.getInstructorCodeDirectory().toString()
-				+ " into " + stage.toString() + "\n"
-				+ e.getMessage()
-				);
+					"Could not copy instructor files from "
+							+ assignment.getInstructorCodeDirectory().toString()
+							+ " into " + stage.toString() + "\n"
+							+ e.getMessage());
 		}
 		try {
 			FileUtils.copyDirectory(
-				submission.toPath(), 
-				stage, 
-				properties.build.studentFiles, 
-				null,
-				StandardCopyOption.REPLACE_EXISTING
-				);
+					submission.toPath(),
+					stage,
+					properties.build.studentFiles,
+					null,
+					StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			throw new TestConfigurationError(
-				"Could not copy student files from "
-				+ submission.toString()
-				+ " into " + stage.toString() + "\n"
-				+ e.getMessage()
-				);
+					"Could not copy student files from "
+							+ submission.toString()
+							+ " into " + stage.toString() + "\n"
+							+ e.getMessage());
 		}
 		arrangeJavaFiles(stage);
 	}
@@ -388,14 +388,106 @@ public class TestSuite {
 	/**
 	 * Look for Java files that are out of position according to their
 	 * package name and move them to the proper location.
+	 * 
 	 * @param stage the staging area.
 	 */
 	private void arrangeJavaFiles(Path stage) {
+		List<File> javaFiles = FileUtils.findAllDeepFiles(stage, ".java");
+		for (File javaFile : javaFiles) {
+			String packageName = getJavaPackage(javaFile);
+			if (notPlacedInPackage(javaFile, packageName)) {
+				moveIntoPackage(javaFile, packageName);
+			}
+		}
+	}
+
+	private void moveIntoPackage(File javaFile, String packageName) {
+		Path stage = assignment.getSubmitterStage();
+		Path packagePath = Paths.get(packageName.replaceAll("\\.", "/"));
+		Path stageSrcDir;
+		if (properties.build.javaSrcDir.size() > 0) {
+			String srcDir = properties.build.javaSrcDir.get(0);
+			Path srcDirPath = Paths.get(srcDir);
+			stageSrcDir = stage.resolve(srcDirPath);
+		} else {
+			stageSrcDir = stage;
+		}
+		Path desiredPackage = stageSrcDir.resolve(packagePath);
+		Path desiredFile = desiredPackage.resolve(javaFile.getName());
+		if (!desiredFile.equals(javaFile.toPath())) {
+			if (!desiredPackage.toFile().exists()) {
+				desiredPackage.toFile().mkdirs();
+			}
+			try {
+				Files.move(javaFile.toPath(), desiredFile);
+			} catch (IOException e) {
+				throw new TestConfigurationError("Unable to move "
+					+ javaFile.toString() + " to "
+					+ desiredFile.toString() + "\n"
+					+ e.getMessage()
+				);
+			}
+		}
+	}
+
+	/**
+	 * Tests to see if a Java file is not properly placed in a source
+	 * directory, taking into consideration the package declaration in the
+	 * Java file.
+	 * 
+	 * @param javaFile    a Java source file
+	 * @param packageName The package it belongs to.
+	 * @return true if this file needs to be moved
+	 */
+	private boolean notPlacedInPackage(File javaFile, String packageName) {
+		Path stage = assignment.getSubmitterStage();
+		Path packagePath = Paths.get(packageName.replaceAll("\\.", "/"));
+		if (properties.build.javaSrcDir.size() > 0) {
+			for (String srcDir : properties.build.javaSrcDir) {
+				Path srcDirPath = Paths.get(srcDir);
+				Path stageSrcDir = stage.resolve(srcDirPath);
+				Path possiblePackage = stageSrcDir.resolve(packagePath);
+				Path possibleFile = possiblePackage.resolve(javaFile.getName());
+				if (possibleFile.equals(javaFile.toPath())) {
+					return false;
+				}
+			}
+		} else {
+			Path stageSrcDir = stage;
+			Path possiblePackage = stageSrcDir.resolve(packagePath);
+			Path possibleFile = possiblePackage.resolve(javaFile.getName());
+			if (possibleFile.equals(javaFile.toPath())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private String getJavaPackage(File javaFile) {
+		String javaSourceCode = FileUtils.readTextFile(javaFile);
+		javaSourceCode = javaSourceCode.replaceAll("//.*\n", "\n");
+		javaSourceCode = javaSourceCode.replaceAll("(?s)/[*].*?[*]/", "");
+		java.util.Scanner scanner = new java.util.Scanner(javaSourceCode);
+		if (scanner.hasNext()) {
+			if (scanner.next().equals("package")) {
+				if (scanner.hasNext()) {
+					String packageName = scanner.next();
+					if (packageName.endsWith(";")) {
+						packageName = packageName.substring(
+								0, packageName.length() - 1);
+					}
+					scanner.close();
+					return packageName;
+				}
+			}
+		}
+		scanner.close();
+		return "";
 	}
 
 	private List<String> listRequiredStudentFiles() {
 		List<String> results = new ArrayList<>();
-		for (String pattern: properties.build.studentFiles) {
+		for (String pattern : properties.build.studentFiles) {
 			if (!pattern.contains("*")) {
 				results.add(pattern);
 			}
@@ -486,7 +578,7 @@ public class TestSuite {
 	 * @param relativePath a Java source directory root.
 	 */
 	public void addJavaSrcDir(String relativePath) {
-		// TODO
+		properties.build.javaSrcDir.add(relativePath);
 	}
 
 }

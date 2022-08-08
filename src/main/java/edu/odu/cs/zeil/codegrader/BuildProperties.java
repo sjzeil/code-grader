@@ -22,11 +22,18 @@ public class BuildProperties {
     public List<String> studentFiles;
 
     /**
+     * List of directories that serve as roots for java source compilation.
+     * If empty, assumed to be only "./".
+     */
+    public List<String> javaSrcDir;
+
+    /**
      * Initialize the build properties.
      */
     public BuildProperties() {
         command = ""; // Will try to infer command from directory contents.
         timeLimit = 300; // 5 min
         studentFiles = new ArrayList<>(); // Accept all student files.
+        javaSrcDir = new ArrayList<>();
     }
 }

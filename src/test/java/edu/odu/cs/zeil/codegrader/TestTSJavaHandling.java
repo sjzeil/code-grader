@@ -20,14 +20,14 @@ import org.junit.jupiter.api.Test;
 
 
 
-public class TestTestSuite {
+public class TestTSJavaHandling {
 
 
 	private Path asstSrcPath = Paths.get("src", "test", "data", 
-		"java-sqrt-assignment");
+		"java-packaged-asst");
 
 	private Path asstDestPath = Paths.get("build", "test-data", 
-		"java-sqrt-assignment");
+		"java-packaged-asst");
 
 	private Path testSuitePath = asstDestPath.resolve("Tests");
 	private Path stagingPath = Paths.get("build", "test-data", "stage");
@@ -115,20 +115,45 @@ public class TestTestSuite {
 
 		Submission submission = new Submission(asst, "perfect");
 
-		submissionsPath.resolve("perfect").resolve("makefile")
-		.toFile().delete();  // use default Java launch
-
 		suite.processThisSubmission(submission);
 
 		// Check first on the submitter stage setup
 		assertTrue(asst.getSubmitterStage().toFile().exists());
 		assertTrue(asst.getSubmitterStage().resolve("sqrtProg.java")
 			.toFile().exists());
-		assertTrue(asst.getSubmitterStage().resolve("makefile")
-			.toFile().exists());
 
 		// Now check if the build ran.
 		assertTrue(asst.getGoldStage().resolve("sqrtProg.class")
+			.toFile().exists());
+
+	}
+
+	@Test
+	void testJavaSetup() {
+		TestSuite suite = new TestSuite(asst);
+		suite.clearTheStage(stagingPath);
+
+		suite.buildGoldVersionIfAvailable();
+
+		Submission submission = new Submission(asst, "flattened");
+
+		suite.processThisSubmission(submission);
+
+		// Check first on the submitter stage setup
+		assertTrue(asst.getSubmitterStage().toFile().exists());
+		assertTrue(asst.getSubmitterStage().resolve("src").toFile().exists());
+		assertTrue(asst.getSubmitterStage().resolve("src")
+			.resolve("sqrtProg.java")
+			.toFile().exists());
+		assertTrue(asst.getSubmitterStage().resolve("src").resolve("unexpected")
+			.toFile().isDirectory());
+		assertTrue(asst.getSubmitterStage().resolve("src")
+			.resolve("unexpected")
+			.resolve("sqrtPrinter.java")
+			.toFile().exists());
+
+		// Now check if the build ran.
+		assertTrue(asst.getGoldStage().resolve("src").resolve("sqrtProg.class")
 			.toFile().exists());
 
 	}
