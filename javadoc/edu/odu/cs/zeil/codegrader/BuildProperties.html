@@ -155,13 +155,20 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>java.util.List&lt;java.lang.String&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#javaSrcDir">javaSrcDir</a></span></code></th>
+<td class="colLast">
+<div class="block">List of directories that serve as roots for java source compilation.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>java.util.List&lt;java.lang.String&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#studentFiles">studentFiles</a></span></code></th>
 <td class="colLast">
 <div class="block">List of file names that students may submit and that should not
  be taken from the instructor-supplied code.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#timeLimit">timeLimit</a></span></code></th>
 <td class="colLast">
@@ -250,12 +257,23 @@ extends java.lang.Object</pre>
 <a id="studentFiles">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>studentFiles</h4>
 <pre>public&nbsp;java.util.List&lt;java.lang.String&gt; studentFiles</pre>
 <div class="block">List of file names that students may submit and that should not
  be taken from the instructor-supplied code.</div>
+</li>
+</ul>
+<a id="javaSrcDir">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>javaSrcDir</h4>
+<pre>public&nbsp;java.util.List&lt;java.lang.String&gt; javaSrcDir</pre>
+<div class="block">List of directories that serve as roots for java source compilation.
+ If empty, assumed to be only "./".</div>
 </li>
 </ul>
 </li>

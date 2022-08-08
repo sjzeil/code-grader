@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -200,33 +200,40 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addJavaSrcDir(java.lang.String)">addJavaSrcDir</a></span>&#8203;(java.lang.String&nbsp;relativePath)</code></th>
+<td class="colLast">
+<div class="block">Adds a directory that is expected to hold Java source code.</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#performTests()">performTests</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Perform all selected tests for all selected submissions.</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#processThisSubmission(edu.odu.cs.zeil.codegrader.Submission)">processThisSubmission</a></span>&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission)</code></th>
 <td class="colLast">
 <div class="block">Process a submission.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#runTests(edu.odu.cs.zeil.codegrader.Submission)">runTests</a></span>&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission)</code></th>
 <td class="colLast">
 <div class="block">Runs all selected tests for a given submission.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setLaunch(java.lang.String)">setLaunch</a></span>&#8203;(java.lang.String&nbsp;launcher)</code></th>
 <td class="colLast">
 <div class="block">Set the default launch command for all test cases in this suite.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSelectedTests(java.util.List)">setSelectedTests</a></span>&#8203;(java.util.List&lt;java.lang.String&gt;&nbsp;testList)</code></th>
 <td class="colLast">
@@ -323,15 +330,15 @@ extends java.lang.Object</pre>
  The entire sequence is performed:
  1) build gold version (if available)
  for each submission,
-   2) Copy the test suite into the reporting area.
-   3) set up submission code in staging area
-   4) build code in staging area
-   for all selected test cases
-     5) if a gold version is available, run the test on it and collect the
-       expected output and expected time limit.
-     6) run and evaluate the test on the submission , putting results in
-       the recording area
-   7) Prepare summary reports of test results</div>
+ 2) Copy the test suite into the reporting area.
+ 3) set up submission code in staging area
+ 4) build code in staging area
+ for all selected test cases
+ 5) if a gold version is available, run the test on it and collect the
+ expected output and expected time limit.
+ 6) run and evaluate the test on the submission , putting results in
+ the recording area
+ 7) Prepare summary reports of test results</div>
 </li>
 </ul>
 <a id="processThisSubmission(edu.odu.cs.zeil.codegrader.Submission)">
@@ -342,14 +349,14 @@ extends java.lang.Object</pre>
 <h4>processThisSubmission</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;processThisSubmission&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission)</pre>
 <div class="block">Process a submission.
-   1) Copy the test suite into the reporting area.
-   2) set up submission code in staging area
-   3) build code in staging area
+ 1) Copy the test suite into the reporting area.
+ 2) set up submission code in staging area
+ 3) build code in staging area
  
-   for all selected test cases
-     run and evaluate the test case.
+ for all selected test cases
+ run and evaluate the test case.
  
-   4) Prepare summary reports of test results</div>
+ 4) Prepare summary reports of test results</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>submission</code> - the submission to process</dd>
@@ -359,7 +366,7 @@ extends java.lang.Object</pre>
 <a id="runTests(edu.odu.cs.zeil.codegrader.Submission)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>runTests</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;runTests&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission)</pre>
@@ -369,6 +376,27 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>submission</code> - submission to be tested</dd>
+</dl>
+</li>
+</ul>
+<a id="addJavaSrcDir(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>addJavaSrcDir</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;addJavaSrcDir&#8203;(java.lang.String&nbsp;relativePath)</pre>
+<div class="block">Adds a directory that is expected to hold Java source code.
+ An assignment can hold multiple such source roots (e.g. the Maven &
+ Gradle conventions place Java source code in src/main/java and
+ src/test/java).
+ 
+ *.java files that are found out-of-place according to their
+ package declarations will be eventually moved into the appropriate
+ location within the file tree of the first such source directory added.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>relativePath</code> - a Java source directory root.</dd>
 </dl>
 </li>
 </ul>
