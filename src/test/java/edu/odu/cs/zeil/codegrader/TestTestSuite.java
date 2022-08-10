@@ -68,50 +68,11 @@ public class TestTestSuite {
 		FileUtils.deleteDirectory(testSuitePath);
 	}
 
-	@Test
-	void testGoldBuild() {
-		TestSuite suite = new TestSuite(asst);
-		suite.clearTheStage(stagingPath);
-
-		suite.buildGoldVersionIfAvailable();
-
-		assertTrue(asst.getGoldStage().toFile().exists());
-		assertTrue(asst.getGoldStage().resolve("sqrtProg.java")
-			.toFile().exists());
-		assertTrue(asst.getGoldStage().resolve("sqrtProg.class")
-			.toFile().exists());
-
-	}
-
-	@Test
-	void testSubmissionBuild() {
-		TestSuite suite = new TestSuite(asst);
-		suite.clearTheStage(stagingPath);
-
-		suite.buildGoldVersionIfAvailable();
-
-		Submission submission = new Submission(asst, "perfect");
-		suite.processThisSubmission(submission);
-
-		// Check first on the submitter stage setup
-		assertTrue(asst.getSubmitterStage().toFile().exists());
-		assertTrue(asst.getSubmitterStage().resolve("sqrtProg.java")
-			.toFile().exists());
-		assertTrue(asst.getSubmitterStage().resolve("makefile")
-			.toFile().exists());
-
-		// Now check if the build ran.
-		assertTrue(asst.getGoldStage().resolve("sqrtProg.class")
-			.toFile().exists());
-
-	}
 
 	@Test
 	void testJavaDefaultLaunchBuild() {
 		TestSuite suite = new TestSuite(asst);
 		suite.clearTheStage(stagingPath);
-
-		suite.buildGoldVersionIfAvailable();
 
 		Submission submission = new Submission(asst, "perfect");
 
@@ -158,7 +119,7 @@ public class TestTestSuite {
 		FileUtils.copyDirectory(asst.getTestSuiteDirectory(), 
 			studentGrades, null, null);
 
-		suite.runTests(student1);
+		suite.runTests(student1, 0);
 
 		File[] tests = asst.getTestSuiteDirectory().toFile().listFiles();
 		for (File testDir: tests) {
@@ -190,7 +151,7 @@ public class TestTestSuite {
 		String[] selections = {"params"};
 		suite.setSelectedTests(Arrays.asList(selections));
 
-		suite.runTests(student1);
+		suite.runTests(student1, 0);
 
 		Path studentGrades = recordingPath.resolve("perfect");
 

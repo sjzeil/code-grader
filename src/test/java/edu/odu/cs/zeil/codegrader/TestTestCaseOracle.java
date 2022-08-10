@@ -77,8 +77,9 @@ public class TestTestCaseOracle {
 			+ " edu.odu.cs.zeil.codegrader.samples.ParamLister";
 		testProperties.setLaunch(launcher);
         
-
-		Path recordedAt = testCase.performTest(student1, false);
+		Stage stage = new Stage(asst, student1,
+			TestSuitePropertiesBase.loadYAML(""));
+		Path recordedAt = testCase.performTest(student1, false, stage, 0);
 
 		Path studentGrades = recordingPath.resolve("student1")
 			.resolve("Grading")
@@ -123,8 +124,10 @@ public class TestTestCaseOracle {
 			+ " edu.odu.cs.zeil.codegrader.samples.ParamLister";
 		testProperties.setLaunch(launcher);
         
+		Stage stage = new Stage(asst, student1,
+			TestSuitePropertiesBase.loadYAML(""));
 
-		Path recordedAt = testCase.performTest(student1, false);
+		Path recordedAt = testCase.performTest(student1, false, stage, 0);
 
 		Path studentGrades = recordingPath.resolve("student1")
 			.resolve("Grading")

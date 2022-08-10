@@ -26,6 +26,8 @@ public class TestTestCaseExec {
 		"assignment2", "stage");
 
 	private Assignment asst;
+	private Submission student1;
+	private Stage stage;
 	
 	/**
 	 * Set up the test data in build/.
@@ -41,6 +43,9 @@ public class TestTestCaseExec {
 		asst = new Assignment();
 		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
 		asst.setStagingDirectory(stagingPath);
+		TestSuitePropertiesBase tcProps = TestSuitePropertiesBase.loadYAML("");
+		student1 = new Submission(asst, "student1");
+		stage = new Stage(asst, student1, tcProps);
 	}
 	
 	/**
@@ -80,7 +85,7 @@ public class TestTestCaseExec {
 		testProperties.setLaunch(launcher);
         Submission submission = new Submission(asst, "student1");
         TestCase testCase = new TestCase(testProperties);
-		testCase.executeTest(submission);
+		testCase.executeTest(submission, stage, 0);
 		assertThat(testCase.crashed(), is(false));
 		assertThat(testCase.timedOut(), is(false));
 		assertThat(testCase.getOutput(), is("a\nb\nc\n"));
@@ -102,7 +107,7 @@ public class TestTestCaseExec {
 		testProperties.setLaunch(launcher);
         Submission submission = new Submission(asst, "student1");
         TestCase testCase = new TestCase(testProperties);
-		testCase.executeTest(submission);
+		testCase.executeTest(submission, stage, 0);
 		assertThat(testCase.crashed(), is(false));
 		assertThat(testCase.timedOut(), is(false));
 		assertThat(testCase.getOutput(), is("Hello world!\nHow are\nyou?\n"));
@@ -125,7 +130,7 @@ public class TestTestCaseExec {
 		testProperties.setLaunch(launcher);
         Submission submission = new Submission(asst, "student1");
         TestCase testCase = new TestCase(testProperties);
-		testCase.executeTest(submission);
+		testCase.executeTest(submission, stage, 0);
 		assertThat(testCase.crashed(), is(true));
 		assertThat(testCase.timedOut(), is(false));
 	}
@@ -144,7 +149,7 @@ public class TestTestCaseExec {
 		testProperties.setLaunch(launcher);
         Submission submission = new Submission(asst, "student1");
         TestCase testCase = new TestCase(testProperties);
-		testCase.executeTest(submission);
+		testCase.executeTest(submission, stage, 0);
 		assertThat(testCase.crashed(), is(false));
 		assertThat(testCase.timedOut(), is(true));
 	}
@@ -163,7 +168,7 @@ public class TestTestCaseExec {
 		testProperties.setLaunch(launcher);
         Submission submission = new Submission(asst, "student1");
         TestCase testCase = new TestCase(testProperties);
-		testCase.executeTest(submission);
+		testCase.executeTest(submission, stage, 0);
 		assertThat(testCase.crashed(), is(false));
 		assertThat(testCase.timedOut(), is(false));
 		assertThat(testCase.getErr(), is(""));
@@ -195,7 +200,7 @@ public class TestTestCaseExec {
 		testProperties.setLaunch(launcher);
         Submission submission = new Submission(asst, "student1");
         TestCase testCase = new TestCase(testProperties);
-		testCase.executeTest(submission);
+		testCase.executeTest(submission, stage, 0);
 		assertThat(testCase.crashed(), is(false));
 		assertThat(testCase.timedOut(), is(false));
 		assertThat(testCase.getErr(), is(""));
@@ -218,7 +223,7 @@ public class TestTestCaseExec {
 		testProperties.setLaunch(launcher);
         Submission submission = new Submission(asst, "student1");
         TestCase testCase = new TestCase(testProperties);
-		testCase.executeTest(submission);
+		testCase.executeTest(submission, stage, 0);
 		assertThat(testCase.crashed(), is(false));
 		assertThat(testCase.timedOut(), is(false));
 		assertThat(testCase.getErr(), is("4\n"));

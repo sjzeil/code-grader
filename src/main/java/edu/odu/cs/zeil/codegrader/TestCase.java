@@ -1,8 +1,10 @@
 package edu.odu.cs.zeil.codegrader;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,9 +80,13 @@ public class TestCase {
      * getOutput() and getErr(). The status code is also available.
      * 
      * @param submission code to use when running the test case
+     * @param stage staging area
+     * @param buildStatus status code from build
      */
-    public void executeTest(Submission submission) {
-        String launchCommandStr = properties.getLaunch() + ' '
+    public void executeTest(Submission submission, 
+            Stage stage, int buildStatus) {
+        String launchCommandStr = stage.getLaunchCommand(
+                properties.getLaunch())  + ' '
                 + properties.getParams();
         Assignment asst = properties.getAssignment();
         launchCommandStr = asst.parameterSubstitution(launchCommandStr, 
@@ -91,7 +97,7 @@ public class TestCase {
         }
         File stdIn = properties.getIn();
         ExternalProcess process = new ExternalProcess(
-            properties.getStagingDirectory(),
+            stage.getStageDir(),
             launchCommandStr,
             timeLimit,
             stdIn, 
@@ -117,11 +123,24 @@ public class TestCase {
      * @param submission to evaluate
      * @param asGold true if the gold version is being run, false if
      *                      student version is being run.
+     * @param stage stage area in which code has been built
+     * @param buildStatus status code from build 
      * @return path to the recorded results
      */
-    public Path performTest(Submission submission, boolean asGold)
+    public Path performTest(Submission submission,
+                boolean asGold,
+                Stage stage, int buildStatus)
             throws TestConfigurationError {
-        executeTest(submission);
+        // Copy all test files into the stage.
+        try {
+            FileUtils.copyDirectory(properties.getTestCaseDirectory(),
+                 stage.getStageDir(), null, null, 
+                 StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            logger.warn("Unable to copy test files into stage "
+                + stage.getStageDir().toString(), e);
+        }
+        executeTest(submission, stage, buildStatus);
         Path testRecordingDir = properties.getRecordingDirectory()
             .resolve(submission.getSubmittedBy())
             .resolve("Grading")

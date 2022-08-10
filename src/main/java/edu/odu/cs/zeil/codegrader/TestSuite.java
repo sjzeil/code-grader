@@ -23,6 +23,8 @@ public class TestSuite {
 	private Path testSuiteDirectory;
 	private Set<String> testsToPerform;
 	private Set<String> submissionsToRun;
+	private Stage goldStage;
+	private Stage submitterStage;
 
 	/**
 	 * Error logging.
@@ -47,6 +49,8 @@ public class TestSuite {
 		if (propsFile.isPresent()) {
 			properties = TestSuitePropertiesBase.loadYAML(propsFile.get());
 		}
+		goldStage = null;
+		submitterStage = null;
 	}
 
 	/**
@@ -86,8 +90,12 @@ public class TestSuite {
 	 * 7) Prepare summary reports of test results
 	 */
 	public void performTests() {
-		Path stage = assignment.getStagingDirectory();
-		buildGoldVersionIfAvailable();
+		if (assignment.getGoldDirectory() != null) {
+			goldStage = new Stage(assignment, null, properties);
+			goldStage.setupStage();
+			tryToBuildGoldVersion();
+		}
+
 		Path submissionsDir = assignment.getSubmissionsDirectory();
 		File[] submissions = submissionsDir.toFile().listFiles();
 		if (submissions == null || submissions.length == 0) {
@@ -103,7 +111,12 @@ public class TestSuite {
 				processThisSubmission(submission);
 			}
 		}
-		clearTheStage(stage);
+		if (submissions != null && submissions.length > 0) {
+			if (goldStage != null) {
+				goldStage.clear();
+			}
+			submitterStage.clear();
+		}
 	}
 
 	/**
@@ -136,24 +149,20 @@ public class TestSuite {
 	 * @param submission the submission to process
 	 */
 	public void processThisSubmission(Submission submission) {
-		Path stage = assignment.getSubmitterStage();
-		if (stage.toFile().exists()) {
-			try {
-				FileUtils.deleteDirectory(stage);
-			} catch (IOException e) {
-				logger.warn("Problem clearing the staging area "
-						+ stage.toString(), e);
-			}
-		}
+		submitterStage = new Stage(assignment, submission, properties);
+		submitterStage.clear();
 		Path recordAt = assignment.getRecordingDirectory()
 				.resolve(submission.getSubmittedBy());
 		recordAt.toFile().mkdirs();
 		copyTestSuiteToRecordingArea(submission);
-		File submissionFile = assignment.getSubmissionsDirectory()
-				.resolve(submission.getSubmittedBy()).toFile();
-		setupStage(submissionFile, stage);
-		buildStagedCode(stage, submission);
-		runTests(submission);
+		submitterStage.setupStage();
+		Stage.BuildResult buildResults = submitterStage.buildCode();
+		int buildScore = (buildResults.getStatusCode() == 0) ? 100 : 0;
+		FileUtils.writeTextFile(recordAt.resolve("build.score"), 
+			Integer.toString(buildScore) + "\n");
+		FileUtils.writeTextFile(recordAt.resolve("build.message"), 
+			buildResults.getMessage() + "\n");
+		runTests(submission, buildResults.getStatusCode());
 	}
 
 	/**
@@ -206,27 +215,12 @@ public class TestSuite {
 	 * If the instructor has provided a gold version of the program,
 	 * build the code.
 	 */
-	void buildGoldVersionIfAvailable() {
-		Path goldDir = assignment.getGoldDirectory();
-		if (goldDir != null) {
-			if (goldDir.toFile().exists() && goldDir.toFile().isDirectory()) {
-				Path goldStage = assignment.getGoldStage();
-				if (!goldStage.toFile().exists()) {
-					try {
-						FileUtils.copyDirectory(goldDir, goldStage, null, null);
-					} catch (IOException e) {
-						throw new TestConfigurationError(
-								"Cannot create staging directory for gold version\n"
-										+ e.getMessage());
-					}
-					BuildResult result = buildCode(goldStage);
-					if (result.statusCode != 0) {
-						throw new TestConfigurationError(
-								"Gold code does not build\n"
-										+ result.message);
-					}
-				}
-			}
+	private void tryToBuildGoldVersion() {
+		Stage.BuildResult result = goldStage.buildCode();
+		if (result.getStatusCode() != 0) {
+			throw new TestConfigurationError(
+					"Gold code does not build\n"
+							+ result.getMessage());
 		}
 	}
 
@@ -422,10 +416,9 @@ public class TestSuite {
 				Files.move(javaFile.toPath(), desiredFile);
 			} catch (IOException e) {
 				throw new TestConfigurationError("Unable to move "
-					+ javaFile.toString() + " to "
-					+ desiredFile.toString() + "\n"
-					+ e.getMessage()
-				);
+						+ javaFile.toString() + " to "
+						+ desiredFile.toString() + "\n"
+						+ e.getMessage());
 			}
 		}
 	}
@@ -501,8 +494,9 @@ public class TestSuite {
 	 * recorded in the recording area.
 	 * 
 	 * @param submission submission to be tested
+	 * @param buildStatus 0 if build succeeded
 	 */
-	public void runTests(Submission submission) {
+	public void runTests(Submission submission, int buildStatus) {
 		Assignment testAssignment = getRevisedAssignmentSettings(submission);
 
 		Path suiteDir = testAssignment.getTestSuiteDirectory();
@@ -519,9 +513,11 @@ public class TestSuite {
 						testAssignment, testName);
 				TestCase tc = new TestCase(tcProperties);
 				if (testAssignment.getGoldDirectory() != null) {
-					runGoldVersion(tcProperties);
+					tc.performTest(submission, true, 
+						goldStage, 0);
 				}
-				tc.performTest(submission, false);
+				tc.performTest(submission, false, 
+					submitterStage, buildStatus);
 			}
 		}
 	}
@@ -562,8 +558,6 @@ public class TestSuite {
 		return studentRecordingArea;
 	}
 
-	private void runGoldVersion(TestCaseProperties tcProperties) {
-	}
 
 	/**
 	 * Adds a directory that is expected to hold Java source code.
