@@ -121,11 +121,24 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Properties related to setup and build.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/Stage.html#buildCode()">buildCode()</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Stage.html" title="class in edu.odu.cs.zeil.codegrader">Stage</a></dt>
+<dd>
+<div class="block">Build the submitted code (in the staging area).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/Stage.html#buildGoldVersionIfAvailable()">buildGoldVersionIfAvailable()</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Stage.html" title="class in edu.odu.cs.zeil.codegrader">Stage</a></dt>
+<dd>
+<div class="block">If the instructor has provided a gold version of the program,
+ build the code.</div>
+</dd>
 <dt><a href="edu/odu/cs/zeil/codegrader/BuildProperties.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">BuildProperties</span></a> - Class in <a href="edu/odu/cs/zeil/codegrader/package-summary.html">edu.odu.cs.zeil.codegrader</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/BuildProperties.html#%3Cinit%3E()">BuildProperties()</a></span> - Constructor for class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/BuildProperties.html" title="class in edu.odu.cs.zeil.codegrader">BuildProperties</a></dt>
 <dd>
 <div class="block">Initialize the build properties.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/Stage.BuildResult.html#%3Cinit%3E(int,java.lang.String)">BuildResult(int, String)</a></span> - Constructor for class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Stage.BuildResult.html" title="class in edu.odu.cs.zeil.codegrader">Stage.BuildResult</a></dt>
+<dd>
+<div class="block">Create a build result.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestSuite.BuildResult.html#%3Cinit%3E(int,java.lang.String)">BuildResult(int, String)</a></span> - Constructor for class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestSuite.BuildResult.html" title="class in edu.odu.cs.zeil.codegrader">TestSuite.BuildResult</a></dt>
 <dd>
@@ -154,6 +167,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="block">True iff upper/lower case is considered significant when examining
  alphabetic strings - a test can be failed because of differences in
  upper/lower case.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/Stage.html#clear()">clear()</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Stage.html" title="class in edu.odu.cs.zeil.codegrader">Stage</a></dt>
+<dd>
+<div class="block">Delete the entire staging area after use.</div>
 </dd>
 <dt><a href="edu/odu/cs/zeil/codegrader/run/CLI.html" title="class in edu.odu.cs.zeil.codegrader.run"><span class="typeNameLink">CLI</span></a> - Class in <a href="edu/odu/cs/zeil/codegrader/run/package-summary.html">edu.odu.cs.zeil.codegrader.run</a></dt>
 <dd>&nbsp;</dd>
@@ -252,7 +269,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Runs the external command.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestCase.html#executeTest(edu.odu.cs.zeil.codegrader.Submission)">executeTest(Submission)</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCase.html" title="class in edu.odu.cs.zeil.codegrader">TestCase</a></dt>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestCase.html#executeTest(edu.odu.cs.zeil.codegrader.Submission,edu.odu.cs.zeil.codegrader.Stage,int)">executeTest(Submission, Stage, int)</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCase.html" title="class in edu.odu.cs.zeil.codegrader">TestCase</a></dt>
 <dd>
 <div class="block">Runs the test case using the code in submission.</div>
 </dd>
@@ -310,6 +327,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dl>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestCaseProperties.html#getAssignment()">getAssignment()</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCaseProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestCaseProperties</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/Stage.html#getBuildCommand()">getBuildCommand()</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Stage.html" title="class in edu.odu.cs.zeil.codegrader">Stage</a></dt>
+<dd>
+<div class="block">Determine the command used to build the code.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html#getCap()">getCap()</a></span> - Method in class edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Oracle</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html#getCommand()">getCommand()</a></span> - Method in class edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Oracle</a></dt>
@@ -365,10 +386,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestCaseProperties.html#getLaunch()">getLaunch()</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCaseProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestCaseProperties</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/Stage.html#getLaunchCommand(java.lang.String)">getLaunchCommand(String)</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Stage.html" title="class in edu.odu.cs.zeil.codegrader">Stage</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/oracle/Token.html#getLexeme()">getLexeme()</a></span> - Method in class edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/Token.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Token</a></dt>
 <dd>
 <div class="block">Get the lexeme for this token.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/Stage.BuildResult.html#getMessage()">getMessage()</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Stage.BuildResult.html" title="class in edu.odu.cs.zeil.codegrader">Stage.BuildResult</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestCaseProperties.html#getName()">getName()</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCaseProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestCaseProperties</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html#getNumbersOnly()">getNumbersOnly()</a></span> - Method in class edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Oracle</a></dt>
@@ -406,6 +431,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html#getScoring()">getScoring()</a></span> - Method in class edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Oracle</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/Stage.html#getStageDir()">getStageDir()</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Stage.html" title="class in edu.odu.cs.zeil.codegrader">Stage</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/Assignment.html#getStagingDirectory()">getStagingDirectory()</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></dt>
 <dd>
 <div class="block">The staging directory is the location where the student code will be
@@ -414,6 +441,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestCaseProperties.html#getStagingDirectory()">getStagingDirectory()</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCaseProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestCaseProperties</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/ExternalProcess.html#getStatusCode()">getStatusCode()</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/ExternalProcess.html" title="class in edu.odu.cs.zeil.codegrader">ExternalProcess</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/Stage.BuildResult.html#getStatusCode()">getStatusCode()</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Stage.BuildResult.html" title="class in edu.odu.cs.zeil.codegrader">Stage.BuildResult</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestCaseProperties.html#getStderr()">getStderr()</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCaseProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestCaseProperties</a></dt>
 <dd>
@@ -617,7 +646,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">What message will be recorded when a test passes with 100 pts.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestCase.html#performTest(edu.odu.cs.zeil.codegrader.Submission,boolean)">performTest(Submission, boolean)</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCase.html" title="class in edu.odu.cs.zeil.codegrader">TestCase</a></dt>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestCase.html#performTest(edu.odu.cs.zeil.codegrader.Submission,boolean,edu.odu.cs.zeil.codegrader.Stage,int)">performTest(Submission, boolean, Stage, int)</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCase.html" title="class in edu.odu.cs.zeil.codegrader">TestCase</a></dt>
 <dd>
 <div class="block">Runs the test case and evaluates the results.</div>
 </dd>
@@ -659,7 +688,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Read an entire test file into a string.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestSuite.html#runTests(edu.odu.cs.zeil.codegrader.Submission)">runTests(Submission)</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestSuite.html" title="class in edu.odu.cs.zeil.codegrader">TestSuite</a></dt>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestSuite.html#runTests(edu.odu.cs.zeil.codegrader.Submission,int)">runTests(Submission, int)</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestSuite.html" title="class in edu.odu.cs.zeil.codegrader">TestSuite</a></dt>
 <dd>
 <div class="block">Runs all selected tests for a given submission.</div>
 </dd>
@@ -726,6 +755,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/Logging.html#setup()">setup()</a></span> - Static method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Logging.html" title="class in edu.odu.cs.zeil.codegrader">Logging</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/Stage.html#setupStage()">setupStage()</a></span> - Method in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Stage.html" title="class in edu.odu.cs.zeil.codegrader">Stage</a></dt>
+<dd>
+<div class="block">Set up the contents of a stage, in preparation for building.</div>
+</dd>
 <dt><a href="edu/odu/cs/zeil/codegrader/oracle/SmartOracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle"><span class="typeNameLink">SmartOracle</span></a> - Class in <a href="edu/odu/cs/zeil/codegrader/oracle/package-summary.html">edu.odu.cs.zeil.codegrader.oracle</a></dt>
 <dd>
 <div class="block">Compares expected and actual outputs to determine if they match.</div>
@@ -734,6 +767,17 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Create a new smart oracle.</div>
 </dd>
+<dt><a href="edu/odu/cs/zeil/codegrader/Stage.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">Stage</span></a> - Class in <a href="edu/odu/cs/zeil/codegrader/package-summary.html">edu.odu.cs.zeil.codegrader</a></dt>
+<dd>
+<div class="block">A stage is an area (directory) in which a version of the assignment,
+ either submitted or gold, can be built and run.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/Stage.html#%3Cinit%3E(edu.odu.cs.zeil.codegrader.Assignment,edu.odu.cs.zeil.codegrader.Submission,edu.odu.cs.zeil.codegrader.TestSuitePropertiesBase)">Stage(Assignment, Submission, TestSuitePropertiesBase)</a></span> - Constructor for class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Stage.html" title="class in edu.odu.cs.zeil.codegrader">Stage</a></dt>
+<dd>
+<div class="block">Create a new stage.</div>
+</dd>
+<dt><a href="edu/odu/cs/zeil/codegrader/Stage.BuildResult.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">Stage.BuildResult</span></a> - Class in <a href="edu/odu/cs/zeil/codegrader/package-summary.html">edu.odu.cs.zeil.codegrader</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestSuite.BuildResult.html#statusCode">statusCode</a></span> - Variable in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestSuite.BuildResult.html" title="class in edu.odu.cs.zeil.codegrader">TestSuite.BuildResult</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="edu/odu/cs/zeil/codegrader/TestCasePropertiesBase.html#stderr">stderr</a></span> - Variable in class edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCasePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader">TestCasePropertiesBase</a></dt>
