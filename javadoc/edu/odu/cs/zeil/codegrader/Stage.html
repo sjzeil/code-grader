@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -181,7 +181,14 @@ extends java.lang.Object</pre>
      <a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission,
      <a href="TestSuitePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader">TestSuitePropertiesBase</a>&nbsp;suiteProperties)</code></th>
 <td class="colLast">
-<div class="block">Create a new stage.</div>
+<div class="block">Create a new stage for submitted code.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(edu.odu.cs.zeil.codegrader.Assignment,edu.odu.cs.zeil.codegrader.TestSuitePropertiesBase)">Stage</a></span>&#8203;(<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;asst,
+     <a href="TestSuitePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader">TestSuitePropertiesBase</a>&nbsp;suiteProperties)</code></th>
+<td class="colLast">
+<div class="block">Create a new gold version stage.</div>
 </td>
 </tr>
 </table>
@@ -234,7 +241,9 @@ extends java.lang.Object</pre>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLaunchCommand(java.lang.String)">getLaunchCommand</a></span>&#8203;(java.lang.String&nbsp;commandFromProperties)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Get the launch command for this stage.</div>
+</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
@@ -242,6 +251,13 @@ extends java.lang.Object</pre>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#parameterSubstitution(java.lang.String)">parameterSubstitution</a></span>&#8203;(java.lang.String&nbsp;launchCommandStr)</code></th>
+<td class="colLast">
+<div class="block">Scans a string for shortcuts, replacing by the appropriate string.</div>
+</td>
+</tr>
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setupStage()">setupStage</a></span>()</code></th>
 <td class="colLast">
@@ -275,19 +291,35 @@ extends java.lang.Object</pre>
 <a id="&lt;init&gt;(edu.odu.cs.zeil.codegrader.Assignment,edu.odu.cs.zeil.codegrader.Submission,edu.odu.cs.zeil.codegrader.TestSuitePropertiesBase)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>Stage</h4>
 <pre>public&nbsp;Stage&#8203;(<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;asst,
              <a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission,
              <a href="TestSuitePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader">TestSuitePropertiesBase</a>&nbsp;suiteProperties)</pre>
-<div class="block">Create a new stage.</div>
+<div class="block">Create a new stage for submitted code.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>asst</code> - the assignment that this test suite is intended to
                         assess.</dd>
-<dd><code>submission</code> - the submission being graded, or null if this is to be
-                        the gold version stage.</dd>
+<dd><code>submission</code> - the submission being graded.</dd>
+<dd><code>suiteProperties</code> - info about the suite this is a stage for.</dd>
+</dl>
+</li>
+</ul>
+<a id="&lt;init&gt;(edu.odu.cs.zeil.codegrader.Assignment,edu.odu.cs.zeil.codegrader.TestSuitePropertiesBase)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>Stage</h4>
+<pre>public&nbsp;Stage&#8203;(<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;asst,
+             <a href="TestSuitePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader">TestSuitePropertiesBase</a>&nbsp;suiteProperties)</pre>
+<div class="block">Create a new gold version stage.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>asst</code> - the assignment that this test suite is intended to
+                        assess.</dd>
 <dd><code>suiteProperties</code> - info about the suite this is a stage for.</dd>
 </dl>
 </li>
@@ -381,10 +413,44 @@ extends java.lang.Object</pre>
 <a id="getLaunchCommand(java.lang.String)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>getLaunchCommand</h4>
 <pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getLaunchCommand&#8203;(java.lang.String&nbsp;commandFromProperties)</pre>
+<div class="block">Get the launch command for this stage. If not specified as a property,
+ will attempt to indef a suitable launch command from the stage contents.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>commandFromProperties</code> - </dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the launch command, or "" if none could be inferred.</dd>
+</dl>
+</li>
+</ul>
+<a id="parameterSubstitution(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>parameterSubstitution</h4>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;parameterSubstitution&#8203;(java.lang.String&nbsp;launchCommandStr)</pre>
+<div class="block">Scans a string for shortcuts, replacing by the appropriate string.
+ Shortcuts are
+ <ul>
+ <li>@P the test command line parameters</li>
+ <li>@S the staging directory</li>
+ <li>@T the test suite directory</li>
+ <li>@t the test case name</li>
+ <li>@R the reporting directory</li>
+ </ul>
+ A shortcut must be followed by a non-alphabetic character.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>launchCommandStr</code> - a string describing a command to be run</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the launchCommandStr with shortcuts replaced by the appropriate
+         path/value</dd>
+</dl>
 </li>
 </ul>
 </li>

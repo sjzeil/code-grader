@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -218,6 +218,15 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i6" class="altColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#parameterSubstitution(java.lang.String,edu.odu.cs.zeil.codegrader.Stage,edu.odu.cs.zeil.codegrader.Submission)">parameterSubstitution</a></span>&#8203;(java.lang.String&nbsp;launchCommandStr,
+                     <a href="Stage.html" title="class in edu.odu.cs.zeil.codegrader">Stage</a>&nbsp;stage,
+                     <a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission)</code></th>
+<td class="colLast">
+<div class="block">Scans a string for shortcuts, replacing by the appropriate string.</div>
+</td>
+</tr>
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#performTest(edu.odu.cs.zeil.codegrader.Submission,boolean,edu.odu.cs.zeil.codegrader.Stage,int)">performTest</a></span>&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission,
            boolean&nbsp;asGold,
@@ -227,7 +236,7 @@ extends java.lang.Object</pre>
 <div class="block">Runs the test case and evaluates the results.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#timedOut()">timedOut</a></span>()</code></th>
 <td class="colLast">
@@ -404,13 +413,43 @@ extends java.lang.Object</pre>
 <a id="getProperties()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>getProperties</h4>
 <pre class="methodSignature">public&nbsp;<a href="TestCaseProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestCaseProperties</a>&nbsp;getProperties()</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the properties for this test case.</dd>
+</dl>
+</li>
+</ul>
+<a id="parameterSubstitution(java.lang.String,edu.odu.cs.zeil.codegrader.Stage,edu.odu.cs.zeil.codegrader.Submission)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>parameterSubstitution</h4>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;parameterSubstitution&#8203;(java.lang.String&nbsp;launchCommandStr,
+                                              <a href="Stage.html" title="class in edu.odu.cs.zeil.codegrader">Stage</a>&nbsp;stage,
+                                              <a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission)</pre>
+<div class="block">Scans a string for shortcuts, replacing by the appropriate string.
+ Shortcuts are
+ <ul>
+ <li>@P the test command line parameters</li>
+ <li>@S the staging directory</li>
+ <li>@T the test suite directory</li>
+ <li>@t the test case name</li>
+ <li>@R the reporting directory</li>
+ </ul>
+ A shortcut must be followed by a non-alphabetic character.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>launchCommandStr</code> - a string describing a command to be run</dd>
+<dd><code>stage</code> - the stage where the command will be executed</dd>
+<dd><code>submission</code> - </dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the launchCommandStr with shortcuts replaced by the appropriate
+         path/value</dd>
 </dl>
 </li>
 </ul>
