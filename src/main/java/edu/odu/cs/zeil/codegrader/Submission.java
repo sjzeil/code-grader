@@ -15,11 +15,12 @@ public class Submission {
     /**
      * Create a submission.
      * 
-     * @param testDirectory
+     * @param assignment0 assignment that this is a submission to.
+     * @param submittedBy0 who submitted this
      */
-    public Submission (Assignment assignment, String submittedBy) {
-        this.assignment = assignment;
-        this.submittedBy = submittedBy;
+    public Submission(Assignment assignment0, String submittedBy0) {
+        this.assignment = assignment0;
+        this.submittedBy = submittedBy0;
     }
 
     /**
@@ -47,8 +48,7 @@ public class Submission {
      * 
      * @return the assignment to which this was submitted
      */
-    Assignment getAssignment()
-    {
+    Assignment getAssignment() {
         return assignment;
     }
 

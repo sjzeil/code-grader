@@ -24,6 +24,9 @@ import org.slf4j.LoggerFactory;
  */
 public class ExternalProcess {
 
+    private static final long ONE_SEC = 1000L;
+    private static final long ONE_HALF_SEC = 500L;
+
     /**
      * Standard output from executing this process.
      */
@@ -273,8 +276,9 @@ public class ExternalProcess {
             onTime = process.waitFor(timeLimit, TimeUnit.SECONDS);
             Instant stopTime = Instant.now();
             long elapsed = Duration.between(startTime, stopTime).toMillis();
-            expiredTime = (int) ((elapsed + 500L) / 1000L); // round to closest 
-                                                            // sec.
+            expiredTime = (int) 
+                ((elapsed + ONE_HALF_SEC) / ONE_SEC); // round to closest 
+                                                      // sec.
             
             if (onTime) {
                 final int tenthSeconds = 100;

@@ -1,9 +1,6 @@
 package edu.odu.cs.zeil.codegrader;
 
-import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -211,77 +208,6 @@ public class Assignment implements Cloneable {
         gradingTemplate = path;
         return this;
     }
-
-    /**
-     * Parses a command line string, substituting paths for selected shortcut 
-     * codes.
-     * 
-     * @see AssertionError#parameterSubstitution
-     * @param launchCommandStr a command string
-     * @param testName   name of test case, if applicable
-     * @param testParams the command-line parameters for that test.
-     * @return list of tokens suitable for a ProcessBuilder
-     */
-    /*
-    public List<String> parseCommandString(
-            String launchCommandStr, 
-            String testName,
-            String testParams) {
-        //TODO
-        
-        launchCommandStr = parameterSubstitution(launchCommandStr, 
-            testName, testParams);
-        
-        List<String> launchCommand = parseCommand(launchCommandStr);
-        return launchCommand;
-    }
-    */
-
-
-    /**
-     * Split a string into space-separated tokens, respecting "" and '' quoted
-     * substrings.
-     * 
-     * @param launch a command line
-     * @return tokenized versions of the command line
-     */
-    private List<String> parseCommand(String launch) {
-        ArrayList<String> result = new ArrayList<>();
-        StringBuffer token = new StringBuffer();
-        boolean inQuotes1 = false;
-        boolean inQuotes2 = false;
-        for (int i = 0; i < launch.length(); ++i) {
-            char c = launch.charAt(i);
-            if (c != ' ') {
-                token.append(c);
-                if (c == '"') {
-                    if (inQuotes2) {
-                        inQuotes2 = false;
-                    } else if (!inQuotes1) {
-                        inQuotes2 = true;
-                    }
-                } else if (c == '\'') {
-                    if (inQuotes1) {
-                        inQuotes1 = false;
-                    } else if (!inQuotes2) {
-                        inQuotes1 = true;
-                    }
-                }
-            } else {
-                if (inQuotes1 || inQuotes2) {
-                    token.append(c);
-                } else {
-                    result.add(token.toString());
-                    token = new StringBuffer();
-                }
-            }
-        }
-        if (token.length() > 0) {
-            result.add(token.toString());
-        }
-        return result;
-    }
-
 
 
 

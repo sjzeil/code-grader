@@ -2,12 +2,7 @@ package edu.odu.cs.zeil.codegrader;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import edu.odu.cs.zeil.codegrader.oracle.Oracle;
 import edu.odu.cs.zeil.codegrader.oracle.OracleFactory;
@@ -50,12 +45,6 @@ public class TestCase {
      */
     private int expiredTime;
 
-
-    /**
-     * Error logging.
-     */
-    private static Logger logger = LoggerFactory.getLogger(
-            MethodHandles.lookup().lookupClass());
 
     /**
      * Create a new test case.

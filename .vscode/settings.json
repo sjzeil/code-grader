@@ -2,8 +2,11 @@
     "java.configuration.updateBuildConfiguration": "interactive",
     "cSpell.words": [
         "casesensitive",
+        "classpath",
         "codegrader",
+        "gradlew",
         "hamcrest",
+        "javac",
         "timelimit"
     ]
 }
