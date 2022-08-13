@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.odu.cs.zeil.codegrader.Assignment;
+import edu.odu.cs.zeil.codegrader.TestSuite;
 
 public class CLI {
 
@@ -134,8 +135,9 @@ public class CLI {
     }
 
     private void go() {
-        //TODO
-        System.out.println("Gone");
+        TestSuite testSuite = new TestSuite(assignment);
+        testSuite.performTests();
+        System.out.println("Done");
     }
 
     private Options setUpOptions() {

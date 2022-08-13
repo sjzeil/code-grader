@@ -76,25 +76,39 @@ public class TestStageJavaHandling {
 
 	@Test
 	void testGoldBuild() {
-		Stage stage = new Stage(asst, null, tsProperties);
+		Stage stage = new Stage(asst, tsProperties);
 
         stage.clear();
 
         stage.setupStage();
-
         assertTrue(asst.getGoldStage().toFile().exists());
-        assertTrue(asst.getGoldStage().resolve("sqrtProg.java")
-                .toFile().exists());
+		assertTrue(asst.getGoldStage().resolve("src").toFile().isDirectory());
+		assertTrue(asst.getGoldStage()
+			.resolve("src")
+			.resolve("sqrtProg.java")
+            .toFile().exists());
+
+		String build = stage.getBuildCommand();
+		assertThat(build, containsString("javac"));
+		assertThat(build, containsString("-cp src"));
+		assertThat(build, not(containsString("lib/")));
+		assertThat(build, containsString("src/sqrtProg.java"));
+
+		String launch = stage.getLaunchCommand("");
+		assertThat(launch, containsString("java"));
+		assertThat(launch, containsString("-cp src"));
+		assertThat(launch, not(containsString("lib/")));
+		assertThat(launch, containsString("sqrtProg"));
+
 
         Stage.BuildResult result = stage.buildCode();
 
         assertThat(result.getStatusCode(), is(0));
         
-		assertTrue(asst.getGoldStage().toFile().exists());
-		assertTrue(asst.getGoldStage().resolve("sqrtProg.java")
-			.toFile().exists());
-		assertTrue(asst.getGoldStage().resolve("sqrtProg.class")
-			.toFile().exists());
+		assertTrue(asst.getGoldStage()
+			.resolve("src")
+			.resolve("sqrtProg.class")
+            .toFile().exists());
 
 	}
 
@@ -103,20 +117,32 @@ public class TestStageJavaHandling {
 		TestSuite suite = new TestSuite(asst);
 		suite.clearTheStage(stagingPath);
 
+		Stage goldStage = new Stage(asst, tsProperties);
+
+        goldStage.clear();
+
+        goldStage.setupStage();
+
+		goldStage.buildCode();
+
 		Submission submission = new Submission(asst, "perfect");
 		suite.processThisSubmission(submission);
 
 		// Check first on the submitter stage setup
 		assertTrue(asst.getSubmitterStage().toFile().exists());
-		assertTrue(asst.getSubmitterStage().resolve("sqrtProg.java")
-			.toFile().exists());
-		assertTrue(asst.getSubmitterStage().resolve("makefile")
+		assertTrue(asst.getSubmitterStage()
+			.resolve("src").resolve("sqrtProg.java")
 			.toFile().exists());
 
 		// Now check if the build ran.
-		assertTrue(asst.getSubmitterStage().resolve("sqrtProg.class")
+		assertTrue(asst.getSubmitterStage()
+			.resolve("src")
+			.resolve("sqrtProg.class")
 			.toFile().exists());
 
+		assertFalse(asst.getSubmitterStage()
+			.resolve("sqrtProg.class")
+			.toFile().exists());
 	}
 
 	@Test
@@ -126,15 +152,25 @@ public class TestStageJavaHandling {
 
 		Submission submission = new Submission(asst, "perfect");
 
+		Stage goldStage = new Stage(asst, tsProperties);
+        goldStage.clear();
+        goldStage.setupStage();
+		goldStage.buildCode();
+
+
 		suite.processThisSubmission(submission);
 
 		// Check first on the submitter stage setup
 		assertTrue(asst.getSubmitterStage().toFile().exists());
-		assertTrue(asst.getSubmitterStage().resolve("sqrtProg.java")
+		assertTrue(asst.getSubmitterStage()
+		.resolve("src")
+		.resolve("sqrtProg.java")
 			.toFile().exists());
 
 		// Now check if the build ran.
-		assertTrue(asst.getSubmitterStage().resolve("sqrtProg.class")
+		assertTrue(asst.getSubmitterStage()
+			.resolve("src")
+			.resolve("sqrtProg.class")
 			.toFile().exists());
 
 	}
@@ -145,6 +181,11 @@ public class TestStageJavaHandling {
 		suite.clearTheStage(stagingPath);
 
 		Submission submission = new Submission(asst, "flattened");
+
+		Stage goldStage = new Stage(asst, tsProperties);
+        goldStage.clear();
+        goldStage.setupStage();
+		goldStage.buildCode();
 
 		suite.processThisSubmission(submission);
 

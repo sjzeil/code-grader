@@ -78,7 +78,8 @@ public class TestTestCaseOracle {
 		testProperties.setLaunch(launcher);
         
 		Stage stage = new Stage(asst, student1,
-			TestSuitePropertiesBase.loadYAML(""));
+			new TestSuitePropertiesBase());
+		stage.getStageDir().toFile().mkdirs();
 		Path recordedAt = testCase.performTest(student1, false, stage, 0);
 
 		Path studentGrades = recordingPath.resolve("student1")
@@ -125,8 +126,9 @@ public class TestTestCaseOracle {
 		testProperties.setLaunch(launcher);
         
 		Stage stage = new Stage(asst, student1,
-			TestSuitePropertiesBase.loadYAML(""));
-
+			new TestSuitePropertiesBase());
+		stage.getStageDir().toFile().mkdirs();
+		
 		Path recordedAt = testCase.performTest(student1, false, stage, 0);
 
 		Path studentGrades = recordingPath.resolve("student1")

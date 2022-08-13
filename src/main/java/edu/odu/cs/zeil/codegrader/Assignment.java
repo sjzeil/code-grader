@@ -26,10 +26,12 @@ public class Assignment implements Cloneable {
      * Submissions from all students.
      */
     private Path submissionsDirectory;
+    
     /**
      * Collection of all test cases.
      */
     private Path testSuiteDirectory;
+
     /**
      * Spreadsheet for performing grading calculations.
      */
@@ -217,89 +219,23 @@ public class Assignment implements Cloneable {
      * @see AssertionError#parameterSubstitution
      * @param launchCommandStr a command string
      * @param testName   name of test case, if applicable
+     * @param testParams the command-line parameters for that test.
      * @return list of tokens suitable for a ProcessBuilder
      */
+    /*
     public List<String> parseCommandString(
             String launchCommandStr, 
-            String testName) {
-        launchCommandStr = parameterSubstitution(launchCommandStr, testName);
+            String testName,
+            String testParams) {
+        //TODO
+        
+        launchCommandStr = parameterSubstitution(launchCommandStr, 
+            testName, testParams);
+        
         List<String> launchCommand = parseCommand(launchCommandStr);
         return launchCommand;
     }
-
-
-    /**
-     * Scans a string for shortcuts, replacing by the appropriate string.
-     * Shortcuts are
-     * <ul>
-     * <li>@S the staging directory</li>
-     * <li>@T the test suite directory</li>
-     * <li>@t the test case name</li>
-     * <li>@R the reporting directory</li>
-     * </ul>
-     * A shortcut must be followed by a non-alphabetic character.
-     * 
-     * @param launchCommandStr a string describing a command to be run
-     * @param testName name of the current test case, if applicable
-     * @return the launchCommandStr with shortcuts replaced by the appropriate
-     *         path/value
-     */
-    public String parameterSubstitution(
-            String launchCommandStr, 
-            String testName) {
-        StringBuilder result = new StringBuilder();
-        int i = 0;
-        while (i < launchCommandStr.length()) {
-            char c = launchCommandStr.charAt(i);
-            if (c == '@') {
-                if (i + 1 < launchCommandStr.length()) {
-                    char c2 = launchCommandStr.charAt(i + 1);
-                    if (c2 == 'S' || c2 == 'T' || c2 == 't' || c2 == 'R') {
-                        boolean ok = (i + 2 >= launchCommandStr.length())
-                                || !Character.isAlphabetic(
-                                        launchCommandStr.charAt(i + 2));
-                        if (ok) {
-                            i += 2;
-                            try {
-                                if (c2 == 'S') {
-                                    result.append(
-                                            getStagingDirectory()
-                                                    .toRealPath().toString());
-                                } else if (c2 == 'T') {
-                                    result.append(
-                                            getTestSuiteDirectory()
-                                                    .toRealPath().toString());
-                                } else if (c2 == 't') {
-                                    result.append(testName);
-                                } else if (c2 == 'R') {
-                                    result.append(
-                                            getRecordingDirectory()
-                                                    .toRealPath().toString());
-                                }
-                            } catch (IOException ex) {
-                                // Path has not been set
-                                i -= 1;
-                                result.append(c);
-                            }
-                        } else {
-                            i += 1;
-                            result.append(c);
-                        }
-                    } else {
-                        i += 1;
-                        result.append(c);
-                    }
-                } else {
-                    result.append(c);
-                    ++i;
-                }
-            } else {
-                result.append(c);
-                ++i;
-            }
-        }
-        return result.toString();
-    }
+    */
 
 
     /**

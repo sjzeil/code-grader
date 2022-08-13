@@ -88,9 +88,8 @@ public class TestCase {
         String launchCommandStr = stage.getLaunchCommand(
                 properties.getLaunch())  + ' '
                 + properties.getParams();
-        Assignment asst = properties.getAssignment();
-        launchCommandStr = asst.parameterSubstitution(launchCommandStr, 
-            properties.getName());
+        launchCommandStr = parameterSubstitution(launchCommandStr, 
+            stage, submission);
         int timeLimit = properties.getTimelimit();
         if (timeLimit <= 0) {
             timeLimit = 1;
@@ -132,19 +131,9 @@ public class TestCase {
                 Stage stage, int buildStatus)
             throws TestConfigurationError {
         // Copy all test files into the stage.
-        try {
-            FileUtils.copyDirectory(properties.getTestCaseDirectory(),
-                 stage.getStageDir(), null, null, 
-                 StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            logger.warn("Unable to copy test files into stage "
-                + stage.getStageDir().toString(), e);
-        }
+        String testCaseName = properties.getName();
         executeTest(submission, stage, buildStatus);
-        Path testRecordingDir = properties.getRecordingDirectory()
-            .resolve(submission.getSubmittedBy())
-            .resolve("Grading")
-            .resolve(properties.getName());
+        Path testRecordingDir = submission.getTestCaseDir(testCaseName);
         testRecordingDir.toFile().mkdirs();
         String testName = properties.getName();
         String outExtension = (asGold) ? ".expected" : ".out";
@@ -279,5 +268,114 @@ public class TestCase {
     public TestCaseProperties getProperties() {
         return properties;
     }
+
+    /**
+     * Scans a string for shortcuts, replacing by the appropriate string.
+     * Shortcuts are
+     * <ul>
+     * <li>@P the test command line parameters</li>
+     * <li>@S the staging directory</li>
+     * <li>@T the test suite directory</li>
+     * <li>@t the test case name</li>
+     * <li>@R the reporting directory</li>
+     * </ul>
+     * A shortcut must be followed by a non-alphabetic character.
+     * 
+     * @param launchCommandStr a string describing a command to be run
+     * @param stage the stage where the command will be executed
+         * @param submission
+     * @return the launchCommandStr with shortcuts replaced by the appropriate
+     *         path/value
+     */
+    public String parameterSubstitution(
+            String launchCommandStr, 
+            Stage stage, 
+            Submission submission) {
+        StringBuilder result = new StringBuilder();
+        int i = 0;
+        while (i < launchCommandStr.length()) {
+            char c = launchCommandStr.charAt(i);
+            if (c == '@') {
+                if (i + 1 < launchCommandStr.length()) {
+                    char c2 = launchCommandStr.charAt(i + 1);
+                    if (c2 == 'P') {
+                        boolean ok = (i + 2 >= launchCommandStr.length())
+                                || !Character.isAlphabetic(
+                                        launchCommandStr.charAt(i + 2));
+                        if (ok) {
+                            i += 2;
+                            result.append(properties.getParams());
+                        } else {
+                            i += 1;
+                            result.append(c);
+                        }
+                    } else {
+                        i += 1;
+                        result.append(c);
+                    }
+                } else {
+                    result.append(c);
+                    ++i;
+                }
+            } else {
+                result.append(c);
+                ++i;
+            }
+        }
+        launchCommandStr = result.toString();
+        result = new StringBuilder();
+        i = 0;
+        while (i < launchCommandStr.length()) {
+            char c = launchCommandStr.charAt(i);
+            if (c == '@') {
+                if (i + 1 < launchCommandStr.length()) {
+                    char c2 = launchCommandStr.charAt(i + 1);
+                    if (c2 == 'S' || c2 == 'T' || c2 == 't' || c2 == 'R') {
+                        boolean ok = (i + 2 >= launchCommandStr.length())
+                                || !Character.isAlphabetic(
+                                        launchCommandStr.charAt(i + 2));
+                        if (ok) {
+                            i += 2;
+                            try {
+                                if (c2 == 'S') {
+                                    result.append(
+                                            stage.getStageDir()
+                                                    .toRealPath().toString());
+                                } else if (c2 == 'T') {
+                                    result.append(
+                                            submission.getTestSuiteDir()
+                                                    .toRealPath().toString());
+                                } else if (c2 == 't') {
+                                    result.append(properties.getName());
+                                } else if (c2 == 'R') {
+                                    result.append(
+                                            submission.getRecordingDir()
+                                                    .toRealPath().toString());
+                                }
+                            } catch (IOException ex) {
+                                // Path has not been set
+                                i -= 1;
+                                result.append(c);
+                            }
+                        } else {
+                            i += 1;
+                            result.append(c);
+                        }
+                    } else {
+                        i += 1;
+                        result.append(c);
+                    }
+                } else {
+                    result.append(c);
+                    ++i;
+                }
+            } else {
+                result.append(c);
+                ++i;
+            }
+        }
+        return result.toString();
+    }
+
 
 }

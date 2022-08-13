@@ -128,7 +128,7 @@ public class ExternalProcess {
             } else {
                 if (inQuotes1 || inQuotes2) {
                     token.append(c);
-                } else {
+                } else if (token.length() != 0) {
                     result.add(token.toString());
                     token = new StringBuffer();
                 }

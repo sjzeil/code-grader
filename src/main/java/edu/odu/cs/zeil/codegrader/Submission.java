@@ -53,4 +53,32 @@ public class Submission {
     }
 
 
+    /**
+     * @return The directory containing this submitter's own copy of
+     *         the test suite (within the assignment recording directory).
+     */
+    Path getTestSuiteDir() {
+        return getRecordingDir().resolve("Grading");
+    }
+
+    /**
+     * 
+     * @param testCaseName a test case name
+     * @return The directory containing this submitter's own copy of
+     *      the test case.
+     */
+    Path getTestCaseDir(String testCaseName) {
+        return getTestSuiteDir().resolve(testCaseName);
+    }
+
+    /**
+     * @return the directory where the student's grade info will be written.
+     */
+    public Path getRecordingDir() {
+		Path studentRecordingArea = assignment.getRecordingDirectory()
+				.resolve(getSubmittedBy());
+		return studentRecordingArea;
+	}
+
+
 }

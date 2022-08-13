@@ -24,16 +24,15 @@ public class TestTestSuite {
 
 
 	private Path asstSrcPath = Paths.get("src", "test", "data", 
-		"java-sqrt-assignment");
+		"java-noGold-assignment");
 
 	private Path asstDestPath = Paths.get("build", "test-data", 
-		"java-sqrt-assignment");
+		"java-noGold-assignment");
 
 	private Path testSuitePath = asstDestPath.resolve("Tests");
 	private Path stagingPath = Paths.get("build", "test-data", "stage");
 	private Path submissionsPath = asstDestPath.resolve("submissions");
 	private Path recordingPath = asstDestPath.resolve("Grades");
-	private Path goldPath = asstDestPath.resolve("Gold");
 
 	private Assignment asst;
 
@@ -54,7 +53,6 @@ public class TestTestSuite {
 		asst.setStagingDirectory(stagingPath);
 		asst.setSubmissionsDirectory(submissionsPath);
 		asst.setRecordingDirectory(recordingPath);
-		asst.setGoldDirectory(goldPath);
 
 	}
 
@@ -75,7 +73,8 @@ public class TestTestSuite {
 		suite.clearTheStage(stagingPath);
 
 		Submission submission = new Submission(asst, "perfect");
-
+		Path testSuite = submission.getTestSuiteDir();
+		
 		submissionsPath.resolve("perfect").resolve("makefile")
 		.toFile().delete();  // use default Java launch
 
@@ -85,11 +84,9 @@ public class TestTestSuite {
 		assertTrue(asst.getSubmitterStage().toFile().exists());
 		assertTrue(asst.getSubmitterStage().resolve("sqrtProg.java")
 			.toFile().exists());
-		assertTrue(asst.getSubmitterStage().resolve("makefile")
-			.toFile().exists());
 
 		// Now check if the build ran.
-		assertTrue(asst.getGoldStage().resolve("sqrtProg.class")
+		assertTrue(asst.getSubmitterStage().resolve("sqrtProg.class")
 			.toFile().exists());
 
 	}

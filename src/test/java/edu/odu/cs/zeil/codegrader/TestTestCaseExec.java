@@ -25,6 +25,8 @@ public class TestTestCaseExec {
 	private Path stagingPath = Paths.get("build", "test-data",
 		"assignment2", "stage");
 
+
+		
 	private Assignment asst;
 	private Submission student1;
 	private Stage stage;
@@ -43,9 +45,10 @@ public class TestTestCaseExec {
 		asst = new Assignment();
 		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
 		asst.setStagingDirectory(stagingPath);
-		TestSuitePropertiesBase tcProps = TestSuitePropertiesBase.loadYAML("");
+		TestSuitePropertiesBase tcProps = new TestSuitePropertiesBase();
 		student1 = new Submission(asst, "student1");
 		stage = new Stage(asst, student1, tcProps);
+		stage.getStageDir().toFile().mkdirs();
 	}
 	
 	/**
@@ -205,9 +208,10 @@ public class TestTestCaseExec {
 		assertThat(testCase.timedOut(), is(false));
 		assertThat(testCase.getErr(), is(""));
 		Path execCWD = Paths.get(testCase.getOutput().trim());
-		assertThat(execCWD.toRealPath(), is(stagingPath.toRealPath()));
+		assertThat(execCWD.toRealPath(), is(stage.getStageDir().toRealPath()));
 	}
 
+	/* Move to to TestStage? 
 	@Test
 	void testParamSubstitutionTestCase() 
 		throws IOException, TestConfigurationError  {
@@ -235,5 +239,6 @@ public class TestTestCaseExec {
 		assertThat(lines[2], is("paramsSub"));
 		assertThat(lines[3], is("@treble"));
 	}
+*/
 
 }

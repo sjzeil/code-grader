@@ -91,7 +91,7 @@ public class TestSuite {
 	 */
 	public void performTests() {
 		if (assignment.getGoldDirectory() != null) {
-			goldStage = new Stage(assignment, null, properties);
+			goldStage = new Stage(assignment, properties);
 			goldStage.setupStage();
 			tryToBuildGoldVersion();
 		}
@@ -151,8 +151,7 @@ public class TestSuite {
 	public void processThisSubmission(Submission submission) {
 		submitterStage = new Stage(assignment, submission, properties);
 		submitterStage.clear();
-		Path recordAt = assignment.getRecordingDirectory()
-				.resolve(submission.getSubmittedBy());
+		Path recordAt = submission.getRecordingDir();
 		recordAt.toFile().mkdirs();
 		copyTestSuiteToRecordingArea(submission);
 		submitterStage.setupStage();
@@ -185,13 +184,13 @@ public class TestSuite {
 	 * @param submission the submission being graded
 	 */
 	private void copyTestSuiteToRecordingArea(Submission submission) {
-		Path studentRecordingArea = getStudentRecordingDir(submission);
+		Path studentGradingArea = submission.getTestSuiteDir();
 		try {
 			FileUtils.copyDirectory(assignment.getTestSuiteDirectory(),
-					studentRecordingArea, null, null);
+					studentGradingArea, null, null);
 		} catch (IOException ex) {
-			logger.warn("Problem copying the suite to the recordingArea "
-					+ studentRecordingArea.toString(), ex);
+			logger.warn("Problem copying the suite to the recording area "
+					+ studentGradingArea.toString(), ex);
 		}
 	}
 
@@ -224,270 +223,7 @@ public class TestSuite {
 		}
 	}
 
-	/**
-	 * Build the submitted code (in the staging area).
-	 * 
-	 * @param stage      staging area containing submitted code &
-	 *                   instructor-provided code
-	 * @param submission submission being graded
-	 */
-	private void buildStagedCode(Path stage, Submission submission) {
-		BuildResult result = buildCode(stage);
-		String buildScore = (result.statusCode == 0) ? "100" : "0";
-		Path recordAt = assignment.getRecordingDirectory()
-				.resolve(submission.getSubmittedBy());
-		FileUtils.writeTextFile(
-				recordAt.resolve("build.score"),
-				buildScore);
-		FileUtils.writeTextFile(
-				recordAt.resolve("build.message"),
-				result.message);
-	}
-
-	private BuildResult buildCode(Path stage) {
-		String buildCommand = getBuildCommand(stage);
-		if (buildCommand == null || buildCommand.equals("")) {
-			throw new TestConfigurationError(
-					"Could not deduce build command in "
-							+ stage.toString());
-		}
-		buildCommand = assignment.parameterSubstitution(buildCommand, "");
-
-		ExternalProcess process = new ExternalProcess(
-				stage,
-				buildCommand,
-				properties.build.timeLimit,
-				null,
-				"build process (" + buildCommand + ")");
-		process.execute();
-		String buildInfo = process.getOutput() + "\n\n" + process.getErr();
-		if (process.getOnTime()) {
-			if (process.getStatusCode() == 0) {
-				return new BuildResult(0, buildInfo);
-			} else {
-				return new BuildResult(process.getStatusCode(),
-						"Build failed with status code " + process.getStatusCode()
-								+ ".\n" + buildInfo);
-			}
-		} else {
-			return new BuildResult(-1,
-					"Build exceeded " + properties.build.timeLimit
-							+ " seconds.\n" + buildInfo);
-		}
-
-	}
-
-	/**
-	 * Determine the command used to build the code.
-	 * Can be set as a suite property or will attempt to infer the command
-	 * from the build directory contents.
-	 * 
-	 * @param buildDir the directory containing the code to be built.
-	 * @return a build command
-	 * @throws TestConfigurationError if no build command can be determined.
-	 */
-	private String getBuildCommand(Path buildDir) {
-		String command = properties.build.command;
-		if (command == null || command.equals("")) {
-			// Try to infer the command from the contents of the
-			// build directory.
-			if (buildDir.resolve("makefile").toFile().exists()) {
-				command = "make";
-			} else if (buildDir.resolve("Makefile").toFile().exists()) {
-				command = "make";
-			} else if (buildDir.resolve("build.gradle").toFile().exists()) {
-				if (buildDir.resolve("gradlew").toFile().exists()) {
-					command = "." + File.separator + "gradlew build";
-				} else {
-					command = "gradle build";
-				}
-			} else if (buildDir.resolve("pom.xml").toFile().exists()) {
-				command = "mvn compile";
-			} else if (buildDir.resolve("build.xml").toFile().exists()) {
-				command = "ant";
-			} else {
-				List<File> javaDirs = FileUtils.findDirectoriesContaining(
-						buildDir, ".java");
-				if (javaDirs.size() > 0) {
-					StringBuilder commandStr = new StringBuilder();
-					commandStr.append("javac ");
-					if (buildDir.resolve("lib").toFile().isDirectory()) {
-						List<File> jars = FileUtils.findAllFiles(
-								buildDir.resolve("lib"), ".jar");
-						if (jars.size() > 0) {
-							commandStr.append("-cp ." + File.pathSeparator
-									+ "'lib/*.jar' ");
-						}
-					}
-					for (File srcDir : javaDirs) {
-						Path relativeDir = buildDir.relativize(srcDir.toPath());
-						commandStr.append(relativeDir.toString()
-								+ File.separator + "*.java ");
-					}
-					command = commandStr.toString();
-				} else {
-					StringBuilder commandStr = new StringBuilder();
-					commandStr.append("g++ -g -std=c++17 ");
-					List<File> cppDirs = FileUtils.findDirectoriesContaining(
-							buildDir, ".cpp");
-					for (File srcDir : cppDirs) {
-						commandStr.append(srcDir.toString()
-								+ File.separator + "*.cpp ");
-					}
-					command = commandStr.toString();
-				}
-			}
-		}
-		if (command == null || command.equals("")) {
-			throw new TestConfigurationError(
-					"Could not infer a build command for "
-							+ buildDir.toString());
-		}
-		return command;
-	}
-
-	private void setupStage(File submission, Path stage) {
-		stage.toFile().mkdirs();
-		List<String> requiredStudentFiles = listRequiredStudentFiles();
-		try {
-			FileUtils.copyDirectory(
-					assignment.getInstructorCodeDirectory(),
-					stage,
-					null,
-					requiredStudentFiles);
-		} catch (IOException e) {
-			throw new TestConfigurationError(
-					"Could not copy instructor files from "
-							+ assignment.getInstructorCodeDirectory().toString()
-							+ " into " + stage.toString() + "\n"
-							+ e.getMessage());
-		}
-		try {
-			FileUtils.copyDirectory(
-					submission.toPath(),
-					stage,
-					properties.build.studentFiles,
-					null,
-					StandardCopyOption.REPLACE_EXISTING);
-		} catch (IOException e) {
-			throw new TestConfigurationError(
-					"Could not copy student files from "
-							+ submission.toString()
-							+ " into " + stage.toString() + "\n"
-							+ e.getMessage());
-		}
-		arrangeJavaFiles(stage);
-	}
-
-	/**
-	 * Look for Java files that are out of position according to their
-	 * package name and move them to the proper location.
-	 * 
-	 * @param stage the staging area.
-	 */
-	private void arrangeJavaFiles(Path stage) {
-		List<File> javaFiles = FileUtils.findAllDeepFiles(stage, ".java");
-		for (File javaFile : javaFiles) {
-			String packageName = getJavaPackage(javaFile);
-			if (notPlacedInPackage(javaFile, packageName)) {
-				moveIntoPackage(javaFile, packageName);
-			}
-		}
-	}
-
-	private void moveIntoPackage(File javaFile, String packageName) {
-		Path stage = assignment.getSubmitterStage();
-		Path packagePath = Paths.get(packageName.replaceAll("\\.", "/"));
-		Path stageSrcDir;
-		if (properties.build.javaSrcDir.size() > 0) {
-			String srcDir = properties.build.javaSrcDir.get(0);
-			Path srcDirPath = Paths.get(srcDir);
-			stageSrcDir = stage.resolve(srcDirPath);
-		} else {
-			stageSrcDir = stage;
-		}
-		Path desiredPackage = stageSrcDir.resolve(packagePath);
-		Path desiredFile = desiredPackage.resolve(javaFile.getName());
-		if (!desiredFile.equals(javaFile.toPath())) {
-			if (!desiredPackage.toFile().exists()) {
-				desiredPackage.toFile().mkdirs();
-			}
-			try {
-				Files.move(javaFile.toPath(), desiredFile);
-			} catch (IOException e) {
-				throw new TestConfigurationError("Unable to move "
-						+ javaFile.toString() + " to "
-						+ desiredFile.toString() + "\n"
-						+ e.getMessage());
-			}
-		}
-	}
-
-	/**
-	 * Tests to see if a Java file is not properly placed in a source
-	 * directory, taking into consideration the package declaration in the
-	 * Java file.
-	 * 
-	 * @param javaFile    a Java source file
-	 * @param packageName The package it belongs to.
-	 * @return true if this file needs to be moved
-	 */
-	private boolean notPlacedInPackage(File javaFile, String packageName) {
-		Path stage = assignment.getSubmitterStage();
-		Path packagePath = Paths.get(packageName.replaceAll("\\.", "/"));
-		if (properties.build.javaSrcDir.size() > 0) {
-			for (String srcDir : properties.build.javaSrcDir) {
-				Path srcDirPath = Paths.get(srcDir);
-				Path stageSrcDir = stage.resolve(srcDirPath);
-				Path possiblePackage = stageSrcDir.resolve(packagePath);
-				Path possibleFile = possiblePackage.resolve(javaFile.getName());
-				if (possibleFile.equals(javaFile.toPath())) {
-					return false;
-				}
-			}
-		} else {
-			Path stageSrcDir = stage;
-			Path possiblePackage = stageSrcDir.resolve(packagePath);
-			Path possibleFile = possiblePackage.resolve(javaFile.getName());
-			if (possibleFile.equals(javaFile.toPath())) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private String getJavaPackage(File javaFile) {
-		String javaSourceCode = FileUtils.readTextFile(javaFile);
-		javaSourceCode = javaSourceCode.replaceAll("//.*\n", "\n");
-		javaSourceCode = javaSourceCode.replaceAll("(?s)/[*].*?[*]/", "");
-		java.util.Scanner scanner = new java.util.Scanner(javaSourceCode);
-		if (scanner.hasNext()) {
-			if (scanner.next().equals("package")) {
-				if (scanner.hasNext()) {
-					String packageName = scanner.next();
-					if (packageName.endsWith(";")) {
-						packageName = packageName.substring(
-								0, packageName.length() - 1);
-					}
-					scanner.close();
-					return packageName;
-				}
-			}
-		}
-		scanner.close();
-		return "";
-	}
-
-	private List<String> listRequiredStudentFiles() {
-		List<String> results = new ArrayList<>();
-		for (String pattern : properties.build.studentFiles) {
-			if (!pattern.contains("*")) {
-				results.add(pattern);
-			}
-		}
-		return results;
-	}
-
+	
 	/**
 	 * Runs all selected tests for a given submission. Assumes that code
 	 * for gold version and submission have been built. Test results are
@@ -497,9 +233,7 @@ public class TestSuite {
 	 * @param buildStatus 0 if build succeeded
 	 */
 	public void runTests(Submission submission, int buildStatus) {
-		Assignment testAssignment = getRevisedAssignmentSettings(submission);
-
-		Path suiteDir = testAssignment.getTestSuiteDirectory();
+		Path suiteDir = submission.getTestSuiteDir();
 		File[] testCases = suiteDir.toFile().listFiles();
 		if (testCases == null || testCases.length == 0) {
 			throw new TestConfigurationError(
@@ -510,12 +244,14 @@ public class TestSuite {
 				String testName = testCase.getName();
 
 				TestCaseProperties tcProperties = new TestCaseProperties(
-						testAssignment, testName);
+						assignment, testName);
 				TestCase tc = new TestCase(tcProperties);
-				if (testAssignment.getGoldDirectory() != null) {
+				goldStage = new Stage(assignment, properties);
+				if (assignment.getGoldDirectory() != null) {
 					tc.performTest(submission, true, 
 						goldStage, 0);
 				}
+				submitterStage = new Stage(assignment, submission, properties);
 				tc.performTest(submission, false, 
 					submitterStage, buildStatus);
 			}
@@ -531,32 +267,6 @@ public class TestSuite {
 				|| testsToPerform.contains(testName));
 	}
 
-	/**
-	 * The original test suite will have been copied into the student's
-	 * recording area. We use that copy as the test suite when running
-	 * both the gold program and the student's submission.
-	 * 
-	 * This helps prevent student submissions from interfering with one another
-	 * by modifying the contents of the test suite. It also means that a
-	 * self-contained record is available of each student's test results.
-	 * 
-	 * @param submission
-	 * @return a new Assignment with the test suite set to the student's
-	 *         recording area.
-	 */
-	private Assignment getRevisedAssignmentSettings(Submission submission) {
-		Path studentRecordingArea = getStudentRecordingDir(submission);
-		Assignment testAssignment = assignment.clone();
-		testAssignment.setTestSuiteDirectory(studentRecordingArea);
-		return testAssignment;
-	}
-
-	private Path getStudentRecordingDir(Submission submission) {
-		Path studentRecordingArea = assignment.getRecordingDirectory()
-				.resolve(submission.getSubmittedBy())
-				.resolve("Grading");
-		return studentRecordingArea;
-	}
 
 
 	/**

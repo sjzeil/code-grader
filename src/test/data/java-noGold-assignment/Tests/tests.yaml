@@ -3,9 +3,6 @@ test:
 build:
   studentFiles:
     - "*.java"
-    - "**/sqrtProg.java"
-  javaSrcDir:
-    - src
 grading:
 - oracle: "smart"
   ws: true
