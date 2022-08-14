@@ -3,11 +3,7 @@ package edu.odu.cs.zeil.codegrader;
 import java.io.File;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 public class TestSuite {
 
+	private static final int MAX_SCORE = 100;
 	private TestSuitePropertiesBase properties;
 	private Assignment assignment;
 	private Path testSuiteDirectory;
@@ -74,6 +71,17 @@ public class TestSuite {
 	}
 
 	/**
+	 * Limits the set of submissions that will actually be run by
+	 * performTests.
+	 * 
+	 * @param submissionList list of submission names
+	 */
+	public void setSelectedSubmissions(List<String> submissionList) {
+		submissionsToRun.clear();
+		submissionsToRun.addAll(submissionList);
+	}
+
+	/**
 	 * Perform all selected tests for all selected submissions.
 	 * 
 	 * The entire sequence is performed:
@@ -106,9 +114,12 @@ public class TestSuite {
 		for (File submissionFile : submissions) {
 			if (isAValidSubmission(submissionFile)) {
 				String submissionName = submissionFile.getName();
-				Submission submission = new Submission(assignment,
-						submissionName);
-				processThisSubmission(submission);
+				if (submissionsToRun.size() == 0
+						|| submissionsToRun.contains(submissionName)) {
+					Submission submission = new Submission(assignment,
+							submissionName);
+					processThisSubmission(submission);
+				}
 			}
 		}
 		if (submissions != null && submissions.length > 0) {
@@ -156,11 +167,11 @@ public class TestSuite {
 		copyTestSuiteToRecordingArea(submission);
 		submitterStage.setupStage();
 		Stage.BuildResult buildResults = submitterStage.buildCode();
-		int buildScore = (buildResults.getStatusCode() == 0) ? 100 : 0;
-		FileUtils.writeTextFile(recordAt.resolve("build.score"), 
-			Integer.toString(buildScore) + "\n");
-		FileUtils.writeTextFile(recordAt.resolve("build.message"), 
-			buildResults.getMessage() + "\n");
+		int buildScore = (buildResults.getStatusCode() == 0) ? MAX_SCORE : 0;
+		FileUtils.writeTextFile(recordAt.resolve("build.score"),
+				Integer.toString(buildScore) + "\n");
+		FileUtils.writeTextFile(recordAt.resolve("build.message"),
+				buildResults.getMessage() + "\n");
 		runTests(submission, buildResults.getStatusCode());
 	}
 
@@ -223,13 +234,12 @@ public class TestSuite {
 		}
 	}
 
-	
 	/**
 	 * Runs all selected tests for a given submission. Assumes that code
 	 * for gold version and submission have been built. Test results are
 	 * recorded in the recording area.
 	 * 
-	 * @param submission submission to be tested
+	 * @param submission  submission to be tested
 	 * @param buildStatus 0 if build succeeded
 	 */
 	public void runTests(Submission submission, int buildStatus) {
@@ -248,12 +258,12 @@ public class TestSuite {
 				TestCase tc = new TestCase(tcProperties);
 				goldStage = new Stage(assignment, properties);
 				if (assignment.getGoldDirectory() != null) {
-					tc.performTest(submission, true, 
-						goldStage, 0);
+					tc.performTest(submission, true,
+							goldStage, 0);
 				}
 				submitterStage = new Stage(assignment, submission, properties);
-				tc.performTest(submission, false, 
-					submitterStage, buildStatus);
+				tc.performTest(submission, false,
+						submitterStage, buildStatus);
 			}
 		}
 	}
@@ -266,8 +276,6 @@ public class TestSuite {
 		return (testsToPerform.size() == 0
 				|| testsToPerform.contains(testName));
 	}
-
-
 
 	/**
 	 * Adds a directory that is expected to hold Java source code.
