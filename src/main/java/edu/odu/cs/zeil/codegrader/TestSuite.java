@@ -122,11 +122,14 @@ public class TestSuite {
 				}
 			}
 		}
-		if (submissions != null && submissions.length > 0) {
-			if (goldStage != null) {
-				goldStage.clear();
+		if (submissionsToRun.size() == 0) {
+			try {
+				FileUtils.deleteDirectory(assignment.getStagingDirectory());
+			} catch (IOException e) {
+				logger.warn("Unable to clear stages " 
+					+ assignment.getStagingDirectory() 
+					+ " at end of processing: \n", e);
 			}
-			submitterStage.clear();
 		}
 	}
 
@@ -161,7 +164,9 @@ public class TestSuite {
 	 */
 	public void processThisSubmission(Submission submission) {
 		submitterStage = new Stage(assignment, submission, properties);
-		submitterStage.clear();
+		if (submitterStage.getStageDir().toFile().exists()) {
+			submitterStage.clear();
+		}
 		Path recordAt = submission.getRecordingDir();
 		recordAt.toFile().mkdirs();
 		copyTestSuiteToRecordingArea(submission);

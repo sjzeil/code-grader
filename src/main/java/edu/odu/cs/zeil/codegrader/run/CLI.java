@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.odu.cs.zeil.codegrader.Assignment;
+import edu.odu.cs.zeil.codegrader.TestConfigurationError;
 import edu.odu.cs.zeil.codegrader.TestSuite;
 
 public class CLI {
@@ -63,17 +64,18 @@ public class CLI {
             if (cli.hasOption(help)) {
                 HelpFormatter formatter = new HelpFormatter();
                 formatter.printHelp(
-                        "java -cp path-to-jar edu.odu.cs.zeil.codegrader.run.CLI",
-                        options);
-                System.exit(0);
+                    "java -cp path-to-jar edu.odu.cs.zeil.codegrader.run.CLI",
+                    options);
+                return;
             }
 
             if (cli.hasOption(suite)) {
                 assignment.setTestSuiteDirectory(
                         Paths.get(cli.getOptionValue(suite)));
             } else {
-                logger.error("Test suite not specified.");
-                System.exit(2);
+                String msg = "Test suite not specified.";
+                logger.error(msg);
+                throw new TestConfigurationError(msg);
             }
 
             if (cli.hasOption(iSrc)) {
@@ -81,12 +83,23 @@ public class CLI {
                         Paths.get(cli.getOptionValue(iSrc)));
             }
 
+            if (cli.hasOption(recording)) {
+                assignment.setRecordingDirectory(
+                        Paths.get(cli.getOptionValue(recording))
+                            .resolve("grades"));
+            } else {
+                String msg = "Recording area not specified.";
+                logger.error(msg);
+                throw new TestConfigurationError(msg);
+            }
+
             if (cli.hasOption(stage)) {
                 assignment.setStagingDirectory(
                         Paths.get(cli.getOptionValue(stage)));
             } else {
-                logger.error("Staging area not specified.");
-                System.exit(3);
+                assignment.setStagingDirectory(
+                    assignment.getRecordingDirectory().resolve("stage")
+                );
             }
 
             if (cli.hasOption(gold)) {
@@ -98,20 +111,15 @@ public class CLI {
                 assignment.setSubmissionsDirectory(
                         Paths.get(cli.getOptionValue(submissions)));
             } else {
-                logger.error("Submissions area not specified.");
-                System.exit(4);
+                String msg = "Submissions area not specified.";
+                logger.error(msg);
+                throw new TestConfigurationError(msg);
             }
 
-            if (cli.hasOption(recording)) {
-                assignment.setRecordingDirectory(
-                        Paths.get(cli.getOptionValue(recording)));
-            } else {
-                logger.error("Recording area not specified.");
-                System.exit(3);
-            }
 
             if (cli.hasOption(gradeSheet)) {
-                assignment.setGradingTemplate((Paths.get(cli.getOptionValue(gradeSheet))));
+                assignment.setGradingTemplate(
+                    (Paths.get(cli.getOptionValue(gradeSheet))));
             }
 
             if (cli.hasOption(student)) {
@@ -126,8 +134,7 @@ public class CLI {
             }
 
         } catch (ParseException exp) {
-            System.err.println(exp.getMessage());
-            System.exit(1);
+            throw new TestConfigurationError(exp.getMessage());
         }
     }
 
@@ -141,7 +148,10 @@ public class CLI {
         run.go();
     }
 
-    private void go() {
+    /**
+     * Run the CLI handler, launching the program.
+     */
+    public void go() {
         TestSuite testSuite = new TestSuite(assignment);
         if (!selectedTest.equals("")) {
             List<String> selections = new ArrayList<>();
@@ -200,7 +210,7 @@ public class CLI {
         gradeSheet = Option.builder("gradesheet")
                 .argName("path")
                 .hasArgs()
-                .desc("Excel spreadsheet for computing student's assignment grades."
+                .desc("Excel spreadsheet for computing assignment grades."
                         + " (optional)")
                 .build();
         result.addOption(gradeSheet);

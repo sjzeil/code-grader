@@ -73,7 +73,6 @@ public class TestTestSuite {
 		suite.clearTheStage(stagingPath);
 
 		Submission submission = new Submission(asst, "perfect");
-		Path testSuite = submission.getTestSuiteDir();
 		
 		submissionsPath.resolve("perfect").resolve("makefile")
 		.toFile().delete();  // use default Java launch

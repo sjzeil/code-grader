@@ -132,7 +132,7 @@ public class Stage {
 					} catch (IOException e) {
 						throw new TestConfigurationError(
 							"Cannot create staging directory for gold version\n"
-								+ e.getMessage());
+							+ e.getMessage());
 					}
 					BuildResult result = buildCode(/* goldStage */);
 					if (result.statusCode != 0) {
@@ -151,10 +151,12 @@ public class Stage {
 	private void setupGoldVersion() {
 		Path goldDir = assignment.getGoldDirectory();
 		try {
-			FileUtils.copyDirectory(goldDir, stageDir, null, null);
+			FileUtils.copyDirectory(goldDir, stageDir, 
+				null, null, 
+				StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			throw new TestConfigurationError(
-					"Cannot create staging directory for gold version\n"
+					"Cannot create staging directory for gold version \n"
 							+ e.getMessage());
 		}
 	}
@@ -314,7 +316,7 @@ public class Stage {
 				sourcePaths.append(' ');
 				sourcePaths.append(relativeDir.toString());
 			}
-			//classPath.append("'");
+			// classPath.append("'");
 			return new Pair<String, String>(
 					classPath.toString(), sourcePaths.toString());
 		} else {
@@ -405,7 +407,7 @@ public class Stage {
 			}
 			try {
 				Files.move(javaFile.toPath(), desiredFile,
-					StandardCopyOption.REPLACE_EXISTING);
+						StandardCopyOption.REPLACE_EXISTING);
 			} catch (IOException e) {
 				throw new TestConfigurationError("Unable to move "
 						+ javaFile.toString() + " to "
@@ -496,24 +498,13 @@ public class Stage {
 	 */
 	public String getLaunchCommand(String commandFromProperties) {
 		String command = commandFromProperties;
-		if (command == null || command.equals("")) {
+		if (command == null) {
+			command = "";
+		}
+		if (command.equals("")) {
 			// Try to infer the command from the contents of the
 			// build directory.
-			if (stageDir.resolve("makefile").toFile().exists()) {
-				String exec = findExecutableFile(stageDir);
-				if (!exec.equals("")) {
-					command = "." + File.separator + exec;
-				} else {
-					command = "make run args='@P'";
-				}
-			} else if (stageDir.resolve("Makefile").toFile().exists()) {
-				String exec = findExecutableFile(stageDir);
-				if (!exec.equals("")) {
-					command = "." + File.separator + exec;
-				} else {
-					command = "make run args='@P'";
-				}
-			} else if (stageDir.resolve("build.gradle").toFile().exists()) {
+			if (stageDir.resolve("build.gradle").toFile().exists()) {
 				String gradleCommandBase;
 				if (stageDir.resolve("gradlew").toFile().exists()) {
 					gradleCommandBase = "." + File.separator + "gradlew ";
@@ -521,7 +512,8 @@ public class Stage {
 					gradleCommandBase = "gradle ";
 				}
 				command = gradleCommandBase + "run --args='@P'";
-			} else {
+			}
+			if (command.equals("")) {
 				List<File> javaDirs = FileUtils.findDirectoriesContaining(
 						stageDir, ".java");
 				if (javaDirs.size() > 0) {
@@ -529,31 +521,46 @@ public class Stage {
 					String mainClassName = findJavaMainClass();
 					command = "java  " + javaDetails.getFirst()
 							+ " " + mainClassName;
+				}
+			}
+			if (command.equals("")) {
+				List<File> pyFiles = FileUtils.findAllFiles(
+						stageDir, ".py");
+				if (pyFiles.size() == 1) {
+					command = "python3 " + pyFiles.get(0);
 				} else {
-					List<File> cppDirs = FileUtils.findDirectoriesContaining(
-							stageDir, ".cpp");
-					if (cppDirs.size() > 0) {
-						command = findExecutableFile(stageDir);
+					command = ""; // Cannot infer build command
+				}
+			}
+			if (command.equals("")) {
+				command = findExecutableFile(stageDir);
+			}
+			if (command.equals("")) {
+
+				if (stageDir.resolve("makefile").toFile().exists()) {
+					String exec = findExecutableFile(stageDir);
+					if (!exec.equals("")) {
+						command = exec;
 					} else {
-						List<File> pyFiles = FileUtils.findAllFiles(
-								stageDir, ".py");
-						if (pyFiles.size() == 1) {
-							command = "python3 " + pyFiles.get(0);
-						} else {
-							command = ""; // Cannot infer build command
-						}
+						command = "make run args='@P'";
+					}
+				} else if (stageDir.resolve("Makefile").toFile().exists()) {
+					String exec = findExecutableFile(stageDir);
+					if (!exec.equals("")) {
+						command = "." + File.separator + exec;
+					} else {
+						command = "make run args='@P'";
 					}
 				}
 			}
-		}
-
-		if (command == null || command.equals("")) {
-			throw new TestConfigurationError(
-					"Could not infer a build command for "
-							+ stageDir.toString());
-		} else {
-			logger.info("Inferred build command: " + command
-					+ "\n  in " + stageDir);
+			if (command == null || command.equals("")) {
+				throw new TestConfigurationError(
+						"Could not infer a build command for "
+								+ stageDir.toString());
+			} else {
+				logger.info("Inferred build command: " + command
+						+ "\n  in " + stageDir);
+			}
 		}
 		return command;
 	}
@@ -608,74 +615,92 @@ public class Stage {
 		}
 	}
 
-	private String findExecutableFile(Path stageDir2) {
-		//TODO
-		return null;
+	private String findExecutableFile(Path stage) {
+		File[] files = stage.toFile().listFiles();
+		if (files != null) {
+			File executable = null;
+			for (File file : files) {
+				if (file.canExecute()) {
+					if (executable == null) {
+						executable = file;
+					} else {
+						return "";
+					}
+				}
+			}
+			if (executable != null) {
+				return executable.getAbsolutePath();
+			} else {
+				return "";
+			}
+		} else {
+			return "";
+		}
 	}
 
-	    /**
-     * Scans a string for shortcuts, replacing by the appropriate string.
-     * Shortcuts are
-     * <ul>
-     * <li>@P the test command line parameters</li>
-     * <li>@S the staging directory</li>
-     * <li>@T the test suite directory</li>
-     * <li>@t the test case name</li>
-     * <li>@R the reporting directory</li>
-     * </ul>
-     * A shortcut must be followed by a non-alphabetic character.
-     * 
-     * @param launchCommandStr a string describing a command to be run
-     * @return the launchCommandStr with shortcuts replaced by the appropriate
-     *         path/value
-     */
-    public String parameterSubstitution(String launchCommandStr) {
-        StringBuilder result = new StringBuilder();
-        int i = 0;
-        while (i < launchCommandStr.length()) {
-            char c = launchCommandStr.charAt(i);
-            if (c == '@') {
-                if (i + 1 < launchCommandStr.length()) {
-                    char c2 = launchCommandStr.charAt(i + 1);
-                    if (c2 == 'S' || c2 == 'R') {
-                        boolean ok = (i + 2 >= launchCommandStr.length())
-                                || !Character.isAlphabetic(
-                                        launchCommandStr.charAt(i + 2));
-                        if (ok) {
-                            i += 2;
-                            try {
-                                if (c2 == 'S') {
-                                    result.append(
-                                            getStageDir()
-                                            .toRealPath().toString());
-                                } else if (c2 == 'R') {
-                                    result.append(
-                                            beingGraded.getRecordingDir()
-                                                    .toRealPath().toString());
-                                }
-                            } catch (IOException ex) {
-                                // Path has not been set
-                                i -= 1;
-                                result.append(c);
-                            }
-                        } else {
-                            i += 1;
-                            result.append(c);
-                        }
-                    } else {
-                        i += 1;
-                        result.append(c);
-                    }
-                } else {
-                    result.append(c);
-                    ++i;
-                }
-            } else {
-                result.append(c);
-                ++i;
-            }
-        }
-        return result.toString();
-    }
+	/**
+	 * Scans a string for shortcuts, replacing by the appropriate string.
+	 * Shortcuts are
+	 * <ul>
+	 * <li>@P the test command line parameters</li>
+	 * <li>@S the staging directory</li>
+	 * <li>@T the test suite directory</li>
+	 * <li>@t the test case name</li>
+	 * <li>@R the reporting directory</li>
+	 * </ul>
+	 * A shortcut must be followed by a non-alphabetic character.
+	 * 
+	 * @param launchCommandStr a string describing a command to be run
+	 * @return the launchCommandStr with shortcuts replaced by the appropriate
+	 *         path/value
+	 */
+	public String parameterSubstitution(String launchCommandStr) {
+		StringBuilder result = new StringBuilder();
+		int i = 0;
+		while (i < launchCommandStr.length()) {
+			char c = launchCommandStr.charAt(i);
+			if (c == '@') {
+				if (i + 1 < launchCommandStr.length()) {
+					char c2 = launchCommandStr.charAt(i + 1);
+					if (c2 == 'S' || c2 == 'R') {
+						boolean ok = (i + 2 >= launchCommandStr.length())
+								|| !Character.isAlphabetic(
+										launchCommandStr.charAt(i + 2));
+						if (ok) {
+							i += 2;
+							try {
+								if (c2 == 'S') {
+									result.append(
+											getStageDir()
+													.toRealPath().toString());
+								} else if (c2 == 'R') {
+									result.append(
+											beingGraded.getRecordingDir()
+													.toRealPath().toString());
+								}
+							} catch (IOException ex) {
+								// Path has not been set
+								i -= 1;
+								result.append(c);
+							}
+						} else {
+							i += 1;
+							result.append(c);
+						}
+					} else {
+						i += 1;
+						result.append(c);
+					}
+				} else {
+					result.append(c);
+					++i;
+				}
+			} else {
+				result.append(c);
+				++i;
+			}
+		}
+		return result.toString();
+	}
 
 }
