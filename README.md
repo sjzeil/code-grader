@@ -20,7 +20,8 @@ More information will accumulate in the [Wiki](https://github.com/sjzeil/code-gr
 
 ## Status
 
-* In development
-* Key features have been prototyped in shell scripts and are being used to grade student programs in a summer 2022 Data Structures and Algorithms course.
+Current version: _1.0-SNAPSHOT_
+* 85% complete.   Major components remaining to implement are generation of grader reports
 
-[Project reports](https://sjzeil.github.io/code-grader/)
+* [Project reports](https://sjzeil.github.io/code-grader/)
+* [Current distribution (Jar)](https://www.cs.odu.edu/~zeil/gitlab/code-grader/code-grader.jar)

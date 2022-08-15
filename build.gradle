@@ -6,6 +6,7 @@ plugins {
 	id "com.github.spotbugs" version "5.0.8"
 	id 'org.jbake.site' version "5.3.0"
 	id 'edu.odu.cs.report_accumulator' version '1.4'
+	id 'org.hidetake.ssh' version '2.9.0' 
 }
 
 version = '1.0-SNAPSHOT'
@@ -133,6 +134,18 @@ task copyBake (type: Copy) {
     dependsOn 'bake'
 }
 
+/*
+task copyJar (type: Copy) {
+    from 'build/libs'
+    into 'build/reports/lib'
+    rename { String fileName ->
+        fileName.replace("-$project.version", "")
+    }
+    dependsOn 'jar'
+}
+*/
+
+
 import edu.odu.cs.zeil.report_accumulator.ReportStats
 
 
@@ -143,7 +156,38 @@ task collectStats (type: ReportStats, dependsOn: ['build','htmlDependencyReport'
 }
 
 
-task site (dependsOn: ['copyJDocs', 'collectStats']){
+task site (dependsOn: ['copyJDocs', 'collectStats' /*, 'copyJar'*/]){
     description "Build the project website (in build/reports)"
     group "reporting"
+}
+
+remotes {
+  webServer {
+    host = 'linux.cs.odu.edu'
+    user = "$ivyRepoUser"
+    password = "$ivyRepoPass"
+  }
+}
+
+task copyJar2 (type: Copy) {
+    from 'build/libs'
+    into 'build/distrib'
+    rename { String fileName ->
+        fileName.replace("-$project.version", "")
+    }
+    dependsOn 'jar'
+}
+
+task dailyJar (dependsOn: 'copyJar2') {
+    description "Deploy the 'daily' build to a fixed URL for downloads."
+    group "Distribution"
+  doLast {
+	def websitePath="/home/zeil/secure_html/gitlab/code-grader/"
+    ssh.run {
+      session(remotes.webServer) {
+       put from: "$buildDir/distrib/code-grader.jar", into: websitePath
+       execute "cd $websitePath ; unzip website.zip"
+      }
+    }
+  }
 }
