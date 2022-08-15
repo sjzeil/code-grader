@@ -113,9 +113,9 @@ public class TestCase {
      *                      student version is being run.
      * @param stage stage area in which code has been built
      * @param buildStatus status code from build 
-     * @return path to the recorded results
+     * @return test case score
      */
-    public Path performTest(Submission submission,
+    public int performTest(Submission submission,
                 boolean asGold,
                 Stage stage, int buildStatus)
             throws TestConfigurationError {
@@ -151,6 +151,7 @@ public class TestCase {
                     testRecordingDir.resolve(testName + ".score"), 
                     "0\n");
             }
+            return 0;
         } else if (!onTime) {
             FileUtils.writeTextFile(
                 testRecordingDir.resolve(testName + ".message"), 
@@ -165,6 +166,7 @@ public class TestCase {
                     testRecordingDir.resolve(testName + ".score"), 
                     "0\n");
             }
+            return 0;
         } else if (!asGold) {
             int bestScore = -1;
             String firstMessage = "";
@@ -200,8 +202,10 @@ public class TestCase {
             FileUtils.writeTextFile(
                     testRecordingDir.resolve(testName + ".message"), 
                     firstMessage + "\n");
+            return bestScore;
+        } else {
+            return -1;  // Gold code is not scored
         }
-        return testRecordingDir;
     }
 
 

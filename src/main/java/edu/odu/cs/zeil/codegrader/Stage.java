@@ -70,11 +70,13 @@ public class Stage {
 	 * 
 	 */
 	public void clear() {
-		try {
-			FileUtils.deleteDirectory(stageDir);
-		} catch (IOException ex) {
-			logger.warn("Problem clearing the staging directory "
-					+ stageDir.toString(), ex);
+		if (stageDir.toFile().isDirectory()) {
+			try {
+				FileUtils.deleteDirectory(stageDir);
+			} catch (IOException ex) {
+				logger.warn("Problem clearing the staging directory "
+						+ stageDir.toString(), ex);
+			}
 		}
 	}
 

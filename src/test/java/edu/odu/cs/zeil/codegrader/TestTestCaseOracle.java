@@ -80,13 +80,12 @@ public class TestTestCaseOracle {
 		Stage stage = new Stage(asst, student1,
 			new TestSuitePropertiesBase());
 		stage.getStageDir().toFile().mkdirs();
-		Path recordedAt = testCase.performTest(student1, false, stage, 0);
+		testCase.performTest(student1, false, stage, 0);
 
 		Path studentGrades = recordingPath.resolve("student1")
 			.resolve("Grading")
 			.resolve("params");
 		assertTrue(studentGrades.toFile().exists());
-		assertThat(recordedAt.normalize(), equalTo(studentGrades.normalize()));
 		Path studentTestResults = studentGrades;
 		assertTrue(studentTestResults.toFile().exists());
 		
@@ -129,13 +128,12 @@ public class TestTestCaseOracle {
 			new TestSuitePropertiesBase());
 		stage.getStageDir().toFile().mkdirs();
 		
-		Path recordedAt = testCase.performTest(student1, false, stage, 0);
+		testCase.performTest(student1, false, stage, 0);
 
 		Path studentGrades = recordingPath.resolve("student1")
 			.resolve("Grading")
 			.resolve("params");
 		assertTrue(studentGrades.toFile().exists());
-		assertThat(recordedAt.normalize(), equalTo(studentGrades.normalize()));
 		Path studentTestResults = studentGrades;
 		assertTrue(studentTestResults.toFile().exists());
 		Path studentScoreFile = studentTestResults.resolve("params.score");

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -99,6 +100,7 @@ public class TestSuite {
 	 */
 	public void performTests() {
 		if (assignment.getGoldDirectory() != null) {
+			System.out.println("Building gold code.");
 			goldStage = new Stage(assignment, properties);
 			goldStage.setupStage();
 			tryToBuildGoldVersion();
@@ -116,6 +118,8 @@ public class TestSuite {
 				String submissionName = submissionFile.getName();
 				if (submissionsToRun.size() == 0
 						|| submissionsToRun.contains(submissionName)) {
+					System.out.println("Testing submission from "
+							+ submissionName);
 					Submission submission = new Submission(assignment,
 							submissionName);
 					processThisSubmission(submission);
@@ -126,9 +130,9 @@ public class TestSuite {
 			try {
 				FileUtils.deleteDirectory(assignment.getStagingDirectory());
 			} catch (IOException e) {
-				logger.warn("Unable to clear stages " 
-					+ assignment.getStagingDirectory() 
-					+ " at end of processing: \n", e);
+				logger.warn("Unable to clear stages "
+						+ assignment.getStagingDirectory()
+						+ " at end of processing: \n", e);
 			}
 		}
 	}
@@ -173,6 +177,7 @@ public class TestSuite {
 		submitterStage.setupStage();
 		Stage.BuildResult buildResults = submitterStage.buildCode();
 		int buildScore = (buildResults.getStatusCode() == 0) ? MAX_SCORE : 0;
+		System.out.println("  Building submitted code: " + buildScore + "%.");
 		FileUtils.writeTextFile(recordAt.resolve("build.score"),
 				Integer.toString(buildScore) + "\n");
 		FileUtils.writeTextFile(recordAt.resolve("build.message"),
@@ -203,7 +208,8 @@ public class TestSuite {
 		Path studentGradingArea = submission.getTestSuiteDir();
 		try {
 			FileUtils.copyDirectory(assignment.getTestSuiteDirectory(),
-					studentGradingArea, null, null);
+					studentGradingArea, null, null,
+						StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException ex) {
 			logger.warn("Problem copying the suite to the recording area "
 					+ studentGradingArea.toString(), ex);
@@ -267,8 +273,10 @@ public class TestSuite {
 							goldStage, 0);
 				}
 				submitterStage = new Stage(assignment, submission, properties);
-				tc.performTest(submission, false,
+				int score = tc.performTest(submission, false,
 						submitterStage, buildStatus);
+				System.out.println("  Test case " + testName
+					+ ": " + score + "%.");
 			}
 		}
 	}
