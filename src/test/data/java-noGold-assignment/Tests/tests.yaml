@@ -2,7 +2,8 @@ test:
   launch: java sqrtProg
 build:
   studentFiles:
-    - "*.java"
+    include:
+    - "**.java"
 grading:
 - oracle: "smart"
   ws: true

@@ -342,15 +342,15 @@ public class Stage {
 	}
 
 	private void setupSubmitterStage() {
-		List<String> requiredStudentFiles = listRequiredStudentFiles();
 		Path submittedSourceCode = beingGraded.getSubmissionDirectory();
 		if (assignment.getInstructorCodeDirectory() != null) {
 			try {
 				FileUtils.copyDirectory(
 						assignment.getInstructorCodeDirectory(),
 						stageDir,
-						null,
-						requiredStudentFiles);
+						properties.build.instructorFiles.include,
+						properties.build.instructorFiles.exclude
+						);
 			} catch (IOException e) {
 				throw new TestConfigurationError(
 						"Could not copy instructor files from "
@@ -363,8 +363,8 @@ public class Stage {
 			FileUtils.copyDirectory(
 					submittedSourceCode,
 					stageDir,
-					properties.build.studentFiles,
-					null,
+					properties.build.studentFiles.include,
+					properties.build.studentFiles.exclude,
 					StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			throw new TestConfigurationError(
@@ -474,15 +474,6 @@ public class Stage {
 		return "";
 	}
 
-	private List<String> listRequiredStudentFiles() {
-		List<String> results = new ArrayList<>();
-		for (String pattern : properties.build.studentFiles) {
-			if (!pattern.contains("*")) {
-				results.add(pattern);
-			}
-		}
-		return results;
-	}
 
 	/**
 	 * @return the stage directory

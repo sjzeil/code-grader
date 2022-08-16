@@ -2,10 +2,13 @@ test:
   launch: java sqrtProg
 build:
   studentFiles:
-    - "*.java"
+    include:
+    - "**.java"
+  instructorFiles:
+    exclude: 
     - "**/sqrtProg.java"
   javaSrcDir:
-    - src
+    - "src"
 grading:
 - oracle: "smart"
   ws: true

@@ -16,10 +16,14 @@ public class BuildProperties {
     public int timeLimit;
 
     /**
-     * List of file names that students may submit and that should not
-     * be taken from the instructor-supplied code.
+     * List of file names that students may submit.
      */
-    public List<String> studentFiles;
+    public CopyPatterns studentFiles;
+
+    /**
+     * List of file names that instructors will supply.
+     */
+    public CopyPatterns instructorFiles;
 
     /**
      * List of directories that serve as roots for java source compilation.
@@ -33,7 +37,8 @@ public class BuildProperties {
     public BuildProperties() {
         command = ""; // Will try to infer command from directory contents.
         timeLimit = 300; // 5 min
-        studentFiles = new ArrayList<>(); // Accept all student files.
+        studentFiles = new CopyPatterns();
+        instructorFiles = new CopyPatterns();
         javaSrcDir = new ArrayList<>();
     }
 }
