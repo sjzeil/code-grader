@@ -454,7 +454,7 @@ public class TestSuite {
 	 * @param submission  submission to be tested
 	 * @param buildStatus 0 if build succeeded
 	 */
-	public void runTests(Submission submission, int buildStatus) {
+	private void runTests(Submission submission, int buildStatus) {
 		Path suiteDir = submission.getTestSuiteDir();
 		File[] testCases = suiteDir.toFile().listFiles();
 		if (testCases == null || testCases.length == 0) {

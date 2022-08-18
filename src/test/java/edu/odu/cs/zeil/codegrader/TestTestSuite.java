@@ -127,83 +127,56 @@ public class TestTestSuite {
 	}
 
 
-
 	@Test
-	void testRunAllTests() 
-			throws TestConfigurationError, IOException  {
-
-		String studentName = "perfect";
-		Submission student1 = new Submission(asst, studentName);
-		String javaHome = System.getProperty("java.home");
-		Path javaExec = Paths.get(javaHome, "bin", "java");
-		String launcher = javaExec + " -cp " 
-				+ System.getProperty("java.class.path")
-				+ " edu.odu.cs.zeil.codegrader.samples.ParamLister";
+	void testInPlaceProcessing() {
+		asst = new Assignment();
+		asst.setTestSuiteDirectory(testSuitePath);
+		Path inPlacePath = asstDestPath.resolve("submissions")
+			.resolve("perfect");
+		asst.setSubmissionsDirectory(inPlacePath);
+		asst.setInPlace(true);
 
 		TestSuite suite = new TestSuite(asst);
-		suite.setLaunch(launcher);
+		suite.clearTheStage(stagingPath);
+
+		Submission submission = new Submission(asst, "perfect");
 		
+		submissionsPath.resolve("perfect").resolve("makefile")
+		.toFile().delete();  // use default Java launch
 
-		Path studentGrades = recordingPath.resolve(studentName)
-			.resolve("Grading");
-		if (studentGrades.toFile().exists()) {
-			FileUtils.deleteDirectory(studentGrades);
-		}
-		FileUtils.copyDirectory(asst.getTestSuiteDirectory(), 
-			studentGrades, null, null);
+		suite.processThisSubmission(submission);
 
-		suite.runTests(student1, 0);
+		// Check first on the submitter stage setup
+		assertTrue(asst.getSubmitterStage().toFile().exists());
+		assertTrue(asst.getSubmitterStage().resolve("sqrtProg.java")
+			.toFile().exists());
 
-		File[] tests = asst.getTestSuiteDirectory().toFile().listFiles();
-		for (File testDir: tests) {
-			if (!testDir.isDirectory()) {
-				continue;
-			}
-			String testName = testDir.getName();
+		// Now check if the build ran in place.
+		assertTrue(inPlacePath.resolve("sqrtProg.class")
+			.toFile().exists());
 
-			Path recordedTest = studentGrades.resolve(testName);
-			assertTrue(Files.exists(recordedTest));
-			Path recordedScore = recordedTest.resolve(testName + ".score");
-			assertTrue(Files.exists(recordedScore));
-		}
-
+		// Were reports generated in place?
+		String studentName = "perfect";
+		assertTrue(asst.getTestSuiteDirectory()
+				.resolve("testInfo.csv")
+				.toFile().exists());
+				assertTrue(asst.getTestSuiteDirectory()
+				.resolve("testsSummary.csv")
+				.toFile().exists());
+		assertTrue(asst.getTestSuiteDirectory()
+				.resolve(studentName + "assignment.xlsx")
+				.toFile().exists());
+		assertTrue(asst.getTestSuiteDirectory()
+			.resolve(studentName + ".html")
+			.toFile().exists());
+		Path totalFile = asst.getTestSuiteDirectory()
+			.resolve(studentName + ".total");
+		assertTrue(totalFile.toFile().exists());
+		String total = FileUtils.readTextFile(totalFile.toFile());
+		assertEquals("100\n", total);
 	}
 
-	@Test
-	void testRunSelectedTest()
-	throws FileNotFoundException, TestConfigurationError  {
 
-		Submission student1 = new Submission(asst, "perfect");
-		String javaHome = System.getProperty("java.home");
-		Path javaExec = Paths.get(javaHome, "bin", "java");
-		String launcher = javaExec + " -cp " 
-				+ System.getProperty("java.class.path")
-				+ " edu.odu.cs.zeil.codegrader.samples.ParamLister";
-
-		TestSuite suite = new TestSuite(asst);
-		suite.setLaunch(launcher);
-		String[] selections = {"params"};
-		suite.setSelectedTests(Arrays.asList(selections));
-
-		suite.runTests(student1, 0);
-
-		Path studentGrades = recordingPath.resolve("perfect");
-
-		File[] tests = asst.getTestSuiteDirectory().toFile().listFiles();
-		for (File testDir: tests) {
-			String testName = testDir.getName();
-			if (testName.equals("params")) {
-				Path recordedTest = studentGrades.resolve(testName);
-				assertTrue(Files.exists(recordedTest));
-				Path recordedScore = recordedTest.resolve(testName + ".score");
-				assertTrue(Files.exists(recordedScore));
-			} else {
-				Path recordedTest = asst.getRecordingDirectory()
-					.resolve(testName);
-				assertFalse(Files.exists(recordedTest));
-			}
-		}
-	}
 
 
 
