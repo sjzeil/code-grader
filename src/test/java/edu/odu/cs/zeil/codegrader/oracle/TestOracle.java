@@ -52,7 +52,7 @@ public class TestOracle {
      */
 	@AfterEach
 	public void teardown() throws IOException {
-		FileUtils.deleteDirectory(testSuitePath);
+        FileUtils.deleteDirectory(Paths.get("build", "test-data"));
 	}
 	
 

@@ -47,7 +47,7 @@ public class TestTCPropertiesBase {
     @Test
 	void testRead() throws TestConfigurationError {
         
-        String input = "params: \"a b\"\npoints: 42\n";
+        String input = "params: \"a b\"\nweight: 42\n";
 
         TestCasePropertiesBase tcp = TestCasePropertiesBase.loadYAML(input);
         assertThat(tcp.params.get(), equalTo("a b"));

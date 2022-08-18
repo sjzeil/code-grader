@@ -45,7 +45,7 @@ public class TestSelectiveCopying {
      */
     @AfterEach
     public void teardown() throws IOException {
-        FileUtils.deleteDirectory(asstDestPath);
+        FileUtils.deleteDirectory(Paths.get("build", "test-data"));
     }
 
     @Test

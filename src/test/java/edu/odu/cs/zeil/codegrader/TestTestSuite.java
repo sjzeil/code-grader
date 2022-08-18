@@ -57,7 +57,7 @@ public class TestTestSuite {
 
 		String template = "gradeTemplate.xlsx";
 		Path gradingTemplate = Paths.get("src", "main", "resources",
-			"edu", "odu", "cs", "zeil", "code-grader", template);
+			"edu", "odu", "cs", "zeil", "codegrader", template);
 		Path binDir = Paths.get("bin", "main",
 			"edu", "odu", "cs", "zeil", "codegrader");
 		Path buildDir = Paths.get("build", "classes", "java", "main",

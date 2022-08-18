@@ -91,8 +91,8 @@ public class TestCase {
             stdIn, 
             "test case " + properties.getName());
         process.execute();
-        capturedOutput = process.getOutput().trim();
-        capturedError = process.getErr().trim();
+        capturedOutput = process.getOutput();
+        capturedError = process.getErr();
         crashed = process.crashed();
         onTime = process.getOnTime();
         statusCode = process.getStatusCode();

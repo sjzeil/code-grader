@@ -62,7 +62,7 @@ public class TestStage {
      */
     @AfterEach
     public void teardown() throws IOException {
-        FileUtils.deleteDirectory(testSuitePath);
+        FileUtils.deleteDirectory(Paths.get("build", "test-data"));
     }
 
     @Test

@@ -33,7 +33,7 @@ public class TestTestProperties {
 	
 	@AfterEach
 	public void teardown() throws IOException {
-		FileUtils.deleteDirectory(asst1DirPath);
+        FileUtils.deleteDirectory(Paths.get("build", "test-data"));
 	}
 	
 
