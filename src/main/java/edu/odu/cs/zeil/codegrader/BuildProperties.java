@@ -32,6 +32,12 @@ public class BuildProperties {
     public List<String> javaSrcDir;
 
     /**
+     * Weight of the build score when grades are computed.
+     */
+    public int weight;
+
+
+    /**
      * Initialize the build properties.
      */
     public BuildProperties() {
@@ -40,5 +46,6 @@ public class BuildProperties {
         studentFiles = new CopyPatterns();
         instructorFiles = new CopyPatterns();
         javaSrcDir = new ArrayList<>();
+        weight = 1;
     }
 }

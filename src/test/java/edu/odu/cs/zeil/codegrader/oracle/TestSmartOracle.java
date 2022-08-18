@@ -114,6 +114,18 @@ public class TestSmartOracle {
 	}
 
 	@Test
+	void testDefaults2() throws FileNotFoundException {
+		Oracle oracle = new SmartOracle(new OracleProperties(), testCase);
+		OracleResult result = oracle.compare(expected, expected);
+		assertThat(result.score, equalTo(OracleProperties.DEFAULT_POINT_CAP));
+
+		String mixed = "The square root of 3.00 is 1.7321.\n";
+		result = oracle.compare(mixed, mixed);
+		assertThat(result.score, equalTo(100));
+		
+	}
+
+	@Test
 	void testNumericCompare() throws FileNotFoundException {
 		Oracle oracle = new SmartOracle(new OracleProperties(), testCase);
 		OracleResult result = oracle.compare(expected, expected);

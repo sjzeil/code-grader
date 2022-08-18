@@ -110,8 +110,8 @@ public class TestCaseProperties {
         params = selectStringValue(defaults.test.params,
                 caseProperties.params, "", "params");
 
-        points = selectIntValue(defaults.test.points,
-                caseProperties.points, 1, "points");
+        points = selectIntValue(defaults.test.weight,
+                caseProperties.weight, 1, "weight");
 
         launch = selectStringValue(defaults.test.launch,
                 caseProperties.launch, "", "launch");
@@ -243,9 +243,9 @@ public class TestCaseProperties {
     }
 
     /**
-     * @return how many points this test case is worth
+     * @return how many points (weight) this test case is worth
      */
-    public int getPoints() {
+    public int getWeight() {
         return points;
     }
 

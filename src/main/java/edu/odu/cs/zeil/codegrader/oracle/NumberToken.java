@@ -10,11 +10,12 @@ public class NumberToken extends Token {
 	/**
 	 * Create a token.
 	 * @param lexeme the string denoting the number.
+	 * @param position position of the token within the string.
 	 * @param precision How close this must be to another number to be
 	 *          judged equal.
 	 */
-	public NumberToken(String lexeme, double precision) {
-		super(lexeme);
+	public NumberToken(String lexeme, int position, double precision) {
+		super(lexeme, position);
 		delta = precision;
 	}
 

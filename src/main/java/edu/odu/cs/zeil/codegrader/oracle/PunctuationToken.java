@@ -8,9 +8,10 @@ public class PunctuationToken extends Token {
 	/**
 	 * Create a token.
 	 * @param lexeme the punctuation string
+	 * @param position position of the token within the string
 	 */
-	public PunctuationToken(String lexeme) {
-		super(lexeme);
+	public PunctuationToken(String lexeme, int position) {
+		super(lexeme, position);
 	}
 
 	/**

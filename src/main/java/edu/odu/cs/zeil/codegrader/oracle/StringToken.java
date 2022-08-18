@@ -8,9 +8,10 @@ public class StringToken extends Token {
 	/**
 	 * Create a token.
 	 * @param lexeme the string of alphabetic characters
+     * @param position position of the token within the string
 	 */
-	public StringToken(String lexeme) {
-		super(lexeme);
+	public StringToken(String lexeme, int position) {
+		super(lexeme, position);
 	}
 
 	/**

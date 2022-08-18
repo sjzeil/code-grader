@@ -3,13 +3,16 @@ package edu.odu.cs.zeil.codegrader.oracle;
 public abstract class Token {
 	
 	private String lexeme;
+	private int position;
 
 	/**
 	 * Create a token.
 	 * @param theLexeme lexeme for this token.
+	 * @param pos position of this lexeme within the string
 	 */
-	public Token(String theLexeme) {
+	public Token(String theLexeme, int pos) {
 		lexeme = theLexeme;
+		position = pos;
 	}
 
 	@Override
@@ -22,6 +25,8 @@ public abstract class Token {
 	public String getLexeme() {
 		return lexeme;
 	}
+
+	
 	
 	/**
 	 * Display this token as a string.
@@ -29,5 +34,12 @@ public abstract class Token {
 	 */
 	public String toString() {
 		return lexeme;
+	}
+
+	/**
+	 * @return the position
+	 */
+	public int getPosition() {
+		return position;
 	}
 }

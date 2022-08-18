@@ -51,7 +51,7 @@ public class TestTestProperties {
 		throws FileNotFoundException, TestConfigurationError {
 		TestCaseProperties testProperties 
 			= new TestCaseProperties(asst, "simpleTests");
-		int value = testProperties.getPoints();
+		int value = testProperties.getWeight();
 		assertThat(value, is(5));
 	}
 

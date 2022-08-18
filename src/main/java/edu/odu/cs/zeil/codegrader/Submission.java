@@ -80,5 +80,48 @@ public class Submission {
 		return studentRecordingArea;
 	}
 
+    public String getSubmissionDate() {
+        //TODO
+        return "";
+    }
+
+    /**
+	 * Returns the score for a test.
+	 * @param testCaseName
+	 * @return the score or -1 if the test has not been run.
+	 */
+	public int getScore(String testCaseName) {
+		Path scoreFile = getTestCaseDir(testCaseName)
+            .resolve(testCaseName + ".score");
+        if (scoreFile.toFile().exists()) {
+            String contents = FileUtils.readTextFile(scoreFile.toFile()).trim();
+            try {
+                int score = Integer.parseInt(contents);
+                return score;
+            } catch (NumberFormatException ex) {
+                return -1;
+            }
+        } else {
+            return -1;
+        }
+	}
+
+    /**
+	 * Returns the message, if any, for a test.
+	 * @param testCaseName
+	 * @return the message or "" if none exists or if the test has not been run.
+	 */
+	public String getMessage(String testCaseName) {
+		Path msgFile = getTestCaseDir(testCaseName)
+            .resolve(testCaseName + ".message");
+        if (msgFile.toFile().exists()) {
+            String contents = FileUtils.readTextFile(msgFile.toFile()).trim();
+            return contents;
+        } else {
+            return "";
+        }
+	}
+
+
 
 }

@@ -19,7 +19,7 @@ public class TestTCPropertiesBase {
         TestCasePropertiesBase tcp = new TestCasePropertiesBase();
         tcp.params = Optional.of("a b c");
         tcp.launch = Optional.of("./myProgram");
-        tcp.points = OptionalInt.of(42);
+        tcp.weight = OptionalInt.of(42);
 
         OracleProperties option1 = new OracleProperties();
         option1.caseSig = true;
@@ -40,7 +40,7 @@ public class TestTCPropertiesBase {
                 = TestCasePropertiesBase.loadYAML(tcpAsString);
         assertThat(tcp2.params.get(), equalTo(tcp.params.get()));
         assertThat(tcp2.launch.get(), equalTo(tcp.launch.get()));
-        assertThat(tcp2.points.getAsInt(), equalTo(tcp.points.getAsInt()));
+        assertThat(tcp2.weight.getAsInt(), equalTo(tcp.weight.getAsInt()));
         assertThat(tcp2.grading.size(), equalTo(2));
 	}
 
@@ -51,7 +51,7 @@ public class TestTCPropertiesBase {
 
         TestCasePropertiesBase tcp = TestCasePropertiesBase.loadYAML(input);
         assertThat(tcp.params.get(), equalTo("a b"));
-        assertThat(tcp.points.getAsInt(), equalTo(42));
+        assertThat(tcp.weight.getAsInt(), equalTo(42));
         assertThat(tcp.grading.size(), equalTo(0));
 	}
 

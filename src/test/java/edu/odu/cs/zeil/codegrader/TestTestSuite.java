@@ -1,5 +1,6 @@
 package edu.odu.cs.zeil.codegrader;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 //import static org.hamcrest.MatcherAssert.assertThat;
 //import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -54,6 +55,21 @@ public class TestTestSuite {
 		asst.setSubmissionsDirectory(submissionsPath);
 		asst.setRecordingDirectory(recordingPath);
 
+		String template = "gradeTemplate.xlsx";
+		Path gradingTemplate = Paths.get("src", "main", "resources",
+			"edu", "odu", "cs", "zeil", "code-grader", template);
+		Path binDir = Paths.get("bin", "main",
+			"edu", "odu", "cs", "zeil", "codegrader");
+		Path buildDir = Paths.get("build", "classes", "java", "main",
+			"edu", "odu", "cs", "zeil", "codegrader");
+		if (binDir.toFile().exists()) {
+			Files.copy(gradingTemplate, binDir.resolve(template), 
+				StandardCopyOption.REPLACE_EXISTING);
+		}
+		if (buildDir.toFile().exists()) {
+			Files.copy(gradingTemplate, buildDir.resolve(template), 
+				StandardCopyOption.REPLACE_EXISTING);
+		}
 	}
 
 	/**
@@ -63,7 +79,7 @@ public class TestTestSuite {
 	 */
 	@AfterEach
 	public void teardown() throws IOException {
-		FileUtils.deleteDirectory(testSuitePath);
+		FileUtils.deleteDirectory(Paths.get("build", "test-data"));
 	}
 
 
@@ -88,6 +104,26 @@ public class TestTestSuite {
 		assertTrue(asst.getSubmitterStage().resolve("sqrtProg.class")
 			.toFile().exists());
 
+					// Were reports generated?
+		String studentName = "perfect";
+		Submission submitter = new Submission(asst, studentName);
+		assertTrue(submitter.getRecordingDir()
+				.resolve(studentName + ".xlsx")
+				.toFile().exists());
+		assertTrue(submitter.getRecordingDir()
+				.resolve("testInfo.csv")
+				.toFile().exists());
+		assertTrue(submitter.getRecordingDir()
+			.resolve("testsSummary.csv")
+			.toFile().exists());
+		assertTrue(submitter.getRecordingDir()
+			.resolve(studentName + ".html")
+			.toFile().exists());
+		Path totalFile = submitter.getRecordingDir()
+			.resolve(studentName + ".total");
+		assertTrue(totalFile.toFile().exists());
+		String total = FileUtils.readTextFile(totalFile.toFile());
+		assertEquals("100\n", total);
 	}
 
 
@@ -106,6 +142,7 @@ public class TestTestSuite {
 
 		TestSuite suite = new TestSuite(asst);
 		suite.setLaunch(launcher);
+		
 
 		Path studentGrades = recordingPath.resolve(studentName)
 			.resolve("Grading");
@@ -129,6 +166,7 @@ public class TestTestSuite {
 			Path recordedScore = recordedTest.resolve(testName + ".score");
 			assertTrue(Files.exists(recordedScore));
 		}
+
 	}
 
 	@Test
@@ -166,6 +204,9 @@ public class TestTestSuite {
 			}
 		}
 	}
+
+
+
 }
 
 

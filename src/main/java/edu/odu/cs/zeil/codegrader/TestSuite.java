@@ -1,17 +1,27 @@
 package edu.odu.cs.zeil.codegrader;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.invoke.MethodHandles;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import edu.odu.cs.sheetManip.Spreadsheet;
 
 public class TestSuite {
 
@@ -23,6 +33,9 @@ public class TestSuite {
 	private Set<String> submissionsToRun;
 	private Stage goldStage;
 	private Stage submitterStage;
+
+	private int buildScore;
+	private String buildMessage;
 
 	/**
 	 * Error logging.
@@ -176,13 +189,201 @@ public class TestSuite {
 		copyTestSuiteToRecordingArea(submission);
 		submitterStage.setupStage();
 		Stage.BuildResult buildResults = submitterStage.buildCode();
-		int buildScore = (buildResults.getStatusCode() == 0) ? MAX_SCORE : 0;
+		buildScore = (buildResults.getStatusCode() == 0) ? MAX_SCORE : 0;
+		buildMessage = buildResults.getMessage();
 		System.out.println("  Building submitted code: " + buildScore + "%.");
 		FileUtils.writeTextFile(recordAt.resolve("build.score"),
 				Integer.toString(buildScore) + "\n");
 		FileUtils.writeTextFile(recordAt.resolve("build.message"),
 				buildResults.getMessage() + "\n");
 		runTests(submission, buildResults.getStatusCode());
+		generateReports(submission);
+	}
+
+	private void generateReports(Submission submission) {
+		Path gradeReport = submission.getRecordingDir()
+				.resolve(submission.getSubmittedBy() + ".xlsx");
+		if (!gradeReport.toFile().exists()) {
+			prepareGradingTemplate(gradeReport);
+		}
+		// Write out general information about the assignment and submission.
+		Path testInfoFile = submission.getRecordingDir()
+				.resolve("testInfo.csv");
+		StringBuilder testInfo = new StringBuilder();
+		testInfo.append("assignment name,\"" + getAssignmentName() + "\"\n");
+		testInfo.append("submitted by,\""
+				+ submission.getSubmittedBy() + "\"\n");
+		testInfo.append("built successfully?,\"" + buildScore + "\"\n");
+		testInfo.append("build weight,\"" + properties.build.weight + "\"\n");
+		testInfo.append("build message,\"" + csvEncode(buildMessage) + "\"\n");
+		testInfo.append("due date,\"" + properties.dueDate + "\"\n");
+		testInfo.append("submission date,\"" + submission.getSubmissionDate()
+				+ "\"\n");
+		FileUtils.writeTextFile(testInfoFile, testInfo.toString());
+
+		// Write out the tests summary.
+		Path testsSummaryFile = submission.getRecordingDir()
+				.resolve("testsSummary.csv");
+		StringBuilder testsSummary = new StringBuilder();
+		testsSummary.append("Test,Score,Weight,Msgs\n");
+
+		File[] testCases = submission.getTestSuiteDir().toFile().listFiles();
+		if (testCases != null) {
+			for (File testCase : testCases) {
+				if (testCase.isDirectory()) {
+					TestCaseProperties tcProps = new TestCaseProperties(
+							assignment, testCase.getName());
+					TestCase tc = new TestCase(tcProps);
+					String testName = tc.getProperties().getName();
+					testsSummary.append("\"" + testName + "\",");
+					testsSummary.append(""
+							+ submission.getScore(testName) + ",");
+					testsSummary.append("" + tc.getProperties().getWeight()
+							+ ",");
+					testsSummary.append("\""
+							+ csvEncode(submission.getMessage(testName)) + "\"\n");
+				}
+			}
+		}
+		FileUtils.writeTextFile(testsSummaryFile, testsSummary.toString());
+
+		// Merge the .csv files into the grade template.
+		try {
+			Spreadsheet ss = new Spreadsheet(gradeReport.toFile());
+			ss.loadCSV(testInfoFile.toFile(), "info");
+			ss.loadCSV(testsSummaryFile.toFile(), "tests");
+			String htmlContent = ss.toHTML(getAssignmentName(), true,
+					"<b>", "</b>", "<i>", "</i>");
+			FileUtils.writeTextFile(
+					submission.getRecordingDir()
+							.resolve(submission.getSubmittedBy() + ".html"),
+					htmlContent);
+			List<String[]> rows = ss.evaluateSheet("results", true);
+			int studentTotalScore = -1;
+			for (String[] row : rows) {
+				// Hunt for a row whose first non-empty cell is "Total:"
+				// or "Total".
+				if (row != null) {
+					for (int col = 0; col < row.length; ++col) {
+						String v = row[col];
+						if (v != null) {
+							v = v.toLowerCase();
+							if (v.equals("total") || v.equals("total:")) {
+								// Next non-empty cell is the score
+								for (int col2 = col + 1; col2 < row.length;
+										++col2) {
+									String v2 = row[col2];
+									if (v2 != null && !v2.equals("")) {
+										try {
+											double d
+												= Double.parseDouble(v2.trim());
+											studentTotalScore = (int)(d + 0.5);
+										} catch (NumberFormatException e) {
+											studentTotalScore = -1;
+										}
+										break;
+									}
+								}
+							} else {
+								break;
+							}
+							
+						}
+						if (studentTotalScore >= 0) {
+							break;
+						}
+					}
+					
+				}
+			}
+			FileUtils.writeTextFile(
+					submission.getRecordingDir()
+							.resolve(submission.getSubmittedBy() + ".total"),
+					"" + studentTotalScore + "\n");
+			ss.close();
+		} catch (EncryptedDocumentException | InvalidFormatException
+				| IOException e) {
+			throw new TestConfigurationError(
+					"Unable to update grades in " + gradeReport.toString()
+							+ "\n" + e.getMessage());
+		}
+	}
+
+	private String csvEncode(String msg) {
+		return msg.replace("\"", "'");
+	}
+
+	/**
+	 * Get a name for the assignment. If not given in the .yaml file, a default
+	 * value is taken from the directory name containing the test suite.
+	 * 
+	 * @return an assignment name
+	 */
+	public String getAssignmentName() {
+		if (!properties.assignment.equals("")) {
+			return properties.assignment;
+		} else {
+			Path suite = assignment.getTestSuiteDirectory();
+			Path parent = suite.getParent();
+			return parent.toFile().getName();
+		}
+	}
+
+	private static final int BUFFER_SIZE = 4096; // 4KB
+
+	private void prepareGradingTemplate(Path gradeReport) {
+		Path gradeTemplate = null;
+		if (!properties.reportTemplate.equals("")) {
+			try {
+				gradeTemplate = Paths.get(properties.reportTemplate);
+				if (!gradeTemplate.endsWith(".xlsx")
+						|| !gradeTemplate.toFile().exists()) {
+					gradeTemplate = null;
+				}
+			} catch (InvalidPathException ex) {
+				gradeTemplate = null;
+			}
+			if (gradeTemplate == null) {
+				logger.error("Invalid path to grade template spreadsheet "
+						+ properties.reportTemplate);
+			}
+		}
+		String description = "";
+		try {
+			InputStream template = null;
+			if (gradeTemplate == null) {
+				template = TestSuite.class.getResourceAsStream(
+						"/edu/odu/cs/zeil/codegrader/gradeTemplate.xlsx");
+				description = "default grading spreadsheet";
+			} else {
+				template = new FileInputStream(gradeTemplate.toFile());
+				description = gradeTemplate.toString();
+			}
+			if (template == null) {
+				throw new TestConfigurationError(
+						"Could not find default grading template.");
+			}
+			OutputStream outputStream = new FileOutputStream(
+				gradeReport.toFile());
+			byte[] buffer = new byte[BUFFER_SIZE];
+			int totalBytesRead = 0;
+			int bytesRead = -1;
+
+			while ((bytesRead = template.read(buffer)) != -1) {
+				outputStream.write(buffer, 0, bytesRead);
+				totalBytesRead += bytesRead;
+			}
+			outputStream.close();
+			template.close();
+			if (totalBytesRead == 0) {
+				throw new TestConfigurationError(
+						"Could not find default grading template.");
+			}
+		} catch (IOException ex) {
+			throw new TestConfigurationError(
+					"Unable to copy " + description + " to "
+							+ gradeReport.toString());
+		}
 	}
 
 	/**
@@ -209,7 +410,7 @@ public class TestSuite {
 		try {
 			FileUtils.copyDirectory(assignment.getTestSuiteDirectory(),
 					studentGradingArea, null, null,
-						StandardCopyOption.REPLACE_EXISTING);
+					StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException ex) {
 			logger.warn("Problem copying the suite to the recording area "
 					+ studentGradingArea.toString(), ex);
@@ -276,7 +477,7 @@ public class TestSuite {
 				int score = tc.performTest(submission, false,
 						submitterStage, buildStatus);
 				System.out.println("  Test case " + testName
-					+ ": " + score + "%.");
+						+ ": " + score + "%.");
 			}
 		}
 	}

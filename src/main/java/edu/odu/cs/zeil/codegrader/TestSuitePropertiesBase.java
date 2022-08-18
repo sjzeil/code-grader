@@ -43,6 +43,21 @@ public class TestSuitePropertiesBase {
      */
     public List<OracleProperties> grading;
 
+    /**
+     * Path to grade calculation spreadsheet.
+     */
+    public String reportTemplate;
+
+    /**
+     * Assignment name
+     */
+    public String assignment;
+
+    /**
+     * Date & time when assignment is due.
+     */
+    public String dueDate;
+
 
     /**
      * Create a property set with an empty list of grading options.
@@ -51,6 +66,9 @@ public class TestSuitePropertiesBase {
         test = new TestCasePropertiesBase();
         build = new BuildProperties();
         grading = new ArrayList<>();
+        reportTemplate = "";
+        assignment = "";
+        dueDate = "";
     }
 
     /**

@@ -41,7 +41,7 @@ public class TestCasePropertiesBase {
     /**
      * How many points this test case is worth? 
      */
-    public OptionalInt points;
+    public OptionalInt weight;
 
     /**
      * The command string used to launch the program under evaluation.
@@ -77,7 +77,7 @@ public class TestCasePropertiesBase {
      */
     public TestCasePropertiesBase() {
         params = Optional.empty();
-        points = OptionalInt.empty();
+        weight = OptionalInt.empty();
         launch = Optional.empty();
         expected = Optional.empty();
         timelimit = OptionalInt.empty();

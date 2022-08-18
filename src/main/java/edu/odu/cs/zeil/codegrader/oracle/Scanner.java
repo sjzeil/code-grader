@@ -46,7 +46,7 @@ public class Scanner {
 		}
 		String lexeme = source.substring(start, pos);
 		if (canParseAsNumber(lexeme)) {
-			return new NumberToken(lexeme, precision);
+			return new NumberToken(lexeme, start, precision);
 		} else {
 			pos = start;
 			return null;
@@ -67,7 +67,7 @@ public class Scanner {
 		}
 		if (pos > start) {
 			String lexeme = source.substring(start, pos);
-			return new WhiteSpaceToken(lexeme);
+			return new WhiteSpaceToken(lexeme, start);
 		} else {
 			return null;
 		}
@@ -87,7 +87,7 @@ public class Scanner {
 		}
 		if (pos > start) {
 			String lexeme = source.substring(start, pos);
-			return new StringToken(lexeme);
+			return new StringToken(lexeme, start);
 		} else {
 			return null;
 		}
@@ -99,7 +99,7 @@ public class Scanner {
 		}
 		String lexeme = source.substring(pos, pos + 1);
 		++pos;
-		return new PunctuationToken(lexeme);
+		return new PunctuationToken(lexeme, pos);
 	}
 
 	private void fetchNext() {
