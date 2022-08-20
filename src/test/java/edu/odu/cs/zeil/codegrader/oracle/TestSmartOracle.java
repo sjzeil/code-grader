@@ -1,7 +1,8 @@
 package edu.odu.cs.zeil.codegrader.oracle;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

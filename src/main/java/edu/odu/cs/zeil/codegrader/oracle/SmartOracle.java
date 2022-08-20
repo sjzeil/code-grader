@@ -14,6 +14,7 @@ import edu.odu.cs.zeil.codegrader.TestCase;
  */
 public class SmartOracle extends Oracle {
 
+	private static final int CONTEXT_SIZE = 24;
 	private static final Pattern WINDOWS_LINE_ENDINGS = Pattern.compile("\r\n");
 	private static final Pattern MULTI_LF = Pattern.compile("\n\n+");
 	private static final Pattern MULTI_WS = Pattern.compile("[ \t\r\f]+");
@@ -65,8 +66,11 @@ public class SmartOracle extends Oracle {
 				if (!expectedToken.equals(actualToken)) {
 					lineOK = false;
 					if (noFailuresSoFar) {
-						message = "expected: " + expectedToken
-								+ "\nobserved: " + actualToken;
+						message = differenceMessage(lineNum,  "",
+							expectedToken, 
+							expectedLine,
+							actualToken, 
+							actualLine);
 						noFailuresSoFar = false;
 					}
 				} else {
@@ -83,7 +87,12 @@ public class SmartOracle extends Oracle {
 			if (expectedTokens.hasNext()) {
 				lineOK = false;
 				if (noFailuresSoFar) {
-					message = "Actual output ended early.";
+					message = differenceMessage(lineNum,  
+						" ended early",
+						expectedTokens.next(), 
+						expectedLine,
+						new WhiteSpaceToken("\n", actualLine.length()), 
+						actualLine);
 					noFailuresSoFar = false;
 					while ((expectedTokens.hasNext())) {
 						Token expectedToken = expectedTokens.next();
@@ -96,7 +105,12 @@ public class SmartOracle extends Oracle {
 			} else if (actualTokens.hasNext()) {
 				lineOK = false;
 				if (noFailuresSoFar) {
-					message = "Actual output is too long.";
+					message = differenceMessage(
+						lineNum, " is too long",
+						new WhiteSpaceToken("\n", expectedLine.length()), 
+						expectedLine,
+						actualTokens.next(), 
+						actualLine);
 					noFailuresSoFar = false;
 					while ((actualTokens.hasNext())) {
 						Token actualToken = actualTokens.next();
@@ -113,13 +127,20 @@ public class SmartOracle extends Oracle {
 		}
 		if (expectedLines.length > actualLines.length) {
 			if (noFailuresSoFar) {
-				message = "Actual output ends too soon.";
+				message = differenceMessage(actualLines.length, 
+					" is last line of output, but more is expected",
+					expectedLines[actualLines.length] + "\n",
+					"[end of actual output]");
 				noFailuresSoFar = false;
 				lineCount += expectedLines.length - actualLines.length;
 			}
 		} else if (expectedLines.length < actualLines.length) {
 			if (noFailuresSoFar) {
 				message = "Actual output has too many lines.";
+				message = differenceMessage(actualLines.length, 
+					" is not the last line of output, is expected to be",
+					"[end of expected output]",
+					actualLines[expectedLines.length] + "\n");
 				noFailuresSoFar = false;
 				lineCount += actualLines.length - expectedLines.length;
 			}
@@ -138,6 +159,85 @@ public class SmartOracle extends Oracle {
 			int iScore = (int) Math.round(score);
 			return new OracleResult(iScore, message);
 		}
+	}
+
+	private String differenceMessage(int lineNumber, String msg, 
+		String expected, String actual) {
+			StringBuilder result = new StringBuilder();
+			result.append("Output line ");
+			result.append("" + lineNumber);
+			result.append(msg);
+			result.append("\n  expected: ");
+			result.append(contextEncode(limitedLength(expected, CONTEXT_SIZE)));
+			result.append("\n  observed: ");
+			result.append(contextEncode(limitedLength(actual, CONTEXT_SIZE)));
+			return result.toString();
+	}
+
+	private static String contextEncode(String msg) {
+		StringBuilder result = new StringBuilder();
+		for (int i = 0; i < msg.length(); ++i) {
+			char c = msg.charAt(i);
+			if (c < ' ') {
+				if (c == '\n') {
+					result.append("\\n");
+				} else if (c == '\r') {
+					result.append("\\r");
+				} else if (c == '\t') {
+					result.append("\\t");
+				} else {
+					result.append("?");
+				}
+			} else {
+				result.append(c);
+			}
+		}
+		return result.toString();
+	}
+
+	private String limitedLength(String msg, int len) {
+		if (msg.length() > len) {
+			msg = msg.subSequence(0, len) + "...";
+		}
+		return msg;
+	}
+
+	private String differenceMessage(
+		int lineNumber, String postNumberStr,
+		Token expectedToken, String expectedLine,
+		Token actualToken, String actualLine
+		) {
+		String msg = "Output line " + lineNumber + postNumberStr + ":" 
+			+ "\n  expected: " 
+			+ displayInContext(expectedToken, expectedLine)
+			+ "\n  observed: " 
+			+ displayInContext(actualToken, actualLine);
+		return msg;
+	}
+
+	/**
+	 * Display a token within the line where it occurs.
+	 * @param token a token
+	 * @param line the line in which it occurs
+	 * @return a string containing parts of the line before and after
+	 * 			the token itself.
+	 */
+	public static String displayInContext(Token token, String line) {
+		int start = Math.max(0, token.getPosition() - CONTEXT_SIZE);
+		int stop = Math.min(token.getPosition(), line.length());
+		String prefix = "";
+		if (start <= stop) {
+			prefix = line.substring(start, stop);
+		}
+		start = Math.min(token.getPosition() + token.getLexeme().length(), 
+			line.length());
+		stop = Math.min(start + CONTEXT_SIZE, line.length());
+		String suffix = "";
+		if (start <= stop) {
+			suffix = line.substring(start, stop);
+		}
+		String result = prefix + "[" + token.getLexeme() + "]" + suffix;
+		return contextEncode(result);
 	}
 
 	private String preprocess(String str) {
