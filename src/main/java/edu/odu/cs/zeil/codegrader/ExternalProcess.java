@@ -311,14 +311,14 @@ public class ExternalProcess {
                         + processDescription + " due to time out.");
             }
         } catch (IOException ex) {
-            logger.error("Could not launch " + processDescription
-                    + " with: " + commandStr,
-                    ex);
+            logger.warn("Could not launch " + processDescription
+                    + " with: " + commandStr);
             crashed = true;
+            statusCode = -1;
         } catch (InterruptedException e) {
-            logger.error(processDescription + " interrupted.",
-                    e);
+            logger.warn(processDescription + " interrupted.");
             crashed = true;
+            statusCode = -2;
         }
     }
 

@@ -59,7 +59,7 @@ public class CLI {
 
         try {
             // parse the command line arguments
-            CommandLine cli = parser.parse(options, args);
+            CommandLine cli = parser.parse(options, args, true);
 
             if (cli.hasOption(help)) {
                 HelpFormatter formatter = new HelpFormatter();
@@ -141,11 +141,20 @@ public class CLI {
     /**
      * Run the grader via CLI arguments.
      * 
-     * @param args command lien arguments
+     * @param args command line arguments
      */
     public static void main(String[] args) {
-        CLI run = new CLI(args);
-        run.go();
+        try {
+            logger.info("Starting: " + String.join(" ", args));
+            CLI run = new CLI(args);
+            run.go();
+        } catch (TestConfigurationError ex) {
+            logger.error("Test configuration error.", ex);
+            throw ex;
+        } catch (Exception ex) {
+            logger.error("Program halted with unexpected error.", ex);
+            throw ex;
+        }
     }
 
     /**

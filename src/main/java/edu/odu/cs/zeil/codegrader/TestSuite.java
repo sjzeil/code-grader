@@ -7,17 +7,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.invoke.MethodHandles;
-import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -237,11 +233,11 @@ public class TestSuite {
 					String testName = tc.getProperties().getName();
 					testsSummary.append("\"" + testName + "\",");
 					testsSummary.append(""
-							+ submission.getScore(testName) + ",");
+						+ submission.getScore(testName) + ",");
 					testsSummary.append("" + tc.getProperties().getWeight()
-							+ ",");
+						+ ",");
 					testsSummary.append("\""
-							+ csvEncode(submission.getMessage(testName)) + "\"\n");
+						+ csvEncode(submission.getMessage(testName)) + "\"\n");
 				}
 			}
 		}
@@ -249,7 +245,9 @@ public class TestSuite {
 
 		// Merge the .csv files into the grade template.
 		try {
+			logger.info("Trying to open ss " + gradeReport);
 			Spreadsheet ss = new Spreadsheet(gradeReport.toFile());
+			logger.info("Opened ss " + gradeReport);
 			ss.loadCSV(testInfoFile.toFile(), "info");
 			ss.loadCSV(testsSummaryFile.toFile(), "tests");
 			String htmlContent = ss.toHTML(getAssignmentName(), true,
@@ -277,7 +275,7 @@ public class TestSuite {
 										try {
 											double d
 												= Double.parseDouble(v2.trim());
-											studentTotalScore = (int)(d + 0.5);
+											studentTotalScore = (int) (d + 0.5);
 										} catch (NumberFormatException e) {
 											studentTotalScore = -1;
 										}
@@ -301,8 +299,7 @@ public class TestSuite {
 							.resolve(submission.getSubmittedBy() + ".total"),
 					"" + studentTotalScore + "\n");
 			ss.close();
-		} catch (EncryptedDocumentException | InvalidFormatException
-				| IOException e) {
+		} catch (Exception e) {
 			throw new TestConfigurationError(
 					"Unable to update grades in " + gradeReport.toString()
 							+ "\n" + e.getMessage());
@@ -324,25 +321,20 @@ public class TestSuite {
 			return properties.assignment;
 		} else {
 			Path suite = assignment.getTestSuiteDirectory();
-			Path parent = suite.getParent();
+			Path parent = suite.toAbsolutePath().getParent();
 			return parent.toFile().getName();
 		}
 	}
 
-	private static final int BUFFER_SIZE = 4096; // 4KB
-
 	private void prepareGradingTemplate(Path gradeReport) {
 		Path gradeTemplate = null;
-		if (!properties.reportTemplate.equals("")) {
-			try {
-				gradeTemplate = Paths.get(properties.reportTemplate);
-				if (!gradeTemplate.endsWith(".xlsx")
-						|| !gradeTemplate.toFile().exists()) {
-					gradeTemplate = null;
-				}
-			} catch (InvalidPathException ex) {
+		if (assignment.getGradingTemplate() != null) {
+			gradeTemplate = assignment.getGradingTemplate();
+			if (!gradeTemplate.toString().endsWith(".xlsx")
+					|| !gradeTemplate.toFile().exists()) {
 				gradeTemplate = null;
 			}
+
 			if (gradeTemplate == null) {
 				logger.error("Invalid path to grade template spreadsheet "
 						+ properties.reportTemplate);
@@ -352,8 +344,11 @@ public class TestSuite {
 		try {
 			InputStream template = null;
 			if (gradeTemplate == null) {
-				template = TestSuite.class.getResourceAsStream(
-						"/edu/odu/cs/zeil/codegrader/gradeTemplate.xlsx");
+				String resourcePath 
+					= "edu/odu/cs/zeil/codegrader/gradeTemplate.xlsx";
+				ClassLoader classLoader = Thread.currentThread()
+					.getContextClassLoader();
+				template = classLoader.getResourceAsStream(resourcePath);
 				description = "default grading spreadsheet";
 			} else {
 				template = new FileInputStream(gradeTemplate.toFile());
@@ -363,22 +358,16 @@ public class TestSuite {
 				throw new TestConfigurationError(
 						"Could not find default grading template.");
 			}
-			OutputStream outputStream = new FileOutputStream(
-				gradeReport.toFile());
-			byte[] buffer = new byte[BUFFER_SIZE];
-			int totalBytesRead = 0;
-			int bytesRead = -1;
-
-			while ((bytesRead = template.read(buffer)) != -1) {
-				outputStream.write(buffer, 0, bytesRead);
-				totalBytesRead += bytesRead;
-			}
-			outputStream.close();
+			byte[] buffer = template.readAllBytes();
 			template.close();
-			if (totalBytesRead == 0) {
+			if (buffer.length == 0) {
 				throw new TestConfigurationError(
 						"Could not find default grading template.");
 			}
+			OutputStream outputStream = new FileOutputStream(
+				gradeReport.toFile());
+			outputStream.write(buffer);
+			outputStream.close();
 		} catch (IOException ex) {
 			throw new TestConfigurationError(
 					"Unable to copy " + description + " to "

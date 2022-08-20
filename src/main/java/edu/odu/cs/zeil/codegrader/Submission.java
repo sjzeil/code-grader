@@ -58,7 +58,7 @@ public class Submission {
      *         the test suite (within the assignment recording directory).
      */
     Path getTestSuiteDir() {
-        return getRecordingDir().resolve("Grading");
+        return getRecordingDir().resolve("TestCases");
     }
 
     /**

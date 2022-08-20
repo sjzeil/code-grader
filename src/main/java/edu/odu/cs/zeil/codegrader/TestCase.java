@@ -140,7 +140,7 @@ public class TestCase {
         if (crashed()) {
             FileUtils.writeTextFile(
                 testRecordingDir.resolve(testName + ".message"), 
-                "***Program crashed with status code " 
+                "***Program failed with status code " 
                     + statusCode + "\n");
             if (asGold) {
                 throw new TestConfigurationError(

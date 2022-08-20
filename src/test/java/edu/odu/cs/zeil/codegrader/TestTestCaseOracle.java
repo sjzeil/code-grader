@@ -83,7 +83,7 @@ public class TestTestCaseOracle {
 		testCase.performTest(student1, false, stage, 0);
 
 		Path studentGrades = recordingPath.resolve("student1")
-			.resolve("Grading")
+			.resolve("TestCases")
 			.resolve("params");
 		assertTrue(studentGrades.toFile().exists());
 		Path studentTestResults = studentGrades;
@@ -131,7 +131,7 @@ public class TestTestCaseOracle {
 		testCase.performTest(student1, false, stage, 0);
 
 		Path studentGrades = recordingPath.resolve("student1")
-			.resolve("Grading")
+			.resolve("TestCases")
 			.resolve("params");
 		assertTrue(studentGrades.toFile().exists());
 		Path studentTestResults = studentGrades;

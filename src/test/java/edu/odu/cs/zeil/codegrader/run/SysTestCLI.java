@@ -1,24 +1,24 @@
 package edu.odu.cs.zeil.codegrader.run;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 //import static org.hamcrest.MatcherAssert.assertThat;
 //import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.io.File;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import edu.odu.cs.zeil.codegrader.ExternalProcess;
 import edu.odu.cs.zeil.codegrader.FileUtils;
 
-public class TestCLI {
+public class SysTestCLI {
 
 	private Path testDataPath = Paths.get("build", "test-data");
 	private Path assignmentPath = Paths.get("src", "test", "data",
@@ -33,22 +33,6 @@ public class TestCLI {
 	@BeforeEach
 	public void setup() throws IOException {
 		testDataPath.toFile().mkdirs();
-		String template = "gradeTemplate.xlsx";
-		Path gradingTemplate = Paths.get("src", "main", "resources",
-			"edu", "odu", "cs", "zeil", "codegrader", template);
-		Path binDir = Paths.get("bin", "main",
-			"edu", "odu", "cs", "zeil", "codegrader");
-		Path buildDir = Paths.get("build", "classes", "java", "main",
-			"edu", "odu", "cs", "zeil", "codegrader");
-		if (binDir.toFile().exists()) {
-			Files.copy(gradingTemplate, binDir.resolve(template), 
-				StandardCopyOption.REPLACE_EXISTING);
-		}
-		if (buildDir.toFile().exists()) {
-			Files.copy(gradingTemplate, buildDir.resolve(template), 
-				StandardCopyOption.REPLACE_EXISTING);
-		}
-
 	}
 
 	/**
@@ -74,11 +58,22 @@ public class TestCLI {
 				"-stage", stage.toString(),
 				"-submissions", assignmentPath.resolve("submissions")
 					.toString(),
-				"-recording", recording.toString()
+				"-recording", recording.toString() //,
+                //"-gradesheet", "build/packaged.xlsx"
 		};
 
-		CLI cli = new CLI(args);
-		cli.go();
+        Path cwd = Paths.get("").toAbsolutePath();
+        File jar = FileUtils.findFile(Paths.get("build", "libs"),
+             ".jar").get();
+        String commandLine = "java -cp " + jar.toString()
+            + " edu.odu.cs.zeil.codegrader.run.CLI " 
+            + String.join(" ", args);
+        ExternalProcess launcher = new ExternalProcess(cwd, commandLine, 
+            120, null, "launch from Jar");
+        launcher.execute();
+
+        assertEquals(false, launcher.crashed(), launcher.getErr());
+        
 
 		assertFalse(stage.toFile().exists()); // stage should be cleaned up
 		assertTrue(recordingGrades.toFile().exists());
@@ -109,7 +104,8 @@ public class TestCLI {
 
 	}
 
-	@Test
+/*
+    @Test
 	void testCLISelectedStudent() {
 
 		Path recording = testDataPath.resolve("recording");
@@ -212,4 +208,6 @@ public class TestCLI {
 		}
 
 	}
+
+    */
 }

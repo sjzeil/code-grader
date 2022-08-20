@@ -40,10 +40,8 @@ dependencies {
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.13.3'
     implementation 'commons-cli:commons-cli:1.5.0'
     implementation 'edu.odu.cs.zeil:sheetManipLib:1.7'
-    implementation 'org.apache.poi:poi:5.2.2'
-    implementation 'org.apache.poi:poi-ooxml:5.2.2'
-
-	    
+    implementation 'org.apache.poi:poi-ooxml:4.1.2'
+    implementation 'org.apache.poi:poi:4.1.2'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     testImplementation 'org.hamcrest:hamcrest-library:2.2'
 }
@@ -68,8 +66,18 @@ jar {
            'Implementation-Version': '1.0',
             'Main-Class': 'edu.odu.cs.zeil.codegrader.cli.RunTests'
     }
-    from { configurations.runtimeClasspath.collect {
-         it.isDirectory() ? it : zipTree(it) } }
+//    from { configurations.runtimeClasspath.collect {
+//         it.isDirectory() ? it : zipTree(it) } }
+    from {
+        configurations.runtimeClasspath.findAll {
+             it.name.endsWith('jar') /*&& !it.name.contains("poi-ooxml-5") */}
+             .collect { zipTree(it) }
+             /*
+        configurations.runtimeClasspath.findAll {
+             it.name.endsWith('jar') && it.name.contains("poi-ooxml-5")}
+             .collect { zipTree(it) }
+             */
+    }
 }
 
 
@@ -189,7 +197,6 @@ task dailyJar (dependsOn: 'copyJar2') {
     ssh.run {
       session(remotes.webServer) {
        put from: "$buildDir/distrib/code-grader.jar", into: websitePath
-       execute "cd $websitePath ; unzip website.zip"
       }
     }
   }
