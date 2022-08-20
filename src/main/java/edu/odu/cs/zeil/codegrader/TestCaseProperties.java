@@ -116,9 +116,11 @@ public class TestCaseProperties {
         launch = selectStringValue(defaults.test.launch,
                 caseProperties.launch, "", "launch");
 
-        expected = selectStringValue(defaults.test.expected,
-                caseProperties.expected, "", "expected");
-
+        expected = (caseProperties.expected.isPresent()) 
+            ? caseProperties.expected.get() :
+            (defaults.test.expected.isPresent() 
+                ? defaults.test.expected.get() : "");
+        
         timelimit = selectIntValue(defaults.test.timelimit,
                 caseProperties.timelimit, 1, "timelimit");
 

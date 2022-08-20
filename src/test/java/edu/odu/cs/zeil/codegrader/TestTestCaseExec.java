@@ -24,6 +24,8 @@ public class TestTestCaseExec {
 	private Path testSuitePath = Paths.get("build", "test-data", "assignment2");
 	private Path stagingPath = Paths.get("build", "test-data",
 		"assignment2", "stage");
+	private Path recordingPath = Paths.get("build", "test-data",
+		"assignment2", "recording");
 
 
 		
@@ -49,6 +51,8 @@ public class TestTestCaseExec {
 		student1 = new Submission(asst, "student1");
 		stage = new Stage(asst, student1, tcProps);
 		stage.getStageDir().toFile().mkdirs();
+		asst.setRecordingDirectory(recordingPath);
+		recordingPath.toFile().mkdirs();
 	}
 	
 	/**

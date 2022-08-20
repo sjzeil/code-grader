@@ -3,6 +3,7 @@ package edu.odu.cs.zeil.codegrader;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Optional;
 
 import edu.odu.cs.zeil.codegrader.oracle.Oracle;
 import edu.odu.cs.zeil.codegrader.oracle.OracleFactory;
@@ -79,7 +80,7 @@ public class TestCase {
                 + properties.getParams();
         launchCommandStr = parameterSubstitution(launchCommandStr, 
             stage, submission);
-        int timeLimit = properties.getTimelimit();
+        int timeLimit = getTimeLimit(submission);
         if (timeLimit <= 0) {
             timeLimit = 1;
         }
@@ -155,7 +156,7 @@ public class TestCase {
         } else if (!onTime) {
             FileUtils.writeTextFile(
                 testRecordingDir.resolve(testName + ".message"), 
-                "***Program still running after " + properties.getTimelimit()
+                "***Program still running after " + getTimeLimit(submission)
                 + " seconds. Shut down.\n");
             if (asGold) {
                 throw new TestConfigurationError(
@@ -173,7 +174,7 @@ public class TestCase {
             for (OracleProperties option: properties.getGradingOptions()) {
                 Oracle oracle = OracleFactory.getOracle(option, this);
                 OracleResult evaluation = oracle.compare(
-                    properties.getExpected(), 
+                    getExpected(submission),
                     getOutput());
                 if (evaluation.score > bestScore) {
                     bestScore = evaluation.score;
@@ -187,7 +188,7 @@ public class TestCase {
                 Oracle oracle = OracleFactory.getOracle(
                     new OracleProperties(), this);
                 OracleResult evaluation = oracle.compare(
-                    properties.getExpected(), 
+                    getExpected(submission), 
                     getOutput());
                 float scoreScaling = ((float) oracle.getCap()) 
                     / ((float) OracleProperties.DEFAULT_POINT_CAP);
@@ -205,6 +206,39 @@ public class TestCase {
             return bestScore;
         } else {
             return -1;  // Gold code is not scored
+        }
+    }
+
+
+    private String getExpected(Submission submission) {
+        Optional<File> expectedFile 
+            = FileUtils.findFile(submission.getTestCaseDir(
+                properties.getName()), 
+                ".expected");
+        if (expectedFile.isPresent()) {
+            return FileUtils.readTextFile(expectedFile.get());
+        } else {
+            return properties.getExpected();
+        }
+    }
+
+    private int getTimeLimit(Submission submission) {
+        if (submission == null) {
+            return properties.getTimelimit();
+        } else {
+            Optional<File> limitFile = FileUtils.findFile(
+                    submission.getTestCaseDir(properties.getName()),
+                    ".timelimit");
+            if (limitFile.isPresent()) {
+                String text = FileUtils.readTextFile(limitFile.get());
+                try {
+                    return Integer.parseInt(text.trim());
+                } catch (NumberFormatException ex) {
+                    return properties.getTimelimit();
+                }
+            } else {
+                return properties.getTimelimit();
+            }
         }
     }
 

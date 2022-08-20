@@ -1,7 +1,11 @@
 package edu.odu.cs.zeil.codegrader.oracle;
 
+import java.lang.invoke.MethodHandles;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.odu.cs.zeil.codegrader.OracleProperties;
 import edu.odu.cs.zeil.codegrader.TestCase;
@@ -19,6 +23,14 @@ public class SmartOracle extends Oracle {
 	private static final Pattern MULTI_LF = Pattern.compile("\n\n+");
 	private static final Pattern MULTI_WS = Pattern.compile("[ \t\r\f]+");
 	private static final Pattern MULTI_WS_LF = Pattern.compile("[ \t\r\n\f]+");
+
+
+	/**
+     * error logging.
+     */
+    private static final Logger logger = LoggerFactory.getLogger(
+            MethodHandles.lookup().lookupClass());
+
 
 	/**
 	 * Create a new smart oracle.
@@ -40,6 +52,8 @@ public class SmartOracle extends Oracle {
 	 */
 	@Override
 	public OracleResult compare(String expected, String actual) {
+		logger.trace("Oracle expected: ", expected) ;
+		logger.trace("Oracle actual: ", actual) ;
 		expected = preprocess(expected);
 		actual = preprocess(actual);
 

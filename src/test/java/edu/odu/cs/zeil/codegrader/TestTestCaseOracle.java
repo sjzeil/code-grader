@@ -67,7 +67,7 @@ public class TestTestCaseOracle {
 
 	@Test
 	void testPerformTest() 
-	throws FileNotFoundException, TestConfigurationError  {
+	throws TestConfigurationError, IOException  {
 
 		Submission student1 = new Submission(asst, "student1");
 		String javaHome = System.getProperty("java.home");
@@ -80,6 +80,10 @@ public class TestTestCaseOracle {
 		Stage stage = new Stage(asst, student1,
 			new TestSuitePropertiesBase());
 		stage.getStageDir().toFile().mkdirs();
+		Path recordAt = asst.getRecordingDirectory().resolve("student1")
+			.resolve("TestCases").resolve("params");
+		FileUtils.copyDirectory(asst.getTestSuiteDirectory().resolve("params"),
+		 	recordAt, null, null);
 		testCase.performTest(student1, false, stage, 0);
 
 		Path studentGrades = recordingPath.resolve("student1")
@@ -108,7 +112,7 @@ public class TestTestCaseOracle {
 
 	@Test
 	void testPartialCredit() 
-	throws FileNotFoundException, TestConfigurationError  {
+	throws TestConfigurationError, IOException  {
 
 		FileUtils.writeTextFile(testSuitePath.resolve("tests")
 				.resolve("params").resolve("test.params"), "A b C");
@@ -128,6 +132,12 @@ public class TestTestCaseOracle {
 			new TestSuitePropertiesBase());
 		stage.getStageDir().toFile().mkdirs();
 		
+		Path recordAt = asst.getRecordingDirectory().resolve("student1")
+			.resolve("TestCases").resolve("params");
+		FileUtils.copyDirectory(asst.getTestSuiteDirectory().resolve("params"),
+			recordAt, null, null);
+
+
 		testCase.performTest(student1, false, stage, 0);
 
 		Path studentGrades = recordingPath.resolve("student1")
