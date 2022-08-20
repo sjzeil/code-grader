@@ -21,7 +21,9 @@ import edu.odu.cs.sheetManip.Spreadsheet;
 
 public class TestSuite {
 
+	private static final int MAX_MESSAGE_LENGTH = 5000;
 	private static final int MAX_SCORE = 100;
+	
 	private TestSuitePropertiesBase properties;
 	private Assignment assignment;
 	private Path testSuiteDirectory;
@@ -307,6 +309,11 @@ public class TestSuite {
 	}
 
 	private String csvEncode(String msg) {
+		if (msg.length() > MAX_MESSAGE_LENGTH) {
+			msg = msg.substring(0, MAX_MESSAGE_LENGTH - 1) 
+				+ "\n[message clipped after " 
+				+ MAX_MESSAGE_LENGTH + " characters]";
+		}
 		return msg.replace("\"", "'");
 	}
 
