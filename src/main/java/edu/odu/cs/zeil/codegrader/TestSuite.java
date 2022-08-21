@@ -247,9 +247,7 @@ public class TestSuite {
 			Path testInfoFile, Path testsSummaryFile) {
 		// Merge the .csv files into the grade template.
 		try {
-			logger.info("Trying to open ss " + gradeReport);
 			Spreadsheet ss = new Spreadsheet(gradeReport.toFile());
-			logger.info("Opened ss " + gradeReport);
 			ss.loadCSV(testInfoFile.toFile(), "info");
 			ss.loadCSV(testsSummaryFile.toFile(), "tests");
 			String htmlContent = ss.toHTML(getAssignmentName(), true,
@@ -378,10 +376,8 @@ public class TestSuite {
 	}
 
 	private void prepareGradingTemplate(Path gradeReport) {
-		logger.info("Should use " + assignment.getGradingTemplate());
 		Path gradeTemplate = null;
 		if (assignment.getGradingTemplate() != null) {
-			logger.info("using " + assignment.getGradingTemplate());
 			gradeTemplate = assignment.getGradingTemplate();
 			if (!gradeTemplate.toString().endsWith(".xlsx")
 					|| !gradeTemplate.toFile().exists()) {
