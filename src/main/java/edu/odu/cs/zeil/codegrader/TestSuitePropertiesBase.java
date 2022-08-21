@@ -52,6 +52,10 @@ public class TestSuitePropertiesBase {
      */
     public String dueDate;
 
+    /**
+     * Command to get date when submission was submitted
+     */
+    public String findDateSubmitted;
 
     /**
      * Create a property set with an empty list of grading options.

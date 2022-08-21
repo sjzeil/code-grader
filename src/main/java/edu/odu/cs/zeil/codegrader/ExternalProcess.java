@@ -239,8 +239,9 @@ public class ExternalProcess {
      * Standard out and standard err are captured and available as
      * getOutput() and getErr(). The status code is also available.
      * 
+     * @param quiet do not log failures to run program
      */
-    public void execute() {
+    public void execute(boolean quiet) {
         List<String> launchCommand = parseCommand(commandStr);
         ProcessBuilder pBuilder = new ProcessBuilder(launchCommand);
         pBuilder.directory(context.toFile());
@@ -311,8 +312,10 @@ public class ExternalProcess {
                         + processDescription + " due to time out.");
             }
         } catch (IOException ex) {
-            logger.warn("Could not launch " + processDescription
+            if (!quiet) {
+                logger.warn("Could not launch " + processDescription
                     + " with: " + commandStr);
+            }
             crashed = true;
             statusCode = -1;
         } catch (InterruptedException e) {
@@ -322,6 +325,15 @@ public class ExternalProcess {
         }
     }
 
+    /**
+     * Runs the external command.
+     * 
+     * Equivalent to execute(false);
+     * 
+     */
+    public void execute() {
+        execute(false);
+    }
 
     /**
      * Return the captured output.

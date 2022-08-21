@@ -44,6 +44,13 @@ public class Assignment implements Cloneable {
      */
     private Path recordingDirectory;
 
+    /**
+     * Command to run to get a date from a submission directory.
+     */
+    private String dateCommand;
+
+
+
 
     /**
      * The instructor code directory is the location of an instructor's code
@@ -260,5 +267,23 @@ public class Assignment implements Cloneable {
     */
     public void setInPlace(boolean inPlace) {
         //TODO
+    }
+
+
+    /**
+     * Set the command to run to get a date from a submission.
+     * @param command the command
+     */
+    public void setDateCommand(String command) {
+        dateCommand = command;
+    }
+
+
+    /**
+     * 
+     * @return the command to run to get a date from a submission
+     */
+    public String getDateCommand() {
+        return dateCommand;
     }
 }

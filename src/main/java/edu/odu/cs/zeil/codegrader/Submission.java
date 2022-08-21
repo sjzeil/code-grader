@@ -80,9 +80,40 @@ public class Submission {
 		return studentRecordingArea;
 	}
 
+    /**
+     * Attempt to determine when this submission was turned in.
+     * @return a string representing a date and/or time, or "".
+     */
     public String getSubmissionDate() {
-        //TODO
-        return "";
+        String getDateCommand = assignment.getDateCommand();
+        if (getDateCommand != null && !getDateCommand.equals("")) {
+            return getSubmissionDateByCommand(getDateCommand);
+        } else {
+            return getSubmissionDateByGit();
+        }
+    }
+
+    private String getSubmissionDateByGit() {
+        Path originalSubmissionDir = assignment.getSubmissionsDirectory()
+            .resolve(getSubmittedBy());
+        Path potentialGitDir = originalSubmissionDir.resolve(".git");
+        if (potentialGitDir.toFile().isDirectory()) {
+            String gitCmd = "git log -1 --date=format:%Y-%m-%d_%T --format=%ad";
+            return getSubmissionDateByCommand(gitCmd);
+        } else {
+            return "";
+        }
+    }
+
+    private String getSubmissionDateByCommand(String getDateCommand) {
+        Path originalSubmissionDir = assignment.getSubmissionsDirectory()
+            .resolve(getSubmittedBy());
+        ExternalProcess commandRunner = new ExternalProcess(
+            originalSubmissionDir, getDateCommand, 60, 
+            null, getDateCommand);
+        commandRunner.execute();
+        String output = commandRunner.getOutput();
+        return output.trim();
     }
 
     /**

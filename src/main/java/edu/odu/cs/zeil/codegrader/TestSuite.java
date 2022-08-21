@@ -60,6 +60,7 @@ public class TestSuite {
 		}
 		goldStage = null;
 		submitterStage = null;
+		asst.setDateCommand(properties.findDateSubmitted);
 	}
 
 	/**
@@ -225,9 +226,7 @@ public class TestSuite {
 		System.out.println("  Generating reports...");
 		Path gradeReport = submission.getRecordingDir()
 				.resolve(submission.getSubmittedBy() + ".xlsx");
-		if (!gradeReport.toFile().exists()) {
-			prepareGradingTemplate(gradeReport);
-		}
+		prepareGradingTemplate(gradeReport);
 		Path testInfoFile = writeTestInfo(submission);
 
 		Path testsSummaryFile = writeTestCaseSummary(submission);
@@ -379,8 +378,10 @@ public class TestSuite {
 	}
 
 	private void prepareGradingTemplate(Path gradeReport) {
+		logger.info("Should use " + assignment.getGradingTemplate());
 		Path gradeTemplate = null;
 		if (assignment.getGradingTemplate() != null) {
+			logger.info("using " + assignment.getGradingTemplate());
 			gradeTemplate = assignment.getGradingTemplate();
 			if (!gradeTemplate.toString().endsWith(".xlsx")
 					|| !gradeTemplate.toFile().exists()) {
@@ -403,6 +404,7 @@ public class TestSuite {
 				template = classLoader.getResourceAsStream(resourcePath);
 				description = "default grading spreadsheet";
 			} else {
+				logger.info("Opening " + gradeTemplate.toString());
 				template = new FileInputStream(gradeTemplate.toFile());
 				description = gradeTemplate.toString();
 			}

@@ -91,7 +91,7 @@ public class TestCase {
             timeLimit,
             stdIn, 
             "test case " + properties.getName());
-        process.execute();
+        process.execute(true);
         capturedOutput = process.getOutput();
         capturedError = process.getErr();
         crashed = process.crashed();

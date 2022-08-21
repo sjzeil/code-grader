@@ -1,5 +1,21 @@
 test:
   launch: java sqrtProg
+  grading:
+    - oracle: "smart"
+      ws: true
+      case: true
+      cap: 100
+    - ws: false
+      case: false
+      cap: 95
+    - ws: false
+      case: false
+      punctuation: false
+      cap: 90
+    - ws: false
+      numbersOnly: true
+      cap: 75
+
 build:
   studentFiles:
     include:
@@ -9,18 +25,3 @@ build:
     - "**/sqrtProg.java"
   javaSrcDir:
     - "src"
-grading:
-- oracle: "smart"
-  ws: true
-  case: true
-  cap: 100
-- ws: false
-  case: false
-  cap: 95
-- ws: false
-  case: false
-  punctuation: false
-  cap: 90
-- ws: false
-  numbersOnly: true
-  cap: 75

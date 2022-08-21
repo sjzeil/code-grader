@@ -125,7 +125,8 @@ public class TestCLI {
 				"-stage", stage.toString(),
 				"-submissions", assignmentPath.resolve("submissions")
 					.toString(),
-				"-recording", recording.toString()
+				"-recording", recording.toString(),
+				"-gradesheet", "src/test/data/cpp-assignment/alternate.xlsx"
 		};
 
 		CLI cli = new CLI(args);
