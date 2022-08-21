@@ -1,0 +1,4 @@
+launch: ./unittest
+params: PolynomialDef PolynomialTerm
+stderr: 1
+

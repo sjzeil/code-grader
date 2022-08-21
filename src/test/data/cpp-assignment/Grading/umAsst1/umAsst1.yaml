@@ -1,0 +1,4 @@
+launch: ./unittest
+params: PolynomialAssignmentBasic
+stderr: 1
+

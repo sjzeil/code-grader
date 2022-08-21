@@ -53,6 +53,13 @@ public class TestCaseProperties {
     private boolean stderr;
 
     /**
+     * Should the status code be checked for evidence that a program
+     * has crashed? Defaults to false because students aren't likely to
+     * be all that careful about returning status codes.
+     */
+    private boolean status;
+
+    /**
      * How many seconds to allow a test execution to run before concluding
      * that the program is hanging, caught in an infinite loop, or simply
      * unacceptably slow.
@@ -126,6 +133,10 @@ public class TestCaseProperties {
 
         stderr = selectBooleanValue(defaults.test.stderr,
                 caseProperties.stderr, false, "stdErr");
+
+        status = selectBooleanValue(defaults.test.status,
+                caseProperties.status, false, "status");
+
 
         if (caseProperties.grading.size() > 0) {
             grading = caseProperties.grading;
@@ -234,6 +245,17 @@ public class TestCaseProperties {
      */
     public boolean getStderr() {
         return stderr;
+    }
+
+
+    /**
+     * Should the status code of a submitted program be checked
+     * to see if the program has crashed? Defaults to false; 
+     * 
+     * @return true iff the status code should be checked.
+     */
+    public boolean getStatus() {
+        return status;
     }
 
 

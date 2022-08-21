@@ -1,0 +1,4 @@
+launch: ./unittest
+params: PolynomialArrayConstructorBasic
+stderr: 1
+

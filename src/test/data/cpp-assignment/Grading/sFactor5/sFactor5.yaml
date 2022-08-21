@@ -1,0 +1,3 @@
+launch: ./polyfactor
+params: 15 -83 -271 1419 760 -400
+

@@ -1,0 +1,4 @@
+launch: ./polyfactor
+params: 24 8 -6 -2
+stderr: 1
+

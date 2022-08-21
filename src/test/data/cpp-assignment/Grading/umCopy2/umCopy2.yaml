@@ -1,0 +1,4 @@
+launch: ./unittest
+params: PolynomialCopyBad
+stderr: 1
+

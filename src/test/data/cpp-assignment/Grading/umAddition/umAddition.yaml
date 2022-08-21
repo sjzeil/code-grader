@@ -1,0 +1,4 @@
+launch: ./unittest
+params: PolynomialAddition
+stderr: 1
+

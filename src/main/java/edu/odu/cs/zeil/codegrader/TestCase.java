@@ -138,7 +138,7 @@ public class TestCase {
         FileUtils.writeTextFile(
             testRecordingDir.resolve(testName + timeExtension), 
             time);
-        if (crashed()) {
+        if (properties.getStatus() && crashed()) {
             FileUtils.writeTextFile(
                 testRecordingDir.resolve(testName + ".message"), 
                 "***Program failed with status code " 
@@ -171,11 +171,18 @@ public class TestCase {
         } else if (!asGold) {
             int bestScore = -1;
             String firstMessage = "";
+            String actualOutput = getOutput();
+            if (properties.getStderr()) {
+                String errorOut = getErr();
+                if (!errorOut.equals("")) {
+                    actualOutput = actualOutput + "\non std err:\n" + errorOut;
+                }
+            }
             for (OracleProperties option: properties.getGradingOptions()) {
                 Oracle oracle = OracleFactory.getOracle(option, this);
                 OracleResult evaluation = oracle.compare(
                     getExpected(submission),
-                    getOutput());
+                    actualOutput);
                 if (evaluation.score > bestScore) {
                     bestScore = evaluation.score;
                     if (!firstMessage.equals("")) {
@@ -189,7 +196,7 @@ public class TestCase {
                     new OracleProperties(), this);
                 OracleResult evaluation = oracle.compare(
                     getExpected(submission), 
-                    getOutput());
+                    actualOutput);
                 float scoreScaling = ((float) oracle.getCap()) 
                     / ((float) OracleProperties.DEFAULT_POINT_CAP);
                 evaluation.score = Math.round(

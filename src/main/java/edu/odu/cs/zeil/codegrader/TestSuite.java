@@ -137,6 +137,29 @@ public class TestSuite {
 				}
 			}
 		}
+		StringBuilder classSummary = new StringBuilder();
+		classSummary.append("student," + getAssignmentName() + "\n");
+		File[] recordedGrades = assignment.getRecordingDirectory()
+			.toFile().listFiles();
+		if (recordedGrades != null) {
+			for (File submissionFile : recordedGrades) {
+				if (submissionFile.isDirectory()) {
+					Optional<File> scoreFile = FileUtils.findFile(
+						submissionFile.toPath(), ".total");
+					if (scoreFile.isPresent()) {
+						String score = FileUtils.readTextFile(scoreFile.get())
+								.trim();
+						classSummary.append(submissionFile.getName());
+						classSummary.append(",");
+						classSummary.append(score);
+						classSummary.append("\n");
+					}
+				}
+			}
+			Path classSummaryFile = assignment.getRecordingDirectory()
+					.resolve("classSummary.csv");
+			FileUtils.writeTextFile(classSummaryFile, classSummary.toString());
+		}
 		if (submissionsToRun.size() == 0) {
 			try {
 				FileUtils.deleteDirectory(assignment.getStagingDirectory());
@@ -199,6 +222,7 @@ public class TestSuite {
 	}
 
 	private void generateReports(Submission submission) {
+		System.out.println("  Generating reports...");
 		Path gradeReport = submission.getRecordingDir()
 				.resolve(submission.getSubmittedBy() + ".xlsx");
 		if (!gradeReport.toFile().exists()) {
@@ -296,6 +320,8 @@ public class TestSuite {
 					
 				}
 			}
+			System.out.println("  Total for " + submission.getSubmittedBy()
+			 	+ " is " + studentTotalScore);
 			FileUtils.writeTextFile(
 					submission.getRecordingDir()
 							.resolve(submission.getSubmittedBy() + ".total"),

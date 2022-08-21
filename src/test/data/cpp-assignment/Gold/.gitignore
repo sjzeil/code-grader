@@ -1,0 +1,15 @@
+/polyfactor
+/unittest
+/.cproject
+/.project
+Tests/*/*.err
+Tests/*/*.diff
+Tests/*/*.out
+Tests/*/*.score
+Tests/*/*.time
+make.dep
+/**/*.exe
+/**/*.o
+/**/*.d
+/.settings
+/**/unitTests.date

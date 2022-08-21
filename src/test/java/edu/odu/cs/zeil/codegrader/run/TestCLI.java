@@ -1,5 +1,6 @@
 package edu.odu.cs.zeil.codegrader.run;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 //import static org.hamcrest.MatcherAssert.assertThat;
 //import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -108,6 +109,129 @@ public class TestCLI {
 		}
 
 	}
+
+
+
+	@Test
+	void testCLICpp() {
+
+		testDataPath = Paths.get("build", "test-data");
+		assignmentPath = Paths.get("src", "test", "data",
+			"cpp-assignment");
+
+		Path stage = testDataPath.resolve("stage");
+		Path recording = testDataPath.resolve("recording");
+		Path recordingGrades = recording.resolve("grades");
+
+		String[] args = {
+				"-suite", assignmentPath.resolve("Grading").toString(),
+				"-gold", assignmentPath.resolve("Gold").toString(),
+				"-stage", stage.toString(),
+				"-submissions", assignmentPath.resolve("submissions")
+					.toString(),
+				"-recording", recording.toString()
+		};
+
+		CLI cli = new CLI(args);
+		cli.go();
+
+		assertFalse(stage.toFile().exists()); // stage should be cleaned up
+		assertTrue(recordingGrades.toFile().exists());
+
+		File[] students = assignmentPath.resolve("submissions")
+				.toFile().listFiles();
+		for (File studentDir : students) {
+			String studentID = studentDir.getName();
+			Path studentRecording = recordingGrades.resolve(studentID);
+			assertTrue(studentRecording.toFile().isDirectory());
+
+			File[] testCases = assignmentPath.resolve("Grading").toFile()
+					.listFiles();
+			for (File testCase : testCases) {
+				if (testCase.isDirectory()) {
+					String testCaseName = testCase.getName();
+					Path studentRecordedTest = studentRecording
+							.resolve("TestCases")
+							.resolve(testCaseName);
+					assertTrue(studentRecordedTest.toFile().isDirectory());
+					assertTrue(studentRecordedTest
+							.resolve(testCaseName + ".score")
+							.toFile().exists());
+				}
+			}
+
+		}
+
+		Path summaryFile = recordingGrades.resolve("classSummary.csv");
+		assertTrue(summaryFile.toFile().exists());
+		String summary = FileUtils.readTextFile(summaryFile.toFile());
+		assertTrue(summary.contains("janeSmith,100"));
+		assertTrue(summary.contains("jjones,0"));
+		assertFalse(summary.contains("johnDoe,100"));
+		assertFalse(summary.contains("johnDoe,0"));
+	}
+
+
+	@Test
+	void testCLICppSelective() {
+		String selectedStudent = "johnDoe";
+		String selectedStudentScore = "46";
+
+		testDataPath = Paths.get("build", "test-data");
+		assignmentPath = Paths.get("src", "test", "data",
+			"cpp-assignment");
+
+		Path stage = testDataPath.resolve("stage");
+		Path recording = testDataPath.resolve("recording");
+		Path recordingGrades = recording.resolve("grades");
+
+		String[] args = {
+				"-suite", assignmentPath.resolve("Grading").toString(),
+				"-gold", assignmentPath.resolve("Gold").toString(),
+				"-stage", stage.toString(),
+				"-submissions", assignmentPath.resolve("submissions")
+					.toString(),
+				"-recording", recording.toString(),
+				"-student", selectedStudent
+		};
+
+		CLI cli = new CLI(args);
+		cli.go();
+
+		assertTrue(stage.toFile().exists()); // stage should be cleaned up
+		assertTrue(recordingGrades.toFile().exists());
+
+		File[] students = assignmentPath.resolve("submissions")
+				.toFile().listFiles();
+		for (File studentDir : students) {
+			String studentID = studentDir.getName();
+			if (studentID.equals(selectedStudent)) {
+				Path studentRecording = recordingGrades.resolve(studentID);
+				assertTrue(studentRecording.toFile().isDirectory());
+
+				File[] testCases = assignmentPath.resolve("Grading").toFile()
+						.listFiles();
+				for (File testCase : testCases) {
+					if (testCase.isDirectory()) {
+						String testCaseName = testCase.getName();
+						Path studentRecordedTest = studentRecording
+								.resolve("TestCases")
+								.resolve(testCaseName);
+						assertTrue(studentRecordedTest.toFile().isDirectory());
+						assertTrue(studentRecordedTest
+								.resolve(testCaseName + ".score")
+								.toFile().exists());						
+					}
+				}
+				String total = FileUtils.readTextFile(
+							studentRecording
+							.resolve(selectedStudent + ".total").toFile());
+				assertEquals(selectedStudentScore, total.trim());
+			}
+		}
+	}
+
+
 
 	@Test
 	void testCLISelectedStudent() {

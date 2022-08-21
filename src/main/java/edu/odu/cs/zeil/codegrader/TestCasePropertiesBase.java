@@ -68,6 +68,14 @@ public class TestCasePropertiesBase {
     public Optional<Boolean> stderr;
 
     /**
+     * Should the status code be checked for evidence that a program
+     * has crashed? Defaults to false because students aren't likely to
+     * be all that careful about returning status codes.
+     */
+    public Optional<Boolean> status;
+
+
+    /**
      * The grading criteria for this test case.
      */
     public List<OracleProperties> grading;
@@ -82,6 +90,7 @@ public class TestCasePropertiesBase {
         expected = Optional.empty();
         timelimit = OptionalInt.empty();
         stderr = Optional.empty();
+        status = Optional.empty();
         grading = new ArrayList<>();
     }
 

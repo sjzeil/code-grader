@@ -1,0 +1,3 @@
+launch: ./polyfactor
+params: 1 0 0 -1
+
