@@ -44,7 +44,12 @@ public class TestStageJavaHandling {
      */
     @BeforeEach
     public void setup() throws IOException, TestConfigurationError {
-        asstDestPath.toFile().getParentFile().mkdirs();
+        Path testData = Paths.get("build", "test-data");
+        if (testData.toFile().exists()) {
+            FileUtils.deleteDirectory(testData);
+        }
+
+		asstDestPath.toFile().getParentFile().mkdirs();
         stagingPath.toFile().mkdirs();
         FileUtils.copyDirectory(asstSrcPath, asstDestPath, null, null,
                 StandardCopyOption.REPLACE_EXISTING);
@@ -77,15 +82,6 @@ public class TestStageJavaHandling {
 		}
 	}
 
-    /**
-     * Clean up test data.
-     * 
-     * @throws IOException
-     */
-    @AfterEach
-    public void teardown() throws IOException {
-        FileUtils.deleteDirectory(Paths.get("build", "test-data"));
-    }
 
 
 

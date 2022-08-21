@@ -23,6 +23,11 @@ public class TestTestProperties {
 	
 	@BeforeEach
 	public void setup() throws IOException {
+        Path testData = Paths.get("build", "test-data");
+        if (testData.toFile().exists()) {
+            FileUtils.deleteDirectory(testData);
+        }
+
 		asst = new Assignment();
 		asst.setTestSuiteDirectory(asst1DirPath.resolve("tests"));
 		asst1DirPath.toFile().getParentFile().mkdirs();
@@ -31,10 +36,6 @@ public class TestTestProperties {
 			StandardCopyOption.REPLACE_EXISTING);
 	}
 	
-	@AfterEach
-	public void teardown() throws IOException {
-        FileUtils.deleteDirectory(Paths.get("build", "test-data"));
-	}
 	
 
 	@Test

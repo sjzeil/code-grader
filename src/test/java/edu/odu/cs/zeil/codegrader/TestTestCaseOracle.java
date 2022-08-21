@@ -1,10 +1,11 @@
 package edu.odu.cs.zeil.codegrader;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -39,6 +40,11 @@ public class TestTestCaseOracle {
 	 */
 	@BeforeEach
 	public void setup() throws IOException, TestConfigurationError {
+        Path testData = Paths.get("build", "test-data");
+        if (testData.toFile().exists()) {
+            FileUtils.deleteDirectory(testData);
+        }
+
 		testSuitePath.toFile().getParentFile().mkdirs();
 		stagingPath.toFile().mkdirs();
 		FileUtils.copyDirectory(asstSrcPath, testSuitePath, null, null,
@@ -52,16 +58,6 @@ public class TestTestCaseOracle {
 
 		testProperties = new TestCaseProperties(asst, "params");
 		testCase = new TestCase(testProperties);
-	}
-	
-	/**
-	 * Clean up test data.
-	 * 
-	 * @throws IOException
-	 */
-	@AfterEach
-	public void teardown() throws IOException {
-		FileUtils.deleteDirectory(Paths.get("build", "test-data"));
 	}
 	
 

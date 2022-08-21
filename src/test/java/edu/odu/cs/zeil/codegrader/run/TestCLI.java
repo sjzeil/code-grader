@@ -33,6 +33,11 @@ public class TestCLI {
 	 */
 	@BeforeEach
 	public void setup() throws IOException {
+        Path testData = Paths.get("build", "test-data");
+        if (testData.toFile().exists()) {
+            FileUtils.deleteDirectory(testData);
+        }
+
 		testDataPath.toFile().mkdirs();
 		String template = "gradeTemplate.xlsx";
 		Path gradingTemplate = Paths.get("src", "main", "resources",
@@ -52,15 +57,6 @@ public class TestCLI {
 
 	}
 
-	/**
-	 * Clean up test data.
-	 * 
-	 * @throws IOException
-	 */
-	@AfterEach
-	public void teardown() throws IOException {
-		FileUtils.deleteDirectory(Paths.get("build", "test-data"));
-	}
 
 	@Test
 	void testCLIBasic() {

@@ -40,6 +40,11 @@ public class TestTestSuite {
 	 */
 	@BeforeEach
 	public void setup() throws IOException, TestConfigurationError {
+        Path testData = Paths.get("build", "test-data");
+        if (testData.toFile().exists()) {
+            FileUtils.deleteDirectory(testData);
+        }
+
 		asstDestPath.toFile().getParentFile().mkdirs();
 		stagingPath.toFile().mkdirs();
 		FileUtils.copyDirectory(asstSrcPath, asstDestPath, null, null,
@@ -68,15 +73,6 @@ public class TestTestSuite {
 		}
 	}
 
-	/**
-	 * Clean up test data.
-	 * 
-	 * @throws IOException
-	 */
-	@AfterEach
-	public void teardown() throws IOException {
-		FileUtils.deleteDirectory(Paths.get("build", "test-data"));
-	}
 
 
 	@Test

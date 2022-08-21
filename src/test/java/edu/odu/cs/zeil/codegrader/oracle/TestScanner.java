@@ -41,6 +41,11 @@ public class TestScanner {
 	 */
 	@BeforeEach
 	public void setup() throws IOException, TestConfigurationError {
+        Path testData = Paths.get("build", "test-data");
+        if (testData.toFile().exists()) {
+            FileUtils.deleteDirectory(testData);
+        }
+
 		testSuitePath.toFile().getParentFile().mkdirs();
 		FileUtils.copyDirectory(asstSrcPath, testSuitePath, null, null,
 			StandardCopyOption.REPLACE_EXISTING);
@@ -51,14 +56,6 @@ public class TestScanner {
 		config = new SmartOracle(new OracleProperties(), testCase);
 	}
 	
-	/**
-	 * Common cleanup for tests.
-	 * @throws IOException
-	 */
-	@AfterEach
-	public void teardown() throws IOException {
-        FileUtils.deleteDirectory(Paths.get("build", "test-data"));
-	}
 	
 
 	@Test

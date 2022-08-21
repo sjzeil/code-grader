@@ -60,6 +60,11 @@ public class TestSmartOracle {
 	
 	@BeforeEach
 	private void setup() throws IOException, TestConfigurationError {
+        Path testData = Paths.get("build", "test-data");
+        if (testData.toFile().exists()) {
+            FileUtils.deleteDirectory(testData);
+        }
+
 		testSuitePath.toFile().getParentFile().mkdirs();
 		FileUtils.copyDirectory(asstSrcPath, testSuitePath, null, null,
 			StandardCopyOption.REPLACE_EXISTING);
@@ -68,11 +73,6 @@ public class TestSmartOracle {
 		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
 		testCase = new TestCase(new TestCaseProperties(asst, "params"));
 		prop = new OracleProperties();
-	}
-	
-	@AfterEach
-	private void teardown() throws IOException {
-        FileUtils.deleteDirectory(Paths.get("build", "test-data"));
 	}
 	
 

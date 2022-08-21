@@ -35,18 +35,13 @@ public class TestSelectiveCopying {
      */
     @BeforeEach
     public void setup() throws IOException, TestConfigurationError {
+        Path testData = Paths.get("build", "test-data");
+        if (testData.toFile().exists()) {
+            FileUtils.deleteDirectory(testData);
+        }
         asstDestPath.toFile().mkdirs();
     }
 
-    /**
-     * Clean up test data.
-     * 
-     * @throws IOException
-     */
-    @AfterEach
-    public void teardown() throws IOException {
-        FileUtils.deleteDirectory(Paths.get("build", "test-data"));
-    }
 
     @Test
     void testSimpleCopy() throws IOException {

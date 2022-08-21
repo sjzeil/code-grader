@@ -39,6 +39,11 @@ public class TestTestCaseExec {
 	 */
 	@BeforeEach
 	public void setup() throws IOException {
+        Path testData = Paths.get("build", "test-data");
+        if (testData.toFile().exists()) {
+            FileUtils.deleteDirectory(testData);
+        }
+
 		testSuitePath.toFile().getParentFile().mkdirs();
 		stagingPath.toFile().mkdirs();
 		FileUtils.copyDirectory(asstSrcPath, testSuitePath, null, null,
@@ -55,14 +60,6 @@ public class TestTestCaseExec {
 		recordingPath.toFile().mkdirs();
 	}
 	
-	/**
-	 * Clean up test data.
-	 * @throws IOException
-	 */
-	@AfterEach
-	public void teardown() throws IOException {
-		FileUtils.deleteDirectory(Paths.get("build", "test-data"));
-	}
 	
 
 	@Test

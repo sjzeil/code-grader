@@ -228,47 +228,24 @@ public class TestSuite {
 		if (!gradeReport.toFile().exists()) {
 			prepareGradingTemplate(gradeReport);
 		}
-		// Write out general information about the assignment and submission.
-		Path testInfoFile = submission.getRecordingDir()
-				.resolve("testInfo.csv");
-		StringBuilder testInfo = new StringBuilder();
-		testInfo.append("assignment name,\"" + getAssignmentName() + "\"\n");
-		testInfo.append("submitted by,\""
-				+ submission.getSubmittedBy() + "\"\n");
-		testInfo.append("built successfully?,\"" + buildScore + "\"\n");
-		testInfo.append("build weight,\"" + properties.build.weight + "\"\n");
-		testInfo.append("build message,\"" + csvEncode(buildMessage) + "\"\n");
-		testInfo.append("due date,\"" + properties.dueDate + "\"\n");
-		testInfo.append("submission date,\"" + submission.getSubmissionDate()
-				+ "\"\n");
-		FileUtils.writeTextFile(testInfoFile, testInfo.toString());
+		Path testInfoFile = writeTestInfo(submission);
 
-		// Write out the tests summary.
-		Path testsSummaryFile = submission.getRecordingDir()
-				.resolve("testsSummary.csv");
-		StringBuilder testsSummary = new StringBuilder();
-		testsSummary.append("Test,Score,Weight,Msgs\n");
+		Path testsSummaryFile = writeTestCaseSummary(submission);
 
-		File[] testCases = submission.getTestSuiteDir().toFile().listFiles();
-		if (testCases != null) {
-			for (File testCase : testCases) {
-				if (testCase.isDirectory()) {
-					TestCaseProperties tcProps = new TestCaseProperties(
-							assignment, testCase.getName());
-					TestCase tc = new TestCase(tcProps);
-					String testName = tc.getProperties().getName();
-					testsSummary.append("\"" + testName + "\",");
-					testsSummary.append(""
-						+ submission.getScore(testName) + ",");
-					testsSummary.append("" + tc.getProperties().getWeight()
-						+ ",");
-					testsSummary.append("\""
-						+ csvEncode(submission.getMessage(testName)) + "\"\n");
-				}
-			}
-		}
-		FileUtils.writeTextFile(testsSummaryFile, testsSummary.toString());
+		int studentTotalScore;
+		studentTotalScore = fillInGradeSpreadsheet(submission, gradeReport,
+			 testInfoFile, testsSummaryFile);
+		System.out.println("  Total for " + submission.getSubmittedBy()
+		+ " is " + studentTotalScore);
+   		FileUtils.writeTextFile(
+		   submission.getRecordingDir()
+				   .resolve(submission.getSubmittedBy() + ".total"),
+		   "" + studentTotalScore + "\n");
 
+	}
+
+	private int fillInGradeSpreadsheet(Submission submission, Path gradeReport, 
+			Path testInfoFile, Path testsSummaryFile) {
 		// Merge the .csv files into the grade template.
 		try {
 			logger.info("Trying to open ss " + gradeReport);
@@ -320,18 +297,60 @@ public class TestSuite {
 					
 				}
 			}
-			System.out.println("  Total for " + submission.getSubmittedBy()
-			 	+ " is " + studentTotalScore);
-			FileUtils.writeTextFile(
-					submission.getRecordingDir()
-							.resolve(submission.getSubmittedBy() + ".total"),
-					"" + studentTotalScore + "\n");
 			ss.close();
+			return studentTotalScore;
 		} catch (Exception e) {
 			throw new TestConfigurationError(
 					"Unable to update grades in " + gradeReport.toString()
 							+ "\n" + e.getMessage());
 		}
+	}
+
+	private Path writeTestCaseSummary(Submission submission) {
+		// Write out the tests summary.
+		Path testsSummaryFile = submission.getRecordingDir()
+				.resolve("testsSummary.csv");
+		StringBuilder testsSummary = new StringBuilder();
+		testsSummary.append("Test,Score,Weight,Msgs\n");
+
+		File[] testCases = submission.getTestSuiteDir().toFile().listFiles();
+		if (testCases != null) {
+			for (File testCase : testCases) {
+				if (testCase.isDirectory()) {
+					TestCaseProperties tcProps = new TestCaseProperties(
+							assignment, testCase.getName());
+					TestCase tc = new TestCase(tcProps);
+					String testName = tc.getProperties().getName();
+					testsSummary.append("\"" + testName + "\",");
+					testsSummary.append(""
+						+ submission.getScore(testName) + ",");
+					testsSummary.append("" + tc.getProperties().getWeight()
+						+ ",");
+					testsSummary.append("\""
+						+ csvEncode(submission.getMessage(testName)) + "\"\n");
+				}
+			}
+		}
+		FileUtils.writeTextFile(testsSummaryFile, testsSummary.toString());
+		return testsSummaryFile;
+	}
+
+	private Path writeTestInfo(Submission submission) {
+		// Write out general information about the assignment and submission.
+		Path testInfoFile = submission.getRecordingDir()
+				.resolve("testInfo.csv");
+		StringBuilder testInfo = new StringBuilder();
+		testInfo.append("assignment name,\"" + getAssignmentName() + "\"\n");
+		testInfo.append("submitted by,\""
+				+ submission.getSubmittedBy() + "\"\n");
+		testInfo.append("built successfully?,\"" + buildScore + "\"\n");
+		testInfo.append("build weight,\"" + properties.build.weight + "\"\n");
+		testInfo.append("build message,\"" + csvEncode(buildMessage) + "\"\n");
+		testInfo.append("due date,\"" + properties.dueDate + "\"\n");
+		testInfo.append("submission date,\"" + submission.getSubmissionDate()
+				+ "\"\n");
+		FileUtils.writeTextFile(testInfoFile, testInfo.toString());
+		return testInfoFile;
 	}
 
 	private String csvEncode(String msg) {

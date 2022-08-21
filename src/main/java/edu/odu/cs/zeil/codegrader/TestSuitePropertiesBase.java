@@ -3,8 +3,6 @@ package edu.odu.cs.zeil.codegrader;
 import java.io.File;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -38,10 +36,6 @@ public class TestSuitePropertiesBase {
      */
     public BuildProperties build;
 
-    /**
-     * Default grading criteria for this test case.
-     */
-    public List<OracleProperties> grading;
 
     /**
      * Path to grade calculation spreadsheet.
@@ -49,7 +43,7 @@ public class TestSuitePropertiesBase {
     public String reportTemplate;
 
     /**
-     * Assignment name
+     * Assignment name.
      */
     public String assignment;
 
@@ -65,7 +59,6 @@ public class TestSuitePropertiesBase {
     public TestSuitePropertiesBase() {
         test = new TestCasePropertiesBase();
         build = new BuildProperties();
-        grading = new ArrayList<>();
         reportTemplate = "";
         assignment = "";
         dueDate = "";

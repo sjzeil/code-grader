@@ -37,7 +37,12 @@ public class TestOracle {
      */
 	@BeforeEach
 	public void setup() throws IOException, TestConfigurationError {
-		testSuitePath.toFile().getParentFile().mkdirs();
+        Path testData = Paths.get("build", "test-data");
+        if (testData.toFile().exists()) {
+            FileUtils.deleteDirectory(testData);
+        }
+
+        testSuitePath.toFile().getParentFile().mkdirs();
 		FileUtils.copyDirectory(asstSrcPath, testSuitePath, null, null, 
             StandardCopyOption.REPLACE_EXISTING);
 
@@ -46,14 +51,6 @@ public class TestOracle {
 		testCase = new TestCase(new TestCaseProperties(asst, "params"));
 	}
 	
-    /**
-     * .
-     * @throws IOException
-     */
-	@AfterEach
-	public void teardown() throws IOException {
-        FileUtils.deleteDirectory(Paths.get("build", "test-data"));
-	}
 	
 
 	@Test
