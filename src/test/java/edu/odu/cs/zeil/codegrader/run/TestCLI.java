@@ -13,7 +13,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.io.File;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -228,6 +227,65 @@ public class TestCLI {
 		}
 	}
 
+	@Test
+	void testCLICpp2() {
+
+		testDataPath = Paths.get("build", "test-data");
+		assignmentPath = Paths.get("src", "test", "data",
+			"cpp-assignment2");
+
+		Path stage = testDataPath.resolve("stage");
+		Path recording = testDataPath.resolve("recording");
+		Path recordingGrades = recording.resolve("grades");
+
+		String[] args = {
+				"-suite", assignmentPath.resolve("Grading").toString(),
+				"-gold", assignmentPath.resolve("Gold").toString(),
+				"-stage", stage.toString(),
+				"-submissions", assignmentPath.resolve("submissions")
+					.toString(),
+				"-recording", recording.toString(),
+				"-gradesheet", "src/test/data/cpp-assignment/alternate.xlsx"
+		};
+
+		CLI cli = new CLI(args);
+		cli.go();
+
+		assertFalse(stage.toFile().exists()); // stage should be cleaned up
+		assertTrue(recordingGrades.toFile().exists());
+
+		File[] students = assignmentPath.resolve("submissions")
+				.toFile().listFiles();
+		for (File studentDir : students) {
+			String studentID = studentDir.getName();
+			Path studentRecording = recordingGrades.resolve(studentID);
+			assertTrue(studentRecording.toFile().isDirectory());
+
+			File[] testCases = assignmentPath.resolve("Grading").toFile()
+					.listFiles();
+			for (File testCase : testCases) {
+				if (testCase.isDirectory()) {
+					String testCaseName = testCase.getName();
+					Path studentRecordedTest = studentRecording
+							.resolve("TestCases")
+							.resolve(testCaseName);
+					assertTrue(studentRecordedTest.toFile().isDirectory());
+					assertTrue(studentRecordedTest
+							.resolve(testCaseName + ".score")
+							.toFile().exists());
+				}
+			}
+
+		}
+
+		Path summaryFile = recordingGrades.resolve("classSummary.csv");
+		assertTrue(summaryFile.toFile().exists());
+		String summary = FileUtils.readTextFile(summaryFile.toFile());
+		assertTrue(summary.contains("janeSmith,100"));
+		assertTrue(summary.contains("jjones,0"));
+		assertTrue(summary.contains("johnDoe,100"));
+		assertFalse(summary.contains("johnDoe,0"));
+	}
 
 
 	@Test

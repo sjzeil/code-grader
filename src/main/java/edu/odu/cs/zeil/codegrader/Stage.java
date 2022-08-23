@@ -531,27 +531,25 @@ public class Stage {
 			if (command.equals("")) {
 
 				if (stageDir.resolve("makefile").toFile().exists()) {
-					String exec = findExecutableFile(stageDir);
-					if (!exec.equals("")) {
-						command = exec;
-					} else {
+					String makeContents = FileUtils.readTextFile(stageDir
+						.resolve("makefile").toFile());
+					if (makeContents.contains("run:")) {
 						command = "make run args='@P'";
 					}
 				} else if (stageDir.resolve("Makefile").toFile().exists()) {
-					String exec = findExecutableFile(stageDir);
-					if (!exec.equals("")) {
-						command = "." + File.separator + exec;
-					} else {
+					String makeContents = FileUtils.readTextFile(stageDir
+						.resolve("Makefile").toFile());
+					if (makeContents.contains("run:")) {
 						command = "make run args='@P'";
 					}
 				}
 			}
 			if (command == null || command.equals("")) {
 				throw new TestConfigurationError(
-						"Could not infer a build command for "
+						"Could not infer a launch command for "
 								+ stageDir.toString());
 			} else {
-				logger.info("Inferred build command: " + command
+				logger.info("Inferred launch command: " + command
 						+ "\n  in " + stageDir);
 			}
 		}

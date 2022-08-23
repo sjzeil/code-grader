@@ -1,0 +1,15 @@
+build:
+  instructorFiles:
+    exclude:
+      - polynomial.h
+      - polynomial.cpp
+  studentFiles:
+    exclude:
+      - makefile
+      - polyfactor.*
+      - polyoutput.*
+      - test*.*
+      - unittest.*
+  command: make -k
+test:
+  launch: ./unittest
