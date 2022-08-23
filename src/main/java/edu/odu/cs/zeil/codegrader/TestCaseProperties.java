@@ -111,7 +111,7 @@ public class TestCaseProperties {
                     ".yaml").get();
             caseProperties = TestCasePropertiesBase.loadYAML(yamlFile);
         } catch (NoSuchElementException ex) {
-            defaults = new TestSuitePropertiesBase();
+            caseProperties = new TestCasePropertiesBase();
         }
 
         params = selectStringValue(defaults.test.params,

@@ -2,8 +2,12 @@ package edu.odu.cs.zeil.codegrader;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
 import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.odu.cs.zeil.codegrader.oracle.Oracle;
 import edu.odu.cs.zeil.codegrader.oracle.OracleFactory;
@@ -46,6 +50,11 @@ public class TestCase {
      */
     private int expiredTime;
 
+	/**
+	 * Error logging.
+	 */
+	private static Logger logger = LoggerFactory.getLogger(
+			MethodHandles.lookup().lookupClass());
 
     /**
      * Create a new test case.
@@ -80,6 +89,7 @@ public class TestCase {
                 + properties.getParams();
         launchCommandStr = parameterSubstitution(launchCommandStr, 
             stage, submission);
+        logger.trace("executeTest using command: " + launchCommandStr);
         int timeLimit = getTimeLimit(submission);
         if (timeLimit <= 0) {
             timeLimit = 1;
