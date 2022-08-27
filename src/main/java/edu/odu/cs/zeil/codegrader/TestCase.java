@@ -89,12 +89,13 @@ public class TestCase {
                 + properties.getParams();
         launchCommandStr = parameterSubstitution(launchCommandStr, 
             stage, submission);
-        logger.trace("executeTest using command: " + launchCommandStr);
+        logger.info("executeTest using command: " + launchCommandStr);
         int timeLimit = getTimeLimit(submission);
         if (timeLimit <= 0) {
             timeLimit = 1;
         }
         File stdIn = properties.getIn();
+        logger.info(stage.getStageDir().toString() + " " + timeLimit);
         ExternalProcess process = new ExternalProcess(
             stage.getStageDir(),
             launchCommandStr,

@@ -157,7 +157,7 @@ public class TestCaseProperties {
         Optional<File> propertyFile = FileUtils.findFile(testDirectory,
                 "." + propertyName);
         if (propertyFile.isPresent()) {
-            return FileUtils.readTextFile(propertyFile.get());
+            return FileUtils.readTextFile(propertyFile.get()).trim();
         } else if (caseValue.isPresent()) {
             return caseValue.get();
         } else if (suiteValue.isPresent()) {

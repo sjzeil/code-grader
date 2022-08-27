@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -312,6 +313,7 @@ public class TestSuite {
 
 		File[] testCases = submission.getTestSuiteDir().toFile().listFiles();
 		if (testCases != null) {
+			Arrays.sort(testCases);
 			for (File testCase : testCases) {
 				if (testCase.isDirectory()) {
 					TestCaseProperties tcProps = new TestCaseProperties(
@@ -500,6 +502,7 @@ public class TestSuite {
 			throw new TestConfigurationError(
 					"No test case directories in " + suiteDir.toString());
 		}
+		Arrays.sort(testCases);
 		for (File testCase : testCases) {
 			if (isAValidTestCase(testCase)) {
 				String testName = testCase.getName();

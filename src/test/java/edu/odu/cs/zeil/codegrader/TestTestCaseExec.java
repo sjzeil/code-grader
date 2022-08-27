@@ -92,7 +92,7 @@ public class TestTestCaseExec {
 		testCase.executeTest(submission, stage, 0);
 		assertThat(testCase.crashed(), is(false));
 		assertThat(testCase.timedOut(), is(false));
-		assertThat(testCase.getOutput(), is("a\nb\nc\n\n"));
+		assertThat(testCase.getOutput(), is("a\nb\nc\n"));
 		assertThat(testCase.getErr(), is("3\n"));
 	}
 
