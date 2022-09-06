@@ -12,6 +12,9 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+//import org.apache.poi.hssf.usermodel.HSSFWorkbookFactory;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFWorkbookFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +56,9 @@ public class CLI {
      * @param args command-line arguments
      */
     public CLI(String[] args) {
+        //WorkbookFactory.addProvider(new HSSFWorkbookFactory());
+        WorkbookFactory.addProvider(new XSSFWorkbookFactory());
+        
         assignment = new Assignment();
         CommandLineParser parser = new DefaultParser();
         Options options = setUpOptions();
