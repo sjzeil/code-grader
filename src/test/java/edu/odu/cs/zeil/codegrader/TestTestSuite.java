@@ -128,12 +128,8 @@ public class TestTestSuite {
 		asst.setInPlace(true);
 
 		TestSuite suite = new TestSuite(asst);
-		suite.clearTheStage(stagingPath);
 
 		Submission submission = new Submission(asst, "perfect");
-		
-		submissionsPath.resolve("perfect").resolve("makefile")
-		.toFile().delete();  // use default Java launch
 
 		suite.processThisSubmission(submission);
 
@@ -151,11 +147,11 @@ public class TestTestSuite {
 		assertTrue(asst.getTestSuiteDirectory()
 				.resolve("testInfo.csv")
 				.toFile().exists());
-				assertTrue(asst.getTestSuiteDirectory()
+		assertTrue(asst.getTestSuiteDirectory()
 				.resolve("testsSummary.csv")
 				.toFile().exists());
 		assertTrue(asst.getTestSuiteDirectory()
-				.resolve(studentName + "assignment.xlsx")
+				.resolve(studentName + ".xlsx")
 				.toFile().exists());
 		assertTrue(asst.getTestSuiteDirectory()
 			.resolve(studentName + ".html")

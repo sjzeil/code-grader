@@ -49,6 +49,17 @@ public class Assignment implements Cloneable {
      */
     private String dateCommand;
 
+    /**
+     * True if in-place grading is requested.  Code is already present in the
+     * submissions directory, can be built (compiled) there and the test suite
+     * directory is also the recording directory.
+     * 
+     * By default, this is false, meaning that code will be copied into a
+     * separate temporary "stage" and the recording directory starts as a copy
+     * of the test suite and then is augmented with test reports.
+     */
+    private boolean inPlace;
+
 
 
 
@@ -238,7 +249,11 @@ public class Assignment implements Cloneable {
      * @return a subdirectory within the staging area.
      */
     public Path getSubmitterStage() {
-        return stagingDirectory.resolve("submission");
+        if (inPlace) {
+            return submissionsDirectory;
+        } else {
+            return stagingDirectory.resolve("submission");
+        }
    }
 
    /**
@@ -265,10 +280,20 @@ public class Assignment implements Cloneable {
     *    if the original submission directory and test suite directory should
     *    left unchanged.
     */
-    public void setInPlace(boolean inPlace) {
-        //TODO
+    public void setInPlace(boolean gradeInPlace) {
+        inPlace = gradeInPlace;
     }
 
+
+    /**
+    * Should this assignment be graded "in place", rather than using a
+    * separate stage and recording area?
+    *
+    * @return true iff in-place grading is desired
+    */
+    public boolean getInPlace() {
+        return inPlace;
+    }
 
     /**
      * Set the command to run to get a date from a submission.

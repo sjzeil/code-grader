@@ -58,7 +58,11 @@ public class Submission {
      *         the test suite (within the assignment recording directory).
      */
     Path getTestSuiteDir() {
-        return getRecordingDir().resolve("TestCases");
+        if (!assignment.getInPlace()) {
+            return getRecordingDir().resolve("TestCases");
+        } else {
+            return assignment.getTestSuiteDirectory();
+        }
     }
 
     /**
@@ -75,8 +79,13 @@ public class Submission {
      * @return the directory where the student's grade info will be written.
      */
     public Path getRecordingDir() {
-		Path studentRecordingArea = assignment.getRecordingDirectory()
+		Path studentRecordingArea;
+        if (!assignment.getInPlace()) {
+          studentRecordingArea = assignment.getRecordingDirectory()
 				.resolve(getSubmittedBy());
+        } else {
+            studentRecordingArea = assignment.getTestSuiteDirectory();
+        }
 		return studentRecordingArea;
 	}
 

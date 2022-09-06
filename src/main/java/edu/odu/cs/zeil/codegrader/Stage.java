@@ -43,9 +43,11 @@ public class Stage {
 	public Stage(Assignment asst, Submission submission,
 			TestSuitePropertiesBase suiteProperties) {
 		beingGraded = submission;
-		stageDir = (submission == null)
-				? asst.getGoldStage()
-				: asst.getSubmitterStage();
+		if (submission == null) {
+			stageDir = asst.getGoldStage();
+		} else {
+			stageDir = asst.getSubmitterStage();
+		}
 		assignment = asst;
 		properties = suiteProperties;
 	}

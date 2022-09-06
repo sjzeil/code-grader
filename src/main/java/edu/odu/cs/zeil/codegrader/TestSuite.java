@@ -204,13 +204,19 @@ public class TestSuite {
 	 */
 	public void processThisSubmission(Submission submission) {
 		submitterStage = new Stage(assignment, submission, properties);
-		if (submitterStage.getStageDir().toFile().exists()) {
+		if ((!assignment.getInPlace()) 
+			&& submitterStage.getStageDir().toFile().exists()) {
 			submitterStage.clear();
 		}
-		Path recordAt = submission.getRecordingDir();
-		recordAt.toFile().mkdirs();
-		copyTestSuiteToRecordingArea(submission);
-		submitterStage.setupStage();
+		Path recordAt;
+		if (!assignment.getInPlace()) {
+			recordAt = submission.getRecordingDir();
+			recordAt.toFile().mkdirs();
+			copyTestSuiteToRecordingArea(submission);
+			submitterStage.setupStage();
+		} else {
+			recordAt = assignment.getTestSuiteDirectory();
+		}
 		Stage.BuildResult buildResults = submitterStage.buildCode();
 		buildScore = (buildResults.getStatusCode() == 0) ? MAX_SCORE : 0;
 		buildMessage = buildResults.getMessage();
