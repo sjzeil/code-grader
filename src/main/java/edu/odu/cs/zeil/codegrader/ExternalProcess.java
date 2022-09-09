@@ -309,7 +309,10 @@ public class ExternalProcess {
             } else {
                 process.destroy();
                 logger.warn("Shutting down execution of "
-                        + processDescription + " due to time out.");
+                        + processDescription + " due to time out.\n"
+                        + "limit: " + timeLimit + "s   observed: "
+                        + elapsed + "ms."
+                        );
             }
         } catch (IOException ex) {
             if (!quiet) {

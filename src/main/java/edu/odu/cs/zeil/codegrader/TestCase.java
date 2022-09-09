@@ -15,6 +15,8 @@ import edu.odu.cs.zeil.codegrader.oracle.OracleResult;
 
 public class TestCase {
 
+    private static final int INSTRUCTORS_TIME_MULTIPLIER = 4;
+
     /**
      * The collected properties for this test.
      */
@@ -145,7 +147,11 @@ public class TestCase {
         FileUtils.writeTextFile(
             testRecordingDir.resolve(testName + ".err"), 
             getErr());
-        String time = "" + getTime() + "\n";
+        int time0 = getTime();
+        if (asGold) {
+            time0 = Math.max(1, INSTRUCTORS_TIME_MULTIPLIER * time0);
+        }
+        String time = "" + time0 + "\n";
         FileUtils.writeTextFile(
             testRecordingDir.resolve(testName + timeExtension), 
             time);
