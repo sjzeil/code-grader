@@ -1,0 +1,34 @@
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--
+            <JSONLayout compact="true" eventEol="true">
+            </JSONLayout>
+            -->
+            <PatternLayout>
+                <Pattern>%d %p [%t] %c{35}:%L - %m%n</Pattern>
+            </PatternLayout>
+            <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+        </Console>
+        <RollingFile name="File" 
+            fileName="codegrader.log"
+            filePattern="codegrader.%d{dd-MMM}.log.gz"
+            ignoreExceptions="false">
+            <PatternLayout>
+                <Pattern>%d %p [%t] %c{35}:%L - %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5" />
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="edu.odu.cs.zeil" level="info" additivity="true">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Root level="error">
+            <AppenderRef ref="File"/>
+        </Root>
+    </Loggers>
+</Configuration>

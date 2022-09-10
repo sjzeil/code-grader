@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -55,22 +54,6 @@ public class TestTestSuite {
 		asst.setStagingDirectory(stagingPath);
 		asst.setSubmissionsDirectory(submissionsPath);
 		asst.setRecordingDirectory(recordingPath);
-
-		String template = "gradeTemplate.xlsx";
-		Path gradingTemplate = Paths.get("src", "main", "resources",
-			"edu", "odu", "cs", "zeil", "codegrader", template);
-		Path binDir = Paths.get("bin", "main",
-			"edu", "odu", "cs", "zeil", "codegrader");
-		Path buildDir = Paths.get("build", "classes", "java", "main",
-			"edu", "odu", "cs", "zeil", "codegrader");
-		if (binDir.toFile().exists()) {
-			Files.copy(gradingTemplate, binDir.resolve(template), 
-				StandardCopyOption.REPLACE_EXISTING);
-		}
-		if (buildDir.toFile().exists()) {
-			Files.copy(gradingTemplate, buildDir.resolve(template), 
-				StandardCopyOption.REPLACE_EXISTING);
-		}
 	}
 
 
@@ -123,9 +106,6 @@ public class TestTestSuite {
 		String studentName = "perfect";
 		Submission submitter = new Submission(asst, studentName);
 		assertTrue(submitter.getRecordingDir()
-				.resolve(studentName + ".xlsx")
-				.toFile().exists());
-		assertTrue(submitter.getRecordingDir()
 				.resolve("testInfo.csv")
 				.toFile().exists());
 		assertTrue(submitter.getRecordingDir()
@@ -173,9 +153,6 @@ public class TestTestSuite {
 				.toFile().exists());
 		assertTrue(asst.getTestSuiteDirectory()
 				.resolve("testsSummary.csv")
-				.toFile().exists());
-		assertTrue(asst.getTestSuiteDirectory()
-				.resolve(studentName + ".xlsx")
 				.toFile().exists());
 		assertTrue(asst.getTestSuiteDirectory()
 			.resolve(studentName + ".html")

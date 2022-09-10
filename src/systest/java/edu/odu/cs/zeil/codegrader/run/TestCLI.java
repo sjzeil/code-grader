@@ -7,10 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.io.File;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -38,23 +36,6 @@ public class TestCLI {
         }
 
 		testDataPath.toFile().mkdirs();
-		String template = "gradeTemplate.xlsx";
-		Path gradingTemplate = Paths.get("src", "main", "resources",
-			"edu", "odu", "cs", "zeil", "codegrader", template);
-		Path binDir = Paths.get("bin", "main",
-			"edu", "odu", "cs", "zeil", "codegrader");
-		Path buildDir = Paths.get("build", "classes", "java", "main",
-			"edu", "odu", "cs", "zeil", "codegrader");
-		if (binDir.toFile().exists()) {
-			Files.copy(gradingTemplate, binDir.resolve(template), 
-				StandardCopyOption.REPLACE_EXISTING);
-		}
-		/*
-		if (buildDir.toFile().exists()) {
-			Files.copy(gradingTemplate, buildDir.resolve(template), 
-				StandardCopyOption.REPLACE_EXISTING);
-		}
-		*/
 	}
 
 
@@ -125,8 +106,7 @@ public class TestCLI {
 				"-stage", stage.toString(),
 				"-submissions", assignmentPath.resolve("submissions")
 					.toString(),
-				"-recording", recording.toString(),
-				"-gradesheet", "src/test/data/cpp-assignment/alternate.xlsx"
+				"-recording", recording.toString()
 		};
 
 		CLI cli = new CLI(args);
@@ -245,8 +225,7 @@ public class TestCLI {
 				"-stage", stage.toString(),
 				"-submissions", assignmentPath.resolve("submissions")
 					.toString(),
-				"-recording", recording.toString(),
-				"-gradesheet", "src/test/data/cpp-assignment/alternate.xlsx"
+				"-recording", recording.toString()
 		};
 
 		CLI cli = new CLI(args);

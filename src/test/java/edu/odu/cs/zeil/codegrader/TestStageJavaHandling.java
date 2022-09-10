@@ -64,22 +64,6 @@ public class TestStageJavaHandling {
         String tsPropertyStr = FileUtils.readTextFile(
                 testSuitePath.resolve("tests.yaml").toFile());
         tsProperties = TestSuitePropertiesBase.loadYAML(tsPropertyStr);
-
-		String template = "gradeTemplate.xlsx";
-		Path gradingTemplate = Paths.get("src", "main", "resources",
-			"edu", "odu", "cs", "zeil", "codegrader", template);
-		Path binDir = Paths.get("bin", "main",
-			"edu", "odu", "cs", "zeil", "codegrader");
-		Path buildDir = Paths.get("build", "classes", "java", "main",
-			"edu", "odu", "cs", "zeil", "codegrader");
-		if (binDir.toFile().exists()) {
-			Files.copy(gradingTemplate, binDir.resolve(template), 
-				StandardCopyOption.REPLACE_EXISTING);
-		}
-		if (buildDir.toFile().exists()) {
-			Files.copy(gradingTemplate, buildDir.resolve(template), 
-				StandardCopyOption.REPLACE_EXISTING);
-		}
 	}
 
 
