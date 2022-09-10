@@ -49,11 +49,12 @@ public class TestCLI {
 			Files.copy(gradingTemplate, binDir.resolve(template), 
 				StandardCopyOption.REPLACE_EXISTING);
 		}
+		/*
 		if (buildDir.toFile().exists()) {
 			Files.copy(gradingTemplate, buildDir.resolve(template), 
 				StandardCopyOption.REPLACE_EXISTING);
 		}
-
+		*/
 	}
 
 
