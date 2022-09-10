@@ -1,17 +1,14 @@
 package edu.odu.cs.zeil.codegrader;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -21,7 +18,6 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import edu.odu.cs.sheetManip.Spreadsheet;
 
 public class TestSuite {
 
@@ -330,19 +326,51 @@ public class TestSuite {
 		}
 	}
 
+	private class Detail {
+		public String name;
+		public int weight;
+		public int score;
+		public String message;
+
+		Detail(String aName, int aWeight, int aScore, String aMessage) {
+			name = aName;
+			weight = aWeight;
+			score = aScore;
+			message = aMessage;
+		}
+
+		public String toString() {
+			return "<tr><td><i>" + htmlEncode(name)
+				+ "</i></td><td>" + score
+				+ "</td><td>" + weight
+				+ "</td><td><pre>" + htmlEncode(message.trim())
+				+ "</pre></td></tr>\n";
+		}
+	}
 
 	private void generateReports(Submission submission) {
 		System.out.println("  Generating reports...");
 		Path gradeReport = submission.getRecordingDir()
-				.resolve(submission.getSubmittedBy() + ".xlsx");
-		prepareGradingTemplate(gradeReport);
-		Path testInfoFile = writeTestInfo(submission);
+				.resolve(submission.getSubmittedBy() + ".html");
 
-		Path testsSummaryFile = writeTestCaseSummary(submission);
+		ArrayList<Detail> details = new ArrayList<>();
+		details.add(new Detail("Build", 
+			properties.build.weight,
+			buildScore, buildMessage));
+		
+		writeTestCaseSummary(submission, details);
 
-		int studentTotalScore;
-		studentTotalScore = fillInGradeSpreadsheet(submission, gradeReport,
-			 testInfoFile, testsSummaryFile);
+		int studentSubtotalScore = computeSubTotal(details);
+		int daysLate = computeDaysLate(submission);
+		int penalty = computeLatePenalty(daysLate);
+		int studentTotalScore = (100 - penalty) * studentSubtotalScore;
+		studentTotalScore = (int) Math.round(
+			((float) studentTotalScore) / 100.0);
+
+		writeHTMLReport(submission, gradeReport,
+			 details, studentSubtotalScore, daysLate, 
+			 penalty, studentTotalScore);
+	
 		System.out.println("  Total for " + submission.getSubmittedBy()
 		+ " is " + studentTotalScore);
    		FileUtils.writeTextFile(
@@ -352,67 +380,107 @@ public class TestSuite {
 
 	}
 
-	private int fillInGradeSpreadsheet(Submission submission, Path gradeReport, 
-			Path testInfoFile, Path testsSummaryFile) {
-		// Merge the .csv files into the grade template.
-		try {
-			Spreadsheet ss = new Spreadsheet(gradeReport.toFile());
-			ss.loadCSV(testInfoFile.toFile(), "info");
-			ss.loadCSV(testsSummaryFile.toFile(), "tests");
-			String htmlContent = ss.toHTML(getAssignmentName(), true,
-					"<b>", "</b>", "<i>", "</i>");
-			FileUtils.writeTextFile(
-					submission.getRecordingDir()
-							.resolve(submission.getSubmittedBy() + ".html"),
-					htmlContent);
-			List<String[]> rows = ss.evaluateSheet("results", true);
-			int studentTotalScore = -1;
-			for (String[] row : rows) {
-				// Hunt for a row whose first non-empty cell is "Total:"
-				// or "Total".
-				if (row != null) {
-					for (int col = 0; col < row.length; ++col) {
-						String v = row[col];
-						if (v != null) {
-							v = v.toLowerCase();
-							if (v.equals("total") || v.equals("total:")) {
-								// Next non-empty cell is the score
-								for (int col2 = col + 1; col2 < row.length;
-										++col2) {
-									String v2 = row[col2];
-									if (v2 != null && !v2.equals("")) {
-										try {
-											double d
-												= Double.parseDouble(v2.trim());
-											studentTotalScore = (int) (d + 0.5);
-										} catch (NumberFormatException e) {
-											studentTotalScore = -1;
-										}
-										break;
-									}
-								}
-							} else {
-								break;
-							}
-							
-						}
-						if (studentTotalScore >= 0) {
-							break;
-						}
-					}
-					
-				}
-			}
-			ss.close();
-			return studentTotalScore;
-		} catch (Exception e) {
-			throw new TestConfigurationError(
-					"Unable to update grades in " + gradeReport.toString()
-							+ "\n" + e.getMessage());
-		}
+
+	private int computeDaysLate(Submission submission) {
+		// TODO
+		return 0;
 	}
 
-	private Path writeTestCaseSummary(Submission submission) {
+	private int computeLatePenalty(int daysLate) {
+		//TODO
+		return 0;
+	}
+
+	private int computeSubTotal(ArrayList<Detail> details) {
+		int weightedSum = 0;
+		int weights = 0;
+		for (Detail detail: details) {
+			weightedSum += detail.score * detail.weight;
+			weights += detail.weight;
+		}
+		float score = ((float) weightedSum) / ((float) weights);
+		return (int) Math.round(score);
+	}
+
+	private void writeHTMLReport(Submission submission, Path gradeReport, 
+		ArrayList<Detail> details,
+		int studentSubtotalScore, int daysLate, int penalty, 
+		int studentTotalScore) {
+
+		StringBuilder htmlContent = new StringBuilder();
+		htmlContent.append("<html><head>\n");
+		htmlContent.append(element("title", 
+			"Grade report for " + getAssignmentName() 
+			+ ": " + submission.getSubmittedBy()));
+		htmlContent.append("\n</head><body>\n");
+		htmlContent.append(element("h1", 
+			"Grade report for " + getAssignmentName() 
+			+ ": " + submission.getSubmittedBy()));
+
+		addAssignmentInfo(htmlContent,
+			submission, studentSubtotalScore, daysLate, penalty, 
+			studentTotalScore);
+
+		htmlContent.append(element("h2", "Details"));
+		addAssignmentDetails(htmlContent, details);
+
+		htmlContent.append("</body></html>\n");
+		
+		FileUtils.writeTextFile(
+			submission.getRecordingDir()
+				.resolve(submission.getSubmittedBy() + ".html"),
+			htmlContent.toString());
+	}
+
+	private void addAssignmentDetails(StringBuilder htmlContent, 
+		ArrayList<Detail> details) {
+		
+		htmlContent.append("<table border='1'>\n");
+		for (Detail detail: details) {
+			htmlContent.append(detail.toString());
+		}
+		htmlContent.append("</table>\n");
+	}
+
+	private void addAssignmentInfo(StringBuilder content,
+		Submission submission, 
+		int studentSubtotalScore, int daysLate, int penalty,
+		int studentTotalScore) {
+
+		content.append("<table border='1'>\n");
+		String dueDate = properties.dueDate;
+		String submissionDate = submission.getSubmissionDate();
+
+		if (!submissionDate.equals("")) {
+			content.append(row("Submitted:", submissionDate));
+			if (!dueDate.equals("")) {
+				content.append(row("Due:", dueDate));
+				if (daysLate > 0) {
+					content.append(row("Days late:", "" + daysLate));
+				}
+			}
+		}
+		if (penalty > 0) {
+			content.append(row("Subtotal:", "" + studentSubtotalScore
+			+ "%"));
+			content.append(row("Penalties:", "" + -penalty + "%"));
+		}
+		content.append(row("Total:", "" + studentTotalScore + "%"));
+		content.append("</table>\n");
+	}
+
+	private String row(String title, String value) {
+		return "<tr><td><i>" + htmlEncode(title) 
+			+ "</i></td><td>" + htmlEncode(value)
+			+ "</td></tr>\n";
+	}
+
+	private Object element(String tagname, String content) {
+		return "<" + tagname + ">" + htmlEncode(content) + "</" + tagname + ">";
+	}
+
+	private void writeTestCaseSummary(Submission submission, 
+		ArrayList<Detail> details) {
 		// Write out the tests summary.
 		Path testsSummaryFile = submission.getRecordingDir()
 				.resolve("testsSummary.csv");
@@ -428,36 +496,21 @@ public class TestSuite {
 							assignment, testCase.getName());
 					TestCase tc = new TestCase(tcProps);
 					String testName = tc.getProperties().getName();
+					int score = submission.getScore(testName);
+					int weight = tc.getProperties().getWeight();
+					String message = submission.getMessage(testName);
+					details.add(new Detail(testName, weight, score, message));
 					testsSummary.append("\"" + testName + "\",");
 					testsSummary.append(""
-						+ submission.getScore(testName) + ",");
-					testsSummary.append("" + tc.getProperties().getWeight()
+						+ score + ",");
+					testsSummary.append("" + weight
 						+ ",");
 					testsSummary.append("\""
-						+ csvEncode(submission.getMessage(testName)) + "\"\n");
+						+ csvEncode(message) + "\"\n");
 				}
 			}
 		}
 		FileUtils.writeTextFile(testsSummaryFile, testsSummary.toString());
-		return testsSummaryFile;
-	}
-
-	private Path writeTestInfo(Submission submission) {
-		// Write out general information about the assignment and submission.
-		Path testInfoFile = submission.getRecordingDir()
-				.resolve("testInfo.csv");
-		StringBuilder testInfo = new StringBuilder();
-		testInfo.append("assignment name,\"" + getAssignmentName() + "\"\n");
-		testInfo.append("submitted by,\""
-				+ submission.getSubmittedBy() + "\"\n");
-		testInfo.append("built successfully?,\"" + buildScore + "\"\n");
-		testInfo.append("build weight,\"" + properties.build.weight + "\"\n");
-		testInfo.append("build message,\"" + csvEncode(buildMessage) + "\"\n");
-		testInfo.append("due date,\"" + properties.dueDate + "\"\n");
-		testInfo.append("submission date,\"" + submission.getSubmissionDate()
-				+ "\"\n");
-		FileUtils.writeTextFile(testInfoFile, testInfo.toString());
-		return testInfoFile;
 	}
 
 	private String csvEncode(String msg) {
@@ -467,6 +520,18 @@ public class TestSuite {
 				+ MAX_MESSAGE_LENGTH + " characters]";
 		}
 		return msg.replace("\"", "'");
+	}
+
+	private String htmlEncode(String msg) {
+		if (msg.length() > MAX_MESSAGE_LENGTH) {
+			msg = msg.substring(0, MAX_MESSAGE_LENGTH - 1) 
+				+ "\n[message clipped after " 
+				+ MAX_MESSAGE_LENGTH + " characters]";
+		}
+		msg = msg.replace("&", "&amp;");
+		msg = msg.replace("<", "&lt;");
+		msg = msg.replace(">", "&gt;");
+		return msg;
 	}
 
 	/**
@@ -485,55 +550,6 @@ public class TestSuite {
 		}
 	}
 
-	private void prepareGradingTemplate(Path gradeReport) {
-		Path gradeTemplate = null;
-		if (assignment.getGradingTemplate() != null) {
-			gradeTemplate = assignment.getGradingTemplate();
-			if (!gradeTemplate.toString().endsWith(".xlsx")
-					|| !gradeTemplate.toFile().exists()) {
-				gradeTemplate = null;
-			}
-
-			if (gradeTemplate == null) {
-				logger.error("Invalid path to grade template spreadsheet "
-						+ properties.reportTemplate);
-			}
-		}
-		String description = "";
-		try {
-			InputStream template = null;
-			if (gradeTemplate == null) {
-				String resourcePath 
-					= "edu/odu/cs/zeil/codegrader/gradeTemplate.xlsx";
-				ClassLoader classLoader = Thread.currentThread()
-					.getContextClassLoader();
-				template = classLoader.getResourceAsStream(resourcePath);
-				description = "default grading spreadsheet";
-			} else {
-				logger.info("Opening " + gradeTemplate.toString());
-				template = new FileInputStream(gradeTemplate.toFile());
-				description = gradeTemplate.toString();
-			}
-			if (template == null) {
-				throw new TestConfigurationError(
-						"Could not find default grading template.");
-			}
-			byte[] buffer = template.readAllBytes();
-			template.close();
-			if (buffer.length == 0) {
-				throw new TestConfigurationError(
-						"Could not find default grading template.");
-			}
-			OutputStream outputStream = new FileOutputStream(
-				gradeReport.toFile());
-			outputStream.write(buffer);
-			outputStream.close();
-		} catch (IOException ex) {
-			throw new TestConfigurationError(
-					"Unable to copy " + description + " to "
-							+ gradeReport.toString());
-		}
-	}
 
 	/**
 	 * Delete the entire staging area after use.

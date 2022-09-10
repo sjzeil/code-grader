@@ -106,9 +106,6 @@ public class TestTestSuite {
 		String studentName = "perfect";
 		Submission submitter = new Submission(asst, studentName);
 		assertTrue(submitter.getRecordingDir()
-				.resolve("testInfo.csv")
-				.toFile().exists());
-		assertTrue(submitter.getRecordingDir()
 			.resolve("testsSummary.csv")
 			.toFile().exists());
 		assertTrue(submitter.getRecordingDir()
@@ -148,9 +145,6 @@ public class TestTestSuite {
 
 		// Were reports generated in place?
 		String studentName = "perfect";
-		assertTrue(asst.getTestSuiteDirectory()
-				.resolve("testInfo.csv")
-				.toFile().exists());
 		assertTrue(asst.getTestSuiteDirectory()
 				.resolve("testsSummary.csv")
 				.toFile().exists());
