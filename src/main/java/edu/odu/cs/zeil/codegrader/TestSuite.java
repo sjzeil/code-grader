@@ -7,8 +7,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.invoke.MethodHandles;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -36,6 +39,8 @@ public class TestSuite {
 	private int buildScore;
 	private String buildMessage;
 
+	private String contentHash;
+
 	/**
 	 * Error logging.
 	 */
@@ -62,6 +67,7 @@ public class TestSuite {
 		goldStage = null;
 		submitterStage = null;
 		asst.setDateCommand(properties.findDateSubmitted);
+		contentHash = "";
 	}
 
 	/**
@@ -208,26 +214,122 @@ public class TestSuite {
 			&& submitterStage.getStageDir().toFile().exists()) {
 			submitterStage.clear();
 		}
+		boolean proceedWithGrading = true;
 		Path recordAt;
 		if (!assignment.getInPlace()) {
 			recordAt = submission.getRecordingDir();
-			recordAt.toFile().mkdirs();
-			copyTestSuiteToRecordingArea(submission);
-			submitterStage.setupStage();
+			if (recordAt.toFile().isDirectory()) {
+				if (!needsRegrading(recordAt, submission)) {
+					proceedWithGrading = false;
+				}
+			}
+			if (proceedWithGrading) {
+				recordAt.toFile().mkdirs();
+				copyTestSuiteToRecordingArea(submission);
+				submitterStage.setupStage();
+			} else {
+				System.out.println("  Has already been graded - skipping.");
+			}
 		} else {
 			recordAt = assignment.getTestSuiteDirectory();
 		}
-		Stage.BuildResult buildResults = submitterStage.buildCode();
-		buildScore = (buildResults.getStatusCode() == 0) ? MAX_SCORE : 0;
-		buildMessage = buildResults.getMessage();
-		System.out.println("  Building submitted code: " + buildScore + "%.");
-		FileUtils.writeTextFile(recordAt.resolve("build.score"),
-				Integer.toString(buildScore) + "\n");
-		FileUtils.writeTextFile(recordAt.resolve("build.message"),
-				buildResults.getMessage() + "\n");
-		runTests(submission, buildResults.getStatusCode());
-		generateReports(submission);
+		if (proceedWithGrading) {
+			Stage.BuildResult buildResults = submitterStage.buildCode();
+			buildScore = (buildResults.getStatusCode() == 0) ? MAX_SCORE : 0;
+			buildMessage = buildResults.getMessage();
+			System.out.println("  Building submitted code: " 
+				+ buildScore + "%.");
+			FileUtils.writeTextFile(recordAt.resolve("build.score"),
+					Integer.toString(buildScore) + "\n");
+			FileUtils.writeTextFile(recordAt.resolve("build.message"),
+					buildResults.getMessage() + "\n");
+			runTests(submission, buildResults.getStatusCode());
+			generateReports(submission);
+			recordContentHash(recordAt, submission);
+		}
 	}
+
+	/**
+	 * Record a hash based on the contents of the submission directory
+	 * so that future runs of the same test suite can tell whether the
+	 * submitted code has changed sint it was last graded.
+	 * 
+	 * @param recordAt directory where grade results should be recorded.
+	 * @param submission the submission to check
+	 */
+	private void recordContentHash(Path recordAt, Submission submission) {
+		if (contentHash == null || contentHash.equals("")) {
+			contentHash = computeContentHash(
+				submission.getSubmissionDirectory());
+		}
+		Path hashFile = recordAt.resolve(submission.getSubmittedBy() 
+			+ ".hash");
+		FileUtils.writeTextFile(hashFile, contentHash + "\n");
+	}
+
+	/**
+	 * Check to see if a submission needs to be (re)graded.
+	 * @param recordAt directory where grade results should be recorded.
+	 * @param submission the submission to check
+	 * @return true if submission should be regraded.
+	 */
+	public boolean needsRegrading(Path recordAt, Submission submission) {
+		Path totalFile = recordAt.resolve(submission.getSubmittedBy() 
+			+ ".total");
+		if (!totalFile.toFile().exists()) {
+			// has not been graded yet.
+			return true;
+		}
+		Path hashFile = recordAt.resolve(submission.getSubmittedBy() 
+			+ ".hash");
+		if (!hashFile.toFile().exists()) {
+			// no record of previous content
+			return true;
+		}
+		// See if content has changed since the submission was last graded.
+		String oldHash = FileUtils.readTextFile(hashFile.toFile()).trim();
+		contentHash = computeContentHash(submission.getSubmissionDirectory());
+		return !contentHash.equals(oldHash);
+	}
+
+	private String computeContentHash(Path submissionDirectory) {
+		MessageDigest digest;
+		try {
+			digest = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			throw new TestConfigurationError(e.getMessage());
+		}
+		digestAllFiles(submissionDirectory.toFile(), digest);
+		byte[] digested = digest.digest();
+		StringBuffer result = new StringBuffer();
+		final int byte255 = 0xff;
+        for (byte aByte : digested) {
+            result.append(Integer.toHexString(aByte & byte255));
+        }
+		return result.toString();
+	}
+
+	private void digestAllFiles(File dirOrFile, MessageDigest digest) {
+		if (dirOrFile.isDirectory()) {
+			if (!dirOrFile.getName().equals(".git")) {
+				File[] contents = dirOrFile.listFiles();
+				if (contents != null) {
+					Arrays.sort(contents);
+					for (File within: contents) {
+						digestAllFiles(within, digest);
+					}
+				}
+			}
+		} else {
+			try {
+				byte[] bytes = Files.readAllBytes(dirOrFile.toPath());
+				digest.update(bytes);
+			} catch (IOException e) {
+				logger.warn("Problem computing digest of " + dirOrFile, e);
+			}
+		}
+	}
+
 
 	private void generateReports(Submission submission) {
 		System.out.println("  Generating reports...");

@@ -1,6 +1,7 @@
 package edu.odu.cs.zeil.codegrader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 //import static org.hamcrest.MatcherAssert.assertThat;
 //import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -73,6 +74,29 @@ public class TestTestSuite {
 	}
 
 
+	@Test
+	void testIncrementalProcessing() {
+		TestSuite suite = new TestSuite(asst);
+		suite.clearTheStage(stagingPath);
+
+		Submission submission = new Submission(asst, "perfect");
+		
+		Path recordAt = submission.getRecordingDir();
+
+		assertTrue(suite.needsRegrading(recordAt, submission));
+
+		suite.processThisSubmission(submission);
+
+		assertFalse(suite.needsRegrading(recordAt, submission));
+
+		FileUtils.writeTextFile(
+			submission.getSubmissionDirectory().resolve("foo.txt"), 
+			"Hello");
+
+		assertTrue(suite.needsRegrading(recordAt, submission));
+
+
+	}
 
 	@Test
 	void testJavaDefaultLaunchBuild() {
