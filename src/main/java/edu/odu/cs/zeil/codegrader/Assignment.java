@@ -276,9 +276,9 @@ public class Assignment implements Cloneable {
     * Student code will be compiled and run in the submission directory
     * and grade info will be recorded in the test suite directory.
     * 
-    * @param inPlace true if this should be graded in place. False (default)
-    *    if the original submission directory and test suite directory should
-    *    left unchanged.
+    * @param gradeInPlace true if this should be graded in place. False 
+    *    (default) if the original submission directory and test suite 
+    *    directory should left unchanged.
     */
     public void setInPlace(boolean gradeInPlace) {
         inPlace = gradeInPlace;
