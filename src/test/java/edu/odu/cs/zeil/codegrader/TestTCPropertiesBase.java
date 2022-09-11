@@ -1,5 +1,7 @@
 package edu.odu.cs.zeil.codegrader;
 
+//CHECKSTYLE:OFF
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 

@@ -53,7 +53,6 @@ public class SysTestCLI {
 				"-submissions", assignmentPath.resolve("submissions")
 					.toString(),
 				"-recording", recording.toString() //,
-                //"-gradesheet", "build/packaged.xlsx"
 		};
 
         Path cwd = Paths.get("").toAbsolutePath();
@@ -62,8 +61,9 @@ public class SysTestCLI {
         String commandLine = "java -cp " + jar.toString()
             + " edu.odu.cs.zeil.codegrader.run.CLI " 
             + String.join(" ", args);
+		final int twoMinutes = 120;
         ExternalProcess launcher = new ExternalProcess(cwd, commandLine, 
-            120, null, "launch from Jar");
+            twoMinutes, null, "launch from Jar");
         launcher.execute();
 
         assertEquals(false, launcher.crashed(), launcher.getErr());

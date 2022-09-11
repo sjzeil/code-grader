@@ -20,6 +20,7 @@ import edu.odu.cs.zeil.codegrader.TestCase;
 import edu.odu.cs.zeil.codegrader.TestCaseProperties;
 import edu.odu.cs.zeil.codegrader.TestConfigurationError;
 
+//CHECKSTYLE:OFF
 
 public class TestSmartOracle {
 

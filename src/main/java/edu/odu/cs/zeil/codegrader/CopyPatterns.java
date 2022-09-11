@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 public class CopyPatterns {
 
+    //CHECKSTYLE:OFF
     /**
      * List of file patterns to include in a copy.
      */
@@ -13,6 +14,7 @@ public class CopyPatterns {
      * List of files to exclude from a copy.
      */
     public List<String> exclude;
+    //CHECKSTYLE:ON
 
     /**
      * Initialize the build properties.

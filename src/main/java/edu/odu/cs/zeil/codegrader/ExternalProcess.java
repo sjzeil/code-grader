@@ -324,7 +324,8 @@ public class ExternalProcess {
         } catch (InterruptedException e) {
             logger.warn(processDescription + " interrupted.");
             crashed = true;
-            statusCode = -2;
+            final int interruptedErr = -2;
+            statusCode = interruptedErr;
         }
     }
 

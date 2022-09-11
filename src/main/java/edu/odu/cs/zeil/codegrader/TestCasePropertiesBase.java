@@ -32,6 +32,8 @@ public class TestCasePropertiesBase {
             MethodHandles.lookup().lookupClass());
 
 
+    //CHECKSTYLE:OFF
+
     /**
      * The command line parameters to be supplies when executing the
      * program under evaluation.
@@ -80,6 +82,8 @@ public class TestCasePropertiesBase {
      */
     public List<OracleProperties> grading;
 
+    //CHECKSTYLE:ON
+    
     /**
      * Create a property set with an empty list of grading options.
      */

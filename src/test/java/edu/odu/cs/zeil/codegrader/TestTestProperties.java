@@ -53,10 +53,13 @@ public class TestTestProperties {
 	@Test
 	void testYamlProperty() 
 		throws FileNotFoundException, TestConfigurationError {
+		//CHECKSTYLE:OFF
+
 		TestCaseProperties testProperties 
 			= new TestCaseProperties(asst, "simpleTests");
 		int value = testProperties.getWeight();
 		assertThat(value, is(5));
+		//CHECKSTYLE:ON
 	}
 
 	@Test
@@ -70,7 +73,7 @@ public class TestTestProperties {
 
 	@Test
 	void testTestCaseBadCase() {
-		assertThrows (TestConfigurationError.class,
+		assertThrows(TestConfigurationError.class,
 	        () -> new TestCaseProperties(asst, "bogus"));
 	}
 

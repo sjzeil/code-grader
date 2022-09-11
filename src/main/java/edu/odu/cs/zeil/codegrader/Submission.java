@@ -117,8 +117,9 @@ public class Submission {
     private String getSubmissionDateByCommand(String getDateCommand) {
         Path originalSubmissionDir = assignment.getSubmissionsDirectory()
             .resolve(getSubmittedBy());
+        final int oneMinute = 60;
         ExternalProcess commandRunner = new ExternalProcess(
-            originalSubmissionDir, getDateCommand, 60, 
+            originalSubmissionDir, getDateCommand, oneMinute, 
             null, getDateCommand);
         commandRunner.execute();
         String output = commandRunner.getOutput();

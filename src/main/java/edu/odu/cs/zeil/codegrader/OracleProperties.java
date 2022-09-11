@@ -13,6 +13,7 @@ public class OracleProperties implements Cloneable {
 	 */
 	public static final int DEFAULT_POINT_CAP = 100;
 
+    //CHECKSTYLE:OFF
 
     /**
      * Name of the oracle to be employed. This may be a shortcut for one
@@ -81,6 +82,7 @@ public class OracleProperties implements Cloneable {
 	public String command;
 
 
+    //CHECKSTYLE:ON
 
 
 
@@ -119,5 +121,7 @@ public class OracleProperties implements Cloneable {
 
         return result;
     }
+
+
 
 }

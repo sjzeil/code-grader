@@ -25,6 +25,7 @@ public class TestSuitePropertiesBase {
     private static final Logger LOG = LoggerFactory.getLogger(
             MethodHandles.lookup().lookupClass());
 
+    //CHECKSTYLE:OFF
 
     /**
      * Default properties common to all test cases.
@@ -68,6 +69,9 @@ public class TestSuitePropertiesBase {
      * graded but will get a score of zero. This is the default.
      */
     public int[] latePenalties;
+
+    //CHECKSTYLE:ON
+
 
     /**
      * Create a property set with an empty list of grading options.

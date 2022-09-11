@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 public class BuildProperties {
 
+    //CHECKSTYLE:OFF
     /**
      * Command used to compile and build the code.
      */
@@ -36,13 +37,16 @@ public class BuildProperties {
      */
     public int weight;
 
+    //CHECKSTYLE:ON
 
     /**
      * Initialize the build properties.
      */
     public BuildProperties() {
+        final int fiveMinutes = 300;
+
         command = ""; // Will try to infer command from directory contents.
-        timeLimit = 300; // 5 min
+        timeLimit = fiveMinutes; // 5 min
         studentFiles = new CopyPatterns();
         instructorFiles = new CopyPatterns();
         javaSrcDir = new ArrayList<>();

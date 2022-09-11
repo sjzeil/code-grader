@@ -9,11 +9,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-public class Logging {
-	static private FileHandler logFileHandler;
-    static private SimpleFormatter formatter;
+public final class Logging {
+	private static FileHandler logFileHandler;
+    private static SimpleFormatter formatter;
 
-    static public void setup() throws IOException {
+    /**
+     * Set up logging for this application.
+     * 
+     * @throws IOException
+     */
+    public static void setup() throws IOException {
         Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
         logger.setLevel(Level.INFO);
@@ -32,4 +37,6 @@ public class Logging {
         logger.addHandler(logFileHandler);
 
     }
+
+    private Logging() { }
 }

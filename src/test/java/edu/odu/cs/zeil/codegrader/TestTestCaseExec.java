@@ -15,6 +15,7 @@ import java.nio.file.StandardCopyOption;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+//CHECKSTYLE:OFF
 
 public class TestTestCaseExec {
 	

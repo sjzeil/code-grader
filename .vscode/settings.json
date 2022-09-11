@@ -1,12 +1,15 @@
 {
     "java.configuration.updateBuildConfiguration": "interactive",
     "cSpell.words": [
+        "abcdefghi",
         "casesensitive",
+        "CHECKSTYLE",
         "classpath",
         "codegrader",
         "gradlew",
         "hamcrest",
         "javac",
+        "jjones",
         "timelimit"
     ]
 }
