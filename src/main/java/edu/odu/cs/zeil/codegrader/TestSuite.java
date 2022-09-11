@@ -8,12 +8,17 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,6 +78,15 @@ public class TestSuite {
 	 */
 	public void setLaunch(String launcher) {
 		properties.test.launch = Optional.of(launcher);
+	}
+
+	/**
+	 * Set the due date for this suite.
+	 * 
+	 * @param date the new date
+	 */
+	public void setDueDate(String date) {
+		properties.dueDate = date;
 	}
 
 	/**
@@ -327,10 +341,10 @@ public class TestSuite {
 	}
 
 	private class Detail {
-		public String name;
-		public int weight;
-		public int score;
-		public String message;
+		private String name;
+		private int weight;
+		private int score;
+		private String message;
 
 		Detail(String aName, int aWeight, int aScore, String aMessage) {
 			name = aName;
@@ -346,6 +360,8 @@ public class TestSuite {
 				+ "</td><td><pre>" + htmlEncode(message.trim())
 				+ "</pre></td></tr>\n";
 		}
+
+		
 	}
 
 	private void generateReports(Submission submission) {
@@ -360,12 +376,14 @@ public class TestSuite {
 		
 		writeTestCaseSummary(submission, details);
 
+		final int perfectScore = 100;
+
 		int studentSubtotalScore = computeSubTotal(details);
 		int daysLate = computeDaysLate(submission);
 		int penalty = computeLatePenalty(daysLate);
-		int studentTotalScore = (100 - penalty) * studentSubtotalScore;
+		int studentTotalScore = (perfectScore - penalty) * studentSubtotalScore;
 		studentTotalScore = (int) Math.round(
-			((float) studentTotalScore) / 100.0);
+			((float) studentTotalScore) / ((float) perfectScore));
 
 		writeHTMLReport(submission, gradeReport,
 			 details, studentSubtotalScore, daysLate, 
@@ -380,15 +398,115 @@ public class TestSuite {
 
 	}
 
+	/**
+	 * If both a due date and a submission date are available, compute
+	 * how many days late this submission is.
+	 * 
+	 * @param submission a submission
+	 * @return number of days late (0 if on time)
+	 */
+	public int computeDaysLate(Submission submission) {
+		String dueDateStr = properties.dueDate;
+		String submissionDateStr = submission.getSubmissionDate();
 
-	private int computeDaysLate(Submission submission) {
-		// TODO
-		return 0;
+		if (dueDateStr.equals("") || submissionDateStr.equals("")) {
+			return 0;
+		}
+
+		try {
+			LocalDateTime dueDateTime = parseDateTime(dueDateStr);
+			LocalDateTime submissionDateTime = parseDateTime(submissionDateStr);
+			if (submissionDateTime.isAfter(dueDateTime)) {
+				// submission is late
+				LocalDateTime latePeriodStart = dueDateTime.plusSeconds(1);
+				long days = 1 
+				 + ChronoUnit.DAYS.between(latePeriodStart, submissionDateTime);
+				return (int) days;
+			} else {
+				return 0;
+			}
+		} catch (DateTimeParseException e) {
+				return 0;
+		}
+	}
+
+
+	static final Pattern MM_DD_YYYY
+		= Pattern.compile("([0-9]+)/([0-9]+)/([0-9]+)");
+	static final Pattern YYYY_MM_DD
+		= Pattern.compile("([0-9]+)-([0-9]+)-([0-9]+)");
+	static final Pattern HH_MM_SS
+		= Pattern.compile("([0-9]+)[^0-9]([0-9]+)[^0-9]([0-9]+)");
+	static final Pattern HH_MM = Pattern.compile("([0-9]+)[^0-9]([0-9]+)");
+
+	/**
+	 * Flexible parsing of dates and time.
+	 * @param dateTimeString a date or date and time
+	 * @return equivalent date-time
+	 * @throws DateTimeParseException
+	 */
+	public LocalDateTime parseDateTime(String dateTimeString)
+			throws DateTimeParseException {
+
+		final int lastHour = 23;
+		final int lastMinuteOrSecond = 59;
+
+		int year = 0;
+		int month = 0;
+		int day = 0;
+		int hour = lastHour;
+		int minute = lastMinuteOrSecond;
+		int second = lastMinuteOrSecond;
+		int offset = 0;
+
+		Matcher m = MM_DD_YYYY.matcher(dateTimeString);
+		final int group3 = 3;
+
+		if (m.lookingAt()) {
+			month = Integer.parseInt(m.group(1));
+			day = Integer.parseInt(m.group(2));
+			year = Integer.parseInt(m.group(group3));
+			offset = m.end(group3);
+		} else {
+			m = YYYY_MM_DD.matcher(dateTimeString);
+			if (m.lookingAt()) {
+				year = Integer.parseInt(m.group(1));
+				month = Integer.parseInt(m.group(2));
+				day = Integer.parseInt(m.group(group3));
+				offset = m.end(group3);
+			} else {
+				throw new DateTimeParseException("Could not parse ",
+						dateTimeString, 0);
+			}
+		}
+		if (offset > 0 && offset < dateTimeString.length()) {
+			m = HH_MM_SS.matcher(dateTimeString);
+			if (m.find(offset + 1)) {
+				hour = Integer.parseInt(m.group(1));
+				minute = Integer.parseInt(m.group(2));
+				second = Integer.parseInt(m.group(group3));
+			} else {
+				m = HH_MM.matcher(dateTimeString);
+				if (m.find(offset + 1)) {
+					hour = Integer.parseInt(m.group(1));
+					minute = Integer.parseInt(m.group(2));
+				}
+			}
+		}
+		return LocalDateTime.of(year, month, day, hour, minute, second);
 	}
 
 	private int computeLatePenalty(int daysLate) {
-		//TODO
-		return 0;
+		if (daysLate <= 0) {
+			return 0;
+		}
+
+		final int latePenaltiesLen = properties.latePenalties.length;
+		if (daysLate < latePenaltiesLen) {
+			return properties.latePenalties[daysLate - 1];
+		} else {
+			return properties.latePenalties[latePenaltiesLen - 1];
+		}
 	}
 
 	private int computeSubTotal(ArrayList<Detail> details) {
@@ -461,11 +579,10 @@ public class TestSuite {
 			}
 		}
 		if (penalty > 0) {
-			content.append(row("Subtotal:", "" + studentSubtotalScore
-			+ "%"));
+			content.append(row("Subtotal:", "" + studentSubtotalScore));
 			content.append(row("Penalties:", "" + -penalty + "%"));
 		}
-		content.append(row("Total:", "" + studentTotalScore + "%"));
+		content.append(row("Total:", "" + studentTotalScore));
 		content.append("</table>\n");
 	}
 
@@ -475,8 +592,8 @@ public class TestSuite {
 			+ "</td></tr>\n";
 	}
 
-	private Object element(String tagname, String content) {
-		return "<" + tagname + ">" + htmlEncode(content) + "</" + tagname + ">";
+	private Object element(String tagName, String content) {
+		return "<" + tagName + ">" + htmlEncode(content) + "</" + tagName + ">";
 	}
 
 	private void writeTestCaseSummary(Submission submission, 
@@ -583,8 +700,8 @@ public class TestSuite {
 	}
 
 	public static class BuildResult {
-		public int statusCode;
-		public String message;
+		private int statusCode;
+		private String message;
 
 		/**
 		 * Create a build result.
@@ -596,6 +713,36 @@ public class TestSuite {
 			statusCode = code;
 			message = msg;
 		}
+
+		/**
+		 * @return the statusCode
+		 */
+		public int getStatusCode() {
+			return statusCode;
+		}
+
+		/**
+		 * @param aStatusCode the statusCode to set
+		 */
+		public void setStatusCode(int aStatusCode) {
+			this.statusCode = aStatusCode;
+		}
+
+		/**
+		 * @return the message
+		 */
+		public String getMessage() {
+			return message;
+		}
+
+		/**
+		 * @param aMessage the message to set
+		 */
+		public void setMessage(String aMessage) {
+			this.message = aMessage;
+		}
+
+		
 	}
 
 	/**

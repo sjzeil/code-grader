@@ -92,6 +92,11 @@
     </module>
     -->
 
+    <!-- With SuppressWarningsHolder, below, -->
+    <!-- adds @SuppressWarnings("checkstyle:checkname") -->
+    <module name="SuppressWarningsFilter" />
+
+
     <!-- Checks for Headers                                -->
     <!-- See https://checkstyle.org/config_header.html   -->
     <!-- <module name="Header"> -->
@@ -101,6 +106,11 @@
 
     <module name="TreeWalker">
         <property name="tabWidth" value="4"/>
+
+        <module name="SuppressWarningsHolder" />
+
+        <!-- //CHECKSTYLE:OFF or //CHECKSTYLE:ON -->
+        <module name="SuppressionCommentFilter" />
 
         <!-- Checks for Javadoc comments.                     -->
         <!-- See https://checkstyle.org/config_javadoc.html -->

@@ -53,9 +53,21 @@ public class TestSuitePropertiesBase {
     public String dueDate;
 
     /**
-     * Command to get date when submission was submitted
+     * Command to get date when submission was submitted.
      */
     public String findDateSubmitted;
+
+    /**
+     * List of late penalties, as a percentage per day. E.g.,
+     * [10, 20, 100] means that a 10% penalty is assessed on the
+     * first day late, 20% on the second day, and 100% on all subsequent days.
+     * 
+     * [0] would ignore lateness, assessing no penalties.
+     * 
+     * [100] would mean that late submissions are not accepted - they are
+     * graded but will get a score of zero. This is the default.
+     */
+    public int[] latePenalties;
 
     /**
      * Create a property set with an empty list of grading options.
@@ -66,6 +78,9 @@ public class TestSuitePropertiesBase {
         reportTemplate = "";
         assignment = "";
         dueDate = "";
+        latePenalties = new int[1];
+        final int lateNotAccepted = 100;
+        latePenalties[0] = lateNotAccepted;
     }
 
     /**
