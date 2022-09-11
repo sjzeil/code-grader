@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 
 public class TestCaseProperties {
 
+    private static final int DEFAULT_RUN_TIMELIMIT = 5;
+    
     private Path testDirectory;
     private String name;
 
@@ -129,7 +131,7 @@ public class TestCaseProperties {
                 ? defaults.test.expected.get() : "");
         
         timelimit = selectIntValue(defaults.test.timelimit,
-                caseProperties.timelimit, 1, "timelimit");
+                caseProperties.timelimit, DEFAULT_RUN_TIMELIMIT, "timelimit");
 
         stderr = selectBooleanValue(defaults.test.stderr,
                 caseProperties.stderr, false, "stdErr");

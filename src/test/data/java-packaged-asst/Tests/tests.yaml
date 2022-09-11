@@ -1,5 +1,6 @@
 test:
   launch: java sqrtProg
+  timelimit: 4
   grading:
     - oracle: "smart"
       ws: true

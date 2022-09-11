@@ -15,6 +15,8 @@ import edu.odu.cs.zeil.codegrader.oracle.OracleResult;
 
 public class TestCase {
 
+    private static final int MIN_RUNTIME_LIMIT = 2;
+
     private static final int INSTRUCTORS_TIME_MULTIPLIER = 4;
 
     /**
@@ -92,10 +94,7 @@ public class TestCase {
         launchCommandStr = parameterSubstitution(launchCommandStr, 
             stage, submission);
         logger.info("executeTest using command: " + launchCommandStr);
-        int timeLimit = getTimeLimit(submission);
-        if (timeLimit <= 0) {
-            timeLimit = 1;
-        }
+        int timeLimit = Math.max(getTimeLimit(submission), MIN_RUNTIME_LIMIT);
         File stdIn = properties.getIn();
         logger.info(stage.getStageDir().toString() + " " + timeLimit);
         ExternalProcess process = new ExternalProcess(
@@ -149,7 +148,7 @@ public class TestCase {
             getErr());
         int time0 = getTime();
         if (asGold) {
-            time0 = Math.max(1, INSTRUCTORS_TIME_MULTIPLIER * time0);
+            time0 = Math.max(MIN_RUNTIME_LIMIT, INSTRUCTORS_TIME_MULTIPLIER * time0);
         }
         String time = "" + time0 + "\n";
         FileUtils.writeTextFile(
