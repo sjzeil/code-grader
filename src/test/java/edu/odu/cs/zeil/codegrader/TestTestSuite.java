@@ -116,6 +116,19 @@ public class TestTestSuite {
 	}
 
 	@Test
+	void testTestCaseIdentification() {
+		TestSuite suite = new TestSuite(asst);
+
+		int i = 0;
+		String[] expected = {"t10000", "t2", "t3"};
+		for (TestCase tc: suite) {
+			assertThat(tc.getProperties().getName(), is(expected[i]));
+			++i;
+		}
+
+	}
+
+	@Test
 	void testJavaDefaultLaunchBuild() {
 		TestSuite suite = new TestSuite(asst);
 		suite.clearTheStage(stagingPath);

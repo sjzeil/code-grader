@@ -148,7 +148,8 @@ public class TestCase {
             getErr());
         int time0 = getTime();
         if (asGold) {
-            time0 = Math.max(MIN_RUNTIME_LIMIT, INSTRUCTORS_TIME_MULTIPLIER * time0);
+            time0 = Math.max(MIN_RUNTIME_LIMIT, 
+                INSTRUCTORS_TIME_MULTIPLIER * time0);
         }
         String time = "" + time0 + "\n";
         FileUtils.writeTextFile(

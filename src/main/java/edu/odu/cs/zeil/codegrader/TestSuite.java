@@ -14,6 +14,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -24,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class TestSuite {
+public class TestSuite implements Iterable<TestCase> {
 
 	private static final int MAX_MESSAGE_LENGTH = 5000;
 	private static final int MAX_SCORE = 100;
@@ -41,6 +42,12 @@ public class TestSuite {
 	private String buildMessage;
 
 	private String contentHash;
+
+	/**
+     * Collection of test cases.
+     */
+    private List<TestCaseProperties> cases;
+
 
 	/**
 	 * Error logging.
@@ -69,6 +76,30 @@ public class TestSuite {
 		submitterStage = null;
 		asst.setDateCommand(properties.findDateSubmitted);
 		contentHash = "";
+		cases = new ArrayList<>();
+		initializeTestCases();
+	}
+
+	private void initializeTestCases() {
+		Path suiteDir = assignment.getTestSuiteDirectory();
+		File[] testCases = suiteDir.toFile().listFiles();
+		if (testCases == null || testCases.length == 0) {
+			throw new TestConfigurationError(
+					"No test case directories in " + suiteDir.toString());
+		}
+		Arrays.sort(testCases);
+		for (File testCase : testCases) {
+			if (isAValidTestCase(testCase)) {
+				String testName = testCase.getName();
+				TestCaseProperties tcProperties = new TestCaseProperties(
+						assignment, testName);
+				cases.add(tcProperties);
+			}
+		}
+		if (cases.size() == 0) {
+			throw new TestConfigurationError(
+					"No test case directories in " + suiteDir.toString());
+		}
 	}
 
 	/**
@@ -767,31 +798,18 @@ public class TestSuite {
 	 * @param buildStatus 0 if build succeeded
 	 */
 	private void runTests(Submission submission, int buildStatus) {
-		Path suiteDir = submission.getTestSuiteDir();
-		File[] testCases = suiteDir.toFile().listFiles();
-		if (testCases == null || testCases.length == 0) {
-			throw new TestConfigurationError(
-					"No test case directories in " + suiteDir.toString());
-		}
-		Arrays.sort(testCases);
-		for (File testCase : testCases) {
-			if (isAValidTestCase(testCase)) {
-				String testName = testCase.getName();
-
-				TestCaseProperties tcProperties = new TestCaseProperties(
-						assignment, testName);
-				TestCase tc = new TestCase(tcProperties);
-				goldStage = new Stage(assignment, properties);
-				if (assignment.getGoldDirectory() != null) {
-					tc.performTest(submission, true,
-							goldStage, 0);
-				}
-				submitterStage = new Stage(assignment, submission, properties);
-				int score = tc.performTest(submission, false,
-						submitterStage, buildStatus);
-				System.out.println("  Test case " + testName
-						+ ": " + score + "%.");
+		for (TestCase tc : this) {
+			String testName = tc.getProperties().getName();
+			goldStage = new Stage(assignment, properties);
+			if (assignment.getGoldDirectory() != null) {
+				tc.performTest(submission, true,
+						goldStage, 0);
 			}
+			submitterStage = new Stage(assignment, submission, properties);
+			int score = tc.performTest(submission, false,
+					submitterStage, buildStatus);
+			System.out.println("  Test case " + testName
+					+ ": " + score + "%.");
 		}
 	}
 
@@ -818,6 +836,35 @@ public class TestSuite {
 	 */
 	public void addJavaSrcDir(String relativePath) {
 		properties.build.javaSrcDir.add(relativePath);
+	}
+
+	private class TestCaseIterator implements Iterator<TestCase> {
+
+		private Iterator<TestCaseProperties> caseIterator;
+
+		TestCaseIterator() {
+			caseIterator = cases.iterator();
+		}
+
+		@Override
+		public boolean hasNext() {
+			return caseIterator.hasNext();
+		}
+
+		@Override
+		public TestCase next() {
+			TestCaseProperties tc = caseIterator.next();
+			return new TestCase(tc);
+		}
+
+	}
+
+	/**
+	 * Provides access to the list of test cases in this suite.
+	 */
+	@Override
+	public Iterator<TestCase> iterator() {
+		return new TestCaseIterator();
 	}
 
 }
