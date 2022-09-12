@@ -23,6 +23,8 @@ public class TestTestCaseExec {
 	private Path testSuitePath = Paths.get("build", "test-data", "assignment2");
 	private Path stagingPath = Paths.get("build", "test-data",
 		"assignment2", "stage");
+	private Path submissionPath = testSuitePath.resolve("submissions")
+		.resolve("student1");
 	private Path recordingPath = Paths.get("build", "test-data",
 		"assignment2", "recording");
 
@@ -52,7 +54,7 @@ public class TestTestCaseExec {
 		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
 		asst.setStagingDirectory(stagingPath);
 		TestSuitePropertiesBase tcProps = new TestSuitePropertiesBase();
-		student1 = new Submission(asst, "student1");
+		student1 = new Submission(asst, "student1", submissionPath);
 		stage = new Stage(asst, student1, tcProps);
 		stage.getStageDir().toFile().mkdirs();
 		asst.setRecordingDirectory(recordingPath);
@@ -86,7 +88,7 @@ public class TestTestCaseExec {
 			+ " edu.odu.cs.zeil.codegrader.samples.ParamLister";
 		//System.err.println(launcher);
 		testProperties.setLaunch(launcher);
-        Submission submission = new Submission(asst, "student1");
+        Submission submission = student1;
         TestCase testCase = new TestCase(testProperties);
 		testCase.executeTest(submission, stage, 0);
 		assertThat(testCase.crashed(), is(false));
@@ -108,7 +110,7 @@ public class TestTestCaseExec {
 			+ " edu.odu.cs.zeil.codegrader.samples.ParamLister";
 		// System.err.println(launcher);
 		testProperties.setLaunch(launcher);
-        Submission submission = new Submission(asst, "student1");
+        Submission submission = student1;
         TestCase testCase = new TestCase(testProperties);
 		testCase.executeTest(submission, stage, 0);
 		assertThat(testCase.crashed(), is(false));
@@ -131,7 +133,7 @@ public class TestTestCaseExec {
 			+ " edu.odu.cs.zeil.codegrader.samples.ParamLister";
 		// System.err.println(launcher);
 		testProperties.setLaunch(launcher);
-        Submission submission = new Submission(asst, "student1");
+        Submission submission = student1;
         TestCase testCase = new TestCase(testProperties);
 		testCase.executeTest(submission, stage, 0);
 		assertThat(testCase.crashed(), is(true));
@@ -150,7 +152,7 @@ public class TestTestCaseExec {
 			+ " edu.odu.cs.zeil.codegrader.samples.SlowProgram";
 		// System.err.println(launcher);
 		testProperties.setLaunch(launcher);
-        Submission submission = new Submission(asst, "student1");
+        Submission submission = student1;
         TestCase testCase = new TestCase(testProperties);
 		testCase.executeTest(submission, stage, 0);
 		assertThat(testCase.crashed(), is(false));
@@ -169,7 +171,7 @@ public class TestTestCaseExec {
 			+ " edu.odu.cs.zeil.codegrader.samples.LargeOutput";
 		// System.err.println(launcher);
 		testProperties.setLaunch(launcher);
-        Submission submission = new Submission(asst, "student1");
+        Submission submission = student1;
         TestCase testCase = new TestCase(testProperties);
 		testCase.executeTest(submission, stage, 0);
 		assertThat(testCase.crashed(), is(false));
@@ -201,7 +203,7 @@ public class TestTestCaseExec {
 			+ " edu.odu.cs.zeil.codegrader.samples.CWDLister";
 		//System.err.println(launcher);
 		testProperties.setLaunch(launcher);
-        Submission submission = new Submission(asst, "student1");
+        Submission submission = student1;
         TestCase testCase = new TestCase(testProperties);
 		testCase.executeTest(submission, stage, 0);
 		assertThat(testCase.crashed(), is(false));

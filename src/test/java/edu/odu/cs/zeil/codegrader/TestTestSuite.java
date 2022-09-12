@@ -31,6 +31,10 @@ public class TestTestSuite {
 	private Path stagingPath = Paths.get("build", "test-data", "stage");
 	private Path submissionsPath = asstDestPath.resolve("submissions");
 	private Path recordingPath = asstDestPath.resolve("Grades");
+	private String studentName = "perfect";
+	private Path submissionPath = submissionsPath.resolve(studentName);
+	private Submission submission;
+	
 
 	private Assignment asst;
 
@@ -56,6 +60,8 @@ public class TestTestSuite {
 		asst.setStagingDirectory(stagingPath);
 		asst.setSubmissionsDirectory(submissionsPath);
 		asst.setRecordingDirectory(recordingPath);
+
+		submission = new Submission(asst, studentName, submissionPath);
 	}
 
 
@@ -64,8 +70,6 @@ public class TestTestSuite {
 		TestSuite suite = new TestSuite(asst);
 		suite.clearTheStage(stagingPath);
 
-		Submission submission = new Submission(asst, "perfect");
-		
 		Path recordAt = submission.getRecordingDir();
 
 		assertTrue(suite.needsRegrading(recordAt, submission));
@@ -100,7 +104,6 @@ public class TestTestSuite {
 	@Test
 	void testDaysLate() {
 		TestSuite suite = new TestSuite(asst);
-		Submission submission = new Submission(asst, "perfect");
 
 		assertThat(suite.computeDaysLate(submission), is(0));
 
@@ -133,8 +136,6 @@ public class TestTestSuite {
 		TestSuite suite = new TestSuite(asst);
 		suite.clearTheStage(stagingPath);
 
-		Submission submission = new Submission(asst, "perfect");
-		
 		submissionsPath.resolve("perfect").resolve("makefile")
 		.toFile().delete();  // use default Java launch
 
@@ -149,16 +150,14 @@ public class TestTestSuite {
 		assertTrue(asst.getSubmitterStage().resolve("sqrtProg.class")
 			.toFile().exists());
 
-					// Were reports generated?
-		String studentName = "perfect";
-		Submission submitter = new Submission(asst, studentName);
-		assertTrue(submitter.getRecordingDir()
+		// Were reports generated?
+		assertTrue(submission.getRecordingDir()
 			.resolve("testsSummary.csv")
 			.toFile().exists());
-		assertTrue(submitter.getRecordingDir()
+		assertTrue(submission.getRecordingDir()
 			.resolve(studentName + ".html")
 			.toFile().exists());
-		Path totalFile = submitter.getRecordingDir()
+		Path totalFile = submission.getRecordingDir()
 			.resolve(studentName + ".total");
 		assertTrue(totalFile.toFile().exists());
 		String total = FileUtils.readTextFile(totalFile.toFile());
@@ -171,23 +170,20 @@ public class TestTestSuite {
 		asst.setDateCommand("echo 2022-12-16"); // one day late
 		suite.clearTheStage(stagingPath);
 
-		Submission submission = new Submission(asst, "perfect");
-		
 		submissionsPath.resolve("perfect").resolve("makefile")
-		.toFile().delete();  // use default Java launch
+			.toFile().delete();  // use default Java launch
 
 		suite.processThisSubmission(submission);
-					// Were reports generated?
+					
+		// Were reports generated?
 
-					String studentName = "perfect";
-		Submission submitter = new Submission(asst, studentName);
-		assertTrue(submitter.getRecordingDir()
+		assertTrue(submission.getRecordingDir()
 			.resolve("testsSummary.csv")
 			.toFile().exists());
-		assertTrue(submitter.getRecordingDir()
+		assertTrue(submission.getRecordingDir()
 			.resolve(studentName + ".html")
 			.toFile().exists());
-		Path totalFile = submitter.getRecordingDir()
+		Path totalFile = submission.getRecordingDir()
 			.resolve(studentName + ".total");
 		assertTrue(totalFile.toFile().exists());
 		String total = FileUtils.readTextFile(totalFile.toFile());
@@ -200,23 +196,20 @@ public class TestTestSuite {
 		asst.setDateCommand("echo 2022-12-16 00:00:00"); // one second late
 		suite.clearTheStage(stagingPath);
 
-		Submission submission = new Submission(asst, "perfect");
-		
-		submissionsPath.resolve("perfect").resolve("makefile")
+		submissionsPath.resolve(studentName).resolve("makefile")
 		.toFile().delete();  // use default Java launch
 
 		suite.processThisSubmission(submission);
-					// Were reports generated?
+					
+		// Were reports generated?
 
-					String studentName = "perfect";
-		Submission submitter = new Submission(asst, studentName);
-		assertTrue(submitter.getRecordingDir()
+		assertTrue(submission.getRecordingDir()
 			.resolve("testsSummary.csv")
 			.toFile().exists());
-		assertTrue(submitter.getRecordingDir()
+		assertTrue(submission.getRecordingDir()
 			.resolve(studentName + ".html")
 			.toFile().exists());
-		Path totalFile = submitter.getRecordingDir()
+		Path totalFile = submission.getRecordingDir()
 			.resolve(studentName + ".total");
 		assertTrue(totalFile.toFile().exists());
 		String total = FileUtils.readTextFile(totalFile.toFile());
@@ -230,23 +223,19 @@ public class TestTestSuite {
 		
 		suite.clearTheStage(stagingPath);
 
-		Submission submission = new Submission(asst, "perfect");
-		
 		submissionsPath.resolve("perfect").resolve("makefile")
 		.toFile().delete();  // use default Java launch
 
 		suite.processThisSubmission(submission);
 					// Were reports generated?
 
-		String studentName = "perfect";
-		Submission submitter = new Submission(asst, studentName);
-		assertTrue(submitter.getRecordingDir()
+		assertTrue(submission.getRecordingDir()
 			.resolve("testsSummary.csv")
 			.toFile().exists());
-		assertTrue(submitter.getRecordingDir()
+		assertTrue(submission.getRecordingDir()
 			.resolve(studentName + ".html")
 			.toFile().exists());
-		Path totalFile = submitter.getRecordingDir()
+		Path totalFile = submission.getRecordingDir()
 			.resolve(studentName + ".total");
 		assertTrue(totalFile.toFile().exists());
 		String total = FileUtils.readTextFile(totalFile.toFile());
@@ -257,7 +246,6 @@ public class TestTestSuite {
 
 	@Test
 	void testInPlaceProcessing() {
-		asst = new Assignment();
 		asst.setTestSuiteDirectory(testSuitePath);
 		Path inPlacePath = asstDestPath.resolve("submissions")
 			.resolve("perfect");
@@ -265,8 +253,6 @@ public class TestTestSuite {
 		asst.setInPlace(true);
 
 		TestSuite suite = new TestSuite(asst);
-
-		Submission submission = new Submission(asst, "perfect");
 
 		suite.processThisSubmission(submission);
 

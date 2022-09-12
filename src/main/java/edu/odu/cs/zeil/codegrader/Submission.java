@@ -10,17 +10,21 @@ public class Submission {
 
     private Assignment assignment;
     private String submittedBy;
+    private Path submissionDir;
     
 
     /**
      * Create a submission.
      * 
-     * @param assignment0 assignment that this is a submission to.
-     * @param submittedBy0 who submitted this
+     * @param theAssignment assignment that this is a submission to.
+     * @param submitter who submitted this
+     * @param theSubmissionDir where the submission is located
      */
-    public Submission(Assignment assignment0, String submittedBy0) {
-        this.assignment = assignment0;
-        this.submittedBy = submittedBy0;
+    public Submission(Assignment theAssignment, String submitter,
+            Path theSubmissionDir) {
+        assignment = theAssignment;
+        submittedBy = submitter;
+        submissionDir = theSubmissionDir;
     }
 
     /**
@@ -33,7 +37,7 @@ public class Submission {
      *         solution is being used.
      */
     Path getSubmissionDirectory() {
-        return assignment.getSubmissionsDirectory().resolve(submittedBy);
+        return submissionDir;
     }
 
     /**

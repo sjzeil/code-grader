@@ -30,9 +30,9 @@ public class Assignment implements Cloneable {
     private Path testSuiteDirectory;
 
     /**
-     * Spreadsheet for performing grading calculations.
+     * Directory of CSV files containing manually assigned grades.
      */
-    private Path gradingTemplate;
+    private Path manual;
 
     /**
      * Directory in which a submission will be compiled and tested.
@@ -204,26 +204,23 @@ public class Assignment implements Cloneable {
     }
 
     /**
-     * The grading template is an Excel spreadsheet in which the instructor
-     * can specify how an overall grade for the assignment is to be computed.
+     * Instructors can assign manually assign grades to be included in the
+     * report. These appear in ...TBD
      * 
-     * A report is generated from this spreadsheet for each submission and
-     * placed in the recording directory.
-     * 
-     * @return the path to the grading template.
+     * @return the path to the manually assigned grades.
      */
-    public Path getGradingTemplate() {
-        return gradingTemplate;
+    public Path getManual() {
+        return manual;
     }
 
     /**
-     * Set the path to the recording directory.
+     * Set the path to the manually assigned grades.
      * 
      * @param path the path to use
      * @return the modified assignment
      */
-    public Assignment setGradingTemplate(final Path path) {
-        gradingTemplate = path;
+    public Assignment setManual(final Path path) {
+        manual = path;
         return this;
     }
 
@@ -240,7 +237,7 @@ public class Assignment implements Cloneable {
             .setRecordingDirectory(recordingDirectory)
             .setGoldDirectory(goldDirectory)
             .setTestSuiteDirectory(testSuiteDirectory)
-            .setGradingTemplate(gradingTemplate);
+            .setManual(manual);
         return theClone;
     }
 
@@ -311,4 +308,5 @@ public class Assignment implements Cloneable {
     public String getDateCommand() {
         return dateCommand;
     }
+
 }

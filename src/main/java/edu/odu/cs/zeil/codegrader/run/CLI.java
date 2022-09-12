@@ -30,7 +30,7 @@ public class CLI {
     private Option recording;
     private Option gold;
 
-    private Option gradeSheet;
+    private Option manual;
 
     private Option student;
     private Option test;
@@ -117,9 +117,9 @@ public class CLI {
             }
 
 
-            if (cli.hasOption(gradeSheet)) {
-                assignment.setGradingTemplate(
-                    (Paths.get(cli.getOptionValue(gradeSheet))));
+            if (cli.hasOption(manual)) {
+                assignment.setManual(
+                    (Paths.get(cli.getOptionValue(manual))));
             }
 
             if (cli.hasOption(student)) {
@@ -216,13 +216,13 @@ public class CLI {
                         + " (optional)")
                 .build();
         result.addOption(gold);
-        gradeSheet = Option.builder("gradesheet")
+        manual = Option.builder("manual")
                 .argName("path")
                 .hasArgs()
-                .desc("Excel spreadsheet for computing assignment grades."
+                .desc("Directory to CSVs of manually assigned grades."
                         + " (optional)")
                 .build();
-        result.addOption(gradeSheet);
+        result.addOption(manual);
         student = Option.builder("student")
                 .argName("identifier")
                 .hasArgs()

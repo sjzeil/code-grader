@@ -83,7 +83,8 @@ public class TestStage {
 
     @Test
     void testSubmissionBuild() {
-        Submission submission = new Submission(asst, "perfect");
+        Submission submission = new Submission(asst, "perfect",
+                submissionsPath.resolve("perfect"));
         
         Stage stage = new Stage(asst, submission, tsProperties);
 

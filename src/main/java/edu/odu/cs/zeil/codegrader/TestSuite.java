@@ -166,32 +166,20 @@ public class TestSuite implements Iterable<TestCase> {
 			tryToBuildGoldVersion();
 		}
 
-		Path submissionsDir = assignment.getSubmissionsDirectory();
-		File[] submissions = submissionsDir.toFile().listFiles();
-		if (submissions == null || submissions.length == 0) {
-			throw new TestConfigurationError(
-					"No submission directories in "
-							+ submissionsDir.toString());
+		SubmissionSet submissions = new SubmissionSet(assignment);
+		if (submissionsToRun.size() > 0) {
+			submissions.setSelectedSubmissions(submissionsToRun);
 		}
-		for (File submissionFile : submissions) {
-			if (isAValidSubmission(submissionFile)) {
-				String submissionName = submissionFile.getName();
-				if (submissionsToRun.size() == 0
-						|| submissionsToRun.contains(submissionName)) {
-					System.out.println("Testing submission from "
-							+ submissionName);
-					Submission submission = new Submission(assignment,
-							submissionName);
-					processThisSubmission(submission);
-				}
-			}
+		
+		for (Submission submission: submissions) {
+			processThisSubmission(submission);
 		}
 		StringBuilder classSummary = new StringBuilder();
 		classSummary.append("student," + getAssignmentName() + "\n");
-		File[] recordedGrades = assignment.getRecordingDirectory()
-			.toFile().listFiles();
-		if (recordedGrades != null) {
-			for (File submissionFile : recordedGrades) {
+
+		submissions.setSelectedSubmissions(new HashSet<String>());
+		for (Submission submission: submissions) {
+				File submissionFile = submission.getRecordingDir().toFile();
 				if (submissionFile.isDirectory()) {
 					Optional<File> scoreFile = FileUtils.findFile(
 						submissionFile.toPath(), ".total");
@@ -204,11 +192,11 @@ public class TestSuite implements Iterable<TestCase> {
 						classSummary.append("\n");
 					}
 				}
-			}
-			Path classSummaryFile = assignment.getRecordingDirectory()
-					.resolve("classSummary.csv");
-			FileUtils.writeTextFile(classSummaryFile, classSummary.toString());
 		}
+		Path classSummaryFile = assignment.getRecordingDirectory()
+					.resolve("classSummary.csv");
+		FileUtils.writeTextFile(classSummaryFile, classSummary.toString());
+		
 		if (submissionsToRun.size() == 0) {
 			try {
 				FileUtils.deleteDirectory(assignment.getStagingDirectory());
@@ -218,22 +206,6 @@ public class TestSuite implements Iterable<TestCase> {
 						+ " at end of processing: \n", e);
 			}
 		}
-	}
-
-	/**
-	 * 
-	 * @param submissionFile possible directory containing a submission
-	 * @return true if this is a directory and it contains a submission that
-	 *         we want tested.
-	 */
-	private boolean isAValidSubmission(File submissionFile) {
-		if (!submissionFile.isDirectory()) {
-			return false;
-		}
-		String submissionName = submissionFile.getName();
-		return (submissionsToRun.size() == 0
-				|| submissionsToRun.contains(submissionName));
-
 	}
 
 	/**
@@ -585,6 +557,8 @@ public class TestSuite implements Iterable<TestCase> {
 		ArrayList<Detail> details) {
 		
 		htmlContent.append("<table border='1'>\n");
+		htmlContent.append("<tr><th>Test</th><th>Score</th>"
+			+ "<th>Weight</th><th>Details</th></tr>\n");
 		for (Detail detail: details) {
 			htmlContent.append(detail.toString());
 		}
@@ -627,36 +601,24 @@ public class TestSuite implements Iterable<TestCase> {
 		return "<" + tagName + ">" + htmlEncode(content) + "</" + tagName + ">";
 	}
 
-	private void writeTestCaseSummary(Submission submission, 
-		ArrayList<Detail> details) {
+	private void writeTestCaseSummary(Submission submission,
+			 ArrayList<Detail> details) {
 		// Write out the tests summary.
 		Path testsSummaryFile = submission.getRecordingDir()
 				.resolve("testsSummary.csv");
 		StringBuilder testsSummary = new StringBuilder();
 		testsSummary.append("Test,Score,Weight,Msgs\n");
 
-		File[] testCases = submission.getTestSuiteDir().toFile().listFiles();
-		if (testCases != null) {
-			Arrays.sort(testCases);
-			for (File testCase : testCases) {
-				if (testCase.isDirectory()) {
-					TestCaseProperties tcProps = new TestCaseProperties(
-							assignment, testCase.getName());
-					TestCase tc = new TestCase(tcProps);
-					String testName = tc.getProperties().getName();
-					int score = submission.getScore(testName);
-					int weight = tc.getProperties().getWeight();
-					String message = submission.getMessage(testName);
-					details.add(new Detail(testName, weight, score, message));
-					testsSummary.append("\"" + testName + "\",");
-					testsSummary.append(""
-						+ score + ",");
-					testsSummary.append("" + weight
-						+ ",");
-					testsSummary.append("\""
-						+ csvEncode(message) + "\"\n");
-				}
-			}
+		for (TestCase tc: this) {
+			String testName = tc.getProperties().getName();
+			int score = submission.getScore(testName);
+			int weight = tc.getProperties().getWeight();
+			String message = submission.getMessage(testName);
+			details.add(new Detail(testName, weight, score, message));
+			testsSummary.append("\"" + testName + "\",");
+			testsSummary.append(""	+ score + ",");
+			testsSummary.append("" + weight + ",");
+			testsSummary.append("\"" + csvEncode(message) + "\"\n");
 		}
 		FileUtils.writeTextFile(testsSummaryFile, testsSummary.toString());
 	}

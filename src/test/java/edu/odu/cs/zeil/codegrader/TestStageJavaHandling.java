@@ -118,7 +118,9 @@ public class TestStageJavaHandling {
 
 		goldStage.buildCode();
 
-		Submission submission = new Submission(asst, "perfect");
+		Path submissionPath = submissionsPath.resolve("perfect");
+		Submission submission = new Submission(asst, "perfect",
+			submissionPath);
 		suite.processThisSubmission(submission);
 
 		// Check first on the submitter stage setup
@@ -143,7 +145,8 @@ public class TestStageJavaHandling {
 		TestSuite suite = new TestSuite(asst);
 		suite.clearTheStage(stagingPath);
 
-		Submission submission = new Submission(asst, "perfect");
+		Path submissionPath = submissionsPath.resolve("perfect");
+		Submission submission = new Submission(asst, "perfect", submissionPath);
 
 		Stage goldStage = new Stage(asst, tsProperties);
         goldStage.clear();
@@ -173,7 +176,9 @@ public class TestStageJavaHandling {
 		TestSuite suite = new TestSuite(asst);
 		suite.clearTheStage(stagingPath);
 
-		Submission submission = new Submission(asst, "flattened");
+		Path submissionPath = submissionsPath.resolve("flattened");
+		Submission submission = new Submission(asst, "flattened",
+			submissionPath);
 
 		Stage goldStage = new Stage(asst, tsProperties);
         goldStage.clear();

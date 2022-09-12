@@ -27,11 +27,14 @@ public class TestTestCaseOracle {
 		"assignment2", "submissions");
 	private Path recordingPath = Paths.get("build", "test-data",
 		"assignment2", "grades");
+	private Path submissionPath = submissionsPath.resolve("student1");
+	
 
 	private Assignment asst;
 	private TestCase testCase;
 	private TestCaseProperties testProperties;
-	
+	private Submission student1;
+
 	/**
 	 * Set up assignment2 params test.
 	 * @throws IOException
@@ -55,6 +58,8 @@ public class TestTestCaseOracle {
 		asst.setSubmissionsDirectory(submissionsPath);
 		asst.setRecordingDirectory(recordingPath);
 
+		student1 = new Submission(asst, "student1", submissionPath);
+
 		testProperties = new TestCaseProperties(asst, "params");
 		testCase = new TestCase(testProperties);
 	}
@@ -64,7 +69,6 @@ public class TestTestCaseOracle {
 	void testPerformTest() 
 	throws TestConfigurationError, IOException  {
 
-		Submission student1 = new Submission(asst, "student1");
 		String javaHome = System.getProperty("java.home");
 		Path javaExec = Paths.get(javaHome, "bin", "java");
 		String launcher = javaExec + " -cp " 
@@ -115,7 +119,6 @@ public class TestTestCaseOracle {
 		testProperties = new TestCaseProperties(asst, "params");
 		testCase = new TestCase(testProperties);
 
-		Submission student1 = new Submission(asst, "student1");
 		String javaHome = System.getProperty("java.home");
 		Path javaExec = Paths.get(javaHome, "bin", "java");
 		String launcher = javaExec + " -cp " 
