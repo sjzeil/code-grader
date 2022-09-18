@@ -8,6 +8,7 @@
         "codegrader",
         "gradlew",
         "hamcrest",
+        "isrc",
         "javac",
         "jjones",
         "timelimit"

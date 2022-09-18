@@ -373,5 +373,62 @@ public class TestCLI {
 	}
 
 
+	@Test
+	void testCLIVersioned() {
+
+		testDataPath = Paths.get("build", "test-data");
+		assignmentPath = Paths.get("src", "test", "data",
+			"versioned");
+
+		Path stage = testDataPath.resolve("stage");
+		Path recording = testDataPath.resolve("recording");
+		Path recordingGrades = recording.resolve("grades");
+
+		String[] args = {
+				"-suite", assignmentPath.resolve("Tests").toString(),
+				"-gold", assignmentPath.resolve("Gold").toString(),
+				"-stage", stage.toString(),
+				"-submissions", assignmentPath.resolve("submissions")
+					.toString(),
+				"-recording", recording.toString()
+		};
+
+		CLI cli = new CLI(args);
+		cli.go();
+
+		assertFalse(stage.toFile().exists()); // stage should be cleaned up
+		assertTrue(recordingGrades.toFile().exists());
+
+		String[] studentNames = {"jones", "smith"};
+		for (String studentName : studentNames) {
+			File studentDir = assignmentPath.resolve(studentName).toFile();
+			String studentID = studentDir.getName();
+			Path studentRecording = recordingGrades.resolve(studentID);
+			assertTrue(studentRecording.toFile().isDirectory());
+
+			File[] testCases = assignmentPath.resolve("Tests").toFile()
+					.listFiles();
+			for (File testCase : testCases) {
+				if (testCase.isDirectory()) {
+					String testCaseName = testCase.getName();
+					Path studentRecordedTest = studentRecording
+							.resolve("TestCases")
+							.resolve(testCaseName);
+					assertTrue(studentRecordedTest.toFile().isDirectory());
+					assertTrue(studentRecordedTest
+							.resolve(testCaseName + ".score")
+							.toFile().exists());
+				}
+			}
+
+		}
+
+		Path summaryFile = recordingGrades.resolve("classSummary.csv");
+		assertTrue(summaryFile.toFile().exists());
+		String summary = FileUtils.readTextFile(summaryFile.toFile());
+		assertTrue(summary.contains("smith,100"));
+		assertTrue(summary.contains("jones,25"));
+	}
+
  	 
 }

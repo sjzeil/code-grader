@@ -3,10 +3,11 @@ package edu.odu.cs.zeil.codegrader;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.Set;
 
 /**
@@ -39,20 +40,63 @@ public class SubmissionSet implements Iterable<Submission> {
                     submissionsDir.toFile().getName(),
                     submissionsDir));
         } else {
+            Map<String, Integer> highestVersion = new TreeMap<>();
+            Map<String, File> highestVersionDir = new TreeMap<>();
             File[] submissionFiles = submissionsDir.toFile().listFiles();
             if (submissionFiles == null || submissionFiles.length == 0) {
                 throw new TestConfigurationError(
                         "No submission directories in "
                                 + submissionsDir.toString());
             }
-            Arrays.sort(submissionFiles);
             for (File submissionFile : submissionFiles) {
                 if (isAValidSubmission(submissionFile)) {
-                    String submittedBy = submissionFile.getName();
-                    submissions.add(new Submission(assignment, submittedBy,
-                        submissionFile.toPath()));
+                    int version = getVersionNumber(submissionFile);
+                    String submitter = getSubmitter(submissionFile);
+                    if (highestVersion.containsKey(submitter)) {
+                        if (version > highestVersion.get(submitter)) {
+                            highestVersion.put(submitter, version);
+                            highestVersionDir.put(submitter, submissionFile);
+                        }
+                    } else {
+                        highestVersion.put(submitter, version);
+                        highestVersionDir.put(submitter, submissionFile);
+                    }
                 }
             }
+            highestVersionDir.forEach((submitter, dir) -> {
+                submissions.add(new Submission(assignment, submitter,
+                        dir.toPath()));
+            });
+        }
+    }
+
+    private String getSubmitter(File submissionFile) {
+        String name = submissionFile.getName();
+        int pos = name.lastIndexOf(".");
+        if (pos < 0) {
+            return name;
+        }
+        String extension = name.substring(pos + 1);
+        try {
+            Integer.parseInt((extension));
+            return name.substring(0, pos);
+        } catch (NumberFormatException e) {
+            return name;
+        }
+    }
+
+    private int getVersionNumber(File submissionFile) {
+        String name = submissionFile.getName();
+        int pos = name.lastIndexOf(".");
+        if (pos < 0) {
+            return -1;
+        }
+        String extension = name.substring(pos + 1);
+        try {
+            int version = Integer.parseInt((extension));
+            return version;
+        } catch (NumberFormatException e) {
+            return -1;
         }
     }
 
@@ -96,8 +140,8 @@ public class SubmissionSet implements Iterable<Submission> {
         }
         String submissionName = submissionFile.getName();
         return (submissionsFilter.size() == 0
-                || submissionsFilter.contains(submissionName));
-
+                || submissionsFilter.contains(submissionName))
+                || submissionsFilter.contains(getSubmitter(submissionFile));
     }
 
 }

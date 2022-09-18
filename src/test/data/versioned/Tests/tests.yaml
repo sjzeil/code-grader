@@ -1,0 +1,28 @@
+test:
+  launch: java -cp @S/src sqrtProg
+  timelimit: 4
+  grading:
+    - oracle: "smart"
+      ws: true
+      case: true
+      cap: 100
+    - ws: false
+      case: false
+      cap: 95
+    - ws: false
+      case: false
+      punctuation: false
+      cap: 90
+    - ws: false
+      numbersOnly: true
+      cap: 75
+
+build:
+  studentFiles:
+    include:
+    - "**.java"
+  instructorFiles:
+    exclude: 
+    - "**/sqrtProg.java"
+  javaSrcDir:
+    - "src"

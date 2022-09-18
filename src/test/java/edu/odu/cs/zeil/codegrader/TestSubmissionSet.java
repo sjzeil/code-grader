@@ -43,7 +43,7 @@ public class TestSubmissionSet {
         int i = 0;
         for (Submission sub: submissionSet) {
             assertThat(sub.getSubmittedBy(), is(expectedNames[i]));
-            assertThat(sub.getSubmissionDirectory().getFileName(), 
+            assertThat(sub.getSubmissionDirectory().getFileName().toString(), 
                 is(expectedDirNames[i]));
             ++i;
         }
