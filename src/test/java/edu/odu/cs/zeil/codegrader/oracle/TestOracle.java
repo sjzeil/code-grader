@@ -18,9 +18,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import edu.odu.cs.zeil.codegrader.Assignment;
 import edu.odu.cs.zeil.codegrader.FileUtils;
 import edu.odu.cs.zeil.codegrader.OracleProperties;
+import edu.odu.cs.zeil.codegrader.Stage;
+import edu.odu.cs.zeil.codegrader.Submission;
 import edu.odu.cs.zeil.codegrader.TestCase;
 import edu.odu.cs.zeil.codegrader.TestCaseProperties;
 import edu.odu.cs.zeil.codegrader.TestConfigurationError;
+import edu.odu.cs.zeil.codegrader.TestSuitePropertiesBase;
 
 
 public class TestOracle {
@@ -30,6 +33,8 @@ public class TestOracle {
 	
 	private Assignment asst;
 	private TestCase testCase;
+    private Submission sub;
+    private Stage stage;
 	
     /**
      * .
@@ -49,7 +54,12 @@ public class TestOracle {
 
 		asst = new Assignment();
 		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
+        asst.setRecordingDirectory(testSuitePath.resolve("grades"));
+        
 		testCase = new TestCase(new TestCaseProperties(asst, "params"));
+        sub = new Submission(asst, "student1", 
+            testSuitePath.resolve("submissions"));
+        stage = new Stage(asst, sub, new TestSuitePropertiesBase());
 	}
 	
 	
@@ -57,7 +67,7 @@ public class TestOracle {
 	@Test
 	void testDefaults() throws FileNotFoundException {
 		Oracle oracle = OracleFactory.getOracle(new OracleProperties(),
-            testCase);
+            testCase, sub, stage);
         assertTrue(oracle instanceof SmartOracle);
         assertFalse(oracle.getIgnoreCase());
         assertThat(oracle.getScoring(), is(Oracle.ScoringOptions.All));
@@ -77,7 +87,7 @@ public class TestOracle {
         prop.precision = tPrecision;
         prop.emptyLines = true;
         prop.cap = tCap;
-		Oracle oracle = OracleFactory.getOracle(prop, testCase);
+		Oracle oracle = OracleFactory.getOracle(prop, testCase, sub, stage);
         assertTrue(oracle instanceof SmartOracle);
         assertTrue(oracle.getIgnoreCase());
         assertThat(oracle.getScoring(), is(Oracle.ScoringOptions.All));
@@ -100,7 +110,7 @@ public class TestOracle {
         prop.emptyLines = true;
         prop.cap = tCap;
 		
-		Oracle oracle = OracleFactory.getOracle(prop, testCase);
+		Oracle oracle = OracleFactory.getOracle(prop, testCase, sub, stage);
         assertTrue(oracle instanceof SmartOracle);
         assertTrue(oracle.getIgnoreCase());
         assertThat(oracle.getScoring(), is(Oracle.ScoringOptions.All));
@@ -120,7 +130,7 @@ public class TestOracle {
         prop.command = "diff -b";
         prop.cap = tCap;
 
-        Oracle oracle = OracleFactory.getOracle(prop, testCase);
+        Oracle oracle = OracleFactory.getOracle(prop, testCase, sub, stage);
         assertTrue(oracle instanceof ExternalOracle);
         assertThat(oracle.getCommand(), is("diff -b"));
         assertThat(oracle.getCap(), is(tCap));
@@ -133,7 +143,7 @@ public class TestOracle {
         prop.scoring = Oracle.ScoringOptions.ByLine;
         prop.ws = true;
 
-        Oracle oracle = OracleFactory.getOracle(prop, testCase);
+        Oracle oracle = OracleFactory.getOracle(prop, testCase, sub, stage);
         assertTrue(oracle instanceof ExternalOracle);
         assertFalse(oracle.getIgnoreCase());
         assertThat(oracle.getScoring(), is(Oracle.ScoringOptions.ByLine));

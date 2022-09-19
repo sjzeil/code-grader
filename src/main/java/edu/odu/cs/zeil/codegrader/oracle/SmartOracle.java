@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.odu.cs.zeil.codegrader.OracleProperties;
+import edu.odu.cs.zeil.codegrader.Stage;
+import edu.odu.cs.zeil.codegrader.Submission;
 import edu.odu.cs.zeil.codegrader.TestCase;
 
 /**
@@ -37,9 +39,12 @@ public class SmartOracle extends Oracle {
 	 * 
 	 * @param config   configuration properties
 	 * @param testCase the test case to which this oracle will apply
+	 * @param submission the submission being judged
+	 * @param submitterStage the stage where the submitted code has been built
 	 */
-	public SmartOracle(OracleProperties config, TestCase testCase) {
-		super(config, testCase);
+	public SmartOracle(OracleProperties config, TestCase testCase, 
+			Submission submission, Stage submitterStage) {
+		super(config, testCase, submission, submitterStage);
 	}
 
 	/**
@@ -52,8 +57,8 @@ public class SmartOracle extends Oracle {
 	 */
 	@Override
 	public OracleResult compare(String expected, String actual) {
-		logger.trace("Oracle expected: ", expected) ;
-		logger.trace("Oracle actual: ", actual) ;
+		logger.trace("Oracle expected: ", expected);
+		logger.trace("Oracle actual: ", actual);
 		expected = preprocess(expected);
 		actual = preprocess(actual);
 

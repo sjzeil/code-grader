@@ -91,8 +91,9 @@ public class TestCase {
         String launchCommandStr = stage.getLaunchCommand(
                 properties.getLaunch())  + ' '
                 + properties.getParams();
-        launchCommandStr = parameterSubstitution(launchCommandStr, 
-            stage, submission);
+        ParameterHandling subs = new ParameterHandling(
+            properties.getAssignment(), this, stage, null, null);
+        launchCommandStr = subs.parameterSubstitution(launchCommandStr);
         logger.info("executeTest using command: " + launchCommandStr);
         int timeLimit = Math.max(getTimeLimit(submission), MIN_RUNTIME_LIMIT);
         File stdIn = properties.getIn();
@@ -196,7 +197,8 @@ public class TestCase {
                 }
             }
             for (OracleProperties option: properties.getGradingOptions()) {
-                Oracle oracle = OracleFactory.getOracle(option, this);
+                Oracle oracle = OracleFactory.getOracle(option,
+                    this, submission, stage);
                 OracleResult evaluation = oracle.compare(
                     getExpected(submission),
                     actualOutput);
@@ -210,7 +212,7 @@ public class TestCase {
             if (bestScore < 0) {
                 // No options were explicitly specified. Fall back to default.
                 Oracle oracle = OracleFactory.getOracle(
-                    new OracleProperties(), this);
+                    new OracleProperties(), this, submission, stage);
                 OracleResult evaluation = oracle.compare(
                     getExpected(submission), 
                     actualOutput);

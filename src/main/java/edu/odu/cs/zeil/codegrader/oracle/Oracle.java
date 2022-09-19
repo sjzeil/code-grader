@@ -1,6 +1,8 @@
 package edu.odu.cs.zeil.codegrader.oracle;
 
 import edu.odu.cs.zeil.codegrader.OracleProperties;
+import edu.odu.cs.zeil.codegrader.Stage;
+import edu.odu.cs.zeil.codegrader.Submission;
 import edu.odu.cs.zeil.codegrader.TestCase;
 
 /**
@@ -91,11 +93,20 @@ public abstract class Oracle {
 	 */
 	private TestCase testCase;
 
+	/**
+	 * The submission being examined.
+	 */
+	private Submission submission;
+
+	private Stage stage;
 
 	protected Oracle(
 			final OracleProperties properties, 
-			final TestCase theTestCase) {
+			final TestCase theTestCase,
+			final Submission sub,
+			final Stage submitterStage) {
 		this.testCase = theTestCase;
+		submission = sub;
 		ignoreCase = !properties.caseSig;
 		scoring = properties.scoring;
 		precision = properties.precision;
@@ -105,6 +116,7 @@ public abstract class Oracle {
 		numbersOnly = properties.numbersOnly;
 		command = properties.command;
 		cap = properties.cap;
+		stage = submitterStage;
 	}
 
 
@@ -202,5 +214,23 @@ public abstract class Oracle {
 	public TestCase getTestCase() {
 		return testCase;
 	}
+
+
+	/**
+	 * @return the submission
+	 */
+	public Submission getSubmission() {
+		return submission;
+	}
+
+
+	/**
+	 * @return the stage
+	 */
+	public Stage getStage() {
+		return stage;
+	}
+
+	
 
 }

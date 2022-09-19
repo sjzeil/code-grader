@@ -16,9 +16,12 @@ import org.junit.jupiter.api.Test;
 import edu.odu.cs.zeil.codegrader.Assignment;
 import edu.odu.cs.zeil.codegrader.FileUtils;
 import edu.odu.cs.zeil.codegrader.OracleProperties;
+import edu.odu.cs.zeil.codegrader.Stage;
+import edu.odu.cs.zeil.codegrader.Submission;
 import edu.odu.cs.zeil.codegrader.TestCase;
 import edu.odu.cs.zeil.codegrader.TestCaseProperties;
 import edu.odu.cs.zeil.codegrader.TestConfigurationError;
+import edu.odu.cs.zeil.codegrader.TestSuitePropertiesBase;
 
 //CHECKSTYLE:OFF
 
@@ -26,6 +29,7 @@ public class TestSmartOracle {
 
 	private  Path asstSrcPath = Paths.get("src", "test", "data", "assignment2");
 	private Path testSuitePath = Paths.get("build", "test-data", "assignment2");
+	private Submission sub;
 	
 	private Assignment asst;
 	private TestCase testCase;
@@ -57,6 +61,8 @@ public class TestSmartOracle {
 	  "76 trombones led the big parade\nWith 110.00 cornets close at hand.";
 
 	private static final int OK = OracleProperties.DEFAULT_POINT_CAP;
+
+	private Stage stage;
 	
 	@BeforeEach
 	private void setup() throws IOException, TestConfigurationError {
@@ -73,12 +79,16 @@ public class TestSmartOracle {
 		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
 		testCase = new TestCase(new TestCaseProperties(asst, "params"));
 		prop = new OracleProperties();
+		sub = new Submission(asst, "student1", 
+            testSuitePath.resolve("submissions"));
+		stage = new Stage(asst, sub, new TestSuitePropertiesBase());
 	}
 	
 
 	@Test
 	void testDefaults() throws FileNotFoundException {
-		Oracle oracle = new SmartOracle(new OracleProperties(), testCase);
+		Oracle oracle = new SmartOracle(new OracleProperties(), testCase,
+			sub, stage);
 		OracleResult result = oracle.compare(expected, expected);
 		assertThat(result.score, equalTo(OracleProperties.DEFAULT_POINT_CAP));
 
@@ -116,7 +126,8 @@ public class TestSmartOracle {
 
 	@Test
 	void testDefaults2() throws FileNotFoundException {
-		Oracle oracle = new SmartOracle(new OracleProperties(), testCase);
+		Oracle oracle = new SmartOracle(new OracleProperties(),
+			testCase, sub, stage);
 		OracleResult result = oracle.compare(expected, expected);
 		assertThat(result.score, equalTo(OracleProperties.DEFAULT_POINT_CAP));
 
@@ -128,7 +139,8 @@ public class TestSmartOracle {
 
 	@Test
 	void testNumericCompare() throws FileNotFoundException {
-		Oracle oracle = new SmartOracle(new OracleProperties(), testCase);
+		Oracle oracle = new SmartOracle(new OracleProperties(),
+			testCase, sub, stage);
 		OracleResult result = oracle.compare(expected, expected);
 		assertThat(result.score, equalTo(OK));
 
@@ -154,7 +166,7 @@ public class TestSmartOracle {
 	@Test
 	void testIgnoreCase() throws FileNotFoundException {
 		prop.caseSig = false;
-		Oracle oracle = new SmartOracle(prop, testCase);
+		Oracle oracle = new SmartOracle(prop, testCase, sub, stage);
 		OracleResult result = oracle.compare(expected, expected);
 		assertThat(result.score, equalTo(OK));
 
@@ -193,7 +205,7 @@ public class TestSmartOracle {
 	@Test
 	void testIgnoreWS() throws FileNotFoundException {
 		prop.ws = true;
-		Oracle oracle = new SmartOracle(prop, testCase);
+		Oracle oracle = new SmartOracle(prop, testCase, sub, stage);
 		OracleResult result = oracle.compare(expected, expected);
 		assertThat(result.score, equalTo(OK));
 
@@ -234,7 +246,7 @@ public class TestSmartOracle {
 	void testIgnoreEmptyLines() throws FileNotFoundException {
 		prop.ws = true;
 		prop.emptyLines = true;
-		Oracle oracle = new SmartOracle(prop, testCase);
+		Oracle oracle = new SmartOracle(prop, testCase, sub, stage);
 		OracleResult result = oracle.compare(expected, expected);
 		assertThat(result.score, equalTo(OK));
 
@@ -273,7 +285,7 @@ public class TestSmartOracle {
 	@Test
 	void testIgnorePunct() throws FileNotFoundException {
 		prop.punctuation = false;
-		Oracle oracle = new SmartOracle(prop, testCase);
+		Oracle oracle = new SmartOracle(prop, testCase, sub, stage);
 		OracleResult result = oracle.compare(expected, expected);
 		assertThat(result.score, equalTo(OK));
 
@@ -313,7 +325,7 @@ public class TestSmartOracle {
 	@Test
 	void testNumericPrecision1() throws FileNotFoundException {
 		prop.precision = 0.02;
-		Oracle oracle = new SmartOracle(prop, testCase);
+		Oracle oracle = new SmartOracle(prop, testCase, sub, stage);
 		OracleResult result = oracle.compare(expected, expected);
 		assertThat(result.score, equalTo(OK));
 
@@ -336,7 +348,7 @@ public class TestSmartOracle {
 	void testNumbersOnly() throws FileNotFoundException {
 		prop.ws = false;
 		prop.numbersOnly = true;
-		Oracle oracle = new SmartOracle(prop, testCase);
+		Oracle oracle = new SmartOracle(prop, testCase, sub, stage);
 		OracleResult result = oracle.compare(expected, expected);
 		assertThat(result.score, equalTo(OK));
 
@@ -358,7 +370,7 @@ public class TestSmartOracle {
 	@Test
 	void testScoringByLine() throws FileNotFoundException {
 		prop.scoring = Oracle.ScoringOptions.ByLine;
-		Oracle oracle = new SmartOracle(prop, testCase);
+		Oracle oracle = new SmartOracle(prop, testCase, sub, stage);
 		OracleResult result = oracle.compare(expected, expected);
 		assertThat(result.score, equalTo(OK));
 
@@ -377,7 +389,7 @@ public class TestSmartOracle {
 	void testScoringByToken() throws FileNotFoundException {
 		prop.scoring = Oracle.ScoringOptions.ByToken;
 		prop.ws = false;
-		Oracle oracle = new SmartOracle(prop, testCase);
+		Oracle oracle = new SmartOracle(prop, testCase, sub, stage);
 		OracleResult result = oracle.compare("1 2 3 a b", "1 2 z a b");
 
 		assertThat(result.score, equalTo(80));

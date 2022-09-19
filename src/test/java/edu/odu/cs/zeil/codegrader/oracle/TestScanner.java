@@ -19,9 +19,12 @@ import org.junit.jupiter.api.Test;
 import edu.odu.cs.zeil.codegrader.Assignment;
 import edu.odu.cs.zeil.codegrader.FileUtils;
 import edu.odu.cs.zeil.codegrader.OracleProperties;
+import edu.odu.cs.zeil.codegrader.Stage;
+import edu.odu.cs.zeil.codegrader.Submission;
 import edu.odu.cs.zeil.codegrader.TestCase;
 import edu.odu.cs.zeil.codegrader.TestCaseProperties;
 import edu.odu.cs.zeil.codegrader.TestConfigurationError;
+import edu.odu.cs.zeil.codegrader.TestSuitePropertiesBase;
 
 public class TestScanner {
 
@@ -31,6 +34,8 @@ public class TestScanner {
 	private Assignment asst;
 	private TestCase testCase;
 	private Oracle config;
+	private Submission sub;
+	private Stage stage;
 
 	/**
 	 * Common setup for tests.
@@ -52,7 +57,10 @@ public class TestScanner {
 		asst = new Assignment();
 		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
 		testCase = new TestCase(new TestCaseProperties(asst, "params"));
-		config = new SmartOracle(new OracleProperties(), testCase);
+		sub = new Submission(asst, "student1", 
+            testSuitePath.resolve("submissions"));
+		stage = new Stage(asst, sub, new TestSuitePropertiesBase());
+		config = new SmartOracle(new OracleProperties(), testCase, sub, stage);
 	}
 	
 	

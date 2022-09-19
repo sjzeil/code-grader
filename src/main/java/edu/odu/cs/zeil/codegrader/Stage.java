@@ -177,7 +177,9 @@ public class Stage {
 					"Could not deduce build command in "
 							+ stageDir.toString());
 		}
-		buildCommand = parameterSubstitution(buildCommand);
+		ParameterHandling subs = new ParameterHandling(assignment, null, 
+			null, null, null);
+		buildCommand = subs.parameterSubstitution(buildCommand);
 
 		ExternalProcess process = new ExternalProcess(
 				stageDir,
