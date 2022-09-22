@@ -77,6 +77,8 @@ public class TestSmartOracle {
 
 		asst = new Assignment();
 		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
+		asst.setStagingDirectory(testSuitePath.resolve("stage"));
+
 		testCase = new TestCase(new TestCaseProperties(asst, "params"));
 		prop = new OracleProperties();
 		sub = new Submission(asst, "student1", 

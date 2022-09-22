@@ -92,7 +92,7 @@ public class TestCase {
                 properties.getLaunch())  + ' '
                 + properties.getParams();
         ParameterHandling subs = new ParameterHandling(
-            properties.getAssignment(), this, stage, null, null);
+            properties.getAssignment(), this, stage, submission, null, null);
         launchCommandStr = subs.parameterSubstitution(launchCommandStr);
         logger.info("executeTest using command: " + launchCommandStr);
         int timeLimit = Math.max(getTimeLimit(submission), MIN_RUNTIME_LIMIT);

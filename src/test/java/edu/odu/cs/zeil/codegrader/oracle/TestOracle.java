@@ -55,7 +55,8 @@ public class TestOracle {
 		asst = new Assignment();
 		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
         asst.setRecordingDirectory(testSuitePath.resolve("grades"));
-        
+        asst.setStagingDirectory(testSuitePath.resolve("stage"));
+
 		testCase = new TestCase(new TestCaseProperties(asst, "params"));
         sub = new Submission(asst, "student1", 
             testSuitePath.resolve("submissions"));

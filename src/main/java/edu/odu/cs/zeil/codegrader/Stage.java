@@ -178,7 +178,7 @@ public class Stage {
 							+ stageDir.toString());
 		}
 		ParameterHandling subs = new ParameterHandling(assignment, null, 
-			null, null, null);
+			this, beingGraded, null, null);
 		buildCommand = subs.parameterSubstitution(buildCommand);
 
 		ExternalProcess process = new ExternalProcess(

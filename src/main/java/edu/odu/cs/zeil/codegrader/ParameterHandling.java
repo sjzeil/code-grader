@@ -15,17 +15,21 @@ public class ParameterHandling {
      * @param asst the assignment
      * @param tc the test case. If null, only S & R substitutions are allowed.
      * @param stage the stage where related code has been built
+     * @param submission the submission being evaluated. If null, @R is 
+     *          not allowed.
      * @param expected a file of expected output. If null, @E is not allowed.
      * @param actual a file of actual output. If null, @A is not allowed.
      */
     public ParameterHandling(Assignment asst, TestCase tc, 
-            Stage stage,
+            Stage stage, Submission submission,
             File expected, File actual) {
 
         Path stageDir = stage.getStageDir();
         replacements = new ArrayList<>();
         Path testSuiteDir = asst.getTestSuiteDirectory();
         String tcName = (tc == null) ? "" : tc.getProperties().getName();
+        String recordingDir = (submission == null) ? "" 
+            : submission.getRecordingDir().toAbsolutePath().toString();
 
         replacements.add((tc == null) 
             ? "" 
@@ -34,6 +38,7 @@ public class ParameterHandling {
         replacements.add(testSuiteDir.resolve(tcName)
             .toAbsolutePath().toString()); // T
         replacements.add(tcName); // t
+        replacements.add(recordingDir); // R
         replacements.add((actual == null)
                 ? ""
                 : actual.getAbsolutePath()); // A

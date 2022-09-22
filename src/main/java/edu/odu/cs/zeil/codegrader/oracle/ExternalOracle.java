@@ -3,6 +3,7 @@ package edu.odu.cs.zeil.codegrader.oracle;
 import java.io.File;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +37,6 @@ public class ExternalOracle extends Oracle {
 			MethodHandles.lookup().lookupClass());
 
 	private OracleProperties properties;
-	private int score;
-	private String msg;
 
 	/**
 	 * Create an oracle that launches an external command.
@@ -51,8 +50,6 @@ public class ExternalOracle extends Oracle {
 			TestCase testCase, Submission sub, Stage submitterStage) {
 		super(config, testCase, sub, submitterStage);
 		properties = config;
-		score = 0;
-		msg = "";
 	}
 
 	/**
@@ -71,12 +68,12 @@ public class ExternalOracle extends Oracle {
 			FileUtils.writeTextFile(expectedTmp.toPath(), expected);
 			FileUtils.writeTextFile(observedTmp.toPath(), actual);
 
-			executeOracle(expectedTmp, observedTmp);
+			OracleResult result = executeOracle(expectedTmp, observedTmp);
 
 			expectedTmp.delete();
 			observedTmp.delete();
 
-			return new OracleResult(score, msg);
+			return result;
 		} catch (IOException ex) {
 			throw new TestConfigurationError("Error running external oracle "
 					+ properties.command + "\n" + ex.getMessage());
@@ -98,17 +95,31 @@ public class ExternalOracle extends Oracle {
         TestCase tc = getTestCase();
         ParameterHandling subs = new ParameterHandling(
             tc.getProperties().getAssignment(), tc, getStage(),
+            getSubmission(),
             expected, actual);
         launchCommandStr = subs.parameterSubstitution(launchCommandStr);
         logger.info("executeOracle using command: " + launchCommandStr);
         ExternalProcess process = new ExternalProcess(
-            tc.getProperties().getRecordingDirectory(),
+            getSubmission().getRecordingDir(),
             launchCommandStr,
             ORACLE_TIME_LIMIT,
             null, 
             "oracle " + properties.command);
         process.execute(true);
         String capturedOutput = process.getOutput() + process.getErr();
+        Optional<File> scoreFile = FileUtils
+            .findFile(getSubmission().getRecordingDir(), ".score");
+        if (scoreFile.isPresent()) {
+            String scoreStr = FileUtils.readTextFile(scoreFile.get());
+            if (scoreStr != null) {
+                try {
+                    int score = Integer.parseInt(scoreStr.trim());
+                    return new OracleResult(score, capturedOutput);
+                } catch (NumberFormatException ex) {
+                    logger.warn("Could not parse score of " + scoreStr);
+                }
+            }
+        }
         int statusCode = process.getStatusCode();
 		if (statusCode >= 0 && statusCode <= OK_SCORE) {
 			return new OracleResult(OK_SCORE - statusCode, capturedOutput);

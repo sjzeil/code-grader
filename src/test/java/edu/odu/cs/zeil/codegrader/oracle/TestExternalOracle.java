@@ -54,18 +54,21 @@ public class TestExternalOracle {
 		asst = new Assignment();
 		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
 		asst.setRecordingDirectory(testSuitePath.resolve("grading"));
+		asst.setStagingDirectory(testSuitePath.resolve("stage"));
+
 		testCase = new TestCase(new TestCaseProperties(asst, "params"));
 		prop = new OracleProperties();
 		sub = new Submission(asst, "student1", 
             testSuitePath.resolve("submissions"));
 		stage = new Stage(asst, sub, new TestSuitePropertiesBase());
+		sub.getRecordingDir().toFile().mkdirs();
 	}
 	
 
 	@Test
 	void testSuccess() throws FileNotFoundException {
         OracleProperties properties = new OracleProperties();
-        properties.command = "diff @A @E";
+        properties.command = "/usr/bin/diff @A @E";
 		Oracle oracle = new ExternalOracle(properties, testCase, sub, stage);
 
         String expected = "foo\n";
@@ -74,6 +77,24 @@ public class TestExternalOracle {
 		OracleResult result = oracle.compare(expected, expected);
 
         assertThat(result.score, equalTo(OracleProperties.DEFAULT_POINT_CAP));
+	}
+
+	@Test
+	void testScoreFile() throws FileNotFoundException {
+        OracleProperties properties = new OracleProperties();
+		String oracleCommand = "echo 42 > test.score\necho foobar\n";
+		FileUtils.writeTextFile(sub.getRecordingDir().resolve("run.sh"), 
+			oracleCommand);
+        properties.command = "sh run.sh";
+		Oracle oracle = new ExternalOracle(properties, testCase, sub, stage);
+
+        String expected = "foo\n";
+        String observed = "bar\n";
+
+		OracleResult result = oracle.compare(expected, observed);
+
+        assertThat(result.score, is(42));
+        assertThat(result.message, is("foobar\n"));
 	}
 
     @Test
@@ -85,9 +106,9 @@ public class TestExternalOracle {
         String expected = "foo\n";
         String observed = "bar\n";
 
-		OracleResult result = oracle.compare(expected, expected);
+		OracleResult result = oracle.compare(expected, observed);
 
-        assertThat(result.score, is(0));
+        assertThat(result.score, is(99));
         assertThat(result.message, not(is("")));
 	}
 
@@ -102,7 +123,7 @@ public class TestExternalOracle {
 
 		OracleResult result = oracle.compare(expected, observed);
 
-        assertThat(result.score, equalTo(OracleProperties.DEFAULT_POINT_CAP));
+        assertThat(result.score, equalTo(98));
 	}
 
 

@@ -56,6 +56,8 @@ public class TestScanner {
 
 		asst = new Assignment();
 		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
+		asst.setStagingDirectory(testSuitePath.resolve("stage"));
+
 		testCase = new TestCase(new TestCaseProperties(asst, "params"));
 		sub = new Submission(asst, "student1", 
             testSuitePath.resolve("submissions"));
