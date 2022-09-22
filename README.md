@@ -16,12 +16,12 @@ Goals include
 * Student grade reports written to spreadsheets, so that  instructors can compute overall scores in any way that they desire.
 * Easy integration with GitHub Classroom or other use of GitHub to support student submissions.
 
-More information will accumulate in the [Wiki](https://github.com/sjzeil/code-grader/wiki).
+More information will accumulate in the [Wiki]
 
 ## Status
 
-Current version: _1.0-SNAPSHOT_
-* 85% complete.   Major components remaining to implement are generation of grader reports
+Current version: _1.0.0_
 
+* [Tutorials and Reference Documentation](https://github.com/sjzeil/code-grader/wiki).
 * [Project reports](https://sjzeil.github.io/code-grader/)
 * [Current distribution (Jar)](https://www.cs.odu.edu/~zeil/gitlab/code-grader/code-grader.jar)
