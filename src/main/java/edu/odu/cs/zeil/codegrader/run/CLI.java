@@ -29,6 +29,7 @@ public class CLI {
     private Option submissions;
     private Option recording;
     private Option gold;
+    private Option getDates;
 
     private Option manual;
 
@@ -105,6 +106,10 @@ public class CLI {
             if (cli.hasOption(gold)) {
                 assignment.setGoldDirectory(
                         Paths.get(cli.getOptionValue(gold)));
+            }
+
+            if (cli.hasOption(getDates)) {
+                assignment.setDateCommand(cli.getOptionValue(getDates));
             }
 
             if (cli.hasOption(submissions)) {
@@ -223,6 +228,15 @@ public class CLI {
                         + " (optional)")
                 .build();
         result.addOption(manual);
+        getDates = Option.builder("getDates")
+            .argName("command")
+            .hasArgs()
+            .desc("What command to run to get the student's submission date "
+                + "(optional, defaults last git repo date or "
+                + "to not tracking due date)")
+            .build();
+        result.addOption(getDates);
+
         student = Option.builder("student")
                 .argName("identifier")
                 .hasArgs()

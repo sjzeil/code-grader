@@ -9,6 +9,7 @@ import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -453,6 +454,14 @@ public class TestSuite implements Iterable<TestCase> {
 
 		final int lastHour = 23;
 		final int lastMinuteOrSecond = 59;
+
+		try {
+			LocalDateTime dateTime = LocalDateTime.parse(dateTimeString,
+		   		DateTimeFormatter.ofPattern("EEE LLL [d][dd] HH:mm:ss yyyy"));
+			return dateTime;
+		} catch (DateTimeParseException ex) {
+			// Continue on
+		}
 
 		int year = 0;
 		int month = 0;

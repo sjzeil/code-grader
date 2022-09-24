@@ -91,6 +91,7 @@ public class TestTestSuite {
 	void testDateParsing() {
 		LocalDateTime dt0 = LocalDateTime.of(2022, 12, 15, 23, 59, 59);
 		LocalDateTime dt1 = LocalDateTime.of(2022, 12, 15, 20, 58, 16);
+		LocalDateTime dt2 = LocalDateTime.of(2022, 12, 1, 20, 58, 16);
 
 		TestSuite suite = new TestSuite(asst);
 
@@ -99,6 +100,8 @@ public class TestTestSuite {
 		assertThat(suite.parseDateTime("2022-12-15_20:58:16"), is(dt1));
 		assertThat(suite.parseDateTime("2022-12-15T20:58:16"), is(dt1));
 		assertThat(suite.parseDateTime("12/15/2022 20:58:16"), is(dt1));
+		assertThat(suite.parseDateTime("Thu Dec 15 20:58:16 2022"), is(dt1));
+		assertThat(suite.parseDateTime("Thu Dec 1 20:58:16 2022"), is(dt2));
 	}
 
 	@Test

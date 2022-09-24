@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class ParameterHandling {
 
 
-    private char[] tags = {'P', 'S', 'T', 't', 'R', 'A', 'E'};
+    private char[] tags = {'P', 'S', 'I', 'T', 't', 'R', 'A', 'E'};
     private ArrayList<String> replacements;
 
     /**
@@ -35,6 +35,8 @@ public class ParameterHandling {
             ? "" 
             : tc.getProperties().getParams()); // P
         replacements.add(stageDir.toAbsolutePath().toString()); // S
+        replacements.add(submission.getSubmissionDirectory()
+            .toAbsolutePath().toString()); // I
         replacements.add(testSuiteDir.resolve(tcName)
             .toAbsolutePath().toString()); // T
         replacements.add(tcName); // t
