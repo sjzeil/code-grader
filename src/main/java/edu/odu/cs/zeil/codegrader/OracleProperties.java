@@ -81,6 +81,11 @@ public class OracleProperties implements Cloneable {
 	 */
 	public String command;
 
+    /**
+     * A pattern (regular expression) for use with self-scored oracle.
+     */
+    public String pattern;
+
 
     //CHECKSTYLE:ON
 
@@ -100,6 +105,7 @@ public class OracleProperties implements Cloneable {
         punctuation = true;
         numbersOnly = false;
         command = "";
+        pattern = "(?<pts>[0-9]+)";
     }
 
     /**

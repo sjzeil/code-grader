@@ -37,11 +37,20 @@ public final class OracleFactory {
 
         String oracleName = option.oracle;
         if (oracleName.toLowerCase().equals("smart")) {
-            return new SmartOracle(option, testCase, 
-                submission, submitterStage);
+            return new SmartOracle(option, testCase,
+                    submission, submitterStage);
         } else if (oracleName.toLowerCase().equals("external")) {
-            return new ExternalOracle(option, testCase, 
-                submission, submitterStage);
+            return new ExternalOracle(option, testCase,
+                    submission, submitterStage);
+        } else if (oracleName.toLowerCase().equals("junit5")) {
+            return new JUnit5Oracle(option, testCase,
+                    submission, submitterStage);
+        } else if (oracleName.toLowerCase().equals("tap")) {
+            return new TAPOracle(option, testCase,
+                        submission, submitterStage);
+        } else if (oracleName.toLowerCase().equals("self")) {
+            return new SelfScoredOracle(option, testCase,
+                    submission, submitterStage);
         } else {
             try {
                 Class<?> oracleClass = Class.forName(oracleName);

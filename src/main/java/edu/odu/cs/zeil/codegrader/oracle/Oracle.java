@@ -84,6 +84,11 @@ public abstract class Oracle {
 	private String command;
 
 	/**
+	 * A pattern for extracting scores from output lines.
+	 */
+	private String pattern;
+
+	/**
 	 * Maximum score possible. Defaults to 100.
 	 */
 	private int cap;
@@ -117,6 +122,7 @@ public abstract class Oracle {
 		command = properties.command;
 		cap = properties.cap;
 		stage = submitterStage;
+		pattern = properties.pattern;
 	}
 
 
@@ -229,6 +235,14 @@ public abstract class Oracle {
 	 */
 	public Stage getStage() {
 		return stage;
+	}
+
+
+	/**
+	 * @return the pattern
+	 */
+	public String getPattern() {
+		return pattern;
 	}
 
 	
