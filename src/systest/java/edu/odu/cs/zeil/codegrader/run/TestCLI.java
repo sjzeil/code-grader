@@ -52,7 +52,8 @@ public class TestCLI {
 				"-stage", stage.toString(),
 				"-submissions", assignmentPath.resolve("submissions")
 					.toString(),
-				"-recording", recording.toString()
+				"-recording", recording.toString(),
+				"-getDateIn", "@I/date.txt"
 		};
 
 		CLI cli = new CLI(args);
@@ -390,7 +391,8 @@ public class TestCLI {
 				"-stage", stage.toString(),
 				"-submissions", assignmentPath.resolve("submissions")
 					.toString(),
-				"-recording", recording.toString()
+				"-recording", recording.toString(),
+				"-getDates", "@I/date.txt"
 		};
 
 		CLI cli = new CLI(args);

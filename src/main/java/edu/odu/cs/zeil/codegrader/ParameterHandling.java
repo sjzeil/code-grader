@@ -30,13 +30,14 @@ public class ParameterHandling {
         String tcName = (tc == null) ? "" : tc.getProperties().getName();
         String recordingDir = (submission == null) ? "" 
             : submission.getRecordingDir().toAbsolutePath().toString();
-
+        String submissionDir = (submission == null) ? ""
+                : submission.getSubmissionDirectory()
+                    .toAbsolutePath().toString();
         replacements.add((tc == null) 
             ? "" 
             : tc.getProperties().getParams()); // P
         replacements.add(stageDir.toAbsolutePath().toString()); // S
-        replacements.add(submission.getSubmissionDirectory()
-            .toAbsolutePath().toString()); // I
+        replacements.add(submissionDir); // I
         replacements.add(testSuiteDir.resolve(tcName)
             .toAbsolutePath().toString()); // T
         replacements.add(tcName); // t

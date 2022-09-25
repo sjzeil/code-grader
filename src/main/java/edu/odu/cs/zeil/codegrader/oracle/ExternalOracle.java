@@ -70,8 +70,14 @@ public class ExternalOracle extends Oracle {
 
 			OracleResult result = executeOracle(expectedTmp, observedTmp);
 
-			expectedTmp.delete();
-			observedTmp.delete();
+			boolean ok = expectedTmp.delete();
+            if (!ok) {
+                logger.warn("Unable to delete temporary file " + expectedTmp);
+            }
+			ok = observedTmp.delete();
+            if (!ok) {
+                logger.warn("Unable to delete temporary file " + observedTmp);
+            }
 
 			return result;
 		} catch (IOException ex) {
@@ -127,62 +133,5 @@ public class ExternalOracle extends Oracle {
 			return new OracleResult(0, capturedOutput);
 		}
     }
-
-	/**
-     * Scans a string for shortcuts, replacing by the appropriate string.
-     * Shortcuts are
-     * <ul>
-     * <li>@E the expected output file</li>
-     * <li>@A the actual output file</li>
-     * </ul>
-     * A shortcut must be followed by a non-alphabetic character.
-     * 
-     * @param launchCommandStr a string describing a command to be run
-     * @param expected file with expected output
-     * @param actual file with actual output
-     * @return the launchCommandStr with shortcuts replaced by the appropriate
-     *         path/value
-     */
-    public String parameterSubstitution(
-            String launchCommandStr, File expected, File actual) {
-        StringBuilder result = new StringBuilder();
-        int i = 0;
-        while (i < launchCommandStr.length()) {
-            char c = launchCommandStr.charAt(i);
-            if (c == '@') {
-                if (i + 1 < launchCommandStr.length()) {
-                    char c2 = launchCommandStr.charAt(i + 1);
-                    if (c2 == 'S' || c2 == 'T' || c2 == 't' || c2 == 'R') {
-                        boolean ok = (i + 2 >= launchCommandStr.length())
-                                || !Character.isAlphabetic(
-                                        launchCommandStr.charAt(i + 2));
-                        if (ok) {
-							i += 2;
-							if (c2 == 'A') {
-								result.append(actual.getAbsolutePath());
-							} else if (c2 == 'E') {
-								result.append(expected.getAbsolutePath());
-							}
-						} else {
-                            i += 1;
-                            result.append(c);
-                        }
-                    } else {
-                        i += 1;
-                        result.append(c);
-                    }
-                } else {
-                    result.append(c);
-                    ++i;
-                }
-            } else {
-                result.append(c);
-                ++i;
-            }
-        }
-        return result.toString();
-    }
-
-
 
 }

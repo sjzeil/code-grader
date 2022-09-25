@@ -14,7 +14,7 @@ import edu.odu.cs.zeil.codegrader.TestCase;
 
 public final class OracleFactory {
 
-    private static final int NUM_CONSTRUCTOR_PARAMS = 4;
+    //private static final int NUM_CONSTRUCTOR_PARAMS = 4;
 
     private static Logger logger = LoggerFactory.getLogger(
             MethodHandles.lookup().lookupClass());

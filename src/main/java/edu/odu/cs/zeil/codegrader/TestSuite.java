@@ -5,10 +5,14 @@ import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.FileTime;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
@@ -25,12 +29,11 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class TestSuite implements Iterable<TestCase> {
 
 	private static final int MAX_MESSAGE_LENGTH = 5000;
 	private static final int MAX_SCORE = 100;
-	
+
 	private TestSuitePropertiesBase properties;
 	private Assignment assignment;
 	private Path testSuiteDirectory;
@@ -45,10 +48,9 @@ public class TestSuite implements Iterable<TestCase> {
 	private String contentHash;
 
 	/**
-     * Collection of test cases.
-     */
-    private List<TestCaseProperties> cases;
-
+	 * Collection of test cases.
+	 */
+	private List<TestCaseProperties> cases;
 
 	/**
 	 * Error logging.
@@ -75,7 +77,6 @@ public class TestSuite implements Iterable<TestCase> {
 		}
 		goldStage = null;
 		submitterStage = null;
-		asst.setDateCommand(properties.findDateSubmitted);
 		contentHash = "";
 		cases = new ArrayList<>();
 		initializeTestCases();
@@ -144,6 +145,43 @@ public class TestSuite implements Iterable<TestCase> {
 	}
 
 	/**
+	 * Submission dates will be determined by the last modification
+	 * date of a file.
+	 * 
+	 * @param filePath path to submission file
+	 */
+	public void setSubmissionDateMod(String filePath) {
+		properties.dateSubmitted.mod = filePath;
+		properties.dateSubmitted.in = "";
+		properties.dateSubmitted.git = false;
+	}
+
+	/**
+	 * Submission dates will be read from a file.
+	 * 
+	 * @param filePath path to submission file
+	 */
+	public void setSubmissionDateIn(String filePath) {
+		properties.dateSubmitted.in = filePath;
+		properties.dateSubmitted.mod = "";
+		properties.dateSubmitted.git = false;
+	}
+
+	/**
+	 * Submission dates will be read from a file.
+	 * 
+	 * @param setByGit true means that if a submission directory is a
+	 *                 git repository, the last commit date will be used as the
+	 *                 submission
+	 *                 date.
+	 */
+	public void setSubmissionDateByGit(boolean setByGit) {
+		properties.dateSubmitted.in = "";
+		properties.dateSubmitted.mod = "";
+		properties.dateSubmitted.git = setByGit;
+	}
+
+	/**
 	 * Perform all selected tests for all selected submissions.
 	 * 
 	 * The entire sequence is performed:
@@ -171,33 +209,33 @@ public class TestSuite implements Iterable<TestCase> {
 		if (submissionsToRun.size() > 0) {
 			submissions.setSelectedSubmissions(submissionsToRun);
 		}
-		
-		for (Submission submission: submissions) {
+
+		for (Submission submission : submissions) {
 			processThisSubmission(submission);
 		}
 		StringBuilder classSummary = new StringBuilder();
 		classSummary.append("student," + getAssignmentName() + "\n");
 
 		submissions.setSelectedSubmissions(new HashSet<String>());
-		for (Submission submission: submissions) {
-				File submissionFile = submission.getRecordingDir().toFile();
-				if (submissionFile.isDirectory()) {
-					Optional<File> scoreFile = FileUtils.findFile(
+		for (Submission submission : submissions) {
+			File submissionFile = submission.getRecordingDir().toFile();
+			if (submissionFile.isDirectory()) {
+				Optional<File> scoreFile = FileUtils.findFile(
 						submissionFile.toPath(), ".total");
-					if (scoreFile.isPresent()) {
-						String score = FileUtils.readTextFile(scoreFile.get())
-								.trim();
-						classSummary.append(submissionFile.getName());
-						classSummary.append(",");
-						classSummary.append(score);
-						classSummary.append("\n");
-					}
+				if (scoreFile.isPresent()) {
+					String score = FileUtils.readTextFile(scoreFile.get())
+							.trim();
+					classSummary.append(submissionFile.getName());
+					classSummary.append(",");
+					classSummary.append(score);
+					classSummary.append("\n");
 				}
+			}
 		}
 		Path classSummaryFile = assignment.getRecordingDirectory()
-					.resolve("classSummary.csv");
+				.resolve("classSummary.csv");
 		FileUtils.writeTextFile(classSummaryFile, classSummary.toString());
-		
+
 		if (submissionsToRun.size() == 0) {
 			try {
 				FileUtils.deleteDirectory(assignment.getStagingDirectory());
@@ -224,8 +262,8 @@ public class TestSuite implements Iterable<TestCase> {
 	 */
 	public void processThisSubmission(Submission submission) {
 		submitterStage = new Stage(assignment, submission, properties);
-		if ((!assignment.getInPlace()) 
-			&& submitterStage.getStageDir().toFile().exists()) {
+		if ((!assignment.getInPlace())
+				&& submitterStage.getStageDir().toFile().exists()) {
 			submitterStage.clear();
 		}
 		boolean proceedWithGrading = true;
@@ -238,7 +276,10 @@ public class TestSuite implements Iterable<TestCase> {
 				}
 			}
 			if (proceedWithGrading) {
-				recordAt.toFile().mkdirs();
+				boolean ok = recordAt.toFile().mkdirs();
+				if (!ok) {
+					logger.warn("Unable to create directory " + recordAt);
+				}
 				copyTestSuiteToRecordingArea(submission);
 				submitterStage.setupStage();
 			} else {
@@ -251,8 +292,8 @@ public class TestSuite implements Iterable<TestCase> {
 			Stage.BuildResult buildResults = submitterStage.buildCode();
 			buildScore = (buildResults.getStatusCode() == 0) ? MAX_SCORE : 0;
 			buildMessage = buildResults.getMessage();
-			System.out.println("  Building submitted code: " 
-				+ buildScore + "%.");
+			System.out.println("  Building submitted code: "
+					+ buildScore + "%.");
 			FileUtils.writeTextFile(recordAt.resolve("build.score"),
 					Integer.toString(buildScore) + "\n");
 			FileUtils.writeTextFile(recordAt.resolve("build.message"),
@@ -268,34 +309,35 @@ public class TestSuite implements Iterable<TestCase> {
 	 * so that future runs of the same test suite can tell whether the
 	 * submitted code has changed sint it was last graded.
 	 * 
-	 * @param recordAt directory where grade results should be recorded.
+	 * @param recordAt   directory where grade results should be recorded.
 	 * @param submission the submission to check
 	 */
 	private void recordContentHash(Path recordAt, Submission submission) {
 		if (contentHash == null || contentHash.equals("")) {
 			contentHash = computeContentHash(
-				submission.getSubmissionDirectory());
+					submission.getSubmissionDirectory());
 		}
-		Path hashFile = recordAt.resolve(submission.getSubmittedBy() 
-			+ ".hash");
+		Path hashFile = recordAt.resolve(submission.getSubmittedBy()
+				+ ".hash");
 		FileUtils.writeTextFile(hashFile, contentHash + "\n");
 	}
 
 	/**
 	 * Check to see if a submission needs to be (re)graded.
-	 * @param recordAt directory where grade results should be recorded.
+	 * 
+	 * @param recordAt   directory where grade results should be recorded.
 	 * @param submission the submission to check
 	 * @return true if submission should be regraded.
 	 */
 	public boolean needsRegrading(Path recordAt, Submission submission) {
-		Path totalFile = recordAt.resolve(submission.getSubmittedBy() 
-			+ ".total");
+		Path totalFile = recordAt.resolve(submission.getSubmittedBy()
+				+ ".total");
 		if (!totalFile.toFile().exists()) {
 			// has not been graded yet.
 			return true;
 		}
-		Path hashFile = recordAt.resolve(submission.getSubmittedBy() 
-			+ ".hash");
+		Path hashFile = recordAt.resolve(submission.getSubmittedBy()
+				+ ".hash");
 		if (!hashFile.toFile().exists()) {
 			// no record of previous content
 			return true;
@@ -317,9 +359,9 @@ public class TestSuite implements Iterable<TestCase> {
 		byte[] digested = digest.digest();
 		StringBuffer result = new StringBuffer();
 		final int byte255 = 0xff;
-        for (byte aByte : digested) {
-            result.append(Integer.toHexString(aByte & byte255));
-        }
+		for (byte aByte : digested) {
+			result.append(Integer.toHexString(aByte & byte255));
+		}
 		return result.toString();
 	}
 
@@ -329,7 +371,7 @@ public class TestSuite implements Iterable<TestCase> {
 				File[] contents = dirOrFile.listFiles();
 				if (contents != null) {
 					Arrays.sort(contents);
-					for (File within: contents) {
+					for (File within : contents) {
 						digestAllFiles(within, digest);
 					}
 				}
@@ -359,13 +401,12 @@ public class TestSuite implements Iterable<TestCase> {
 
 		public String toString() {
 			return "<tr><td><i>" + htmlEncode(name)
-				+ "</i></td><td>" + score
-				+ "</td><td>" + weight
-				+ "</td><td><pre>" + htmlEncode(message.trim())
-				+ "</pre></td></tr>\n";
+					+ "</i></td><td>" + score
+					+ "</td><td>" + weight
+					+ "</td><td><pre>" + htmlEncode(message.trim())
+					+ "</pre></td></tr>\n";
 		}
 
-		
 	}
 
 	private void generateReports(Submission submission) {
@@ -374,10 +415,10 @@ public class TestSuite implements Iterable<TestCase> {
 				.resolve(submission.getSubmittedBy() + ".html");
 
 		ArrayList<Detail> details = new ArrayList<>();
-		details.add(new Detail("Build", 
-			properties.build.weight,
-			buildScore, buildMessage));
-		
+		details.add(new Detail("Build",
+				properties.build.weight,
+				buildScore, buildMessage));
+
 		writeTestCaseSummary(submission, details);
 
 		final int perfectScore = 100;
@@ -387,18 +428,18 @@ public class TestSuite implements Iterable<TestCase> {
 		int penalty = computeLatePenalty(daysLate);
 		int studentTotalScore = (perfectScore - penalty) * studentSubtotalScore;
 		studentTotalScore = (int) Math.round(
-			((float) studentTotalScore) / ((float) perfectScore));
+				((float) studentTotalScore) / ((float) perfectScore));
 
 		writeHTMLReport(submission, gradeReport,
-			 details, studentSubtotalScore, daysLate, 
-			 penalty, studentTotalScore);
-	
+				details, studentSubtotalScore, daysLate,
+				penalty, studentTotalScore);
+
 		System.out.println("  Total for " + submission.getSubmittedBy()
-		+ " is " + studentTotalScore);
-   		FileUtils.writeTextFile(
-		   submission.getRecordingDir()
-				   .resolve(submission.getSubmittedBy() + ".total"),
-		   "" + studentTotalScore + "\n");
+				+ " is " + studentTotalScore);
+		FileUtils.writeTextFile(
+				submission.getRecordingDir()
+						.resolve(submission.getSubmittedBy() + ".total"),
+				"" + studentTotalScore + "\n");
 
 	}
 
@@ -411,7 +452,7 @@ public class TestSuite implements Iterable<TestCase> {
 	 */
 	public int computeDaysLate(Submission submission) {
 		String dueDateStr = properties.dueDate;
-		String submissionDateStr = submission.getSubmissionDate();
+		String submissionDateStr = getSubmissionDate(submission);
 
 		if (dueDateStr.equals("") || submissionDateStr.equals("")) {
 			return 0;
@@ -423,19 +464,19 @@ public class TestSuite implements Iterable<TestCase> {
 			if (submissionDateTime.isAfter(dueDateTime)) {
 				// submission is late
 				LocalDateTime latePeriodStart = dueDateTime.plusSeconds(1);
-				long days = 1 
-				 + ChronoUnit.DAYS.between(latePeriodStart, submissionDateTime);
+				long days = 1
+					+ ChronoUnit.DAYS.between(latePeriodStart,
+						submissionDateTime);
 				return (int) days;
 			} else {
 				return 0;
 			}
 		} catch (DateTimeParseException e) {
-				return 0;
+			return 0;
 		}
 	}
 
-
-	static final Pattern MM_DD_YYYY
+	static final Pattern MM_DD_YYYY 
 		= Pattern.compile("([0-9]+)/([0-9]+)/([0-9]+)");
 	static final Pattern YYYY_MM_DD
 		= Pattern.compile("([0-9]+)-([0-9]+)-([0-9]+)");
@@ -445,6 +486,7 @@ public class TestSuite implements Iterable<TestCase> {
 
 	/**
 	 * Flexible parsing of dates and time.
+	 * 
 	 * @param dateTimeString a date or date and time
 	 * @return equivalent date-time
 	 * @throws DateTimeParseException
@@ -457,7 +499,7 @@ public class TestSuite implements Iterable<TestCase> {
 
 		try {
 			LocalDateTime dateTime = LocalDateTime.parse(dateTimeString,
-		   		DateTimeFormatter.ofPattern("EEE LLL [d][dd] HH:mm:ss yyyy"));
+				DateTimeFormatter.ofPattern("EEE LLL [d][dd] HH:mm:ss yyyy"));
 			return dateTime;
 		} catch (DateTimeParseException ex) {
 			// Continue on
@@ -524,7 +566,7 @@ public class TestSuite implements Iterable<TestCase> {
 	private int computeSubTotal(ArrayList<Detail> details) {
 		int weightedSum = 0;
 		int weights = 0;
-		for (Detail detail: details) {
+		for (Detail detail : details) {
 			weightedSum += detail.score * detail.weight;
 			weights += detail.weight;
 		}
@@ -532,56 +574,56 @@ public class TestSuite implements Iterable<TestCase> {
 		return (int) Math.round(score);
 	}
 
-	private void writeHTMLReport(Submission submission, Path gradeReport, 
-		ArrayList<Detail> details,
-		int studentSubtotalScore, int daysLate, int penalty, 
-		int studentTotalScore) {
+	private void writeHTMLReport(Submission submission, Path gradeReport,
+			ArrayList<Detail> details,
+			int studentSubtotalScore, int daysLate, int penalty,
+			int studentTotalScore) {
 
 		StringBuilder htmlContent = new StringBuilder();
 		htmlContent.append("<html><head>\n");
-		htmlContent.append(element("title", 
-			"Grade report for " + getAssignmentName() 
-			+ ": " + submission.getSubmittedBy()));
+		htmlContent.append(element("title",
+				"Grade report for " + getAssignmentName()
+						+ ": " + submission.getSubmittedBy()));
 		htmlContent.append("\n</head><body>\n");
-		htmlContent.append(element("h1", 
-			"Grade report for " + getAssignmentName() 
-			+ ": " + submission.getSubmittedBy()));
+		htmlContent.append(element("h1",
+				"Grade report for " + getAssignmentName()
+						+ ": " + submission.getSubmittedBy()));
 
 		addAssignmentInfo(htmlContent,
-			submission, studentSubtotalScore, daysLate, penalty, 
-			studentTotalScore);
+				submission, studentSubtotalScore, daysLate, penalty,
+				studentTotalScore);
 
 		htmlContent.append(element("h2", "Details"));
 		addAssignmentDetails(htmlContent, details);
 
 		htmlContent.append("</body></html>\n");
-		
+
 		FileUtils.writeTextFile(
-			submission.getRecordingDir()
-				.resolve(submission.getSubmittedBy() + ".html"),
-			htmlContent.toString());
+				submission.getRecordingDir()
+						.resolve(submission.getSubmittedBy() + ".html"),
+				htmlContent.toString());
 	}
 
-	private void addAssignmentDetails(StringBuilder htmlContent, 
-		ArrayList<Detail> details) {
-		
+	private void addAssignmentDetails(StringBuilder htmlContent,
+			ArrayList<Detail> details) {
+
 		htmlContent.append("<table border='1'>\n");
 		htmlContent.append("<tr><th>Test</th><th>Score</th>"
-			+ "<th>Weight</th><th>Details</th></tr>\n");
-		for (Detail detail: details) {
+				+ "<th>Weight</th><th>Details</th></tr>\n");
+		for (Detail detail : details) {
 			htmlContent.append(detail.toString());
 		}
 		htmlContent.append("</table>\n");
 	}
 
 	private void addAssignmentInfo(StringBuilder content,
-		Submission submission, 
-		int studentSubtotalScore, int daysLate, int penalty,
-		int studentTotalScore) {
+			Submission submission,
+			int studentSubtotalScore, int daysLate, int penalty,
+			int studentTotalScore) {
 
 		content.append("<table border='1'>\n");
 		String dueDate = properties.dueDate;
-		String submissionDate = submission.getSubmissionDate();
+		String submissionDate = getSubmissionDate(submission);
 
 		if (!submissionDate.equals("")) {
 			content.append(row("Submitted:", submissionDate));
@@ -601,9 +643,9 @@ public class TestSuite implements Iterable<TestCase> {
 	}
 
 	private String row(String title, String value) {
-		return "<tr><td><i>" + htmlEncode(title) 
-			+ "</i></td><td>" + htmlEncode(value)
-			+ "</td></tr>\n";
+		return "<tr><td><i>" + htmlEncode(title)
+				+ "</i></td><td>" + htmlEncode(value)
+				+ "</td></tr>\n";
 	}
 
 	private Object element(String tagName, String content) {
@@ -611,21 +653,21 @@ public class TestSuite implements Iterable<TestCase> {
 	}
 
 	private void writeTestCaseSummary(Submission submission,
-			 ArrayList<Detail> details) {
+			ArrayList<Detail> details) {
 		// Write out the tests summary.
 		Path testsSummaryFile = submission.getRecordingDir()
 				.resolve("testsSummary.csv");
 		StringBuilder testsSummary = new StringBuilder();
 		testsSummary.append("Test,Score,Weight,Msgs\n");
 
-		for (TestCase tc: this) {
+		for (TestCase tc : this) {
 			String testName = tc.getProperties().getName();
 			int score = submission.getScore(testName);
 			int weight = tc.getProperties().getWeight();
 			String message = submission.getMessage(testName);
 			details.add(new Detail(testName, weight, score, message));
 			testsSummary.append("\"" + testName + "\",");
-			testsSummary.append(""	+ score + ",");
+			testsSummary.append("" + score + ",");
 			testsSummary.append("" + weight + ",");
 			testsSummary.append("\"" + csvEncode(message) + "\"\n");
 		}
@@ -634,18 +676,18 @@ public class TestSuite implements Iterable<TestCase> {
 
 	private String csvEncode(String msg) {
 		if (msg.length() > MAX_MESSAGE_LENGTH) {
-			msg = msg.substring(0, MAX_MESSAGE_LENGTH - 1) 
-				+ "\n[message clipped after " 
-				+ MAX_MESSAGE_LENGTH + " characters]";
+			msg = msg.substring(0, MAX_MESSAGE_LENGTH - 1)
+					+ "\n[message clipped after "
+					+ MAX_MESSAGE_LENGTH + " characters]";
 		}
 		return msg.replace("\"", "'");
 	}
 
 	private String htmlEncode(String msg) {
 		if (msg.length() > MAX_MESSAGE_LENGTH) {
-			msg = msg.substring(0, MAX_MESSAGE_LENGTH - 1) 
-				+ "\n[message clipped after " 
-				+ MAX_MESSAGE_LENGTH + " characters]";
+			msg = msg.substring(0, MAX_MESSAGE_LENGTH - 1)
+					+ "\n[message clipped after "
+					+ MAX_MESSAGE_LENGTH + " characters]";
 		}
 		msg = msg.replace("&", "&amp;");
 		msg = msg.replace("<", "&lt;");
@@ -665,10 +707,13 @@ public class TestSuite implements Iterable<TestCase> {
 		} else {
 			Path suite = assignment.getTestSuiteDirectory();
 			Path parent = suite.toAbsolutePath().getParent();
-			return parent.toFile().getName();
+			if (parent != null) {
+				return parent.toFile().getName();
+			} else {
+				return "---";
+			}
 		}
 	}
-
 
 	/**
 	 * Delete the entire staging area after use.
@@ -744,7 +789,6 @@ public class TestSuite implements Iterable<TestCase> {
 			this.message = aMessage;
 		}
 
-		
 	}
 
 	/**
@@ -836,6 +880,84 @@ public class TestSuite implements Iterable<TestCase> {
 	@Override
 	public Iterator<TestCase> iterator() {
 		return new TestCaseIterator();
+	}
+
+	/**
+	 * Attempt to determine when this submission was turned in.
+	 * 
+	 * @param sub the submission
+	 * @return a string representing a date and/or time, or "".
+	 */
+	public String getSubmissionDate(Submission sub) {
+		if (!properties.dateSubmitted.in.equals("")) {
+			return getSubmissionDateIn(sub.getSubmissionDirectory(),
+					properties.dateSubmitted.in);
+		} else if (!properties.dateSubmitted.mod.equals("")) {
+			return getSubmissionDateMod(sub.getSubmissionDirectory(),
+					properties.dateSubmitted.in);
+		} else if (properties.dateSubmitted.git) {
+			return getSubmissionDateByGit(sub.getSubmissionDirectory());
+		} else {
+			return "";
+		}
+	}
+
+	private String getSubmissionDateByGit(Path submissionDir) {
+		Path potentialGitDir = submissionDir.resolve(".git");
+		if (potentialGitDir.toFile().isDirectory()) {
+			String gitCmd = "git log -1 --date=format:%Y-%m-%d_%T --format=%ad";
+			return getSubmissionDateByCommand(gitCmd, potentialGitDir);
+		} else {
+			return "";
+		}
+	}
+
+	private String getSubmissionDateByCommand(String getDateCommand,
+			Path context) {
+		final int oneMinute = 60;
+		ExternalProcess commandRunner = new ExternalProcess(
+				context, getDateCommand, oneMinute,
+				null, getDateCommand);
+		commandRunner.execute();
+		String output = commandRunner.getOutput();
+		return output.trim();
+	}
+
+	private String getSubmissionDateIn(Path submissionDir,
+			String getDateFile) {
+		getDateFile = getDateFile.replace("@I",
+				submissionDir.toAbsolutePath().toString());
+		Path fileName = submissionDir.getFileName();
+		String submitFileName = (fileName == null) ? "" : fileName.toString();
+		getDateFile = getDateFile.replace("@i",
+				submitFileName);
+
+		// Use contents of the file.
+		String dateStr = FileUtils
+				.readTextFile(Paths.get(getDateFile).toFile()).trim();
+		return dateStr;
+	}
+
+	private String getSubmissionDateMod(Path submissionDir,
+			String getDateFile) {
+		getDateFile = getDateFile.replace("@I",
+				submissionDir.toAbsolutePath().toString());
+		Path fileName = submissionDir.getFileName();
+		String submitFileName = (fileName == null) ? "" : fileName.toString();
+		getDateFile = getDateFile.replace("@i",
+				submitFileName);
+
+		// Use modification date of the file
+		Path criticalFile = Paths.get(getDateFile);
+		try {
+			FileTime fileTime = Files.getLastModifiedTime(criticalFile);
+			Instant instant = fileTime.toInstant();
+			LocalDateTime modDateTime = instant
+					.atZone(ZoneId.systemDefault()).toLocalDateTime();
+			return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(modDateTime);
+		} catch (IOException e) {
+			return "";
+		}
 	}
 
 }

@@ -45,11 +45,6 @@ public class Assignment implements Cloneable {
     private Path recordingDirectory;
 
     /**
-     * Command to run to get a date from a submission directory.
-     */
-    private String dateCommand;
-
-    /**
      * True if in-place grading is requested.  Code is already present in the
      * submissions directory, can be built (compiled) there and the test suite
      * directory is also the recording directory.
@@ -231,7 +226,13 @@ public class Assignment implements Cloneable {
      */
     @Override
     public Assignment clone() {
-        Assignment theClone = new Assignment();
+        Assignment theClone;
+        try {
+            theClone = (Assignment) super.clone();
+        } catch (CloneNotSupportedException e) {
+            // Not possible.
+            theClone = new Assignment();
+        }
         theClone.setStagingDirectory(stagingDirectory)
             .setInstructorCodeDirectory(instructorCodeDirectory)
             .setRecordingDirectory(recordingDirectory)
@@ -292,21 +293,5 @@ public class Assignment implements Cloneable {
         return inPlace;
     }
 
-    /**
-     * Set the command to run to get a date from a submission.
-     * @param command the command
-     */
-    public void setDateCommand(String command) {
-        dateCommand = command;
-    }
-
-
-    /**
-     * 
-     * @return the command to run to get a date from a submission
-     */
-    public String getDateCommand() {
-        return dateCommand;
-    }
 
 }

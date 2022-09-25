@@ -75,8 +75,10 @@ public final class FileUtils {
                 if (matchesAny(relativeSrc, inclusions)
                         && matchesNone(relativeSrc, exclusions)) {
                     Path destinationPath = target.resolve(relativeSrc);
-                    if (!destinationPath.getParent().toFile().exists()) {
-                        Files.createDirectories(destinationPath.getParent());
+                    Path destPathParent = destinationPath.getParent();
+                    if (destPathParent != null 
+                        && !destPathParent.toFile().exists()) {
+                        Files.createDirectories(destPathParent);
                     }
                     Files.copy(file, destinationPath, options);
                 }
@@ -288,8 +290,10 @@ public final class FileUtils {
                 public FileVisitResult visitFile(Path file,
                         BasicFileAttributes attrs)
                         throws IOException {
-                    if (file.toFile().getName().endsWith(extension)) {
-                        results.add(file.getParent().toFile());
+                    Path parent = file.getParent();
+                    if (parent != null 
+                        && file.toFile().getName().endsWith(extension)) {
+                            results.add(parent.toFile());
                     }
                     return FileVisitResult.CONTINUE;
                 }

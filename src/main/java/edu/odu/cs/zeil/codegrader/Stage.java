@@ -335,7 +335,10 @@ public class Stage {
 	 * 
 	 */
 	public void setupStage() {
-		stageDir.toFile().mkdirs();
+		boolean ok = stageDir.toFile().mkdirs();
+		if (!ok) {
+			logger.warn("Unable to create directory at " + stageDir);
+		}
 		if (beingGraded == null) {
 			// This is a gold stage. Copy everything from the gold directory.
 			setupGoldVersion();
@@ -409,7 +412,11 @@ public class Stage {
 		Path desiredFile = desiredPackage.resolve(javaFile.getName());
 		if (!desiredFile.equals(javaFile.toPath())) {
 			if (!desiredPackage.toFile().exists()) {
-				desiredPackage.toFile().mkdirs();
+				boolean ok = desiredPackage.toFile().mkdirs();
+				if (!ok) {
+					logger.warn("Unable to create directory at " 
+						+ desiredPackage);
+				}
 			}
 			try {
 				Files.move(javaFile.toPath(), desiredFile,

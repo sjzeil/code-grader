@@ -137,7 +137,10 @@ public class TestCase {
         String testCaseName = properties.getName();
         executeTest(submission, stage, buildStatus);
         Path testRecordingDir = submission.getTestCaseDir(testCaseName);
-        testRecordingDir.toFile().mkdirs();
+        boolean ok = testRecordingDir.toFile().mkdirs();
+        if (!ok) {
+            logger.warn("Unable to create directory " + testRecordingDir);
+        }
         String testName = properties.getName();
         String outExtension = (asGold) ? ".expected" : ".out";
         String timeExtension = (asGold) ? ".timelimit" : ".time";

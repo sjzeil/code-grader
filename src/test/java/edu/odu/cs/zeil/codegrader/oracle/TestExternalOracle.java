@@ -33,12 +33,11 @@ public class TestExternalOracle {
 	
 	private Assignment asst;
 	private TestCase testCase;
-	private OracleProperties prop;
 	private Submission sub;
 	private Stage stage;
 
 
-	private static final int OK = OracleProperties.DEFAULT_POINT_CAP;
+	//private static final int OK = OracleProperties.DEFAULT_POINT_CAP;
 	
 	@BeforeEach
 	private void setup() throws IOException, TestConfigurationError {
@@ -57,7 +56,6 @@ public class TestExternalOracle {
 		asst.setStagingDirectory(testSuitePath.resolve("stage"));
 
 		testCase = new TestCase(new TestCaseProperties(asst, "params"));
-		prop = new OracleProperties();
 		sub = new Submission(asst, "student1", 
             testSuitePath.resolve("submissions"));
 		stage = new Stage(asst, sub, new TestSuitePropertiesBase());
@@ -74,7 +72,7 @@ public class TestExternalOracle {
         String expected = "foo\n";
         String observed = "foo\n";
 
-		OracleResult result = oracle.compare(expected, expected);
+		OracleResult result = oracle.compare(expected, observed);
 
         assertThat(result.score, equalTo(OracleProperties.DEFAULT_POINT_CAP));
 	}

@@ -3,6 +3,7 @@ package edu.odu.cs.zeil.codegrader;
 import java.nio.file.Path;
 
 
+
 /**
  * A Submission represents a student's submitted solution to an assignment.
  */
@@ -11,6 +12,8 @@ public class Submission {
     private Assignment assignment;
     private String submittedBy;
     private Path submissionDir;
+
+
     
 
     /**
@@ -93,42 +96,6 @@ public class Submission {
 		return studentRecordingArea;
 	}
 
-    /**
-     * Attempt to determine when this submission was turned in.
-     * @return a string representing a date and/or time, or "".
-     */
-    public String getSubmissionDate() {
-        String getDateCommand = assignment.getDateCommand();
-        if (getDateCommand != null && !getDateCommand.equals("")) {
-            return getSubmissionDateByCommand(getDateCommand);
-        } else {
-            return getSubmissionDateByGit();
-        }
-    }
-
-    private String getSubmissionDateByGit() {
-        Path originalSubmissionDir = assignment.getSubmissionsDirectory()
-            .resolve(getSubmittedBy());
-        Path potentialGitDir = originalSubmissionDir.resolve(".git");
-        if (potentialGitDir.toFile().isDirectory()) {
-            String gitCmd = "git log -1 --date=format:%Y-%m-%d_%T --format=%ad";
-            return getSubmissionDateByCommand(gitCmd);
-        } else {
-            return "";
-        }
-    }
-
-    private String getSubmissionDateByCommand(String getDateCommand) {
-        Path originalSubmissionDir = assignment.getSubmissionsDirectory()
-            .resolve(getSubmittedBy());
-        final int oneMinute = 60;
-        ExternalProcess commandRunner = new ExternalProcess(
-            originalSubmissionDir, getDateCommand, oneMinute, 
-            null, getDateCommand);
-        commandRunner.execute();
-        String output = commandRunner.getOutput();
-        return output.trim();
-    }
 
     /**
 	 * Returns the score for a test.

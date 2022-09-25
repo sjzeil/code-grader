@@ -107,7 +107,13 @@ public class OracleProperties implements Cloneable {
      */
     @Override
     public OracleProperties clone() {
-        OracleProperties result = new OracleProperties();
+        OracleProperties result;
+        try {
+            result = (OracleProperties) super.clone();
+        } catch (CloneNotSupportedException e) {
+            // Not possible
+            result = new OracleProperties();
+        }
         result.cap = cap;
         result.oracle = oracle;
         result.ws = ws;

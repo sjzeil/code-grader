@@ -27,6 +27,29 @@ public class TestSuitePropertiesBase {
 
     //CHECKSTYLE:OFF
 
+    public static class SubmissionDateOptions {
+
+        SubmissionDateOptions() {
+            mod = "";
+            in = "";
+            git = true;
+        }
+        
+        /**
+         * Use the last modification date of the file with this path.
+         */
+        String mod;
+        /**
+         * Use the contents of the file with this path.
+         */
+        String in;
+        /**
+         * If true and if the submission directory is a git repository,
+         * use the date of the last commit.  (defaults to true)
+         */
+        boolean git;
+    }
+
     /**
      * Default properties common to all test cases.
      */
@@ -54,9 +77,9 @@ public class TestSuitePropertiesBase {
     public String dueDate;
 
     /**
-     * Command to get date when submission was submitted.
+     * How to find when submission was submitted.
      */
-    public String findDateSubmitted;
+    public SubmissionDateOptions dateSubmitted;
 
     /**
      * List of late penalties, as a percentage per day. E.g.,
@@ -85,6 +108,7 @@ public class TestSuitePropertiesBase {
         latePenalties = new int[1];
         final int lateNotAccepted = 100;
         latePenalties[0] = lateNotAccepted;
+        dateSubmitted = new SubmissionDateOptions();
     }
 
     /**
