@@ -96,8 +96,10 @@ public class SelfScoredOracle extends Oracle {
                         throw new TestConfigurationError("Oracle pattern "
                             + getPattern() + " does not capture <pts>.");
                     }
-                    message = line;
                     points = parseAsNumber(ptsStr);
+                    if (points >= 0) {
+                        message = line;
+                    }
                     try {
                         String possStr = matcher.group("poss");
                         possible = parseAsNumber(possStr);

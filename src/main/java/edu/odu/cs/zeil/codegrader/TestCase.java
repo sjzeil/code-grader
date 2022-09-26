@@ -137,9 +137,11 @@ public class TestCase {
         String testCaseName = properties.getName();
         executeTest(submission, stage, buildStatus);
         Path testRecordingDir = submission.getTestCaseDir(testCaseName);
-        boolean ok = testRecordingDir.toFile().mkdirs();
-        if (!ok) {
-            logger.warn("Unable to create directory " + testRecordingDir);
+        if (!testRecordingDir.toFile().exists()) {
+            boolean ok = testRecordingDir.toFile().mkdirs();
+            if (!ok) {
+                logger.warn("Unable to create directory " + testRecordingDir);
+            }
         }
         String testName = properties.getName();
         String outExtension = (asGold) ? ".expected" : ".out";
@@ -207,7 +209,7 @@ public class TestCase {
                     actualOutput);
                 if (evaluation.score > bestScore) {
                     bestScore = evaluation.score;
-                    if (!firstMessage.equals("")) {
+                    if (firstMessage.equals("")) {
                         firstMessage = evaluation.message;
                     }
                 }

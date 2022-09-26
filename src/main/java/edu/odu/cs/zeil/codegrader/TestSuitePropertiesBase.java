@@ -27,28 +27,6 @@ public class TestSuitePropertiesBase {
 
     //CHECKSTYLE:OFF
 
-    public static class SubmissionDateOptions {
-
-        SubmissionDateOptions() {
-            mod = "";
-            in = "";
-            git = true;
-        }
-        
-        /**
-         * Use the last modification date of the file with this path.
-         */
-        String mod;
-        /**
-         * Use the contents of the file with this path.
-         */
-        String in;
-        /**
-         * If true and if the submission directory is a git repository,
-         * use the date of the last commit.  (defaults to true)
-         */
-        boolean git;
-    }
 
     /**
      * Default properties common to all test cases.

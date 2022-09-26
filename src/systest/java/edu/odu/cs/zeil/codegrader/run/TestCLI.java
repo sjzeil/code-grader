@@ -204,7 +204,7 @@ public class TestCLI {
 				String total = FileUtils.readTextFile(
 							studentRecording
 							.resolve(selectedStudent + ".total").toFile());
-				assertEquals(selectedStudentScore, total.trim());
+				assertEquals(selectedStudentScore, total.trim());	
 			}
 		}
 	}
