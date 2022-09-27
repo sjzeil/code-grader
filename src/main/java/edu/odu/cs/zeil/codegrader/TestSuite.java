@@ -276,9 +276,11 @@ public class TestSuite implements Iterable<TestCase> {
 				}
 			}
 			if (proceedWithGrading) {
-				boolean ok = recordAt.toFile().mkdirs();
-				if (!ok) {
-					logger.warn("Unable to create directory " + recordAt);
+				if (!recordAt.toFile().exists()) {
+					boolean ok = recordAt.toFile().mkdirs();
+					if (!ok) {
+						logger.warn("Unable to create directory " + recordAt);
+					}
 				}
 				copyTestSuiteToRecordingArea(submission);
 				submitterStage.setupStage();
