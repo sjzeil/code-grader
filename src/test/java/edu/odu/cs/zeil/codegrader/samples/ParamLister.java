@@ -35,6 +35,9 @@ public final class ParamLister {
         }
         System.out.flush();
         int statusCode = (args.length > 0 && args[0].equals("fail")) ? 212 : 0;
+        if (statusCode != 0) {
+            System.err.println("This is written to std err.");
+        }
         System.err.flush();
         System.exit(statusCode);
     }

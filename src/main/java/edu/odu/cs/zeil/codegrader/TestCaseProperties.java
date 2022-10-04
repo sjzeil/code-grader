@@ -251,6 +251,17 @@ public class TestCaseProperties {
 
 
     /**
+     * Should the contents of the standard error stream be appended to
+     * the actual output?  Otherwise output sent by the program to the
+     * standard error stream will be ignored.
+     * 
+     * @param captureErr true iff the standard error stream should be appended.
+     */
+    public void setStderr(boolean captureErr) {
+        stderr = captureErr;
+    }
+
+    /**
      * Should the status code of a submitted program be checked
      * to see if the program has crashed? Defaults to false; 
      * 

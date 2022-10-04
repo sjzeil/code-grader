@@ -1,3 +1,8 @@
+1.1.1 10/4/2022
+
+* Fixed bug where stderr was not collected when explicitly requested
+  as part of a test case's properties.
+
 1.1.0 9/25/2022  
 
 * Added oracles for JUnit tests, TAP (Test Anything Protocol) tests, and

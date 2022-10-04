@@ -2,6 +2,7 @@ package edu.odu.cs.zeil.codegrader;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.BufferedReader;
@@ -125,6 +126,7 @@ public class TestTestCaseExec {
 		throws FileNotFoundException, TestConfigurationError  {
         TestCaseProperties testProperties = 
 			new TestCaseProperties(asst, "softCrash");
+		testProperties.setStderr(true);
 
 		String javaHome = System.getProperty("java.home");
 		Path javaExec = Paths.get(javaHome, "bin", "java");
@@ -138,6 +140,7 @@ public class TestTestCaseExec {
 		testCase.executeTest(submission, stage, 0);
 		assertThat(testCase.crashed(), is(true));
 		assertThat(testCase.timedOut(), is(false));
+		assertThat(testCase.getOutput(), containsString("std err"));
 	}
 
 	@Test

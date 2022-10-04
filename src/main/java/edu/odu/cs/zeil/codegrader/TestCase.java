@@ -107,6 +107,11 @@ public class TestCase {
         process.execute(true);
         capturedOutput = process.getOutput();
         capturedError = process.getErr();
+        if (properties.getStderr()) {
+            capturedOutput = capturedOutput + "\n--- std err---\n" 
+                + capturedError;
+            capturedError = "";
+        }
         crashed = process.crashed();
         onTime = process.getOnTime();
         statusCode = process.getStatusCode();
