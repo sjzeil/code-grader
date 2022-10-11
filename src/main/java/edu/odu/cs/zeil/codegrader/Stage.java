@@ -351,6 +351,9 @@ public class Stage {
 	private void setupSubmitterStage() {
 		Path submittedSourceCode = beingGraded.getSubmissionDirectory();
 		if (assignment.getInstructorCodeDirectory() != null) {
+			if (!stageDir.toFile().exists()) {
+				stageDir.toFile().mkdirs();
+			}
 			try {
 				FileUtils.copyDirectory(
 						assignment.getInstructorCodeDirectory(),
@@ -389,11 +392,18 @@ public class Stage {
 	 * 
 	 */
 	private void arrangeJavaFiles() {
-		List<File> javaFiles = FileUtils.findAllDeepFiles(stageDir, ".java");
-		for (File javaFile : javaFiles) {
-			String packageName = getJavaPackage(javaFile);
-			if (notPlacedInPackage(javaFile, packageName)) {
-				moveIntoPackage(javaFile, packageName);
+		if (properties.build.javaSrcDir.size() > 0) {
+			// If at least one Java src dir has been specified, move
+			// .java files whose package declaration does not match their
+			// file location into the appropriate subdirectory
+			// of the first Java src dir.
+		    List<File> javaFiles = 
+				FileUtils.findAllDeepFiles(stageDir, ".java");
+		    for (File javaFile : javaFiles) {
+			    String packageName = getJavaPackage(javaFile);
+				if (notPlacedInPackage(javaFile, packageName)) {
+					moveIntoPackage(javaFile, packageName);
+				}
 			}
 		}
 	}
