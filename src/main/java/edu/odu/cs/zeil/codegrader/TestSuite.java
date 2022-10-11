@@ -835,6 +835,9 @@ public class TestSuite implements Iterable<TestCase> {
 			return false;
 		}
 		String testName = testCase.getName();
+		if (testName.startsWith(".") || testName.startsWith("__")) {
+			return false;
+		}
 		return (testsToPerform.size() == 0
 				|| testsToPerform.contains(testName));
 	}

@@ -1,3 +1,10 @@
+1.1.2 10/11/2022
+
+* Directories starting with "`.`" or "`__`" are not considered to be test case
+  directories. (These can be created inadvertantly when running some tests,
+  e.g., a test of a Python program or that uses a Python oracle script
+  may generate a `__pycache__` directory.)
+
 1.1.1 10/4/2022
 
 * Fixed bug where stderr was not collected when explicitly requested
