@@ -93,16 +93,17 @@ public class TestStage {
         stage.setupStage();
 
         // Check first on the submitter stage setup
-        assertTrue(asst.getSubmitterStage().toFile().exists());
-        assertTrue(asst.getSubmitterStage().resolve("sqrtProg.java")
+        assertTrue(asst.getSubmitterStage(submission).toFile().exists());
+        assertTrue(asst.getSubmitterStage(submission).resolve("sqrtProg.java")
                 .toFile().exists());
-        assertTrue(asst.getSubmitterStage().resolve("makefile")
+        assertTrue(asst.getSubmitterStage(submission).resolve("makefile")
                 .toFile().exists());
 
         Stage.BuildResult result = stage.buildCode();
 
         assertThat(result.getStatusCode(), is(0));
     }
+
 
 
 }

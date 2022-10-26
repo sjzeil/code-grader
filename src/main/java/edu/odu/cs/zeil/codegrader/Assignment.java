@@ -246,11 +246,11 @@ public class Assignment implements Cloneable {
      * Get the staging directory for the submitted version.
      * @return a subdirectory within the staging area.
      */
-    public Path getSubmitterStage() {
+    public Path getSubmitterStage(Submission submission) {
         if (inPlace) {
             return submissionsDirectory;
         } else {
-            return stagingDirectory.resolve("submission");
+            return stagingDirectory.resolve(submission.getSubmittedBy());
         }
    }
 

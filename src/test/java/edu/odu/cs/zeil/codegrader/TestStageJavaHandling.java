@@ -124,18 +124,18 @@ public class TestStageJavaHandling {
 		suite.processThisSubmission(submission);
 
 		// Check first on the submitter stage setup
-		assertTrue(asst.getSubmitterStage().toFile().exists());
-		assertTrue(asst.getSubmitterStage()
+		assertTrue(asst.getSubmitterStage(submission).toFile().exists());
+		assertTrue(asst.getSubmitterStage(submission)
 			.resolve("src").resolve("sqrtProg.java")
 			.toFile().exists());
 
 		// Now check if the build ran.
-		assertTrue(asst.getSubmitterStage()
+		assertTrue(asst.getSubmitterStage(submission)
 			.resolve("src")
 			.resolve("sqrtProg.class")
 			.toFile().exists());
 
-		assertFalse(asst.getSubmitterStage()
+		assertFalse(asst.getSubmitterStage(submission)
 			.resolve("sqrtProg.class")
 			.toFile().exists());
 	}
@@ -157,14 +157,14 @@ public class TestStageJavaHandling {
 		suite.processThisSubmission(submission);
 
 		// Check first on the submitter stage setup
-		assertTrue(asst.getSubmitterStage().toFile().exists());
-		assertTrue(asst.getSubmitterStage()
+		assertTrue(asst.getSubmitterStage(submission).toFile().exists());
+		assertTrue(asst.getSubmitterStage(submission)
 		.resolve("src")
 		.resolve("sqrtProg.java")
 			.toFile().exists());
 
 		// Now check if the build ran.
-		assertTrue(asst.getSubmitterStage()
+		assertTrue(asst.getSubmitterStage(submission)
 			.resolve("src")
 			.resolve("sqrtProg.class")
 			.toFile().exists());
@@ -188,14 +188,16 @@ public class TestStageJavaHandling {
 		suite.processThisSubmission(submission);
 
 		// Check first on the submitter stage setup
-		assertTrue(asst.getSubmitterStage().toFile().exists());
-		assertTrue(asst.getSubmitterStage().resolve("src").toFile().exists());
-		assertTrue(asst.getSubmitterStage().resolve("src")
+		assertTrue(asst.getSubmitterStage(submission).toFile().exists());
+		assertTrue(asst.getSubmitterStage(submission).resolve("src")
+			.toFile().exists());
+		assertTrue(asst.getSubmitterStage(submission).resolve("src")
 			.resolve("sqrtProg.java")
 			.toFile().exists());
-		assertTrue(asst.getSubmitterStage().resolve("src").resolve("unexpected")
+		assertTrue(asst.getSubmitterStage(submission).resolve("src")
+			.resolve("unexpected")
 			.toFile().isDirectory());
-		assertTrue(asst.getSubmitterStage().resolve("src")
+		assertTrue(asst.getSubmitterStage(submission).resolve("src")
 			.resolve("unexpected")
 			.resolve("sqrtPrinter.java")
 			.toFile().exists());

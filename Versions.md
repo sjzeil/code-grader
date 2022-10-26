@@ -1,3 +1,9 @@
+1.1.3 10/26/2022
+* The stage directory for a student's submission is now named with the 
+  student's ID instead of the generic name `submission`. This reduces
+  the potential for conflicts if the grader should be run simultaneously
+  for two different students.
+
 1.1.2 10/11/2022
 
 * Directories starting with "`.`" or "`__`" are not considered to be test case

@@ -292,8 +292,8 @@ public class TestCLI {
 		assertTrue(stage.toFile().isDirectory()); // stage is retained
 		assertTrue(stage.resolve("gold").toFile().isDirectory());
 		assertTrue(stage.resolve("gold").resolve("makefile").toFile().exists());
-		assertTrue(stage.resolve("submission").toFile().isDirectory());
-		assertTrue(stage.resolve("submission").resolve("makefile")
+		assertTrue(stage.resolve("perfect").toFile().isDirectory());
+		assertTrue(stage.resolve("perfect").resolve("makefile")
 			.toFile().exists());
 		assertTrue(recordingGrades.toFile().isDirectory());
 

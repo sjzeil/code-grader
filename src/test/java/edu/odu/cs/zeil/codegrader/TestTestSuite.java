@@ -163,12 +163,12 @@ public class TestTestSuite {
 		suite.processThisSubmission(submission);
 
 		// Check first on the submitter stage setup
-		assertTrue(asst.getSubmitterStage().toFile().exists());
-		assertTrue(asst.getSubmitterStage().resolve("sqrtProg.java")
+		assertTrue(asst.getSubmitterStage(submission).toFile().exists());
+		assertTrue(asst.getSubmitterStage(submission).resolve("sqrtProg.java")
 			.toFile().exists());
 
 		// Now check if the build ran.
-		assertTrue(asst.getSubmitterStage().resolve("sqrtProg.class")
+		assertTrue(asst.getSubmitterStage(submission).resolve("sqrtProg.class")
 			.toFile().exists());
 
 		// Were reports generated?
@@ -294,8 +294,8 @@ public class TestTestSuite {
 		suite.processThisSubmission(submission);
 
 		// Check first on the submitter stage setup
-		assertTrue(asst.getSubmitterStage().toFile().exists());
-		assertTrue(asst.getSubmitterStage().resolve("sqrtProg.java")
+		assertTrue(asst.getSubmitterStage(submission).toFile().exists());
+		assertTrue(asst.getSubmitterStage(submission).resolve("sqrtProg.java")
 			.toFile().exists());
 
 		// Now check if the build ran in place.

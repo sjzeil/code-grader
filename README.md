@@ -20,7 +20,7 @@ More information will accumulate in the [Wiki]
 
 ## Status
 
-Current version: _1.1.0_
+Current version: _1.1.3_
 
 * [Tutorials and Reference Documentation](https://github.com/sjzeil/code-grader/wiki).
 * [Project reports](https://sjzeil.github.io/code-grader/)

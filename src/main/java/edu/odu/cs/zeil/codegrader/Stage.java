@@ -46,7 +46,7 @@ public class Stage {
 		if (submission == null) {
 			stageDir = asst.getGoldStage();
 		} else {
-			stageDir = asst.getSubmitterStage();
+			stageDir = asst.getSubmitterStage(submission);
 		}
 		assignment = asst;
 		properties = suiteProperties;
@@ -352,7 +352,7 @@ public class Stage {
 		} else {
 			setupSubmitterStage();
 		}
-		arrangeJavaFiles();
+		arrangeJavaFiles(stageDir);
 	}
 
 	private void setupSubmitterStage() {
@@ -390,15 +390,16 @@ public class Stage {
 							+ " into " + stageDir.toString() + "\n"
 							+ e.getMessage());
 		}
-		arrangeJavaFiles();
+		arrangeJavaFiles(stageDir);
 	}
 
 	/**
 	 * Look for Java files that are out of position according to their
 	 * package name and move them to the proper location.
+	 * @param beingGraded2
 	 * 
 	 */
-	private void arrangeJavaFiles() {
+	private void arrangeJavaFiles(Path stageDir) {
 		if (properties.build.javaSrcDir.size() > 0) {
 			// If at least one Java src dir has been specified, move
 			// .java files whose package declaration does not match their
@@ -408,7 +409,7 @@ public class Stage {
 				FileUtils.findAllDeepFiles(stageDir, ".java");
 		    for (File javaFile : javaFiles) {
 			    String packageName = getJavaPackage(javaFile);
-				if (notPlacedInPackage(javaFile, packageName)) {
+				if (notPlacedInPackage(javaFile, packageName, stageDir)) {
 					moveIntoPackage(javaFile, packageName);
 				}
 			}
@@ -456,8 +457,8 @@ public class Stage {
 	 * @param packageName The package it belongs to.
 	 * @return true if this file needs to be moved
 	 */
-	private boolean notPlacedInPackage(File javaFile, String packageName) {
-		Path stage = assignment.getSubmitterStage();
+	private boolean notPlacedInPackage(File javaFile, String packageName, 
+			Path stage) {
 		Path packagePath = Paths.get(packageName.replaceAll("\\.", "/"));
 		if (properties.build.javaSrcDir.size() > 0) {
 			for (String srcDir : properties.build.javaSrcDir) {
