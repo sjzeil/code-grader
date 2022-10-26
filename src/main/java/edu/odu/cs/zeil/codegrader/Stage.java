@@ -335,6 +335,13 @@ public class Stage {
 	 * 
 	 */
 	public void setupStage() {
+		if (stageDir.toFile().exists()) {
+			try {
+				FileUtils.deleteDirectory(stageDir);
+			} catch (IOException ex) {
+				logger.warn("Unable to clear existing stage " + stageDir, ex);
+			}
+		}
 		boolean ok = stageDir.toFile().mkdirs();
 		if (!ok) {
 			logger.warn("Unable to create directory at " + stageDir);
