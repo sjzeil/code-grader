@@ -1,3 +1,9 @@
+1.1.4 12/2/2022
+* Commands lines and parameters for test execution may now contain wild cards.
+* Improved handling of process killing when timing out long-running tests in
+  Linux. Should be less likely to leave zombie processes and `.nfs` files
+  behind.
+
 1.1.3 10/26/2022
 * The stage directory for a student's submission is now named with the 
   student's ID instead of the generic name `submission`. This reduces

@@ -7,7 +7,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.invoke.MethodHandles;
+import java.lang.reflect.Field;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
@@ -233,6 +235,23 @@ public class ExternalProcess {
         }
     }
 
+    static private boolean isWindows = System.getProperty("os.name").contains("Windows");
+
+    private int getPID(Process p) {
+        if (!isWindows) {
+            try {
+            Field f = p.getClass().getDeclaredField("pid");
+            f.setAccessible(true);
+            int pid = (Integer) f.get(p);
+            return pid;
+            } catch (Exception ex)  {
+                return 0;
+            }
+        } else {
+            return 0;
+        }
+    }
+
     /**
      * Runs the external command.
      * 
@@ -242,7 +261,21 @@ public class ExternalProcess {
      * @param quiet do not log failures to run program
      */
     public void execute(boolean quiet) {
-        List<String> launchCommand = parseCommand(commandStr);
+        String scriptFileName = getScriptFileName();
+        Path scriptFile = context.resolve(scriptFileName);
+        FileUtils.writeTextFile(scriptFile, commandStr + "\n");
+        List<String> launchCommand = new ArrayList<>();
+        if (isWindows) {
+            launchCommand.add("cmd");
+            launchCommand.add("/C");
+        } else {
+            launchCommand.add("timeout");
+            launchCommand.add("-s");
+            launchCommand.add("SIGKILL");
+            launchCommand.add("" + maxSeconds + 's');
+            launchCommand.add("/bin/sh");
+        }
+        launchCommand.add(scriptFile.toAbsolutePath().toString());
         ProcessBuilder pBuilder = new ProcessBuilder(launchCommand);
         pBuilder.directory(context.toFile());
         capturedOutput = "";
@@ -274,12 +307,17 @@ public class ExternalProcess {
                     process.getErrorStream());
             stdErrReader.start();
 
-            onTime = process.waitFor(timeLimit, TimeUnit.SECONDS);
+            if (isWindows) {
+                onTime = process.waitFor(timeLimit, TimeUnit.SECONDS);
+            } else {
+                process.waitFor(timeLimit+1, TimeUnit.SECONDS);
+                onTime = process.exitValue() != 137;
+            }
             Instant stopTime = Instant.now();
             long elapsed = Duration.between(startTime, stopTime).toMillis();
             expiredTime = (int) 
                 ((elapsed + ONE_HALF_SEC) / ONE_SEC); // round to closest 
-                                                      // sec.
+            Files.delete(scriptFile);                                                      // sec.
             
             if (onTime) {
                 final int tenthSeconds = 100;
@@ -326,6 +364,14 @@ public class ExternalProcess {
             crashed = true;
             final int interruptedErr = -2;
             statusCode = interruptedErr;
+        }
+    }
+
+    private String getScriptFileName() {
+        if (isWindows) {
+            return "externalProcess" + Math.round(Math.random() * 10000) + ".bat";
+        } else {
+            return "externalProcess" + Math.round(Math.random() * 10000) + ".sh";
         }
     }
 
