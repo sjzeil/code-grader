@@ -5,9 +5,9 @@
 int main()
 {
     double x;
-    cin >> x;
-    double y = sqrt(x);
+    cin >> xx
+    double y = srqt(x);
     cout << "The square root of " << x << " is "
-        << y << endl;
+        << y << endl
     return 0;
 }
