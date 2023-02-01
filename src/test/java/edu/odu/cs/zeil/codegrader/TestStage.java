@@ -27,7 +27,7 @@ public class TestStage {
     private Path goldPath = asstDestPath.resolve("Gold");
 
     private Assignment asst;
-    private TestSuitePropertiesBase tsProperties;
+    private TestSuiteProperties tsProperties;
 
     /**
      * Set up assignment2 params test.
@@ -56,7 +56,7 @@ public class TestStage {
 
         String tsPropertyStr = FileUtils.readTextFile(
                 testSuitePath.resolve("tests.yaml").toFile());
-        tsProperties = TestSuitePropertiesBase.loadYAML(tsPropertyStr);
+        tsProperties = TestSuiteProperties.loadYAML(tsPropertyStr);
     }
 
 

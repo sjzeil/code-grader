@@ -34,7 +34,7 @@ public class TestSuite implements Iterable<TestCase> {
 	private static final int MAX_MESSAGE_LENGTH = 5000;
 	private static final int MAX_SCORE = 100;
 
-	private TestSuitePropertiesBase properties;
+	private TestSuiteProperties properties;
 	private Assignment assignment;
 	private Path testSuiteDirectory;
 	private Set<String> testsToPerform;
@@ -68,12 +68,12 @@ public class TestSuite implements Iterable<TestCase> {
 		testsToPerform = new HashSet<String>();
 		submissionsToRun = new HashSet<String>();
 		testSuiteDirectory = asst.getTestSuiteDirectory();
-		properties = new TestSuitePropertiesBase();
+		properties = new TestSuiteProperties();
 		Optional<File> propsFile = FileUtils.findFile(
 				testSuiteDirectory,
 				".yaml");
 		if (propsFile.isPresent()) {
-			properties = TestSuitePropertiesBase.loadYAML(propsFile.get());
+			properties = TestSuiteProperties.loadYAML(propsFile.get());
 		}
 		goldStage = null;
 		submitterStage = null;

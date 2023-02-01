@@ -3,10 +3,6 @@ package edu.odu.cs.zeil.codegrader;
 import java.io.File;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalInt;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -19,11 +15,9 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * The properties available to describe a test case.
- * 
- * Each may be null if it has been left unspecified.
+ * The properties available to describe a test suite.
  */
-public class TestCasePropertiesBase {
+public class TestSuiteProperties {
 
     /**
      * error logging.
@@ -31,71 +25,68 @@ public class TestCasePropertiesBase {
     private static final Logger LOG = LoggerFactory.getLogger(
             MethodHandles.lookup().lookupClass());
 
-
     //CHECKSTYLE:OFF
 
-    /**
-     * The command line parameters to be supplies when executing the
-     * program under evaluation.
-    */
-    public Optional<String> params;
 
     /**
-     * How many points this test case is worth? 
+     * Default properties common to all test cases.
      */
-    public OptionalInt weight;
+    public TestCaseProperties test;
 
     /**
-     * The command string used to launch the program under evaluation.
+     * Properties related to setup and build.
      */
-    public Optional<String> launch;
-
-    /**
-     * A string containing expected output when the program under
-     * evaluation is run.
-     */
-    public Optional<String> expected;
-
-    /**
-     * How many seconds to allow a test execution to run before concluding
-     * that the program is hanging, caught in an infinite loop, or simply
-     * unacceptably slow.
-     */
-    public OptionalInt timelimit;
-
-    /**
-     * Should the standard error stream be captures and included in the
-     * program output being evaluated?
-     */
-    public Optional<Boolean> stderr;
-
-    /**
-     * Should the status code be checked for evidence that a program
-     * has crashed? Defaults to false because students aren't likely to
-     * be all that careful about returning status codes.
-     */
-    public Optional<Boolean> status;
+    public BuildProperties build;
 
 
     /**
-     * The grading criteria for this test case.
+     * Path to grade calculation spreadsheet.
      */
-    public List<OracleProperties> grading;
+    public String reportTemplate;
+
+    /**
+     * Assignment name.
+     */
+    public String assignment;
+
+    /**
+     * Date & time when assignment is due.
+     */
+    public String dueDate;
+
+    /**
+     * How to find when submission was submitted.
+     */
+    public SubmissionDateOptions dateSubmitted;
+
+    /**
+     * List of late penalties, as a percentage per day. E.g.,
+     * [10, 20, 100] means that a 10% penalty is assessed on the
+     * first day late, 20% on the second day, and 100% on all subsequent days.
+     * 
+     * [0] would ignore lateness, assessing no penalties.
+     * 
+     * [100] would mean that late submissions are not accepted - they are
+     * graded but will get a score of zero. This is the default.
+     */
+    public int[] latePenalties;
 
     //CHECKSTYLE:ON
-    
+
+
     /**
      * Create a property set with an empty list of grading options.
      */
-    public TestCasePropertiesBase() {
-        params = Optional.empty();
-        weight = OptionalInt.empty();
-        launch = Optional.empty();
-        expected = Optional.empty();
-        timelimit = OptionalInt.empty();
-        stderr = Optional.empty();
-        status = Optional.empty();
-        grading = new ArrayList<>();
+    public TestSuiteProperties() {
+        test = new TestCaseProperties();
+        build = new BuildProperties();
+        reportTemplate = "";
+        assignment = "";
+        dueDate = "";
+        latePenalties = new int[1];
+        final int lateNotAccepted = 100;
+        latePenalties[0] = lateNotAccepted;
+        dateSubmitted = new SubmissionDateOptions();
     }
 
     /**
@@ -105,12 +96,12 @@ public class TestCasePropertiesBase {
      * @return the properties
      * @throws TestConfigurationError if input cannot be parsed
      */
-    public static TestCasePropertiesBase loadYAML(String input)
+    public static TestSuiteProperties loadYAML(String input)
         throws TestConfigurationError {
         ObjectMapper mapper = getMapper();
         try {
-            TestCasePropertiesBase result = mapper.readValue(input, 
-                TestCasePropertiesBase.class);
+            TestSuiteProperties result = mapper.readValue(input, 
+                TestSuiteProperties.class);
             return result;
         } catch (JsonProcessingException e) {
             String message = "Cannot load YAML from string input\n"
@@ -121,18 +112,18 @@ public class TestCasePropertiesBase {
     }
 
     /**
-     * Load properties from a File.
+     * Load properties from a string.
      * 
      * @param input file containing properties in YAML
      * @return the properties
      * @throws TestConfigurationError if input cannot be parsed
      */
-    public static TestCasePropertiesBase loadYAML(File input)
+    public static TestSuiteProperties loadYAML(File input)
         throws TestConfigurationError {
         ObjectMapper mapper = getMapper();
         try {
-            TestCasePropertiesBase result = mapper.readValue(input, 
-                TestCasePropertiesBase.class);
+            TestSuiteProperties result = mapper.readValue(input, 
+                TestSuiteProperties.class);
             return result;
         } catch (IOException e) {
             String message = "Cannot load YAML from " + input.toString() + "\n"

@@ -21,7 +21,7 @@ import edu.odu.cs.zeil.codegrader.Submission;
 import edu.odu.cs.zeil.codegrader.TestCase;
 import edu.odu.cs.zeil.codegrader.TestCaseProperties;
 import edu.odu.cs.zeil.codegrader.TestConfigurationError;
-import edu.odu.cs.zeil.codegrader.TestSuitePropertiesBase;
+import edu.odu.cs.zeil.codegrader.TestSuiteProperties;
 
 //CHECKSTYLE:OFF
 
@@ -54,7 +54,7 @@ public class TestSelfScoredOracle {
 		testCase = new TestCase(new TestCaseProperties(asst, "params"));
 		sub = new Submission(asst, "student1", 
             testSuitePath.resolve("submissions"));
-		stage = new Stage(asst, sub, new TestSuitePropertiesBase());
+		stage = new Stage(asst, sub, new TestSuiteProperties());
 	}
 	
     @Test

@@ -77,7 +77,7 @@ public class TestTestCaseOracle {
 		testProperties.setLaunch(launcher);
         
 		Stage stage = new Stage(asst, student1,
-			new TestSuitePropertiesBase());
+			new TestSuiteProperties());
 		stage.getStageDir().toFile().mkdirs();
 		Path recordAt = asst.getRecordingDirectory().resolve("student1")
 			.resolve("TestCases").resolve("params");
@@ -127,7 +127,7 @@ public class TestTestCaseOracle {
 		testProperties.setLaunch(launcher);
         
 		Stage stage = new Stage(asst, student1,
-			new TestSuitePropertiesBase());
+			new TestSuiteProperties());
 		stage.getStageDir().toFile().mkdirs();
 		
 		Path recordAt = asst.getRecordingDirectory().resolve("student1")

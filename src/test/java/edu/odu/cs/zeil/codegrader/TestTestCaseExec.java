@@ -54,7 +54,7 @@ public class TestTestCaseExec {
 		asst = new Assignment();
 		asst.setTestSuiteDirectory(testSuitePath.resolve("tests"));
 		asst.setStagingDirectory(stagingPath);
-		TestSuitePropertiesBase tcProps = new TestSuitePropertiesBase();
+		TestSuiteProperties tcProps = new TestSuiteProperties();
 		student1 = new Submission(asst, "student1", submissionPath);
 		stage = new Stage(asst, student1, tcProps);
 		stage.getStageDir().toFile().mkdirs();

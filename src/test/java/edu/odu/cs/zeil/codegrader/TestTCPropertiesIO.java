@@ -12,13 +12,13 @@ import java.util.Optional;
 import java.util.OptionalInt;
 
 
-public class TestTCPropertiesBase {
+public class TestTCPropertiesIO {
 	
 
 	@Test
 	void testReadWrite() 
         throws TestConfigurationError {
-        TestCasePropertiesBase tcp = new TestCasePropertiesBase();
+        TestCaseProperties tcp = TestCaseProperties.defaults();
         tcp.params = Optional.of("a b c");
         tcp.launch = Optional.of("./myProgram");
         tcp.weight = OptionalInt.of(42);
@@ -38,8 +38,8 @@ public class TestTCPropertiesBase {
         assertThat(tcpAsString, containsString("42"));
         //System.err.println(tcpAsString);
 
-        TestCasePropertiesBase tcp2 
-                = TestCasePropertiesBase.loadYAML(tcpAsString);
+        TestCaseProperties tcp2 
+                = TestCaseProperties.loadYAML(tcpAsString);
         assertThat(tcp2.params.get(), equalTo(tcp.params.get()));
         assertThat(tcp2.launch.get(), equalTo(tcp.launch.get()));
         assertThat(tcp2.weight.getAsInt(), equalTo(tcp.weight.getAsInt()));
@@ -51,7 +51,7 @@ public class TestTCPropertiesBase {
         
         String input = "params: \"a b\"\nweight: 42\n";
 
-        TestCasePropertiesBase tcp = TestCasePropertiesBase.loadYAML(input);
+        TestCaseProperties tcp = TestCaseProperties.loadYAML(input);
         assertThat(tcp.params.get(), equalTo("a b"));
         assertThat(tcp.weight.getAsInt(), equalTo(42));
         assertThat(tcp.grading.size(), equalTo(0));

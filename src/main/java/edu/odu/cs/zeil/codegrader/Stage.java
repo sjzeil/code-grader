@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Stage {
 
-	private TestSuitePropertiesBase properties;
+	private TestSuiteProperties properties;
 	private Assignment assignment;
 	private Path stageDir;
 	private Submission beingGraded;
@@ -41,7 +41,7 @@ public class Stage {
 	 * @param suiteProperties info about the suite this is a stage for.
 	 */
 	public Stage(Assignment asst, Submission submission,
-			TestSuitePropertiesBase suiteProperties) {
+			TestSuiteProperties suiteProperties) {
 		beingGraded = submission;
 		if (submission == null) {
 			stageDir = asst.getGoldStage();
@@ -60,7 +60,7 @@ public class Stage {
 	 * @param suiteProperties info about the suite this is a stage for.
 	 */
 	public Stage(Assignment asst,
-			TestSuitePropertiesBase suiteProperties) {
+			TestSuiteProperties suiteProperties) {
 		beingGraded = null;
 		stageDir = asst.getGoldStage();
 		assignment = asst;
