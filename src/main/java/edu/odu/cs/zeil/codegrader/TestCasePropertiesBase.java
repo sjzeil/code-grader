@@ -121,7 +121,7 @@ public class TestCasePropertiesBase {
     }
 
     /**
-     * Load properties from a string.
+     * Load properties from a File.
      * 
      * @param input file containing properties in YAML
      * @return the properties
