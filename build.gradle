@@ -111,7 +111,7 @@ checkstyleTest.enabled = false
 checkstyleSystest.enabled = false
 check.dependsOn htmlDependencyReport
 
-task reports (dependsOn: ['htmlDependencyReport', 'javadoc', 'check', 'site']) {
+task reports (dependsOn: ['htmlDependencyReport', 'javadoc', 'check']) {
     description 'Generate all reports for this project'
 }
 
@@ -164,17 +164,26 @@ task copyJar (type: Copy) {
 import edu.odu.cs.zeil.report_accumulator.ReportStats
 
 
-task collectStats (type: ReportStats, dependsOn: ['build','htmlDependencyReport', 'check', 'bake']) {
+task collectStats (type: ReportStats, dependsOn: ['build','htmlDependencyReport', 'check', 'copyJDocs', 'copyBake']) {
     description "Collect statistics from various reports & analysis tools"
     reportsURL = 'https://sjzeil.github.io/code-grader/'
     htmlSourceDir = file("build/jbake")
 }
 
 
-task site (dependsOn: ['copyJDocs', 'collectStats' /*, 'copyJar'*/]){
+task site (dependsOn: ['copyJDocs', 'collectStats' , 'copyBake']){
     description "Build the project website (in build/reports)"
     group "reporting"
 }
+
+
+if (!project.hasProperty("ivyRepoUser")) {
+    ext.ivyRepoUser = "bogus"
+}
+if (!project.hasProperty("ivyRepoPass")) {
+    ext.ivyRepoPass = "bogus"
+}
+
 
 remotes {
   webServer {
@@ -204,4 +213,64 @@ task dailyJar (dependsOn: 'copyJar2') {
       }
     }
   }
+}
+
+////////  Website publication on GitHub pages ///////////////////
+
+def pagesDir = file("${project.rootDir}/../website-temp").absolutePath
+
+task clearPages(type: Delete) {
+    delete pagesDir
+}
+
+task workTree(dependsOn: ['clearPages']) { 
+    doLast {
+        exec {
+            workingDir = '.'
+            commandLine = ['git', 'worktree', 'add', '-f', pagesDir, 'gh-pages']
+        }
+        exec {
+            workingDir = pagesDir
+            commandLine = ['git', 'checkout', 'gh-pages']
+        }
+        exec {
+            workingDir = pagesDir
+            commandLine = ['git', 'pull']
+        }
+    }
+}
+
+task copyWebsite (type: Copy, dependsOn: ['site', 'workTree']) {
+    from 'build/reports'
+    into pagesDir
+}
+
+
+task commitWebsite (dependsOn: 'copyWebsite') {
+    doLast {
+        Date now = new Date()
+
+        exec {
+            workingDir = pagesDir
+            commandLine = ['git', 'add', pagesDir]
+            ignoreExitValue = true
+        }
+        exec {
+            workingDir = pagesDir
+            commandLine = ['git', 'commit', '-m', 'Updating webpages at ' + now.toString()]
+            ignoreExitValue = true
+        }
+    }
+}
+
+task pushWebsite (type: Exec, dependsOn: 'commitWebsite') {
+    workingDir = pagesDir
+    commandLine = ['git', 'push']
+    ignoreExitValue = true
+}
+
+task deploySite (type: Delete, dependsOn: 'pushWebsite') {
+    group = "Reporting"
+    description  'Commit and push website changes to GitHub'
+    delete pagesDir
 }

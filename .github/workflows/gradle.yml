@@ -36,7 +36,7 @@ jobs:
         path: downloads/code-grader.jar
     - name: Documentation
       working-directory: .
-      run: ./gradlew reports
+      run: ./gradlew site
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@v4.3.4
       with:
