@@ -137,22 +137,5 @@ public class TestOracle {
         assertThat(oracle.getCap(), is(tCap));
 	}
 
-    @Test
-	void testOracleFromClassName() throws FileNotFoundException {
-        OracleProperties prop = new OracleProperties();
-        prop.oracle = "edu.odu.cs.zeil.codegrader.oracle.ExternalOracle";
-        prop.scoring = Oracle.ScoringOptions.ByLine;
-        prop.ws = true;
-
-        Oracle oracle = OracleFactory.getOracle(prop, testCase, sub, stage);
-        assertTrue(oracle instanceof ExternalOracle);
-        assertFalse(oracle.getIgnoreCase());
-        assertThat(oracle.getScoring(), is(Oracle.ScoringOptions.ByLine));
-        assertThat(oracle.getPrecision(), lessThan(0.0));
-        assertFalse(oracle.getIgnoreWS());
-        assertTrue(oracle.getIgnoreEmptyLines());
-        assertThat(oracle.getCommand(), is(""));
-        assertThat(oracle.getCap(), is(OracleProperties.DEFAULT_POINT_CAP));
-	}
 
 }

@@ -3,6 +3,7 @@ package edu.odu.cs.zeil.codegrader.oracle;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,29 +37,33 @@ public final class OracleFactory {
             Stage submitterStage) {
 
         String oracleName = option.oracle;
-        if (oracleName.toLowerCase().equals("smart")) {
-            return new SmartOracle(option, testCase,
-                    submission, submitterStage);
-        } else if (oracleName.toLowerCase().equals("external")) {
-            return new ExternalOracle(option, testCase,
-                    submission, submitterStage);
-        } else if (oracleName.toLowerCase().equals("junit5")) {
-            return new JUnit5Oracle(option, testCase,
-                    submission, submitterStage);
-        } else if (oracleName.toLowerCase().equals("tap")) {
-            return new TAPOracle(option, testCase,
-                        submission, submitterStage);
-        } else if (oracleName.toLowerCase().equals("self")) {
-            return new SelfScoredOracle(option, testCase,
-                    submission, submitterStage);
+        Class<? extends Oracle> oracleClass = registered.get(oracleName);
+        if (oracleClass != null) {
+            Class<?>[] argTypes = {option.getClass(), testCase.getClass(),
+                    submission.getClass(), submitterStage.getClass() };
+            Object[] args = {option, testCase, submission, submitterStage };
+
+            try {
+                Constructor<?> constructor = oracleClass.getConstructor(
+                        argTypes);
+                return (Oracle) constructor.newInstance(args);
+            } catch (NoSuchMethodException | SecurityException
+                    | InstantiationException | IllegalAccessException
+                    | IllegalArgumentException
+                    | InvocationTargetException e) {
+                logger.error("Could not instantiate oracle class "
+                        + oracleClass.getCanonicalName()
+                        + " in test case "
+                        + testCase.getProperties().getName());
+            }
         } else {
             try {
-                Class<?> oracleClass = Class.forName(oracleName);
+                Class<?> oracleClassName = Class.forName(oracleName);
                 Class<?>[] argTypes = {option.getClass(), testCase.getClass(),
                          submission.getClass(), submitterStage.getClass()};
                 Object[] args = {option, testCase, submission, submitterStage};
                 
-                Constructor<?> constructor = oracleClass.getConstructor(
+                Constructor<?> constructor = oracleClassName.getConstructor(
                         argTypes);
                 return (Oracle) constructor.newInstance(args);
             } catch (ClassNotFoundException ex) {
@@ -84,11 +89,32 @@ public final class OracleFactory {
                         + " in test case "
                         + testCase.getProperties().getName(), e);
             }
-            return new SmartOracle(option, testCase,
-                submission, submitterStage);
         }
-    }
+        return new SmartOracle(option, testCase, submission, submitterStage);
+}
 
     private OracleFactory() {
     }
+
+    private static HashMap<String, Class<? extends Oracle>> registered
+       = new HashMap<>();
+
+    /**
+     * Register an oracle for use in scoring test case executions.
+     * @param name short name for an oracle
+     * @param oracle a subclass of Oracle
+     */
+    public static void register(String name, Class<? extends Oracle> oracle) {
+        registered.put(name, oracle);
+    }
+
+    static {
+        register("external", ExternalOracle.class);
+        register("smart", SmartOracle.class);
+        register("junit5", JUnit5Oracle.class);
+        register("self", SelfScoredOracle.class);
+        register("tap", TAPOracle.class);
+        register("status", StatusOracle.class);
+    }
+
 }
