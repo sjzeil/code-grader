@@ -83,6 +83,11 @@ public class TestCaseProperties {
      */
     public List<OracleProperties> grading;
 
+    /**
+     * Description of this test case (for display in student's grade report)
+     */
+    public Optional<String> description;
+
     //CHECKSTYLE:ON
     
 
@@ -156,21 +161,31 @@ public class TestCaseProperties {
         result.stderr = Optional.of(false);
         result.status = Optional.of(false);
         result.grading = new ArrayList<>();
+        result.description = Optional.of("");
         return result;
     }
 
-    private void resolveDefaults (
+    private void resolveDefaults(
             TestCaseProperties explicit,
             TestCaseProperties tCase, 
             TestCaseProperties suite, 
             TestCaseProperties defaults) {
-        params = selectStringValue(explicit.params, tCase.params, suite.params, defaults.params);
-        weight = selectIntValue(explicit.weight, tCase.weight, suite.weight, defaults.weight);
-        launch = selectStringValue(explicit.launch, tCase.launch, suite.launch, defaults.launch);
-        expected = selectStringValue(explicit.expected, tCase.expected, suite.expected, defaults.expected);
-        timelimit = selectIntValue(explicit.timelimit, tCase.timelimit, suite.timelimit, defaults.timelimit);
-        stderr = selectBooleanValue(explicit.stderr, tCase.stderr, suite.stderr, defaults.stderr);
-        status = selectBooleanValue(explicit.status, tCase.status, suite.status, defaults.status);
+        params = selectStringValue(explicit.params, tCase.params,
+            suite.params, defaults.params);
+        weight = selectIntValue(explicit.weight, tCase.weight,
+            suite.weight, defaults.weight);
+        launch = selectStringValue(explicit.launch, tCase.launch,
+            suite.launch, defaults.launch);
+        expected = selectStringValue(explicit.expected, tCase.expected,
+            suite.expected, defaults.expected);
+        timelimit = selectIntValue(explicit.timelimit, tCase.timelimit,
+            suite.timelimit, defaults.timelimit);
+        stderr = selectBooleanValue(explicit.stderr, tCase.stderr,
+            suite.stderr, defaults.stderr);
+        status = selectBooleanValue(explicit.status, tCase.status,
+            suite.status, defaults.status);
+        description = selectStringValue(explicit.description, tCase.description,
+            suite.description, defaults.description);
 
         if (tCase.grading.size() > 0) {
             grading = tCase.grading;
@@ -185,6 +200,9 @@ public class TestCaseProperties {
         }
     }
 
+    /**
+     * Create an empty properties set.
+     */
     public TestCaseProperties() {
         testDirectory = null;
         name = "_internal";
@@ -197,6 +215,7 @@ public class TestCaseProperties {
         stderr = Optional.empty();
         status = Optional.empty();
         grading = new ArrayList<>();
+        description = Optional.empty();
     }
 
     /**
@@ -215,16 +234,20 @@ public class TestCaseProperties {
         stderr = readExplicitBoolean(testCaseDirectory, "stderr");
         status = readExplicitBoolean(testCaseDirectory, "status");
         grading = new ArrayList<>();
+        description = readExplicitString(testCaseDirectory, "description");
     }
 
-    private OptionalInt readExplicitInt(Path testCaseDirectory, String propertyName) {
-        Optional<String> valueStr = readExplicitString(testCaseDirectory, propertyName);
+    private OptionalInt readExplicitInt(Path testCaseDirectory,
+        String propertyName) {
+        Optional<String> valueStr 
+            = readExplicitString(testCaseDirectory, propertyName);
         if (valueStr.isPresent()) {
             try {
                 int value = Integer.parseInt(valueStr.get());
                 return OptionalInt.of(value);
             } catch (NumberFormatException ex) {
-                logger.error ("Bad integer content for " + propertyName + " in "
+                logger.error("Bad integer content for " + propertyName 
+                    + " in "
                     + testCaseDirectory + ": " + valueStr.get());
                 return OptionalInt.empty();
             }
@@ -233,8 +256,10 @@ public class TestCaseProperties {
         }
     }       
 
-    private Optional<Boolean> readExplicitBoolean(Path testCaseDirectory, String propertyName) {
-        Optional<String> valueStr = readExplicitString(testCaseDirectory, propertyName);
+    private Optional<Boolean> readExplicitBoolean(Path testCaseDirectory,
+        String propertyName) {
+        Optional<String> valueStr
+             = readExplicitString(testCaseDirectory, propertyName);
         if (valueStr.isPresent()) {
             boolean value = (valueStr.get().toLowerCase().contains("true"))
                     || (valueStr.get().toLowerCase().contains("1"));
@@ -244,11 +269,13 @@ public class TestCaseProperties {
         }
     }       
 
-    private Optional<String> readExplicitString(Path testCaseDirectory, String propertyName) {
+    private Optional<String> readExplicitString(Path testCaseDirectory,
+        String propertyName) {
         Optional<File> propertyFile = FileUtils.findFile(testCaseDirectory,
             "." + propertyName);
         if (propertyFile.isPresent()) {
-            return Optional.of(FileUtils.readTextFile(propertyFile.get()).trim());
+            return Optional.of(FileUtils.readTextFile(propertyFile.get())
+                .trim());
         } else {
             return Optional.empty();
         }

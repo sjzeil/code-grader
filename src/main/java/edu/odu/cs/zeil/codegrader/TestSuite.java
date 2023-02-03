@@ -664,6 +664,10 @@ public class TestSuite implements Iterable<TestCase> {
 
 		for (TestCase tc : this) {
 			String testName = tc.getProperties().getName();
+			String description = tc.getProperties().description.get();
+			if (!description.equals("")) {
+				testName = testName + ": " + description;
+			}
 			int score = submission.getScore(testName);
 			int weight = tc.getProperties().getWeight();
 			String message = submission.getMessage(testName);
