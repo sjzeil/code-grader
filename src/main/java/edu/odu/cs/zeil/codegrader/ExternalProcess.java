@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.invoke.MethodHandles;
-import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,6 +25,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ExternalProcess {
 
+    private static final int TIMEOUT_STATUS = 137;
     private static final long ONE_SEC = 1000L;
     private static final long ONE_HALF_SEC = 500L;
 
@@ -101,49 +101,6 @@ public class ExternalProcess {
         expiredTime  = -1;
     }
 
-    /**
-     * Split a string into space-separated tokens, respecting "" and '' quoted
-     * substrings.
-     * 
-     * @param launch a command line
-     * @return tokenized versions of the command line
-     */
-    private List<String> parseCommand(String launch) {
-        ArrayList<String> result = new ArrayList<>();
-        StringBuffer token = new StringBuffer();
-        boolean inQuotes1 = false;
-        boolean inQuotes2 = false;
-        for (int i = 0; i < launch.length(); ++i) {
-            char c = launch.charAt(i);
-            if (c != ' ') {
-                token.append(c);
-                if (c == '"') {
-                    if (inQuotes2) {
-                        inQuotes2 = false;
-                    } else if (!inQuotes1) {
-                        inQuotes2 = true;
-                    }
-                } else if (c == '\'') {
-                    if (inQuotes1) {
-                        inQuotes1 = false;
-                    } else if (!inQuotes2) {
-                        inQuotes1 = true;
-                    }
-                }
-            } else {
-                if (inQuotes1 || inQuotes2) {
-                    token.append(c);
-                } else if (token.length() != 0) {
-                    result.add(token.toString());
-                    token = new StringBuffer();
-                }
-            }
-        }
-        if (token.length() > 0) {
-            result.add(token.toString());
-        }
-        return result;
-    }
 
     /**
      * Threaded reader for accumulating standard output and standard error
@@ -235,22 +192,9 @@ public class ExternalProcess {
         }
     }
 
-    static private boolean isWindows = System.getProperty("os.name").contains("Windows");
+    private static boolean isWindows = System.getProperty("os.name")
+        .contains("Windows");
 
-    private int getPID(Process p) {
-        if (!isWindows) {
-            try {
-            Field f = p.getClass().getDeclaredField("pid");
-            f.setAccessible(true);
-            int pid = (Integer) f.get(p);
-            return pid;
-            } catch (Exception ex)  {
-                return 0;
-            }
-        } else {
-            return 0;
-        }
-    }
 
     /**
      * Runs the external command.
@@ -310,14 +254,14 @@ public class ExternalProcess {
             if (isWindows) {
                 onTime = process.waitFor(timeLimit, TimeUnit.SECONDS);
             } else {
-                process.waitFor(timeLimit+1, TimeUnit.SECONDS);
-                onTime = process.exitValue() != 137;
+                process.waitFor(timeLimit + 1, TimeUnit.SECONDS);
+                onTime = process.exitValue() != TIMEOUT_STATUS;
             }
             Instant stopTime = Instant.now();
             long elapsed = Duration.between(startTime, stopTime).toMillis();
             expiredTime = (int) 
-                ((elapsed + ONE_HALF_SEC) / ONE_SEC); // round to closest 
-            Files.delete(scriptFile);                                                      // sec.
+                ((elapsed + ONE_HALF_SEC) / ONE_SEC); // round to closest sec.
+            Files.delete(scriptFile);
             
             if (onTime) {
                 final int tenthSeconds = 100;
@@ -368,10 +312,15 @@ public class ExternalProcess {
     }
 
     private String getScriptFileName() {
+        int retainedDigits = 10000;
         if (isWindows) {
-            return "externalProcess" + Math.round(Math.random() * 10000) + ".bat";
+            return "externalProcess" 
+                + Math.round(Math.random() * retainedDigits) 
+                + ".bat";
         } else {
-            return "externalProcess" + Math.round(Math.random() * 10000) + ".sh";
+            return "externalProcess" 
+                + Math.round(Math.random() * retainedDigits) 
+                + ".sh";
         }
     }
 

@@ -1,21 +1,9 @@
 package edu.odu.cs.zeil.codegrader.oracle;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
-import java.lang.invoke.MethodHandles;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import edu.odu.cs.zeil.codegrader.OracleProperties;
 import edu.odu.cs.zeil.codegrader.Stage;
 import edu.odu.cs.zeil.codegrader.Submission;
 import edu.odu.cs.zeil.codegrader.TestCase;
-import edu.odu.cs.zeil.codegrader.TestConfigurationError;
 
 /**
  * An oracle that scores based upon whether the test case launch command
@@ -28,12 +16,6 @@ public class StatusOracle extends Oracle {
 
 
     private static final int PERFECT_SCORE = 100;
-
-        /**
-     * error logging.
-     */
-    private static final Logger LOG = LoggerFactory.getLogger(
-            MethodHandles.lookup().lookupClass());
 
 
 	/**

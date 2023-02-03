@@ -1,5 +1,7 @@
 package edu.odu.cs.zeil.codegrader;
 
+import java.util.ArrayList;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import edu.odu.cs.zeil.codegrader.oracle.Oracle;
@@ -86,6 +88,11 @@ public class OracleProperties implements Cloneable {
      */
     public String pattern;
 
+    /**
+     * A list of file paths.
+     */
+    public ArrayList<String> files;
+
 
     //CHECKSTYLE:ON
 
@@ -106,6 +113,7 @@ public class OracleProperties implements Cloneable {
         numbersOnly = false;
         command = "";
         pattern = "(?<pts>[0-9]+)";
+        files = new ArrayList<>();
     }
 
     /**
