@@ -18,10 +18,13 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Queue;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,8 +42,11 @@ public class TestSuite implements Iterable<TestCase> {
 	private Path testSuiteDirectory;
 	private Set<String> testsToPerform;
 	private Set<String> submissionsToRun;
+	private Set<String> activeTags;
 	private Stage goldStage;
 	private Stage submitterStage;
+	private List<TestCaseProperties> completedCases;
+	private Queue<TestCaseProperties> casesToBeRun;
 
 	private int buildScore;
 	private String buildMessage;
@@ -78,7 +84,10 @@ public class TestSuite implements Iterable<TestCase> {
 		goldStage = null;
 		submitterStage = null;
 		contentHash = "";
+		activeTags = new HashSet<String>();
 		cases = new ArrayList<>();
+		completedCases = new ArrayList<>();
+		casesToBeRun = new LinkedList<>();
 		initializeTestCases();
 	}
 
@@ -969,4 +978,63 @@ public class TestSuite implements Iterable<TestCase> {
 		}
 	}
 
+	/**
+	 * 
+	 * @return the number of test cases currently queued up to be run.
+	 */
+	public int getNumTestsToPerform() {
+		return casesToBeRun.size();
+	}
+
+	/**
+	 * @param tagName tag name
+	 * @return true iff this tag has been set
+	 */
+    public Object isTagActive(String tagName) {
+        return activeTags.contains(tagName);
+    }
+
+	/**
+	 * Set the named tag and queue up any unperformed test cases with
+	 * that tag name as its kind.
+	 * @param tagName a tag name
+	 */
+    public void setTag(String tagName) {
+		if (!activeTags.contains(tagName)) {
+			activeTags.add(tagName);
+			ArrayList<TestCaseProperties> toBeAdded = new ArrayList<>();
+			for (TestCaseProperties tc: cases) {
+				if ((!completedCases.contains(tc)) 
+				  && tc.getKind().equals(tagName)) {
+					toBeAdded.add(tc);
+				}
+			}
+			Collections.sort(toBeAdded);
+			casesToBeRun.addAll(toBeAdded);
+		}
+    }
+
+	/**
+	 * Clear the named tag and remove any unperformed test cases with
+	 * that tag name as its kind from the queue of tests to be performed.
+	 * @param tagName a tag name
+	 */
+    public void clearTag(String tagName) {
+		activeTags.remove(tagName);
+		Queue<TestCaseProperties> stillToRun = new LinkedList<>();
+		for (TestCaseProperties tc: casesToBeRun) {
+			if (!tc.getKind().equals(tagName)) {
+				stillToRun.add(tc);
+			}
+		}
+		casesToBeRun = stillToRun;
+    }
+
+	/**
+	 * Clear all tags and clear the queue of tests to be performed.
+	 */
+    public void clearTags() {
+		activeTags.clear();
+		casesToBeRun.clear();
+    }
 }

@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.OptionalInt;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,19 +22,31 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 
-public class TestCaseProperties {
+public class TestCaseProperties implements Comparable<TestCaseProperties> {
 
     private static final int DEFAULT_RUN_TIMELIMIT = 5;
 
     @JsonIgnore
     private Path testDirectory;
-    private String name;
-
     @JsonIgnore
     private Assignment assignment;
 
 
  //CHECKSTYLE:OFF
+
+    /**
+     * Identifies this test case.
+     */
+    private String name;
+
+    /**
+     * A tag name used to determine when (if ever) a test case should
+     * be performed.  Default is "test".
+     * 
+     * A test suite begins by activating all cases of kind "build".
+     */
+    private Optional<String> kind;
+
 
     /**
      * The command line parameters to be supplies when executing the
@@ -162,20 +175,23 @@ public class TestCaseProperties {
         result.status = Optional.of(false);
         result.grading = new ArrayList<>();
         result.description = Optional.of("");
+        result.kind = Optional.of("test");
         return result;
     }
 
     private void resolveDefaults(
             TestCaseProperties explicit,
-            TestCaseProperties tCase, 
-            TestCaseProperties suite, 
+            TestCaseProperties tCase,
+            TestCaseProperties suite,
             TestCaseProperties defaults) {
+        kind = selectStringValue(explicit.kind, tCase.kind,
+                suite.kind, defaults.kind);
         params = selectStringValue(explicit.params, tCase.params,
-            suite.params, defaults.params);
+                suite.params, defaults.params);
         weight = selectIntValue(explicit.weight, tCase.weight,
-            suite.weight, defaults.weight);
+                suite.weight, defaults.weight);
         launch = selectStringValue(explicit.launch, tCase.launch,
-            suite.launch, defaults.launch);
+                suite.launch, defaults.launch);
         expected = selectStringValue(explicit.expected, tCase.expected,
             suite.expected, defaults.expected);
         timelimit = selectIntValue(explicit.timelimit, tCase.timelimit,
@@ -207,6 +223,7 @@ public class TestCaseProperties {
         testDirectory = null;
         name = "_internal";
         assignment = null;
+        kind = Optional.empty();
         params = Optional.empty();
         weight = OptionalInt.empty();
         launch = Optional.empty();
@@ -226,6 +243,7 @@ public class TestCaseProperties {
      *      for this test case
      */
     private TestCaseProperties(Path testCaseDirectory) {
+        kind = Optional.empty();
         params = readExplicitString(testCaseDirectory, "params");
         weight = readExplicitInt(testCaseDirectory, "weight");
         launch = readExplicitString(testCaseDirectory, "launch");
@@ -398,7 +416,20 @@ public class TestCaseProperties {
         }
     }
 
+    /**
+     * @return the tag name denoting the kind of test case. (Default is "test".)
+     */
+    public String getKind() {
+        return kind.get();
+    }
 
+    /**
+     * Set the kind of this test case.
+     * @param tagName new value of this case's kind.
+     */
+    public void setKind(String tagName) {
+        kind = Optional.of(tagName);
+    }
 
     /**
      * The file to be sent to the standard input of a running test.
@@ -552,5 +583,34 @@ public class TestCaseProperties {
         return assignment;
     }
 
+    /**
+     * Compare two TC properties by name.
+     * @param right another TC properties
+     * @return ordering of the names
+     */
+    public int compareTo(TestCaseProperties right) {
+        return name.compareTo(right.name);
+    }
+
+    /**
+     * Compare by name.
+     * @param right another test cast property collection
+     * @return true if the names match
+     */
+    public boolean equals(Object right) {
+        if (right instanceof TestCaseProperties) {
+            return name.equals(((TestCaseProperties) right).name);
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Hash code of name.
+     * @return hash code
+     */
+    public int hashCode() {
+        return name.hashCode();
+    }
 
 }
