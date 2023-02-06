@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Launches external commands.
  */
-public class ExternalProcess {
+public class ExternalProcess implements TCProcess {
 
     private static final int TIMEOUT_STATUS = 137;
     private static final long ONE_SEC = 1000L;
@@ -192,9 +192,6 @@ public class ExternalProcess {
         }
     }
 
-    private static boolean isWindows = System.getProperty("os.name")
-        .contains("Windows");
-
 
     /**
      * Runs the external command.
@@ -209,7 +206,7 @@ public class ExternalProcess {
         Path scriptFile = context.resolve(scriptFileName);
         FileUtils.writeTextFile(scriptFile, commandStr + "\n");
         List<String> launchCommand = new ArrayList<>();
-        if (isWindows) {
+        if (IS_WINDOWS) {
             launchCommand.add("cmd");
             launchCommand.add("/C");
         } else {
@@ -251,7 +248,7 @@ public class ExternalProcess {
                     process.getErrorStream());
             stdErrReader.start();
 
-            if (isWindows) {
+            if (IS_WINDOWS) {
                 onTime = process.waitFor(timeLimit, TimeUnit.SECONDS);
             } else {
                 process.waitFor(timeLimit + 1, TimeUnit.SECONDS);
@@ -313,7 +310,7 @@ public class ExternalProcess {
 
     private String getScriptFileName() {
         int retainedDigits = 10000;
-        if (isWindows) {
+        if (IS_WINDOWS) {
             return "externalProcess" 
                 + Math.round(Math.random() * retainedDigits) 
                 + ".bat";

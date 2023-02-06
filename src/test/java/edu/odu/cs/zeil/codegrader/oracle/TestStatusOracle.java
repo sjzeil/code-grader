@@ -92,7 +92,7 @@ public class TestStatusOracle {
 			recordAt, null, null);
 
 
-		testCase.performTest(submission, false, stage, 0);
+		testCase.performTest(submission, false, stage);
         String expected = "";
         String actual = testCase.getOutput() + "\n" + testCase.getErr();
         Oracle oracle = new StatusOracle(
@@ -124,7 +124,7 @@ public class TestStatusOracle {
 			recordAt, null, null);
 
 
-		testCase.performTest(submission, false, stage, 0);
+		testCase.performTest(submission, false, stage);
         String expected = "";
         String actual = testCase.getOutput() + "\n" + testCase.getErr();
         Oracle oracle = new StatusOracle(

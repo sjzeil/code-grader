@@ -45,7 +45,7 @@ public class TestCaseProperties implements Comparable<TestCaseProperties> {
      * 
      * A test suite begins by activating all cases of kind "build".
      */
-    private Optional<String> kind;
+    public Optional<String> kind;
 
 
     /**

@@ -300,6 +300,7 @@ public class TestSuite implements Iterable<TestCase> {
 			recordAt = assignment.getTestSuiteDirectory();
 		}
 		if (proceedWithGrading) {
+			/*
 			Stage.BuildResult buildResults = submitterStage.buildCode();
 			buildScore = (buildResults.getStatusCode() == 0) ? MAX_SCORE : 0;
 			buildMessage = buildResults.getMessage();
@@ -309,7 +310,8 @@ public class TestSuite implements Iterable<TestCase> {
 					Integer.toString(buildScore) + "\n");
 			FileUtils.writeTextFile(recordAt.resolve("build.message"),
 					buildResults.getMessage() + "\n");
-			runTests(submission, buildResults.getStatusCode());
+			*/
+			runTests(submission);
 			generateReports(submission);
 			recordContentHash(recordAt, submission);
 		}
@@ -825,22 +827,42 @@ public class TestSuite implements Iterable<TestCase> {
 	 * recorded in the recording area.
 	 * 
 	 * @param submission  submission to be tested
-	 * @param buildStatus 0 if build succeeded
 	 */
-	private void runTests(Submission submission, int buildStatus) {
-		for (TestCase tc : this) {
-			String testName = tc.getProperties().getName();
-			goldStage = new Stage(assignment, properties);
-			if (assignment.getGoldDirectory() != null) {
-				tc.performTest(submission, true,
-						goldStage, 0);
-			}
-			submitterStage = new Stage(assignment, submission, properties);
-			int score = tc.performTest(submission, false,
-					submitterStage, buildStatus);
-			System.out.println("  Test case " + testName
-					+ ": " + score + "%.");
+	private void runTests(Submission submission) {
+		clearTags();
+		completedCases.clear();
+		setTag("build");
+		if (casesToBeRun.isEmpty()) {
+			TestCaseProperties builder = new 
+				DefaultBuildCase(properties, submitterStage,
+									assignment, submission).generate();
+			casesToBeRun.add(builder);
 		}
+		while (!casesToBeRun.isEmpty()) {
+			TestCaseProperties tcp = casesToBeRun.remove();
+			TestCase tc = new TestCase(tcp);
+			performAndScoreTest(submission, tc);
+		}
+		setTag("test");  // If a build task activated "test", then this
+		                         // has no effect.
+		while (!casesToBeRun.isEmpty()) {
+			TestCaseProperties tcp = casesToBeRun.remove();
+			TestCase tc = new TestCase(tcp);
+			performAndScoreTest(submission, tc);
+		}
+	}
+
+	private void performAndScoreTest(Submission submission, TestCase tc) {
+		String testName = tc.getProperties().getName();
+		goldStage = new Stage(assignment, properties);
+		if (assignment.getGoldDirectory() != null) {
+			tc.performTest(submission, true, goldStage);
+		}
+		submitterStage = new Stage(assignment, submission, properties);
+		int score = tc.performTest(submission, false,
+				submitterStage);
+		System.out.println("  Test case " + testName
+				+ ": " + score + "%.");
 	}
 
 	private boolean isAValidTestCase(File testCase) {

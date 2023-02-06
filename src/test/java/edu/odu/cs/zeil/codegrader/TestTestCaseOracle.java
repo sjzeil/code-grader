@@ -83,7 +83,7 @@ public class TestTestCaseOracle {
 			.resolve("TestCases").resolve("params");
 		FileUtils.copyDirectory(asst.getTestSuiteDirectory().resolve("params"),
 		 	recordAt, null, null);
-		testCase.performTest(student1, false, stage, 0);
+		testCase.performTest(student1, false, stage);
 
 		Path studentGrades = recordingPath.resolve("student1")
 			.resolve("TestCases")
@@ -136,7 +136,7 @@ public class TestTestCaseOracle {
 			recordAt, null, null);
 
 
-		testCase.performTest(student1, false, stage, 0);
+		testCase.performTest(student1, false, stage);
 
 		Path studentGrades = recordingPath.resolve("student1")
 			.resolve("TestCases")

@@ -3,6 +3,8 @@ package edu.odu.cs.zeil.codegrader;
 import java.io.File;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.Optional;
 
@@ -84,12 +86,50 @@ public class TestCase {
      * 
      * @param submission code to use when running the test case
      * @param stage staging area
-     * @param buildStatus status code from build
      */
     public void executeTest(Submission submission, 
-            Stage stage, int buildStatus) {
-        String launchCommandStr = stage.getLaunchCommand(
-                properties.getLaunch())  + ' '
+            Stage stage) {
+        String launch = properties.getLaunch();
+        if (!launch.equals("")) {
+            if (launch.charAt(0) != '@') {
+                // Normal case: launch an external process
+                executeExternalTestCommand(submission, stage, launch);
+            } else {
+                // Launch an internal process 
+                executeInternalTestCommand(submission, stage, launch);
+            }
+        }
+    }
+
+    private void executeInternalTestCommand(Submission submission,
+            Stage stage, String launch) {
+        String paramString = properties.getParams();
+        ParameterHandling subs = new ParameterHandling(
+            properties.getAssignment(), this, stage, submission, null, null);
+        paramString = subs.parameterSubstitution(paramString);
+
+        try {
+            Class<?> launcherClassName = Class.forName(launch.substring(1));
+            Class<?>[] argTypes = {TestCaseProperties.class, Stage.class};
+            Object[] args = {properties, stage };
+
+            Constructor<?> constructor = launcherClassName.getConstructor(
+                    argTypes);
+            InternalTestLauncher launcher = (InternalTestLauncher)
+                constructor.newInstance(args);
+            runTCProcess(launcher);
+        } catch (ClassNotFoundException e) {
+            logger.error("invalid process class name: " + launch);
+        } catch (NoSuchMethodException | SecurityException
+                | InstantiationException | IllegalAccessException
+                | InvocationTargetException e) {
+            logger.error("Could not instantiate: " + launch.substring(1), e);
+        }
+    }
+
+    private void executeExternalTestCommand(Submission submission,
+            Stage stage, String launch) {
+        String launchCommandStr = stage.getLaunchCommand(launch)  + ' '
                 + properties.getParams();
         ParameterHandling subs = new ParameterHandling(
             properties.getAssignment(), this, stage, submission, null, null);
@@ -104,6 +144,11 @@ public class TestCase {
             timeLimit,
             stdIn, 
             "test case " + properties.getName());
+        runTCProcess(process);
+    }
+
+
+    private void runTCProcess(TCProcess process) {
         process.execute(true);
         capturedOutput = process.getOutput();
         capturedError = process.getErr();
@@ -116,7 +161,6 @@ public class TestCase {
         onTime = process.getOnTime();
         statusCode = process.getStatusCode();
         expiredTime  = process.getTime();
-
     }
 
 
@@ -131,16 +175,15 @@ public class TestCase {
      * @param asGold true if the gold version is being run, false if
      *                      student version is being run.
      * @param stage stage area in which code has been built
-     * @param buildStatus status code from build 
      * @return test case score
      */
     public int performTest(Submission submission,
                 boolean asGold,
-                Stage stage, int buildStatus)
+                Stage stage)
             throws TestConfigurationError {
         // Copy all test files into the stage.
         String testCaseName = properties.getName();
-        executeTest(submission, stage, buildStatus);
+        executeTest(submission, stage);
         Path testRecordingDir = submission.getTestCaseDir(testCaseName);
         if (!testRecordingDir.toFile().exists()) {
             boolean ok = testRecordingDir.toFile().mkdirs();
