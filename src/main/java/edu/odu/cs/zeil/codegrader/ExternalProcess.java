@@ -309,7 +309,7 @@ public class ExternalProcess implements TCProcess {
     }
 
     private String getScriptFileName() {
-        int retainedDigits = 10000;
+        final int retainedDigits = 10000;
         if (IS_WINDOWS) {
             return "externalProcess" 
                 + Math.round(Math.random() * retainedDigits) 

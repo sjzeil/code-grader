@@ -131,11 +131,6 @@ public class TestCaseProperties implements Comparable<TestCaseProperties> {
         this.name = testName;
         this.assignment = asst;
         this.testDirectory = asst.getTestSuiteDirectory().resolve(testName);
-        if (!this.testDirectory.toFile().isDirectory()) {
-            logger.error("Could not find " + testDirectory.toString());
-            throw new TestConfigurationError("Could not find "
-                    + testDirectory.toString());
-        }
         TestSuiteProperties suiteProperties;
         try {
             File defaultsFile = FileUtils.findFile(

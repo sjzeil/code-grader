@@ -62,7 +62,10 @@ public class TestStage {
 
     @Test
     void testGoldBuild() {
-        Stage stage = new Stage(asst, null, tsProperties);
+        Submission submission = new Submission(asst, "perfect",
+                submissionsPath.resolve("perfect"));
+
+        Stage stage = new Stage(asst, tsProperties);
 
         stage.clear();
 
@@ -72,9 +75,12 @@ public class TestStage {
         assertTrue(asst.getGoldStage().resolve("sqrtProg.java")
                 .toFile().exists());
 
-        Stage.BuildResult result = stage.buildCode();
+        TestCaseProperties builder = new DefaultBuildCase(tsProperties, asst)
+                .generate();
+        TestCase builderCase = new TestCase(builder);
+        int score = builderCase.performTest(submission, true, stage);
 
-        assertThat(result.getStatusCode(), is(0));
+        assertThat(score, is(-1));
         
         assertTrue(asst.getGoldStage().resolve("sqrtProg.class")
                 .toFile().exists());
@@ -99,11 +105,41 @@ public class TestStage {
         assertTrue(asst.getSubmitterStage(submission).resolve("makefile")
                 .toFile().exists());
 
-        Stage.BuildResult result = stage.buildCode();
+        TestCaseProperties builder = new DefaultBuildCase(tsProperties,
+                                asst).generate();
+        TestCase builderCase = new TestCase(builder);
+        int score = builderCase.performTest(submission, false, stage);
 
-        assertThat(result.getStatusCode(), is(0));
+
+        assertThat(score, is(100));
     }
 
+    @Test
+    void testSubmissionBuildFailure() {
+        Submission submission = new Submission(asst, "doesNotCompile",
+                submissionsPath.resolve("doesNotCompile"));
+        
+        Stage stage = new Stage(asst, submission, tsProperties);
+
+        stage.clear();
+
+        stage.setupStage();
+
+        // Check first on the submitter stage setup
+        assertTrue(asst.getSubmitterStage(submission).toFile().exists());
+        assertTrue(asst.getSubmitterStage(submission).resolve("sqrtProg.java")
+                .toFile().exists());
+        assertTrue(asst.getSubmitterStage(submission).resolve("makefile")
+                .toFile().exists());
+
+        TestCaseProperties builder = new DefaultBuildCase(tsProperties,
+                                asst).generate();
+        TestCase builderCase = new TestCase(builder);
+        int score = builderCase.performTest(submission, false, stage);
+
+
+        assertThat(score, is(0));
+    }
 
 
 }

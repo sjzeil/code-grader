@@ -121,33 +121,6 @@ public class Stage {
 
 	}
 
-	/**
-	 * If the instructor has provided a gold version of the program,
-	 * build the code.
-	 */
-	public void buildGoldVersionIfAvailable() {
-		Path goldDir = assignment.getGoldDirectory();
-		if (goldDir != null) {
-			if (goldDir.toFile().exists() && goldDir.toFile().isDirectory()) {
-				Path goldStage = assignment.getGoldStage();
-				if (!goldStage.toFile().exists()) {
-					try {
-						FileUtils.copyDirectory(goldDir, goldStage, null, null);
-					} catch (IOException e) {
-						throw new TestConfigurationError(
-							"Cannot create staging directory for gold version\n"
-							+ e.getMessage());
-					}
-					BuildResult result = buildCode(/* goldStage */);
-					if (result.statusCode != 0) {
-						throw new TestConfigurationError(
-								"Gold code does not build\n"
-										+ result.message);
-					}
-				}
-			}
-		}
-	}
 
 	/**
 	 * Copy the required files into the gold stage.
@@ -165,46 +138,6 @@ public class Stage {
 		}
 	}
 
-	/**
-	 * Build the submitted code (in the staging area).
-	 * 
-	 * @return status code and messages from the build process
-	 */
-	public BuildResult buildCode() {
-		String buildCommand = getBuildCommand();
-		if (buildCommand == null || buildCommand.equals("")) {
-			throw new TestConfigurationError(
-					"Could not deduce build command in "
-							+ stageDir.toString());
-		}
-		ParameterHandling subs = new ParameterHandling(assignment, null, 
-			this, beingGraded, null, null);
-		buildCommand = subs.parameterSubstitution(buildCommand);
-
-		ExternalProcess process = new ExternalProcess(
-				stageDir,
-				buildCommand,
-				properties.build.timeLimit,
-				null,
-				"build process (" + buildCommand + ")");
-		process.execute();
-		String buildInfo = process.getOutput() + "\n\n" + process.getErr();
-		if (process.getOnTime()) {
-			if (process.getStatusCode() == 0) {
-				return new BuildResult(0, buildInfo);
-			} else {
-				return new BuildResult(process.getStatusCode(),
-						"Build failed with status code "
-								+ process.getStatusCode()
-								+ ".\n" + buildInfo);
-			}
-		} else {
-			return new BuildResult(-1,
-					"Build exceeded " + properties.build.timeLimit
-							+ " seconds.\n" + buildInfo);
-		}
-
-	}
 
 	/**
 	 * Determine the command used to build the code.
@@ -396,20 +329,20 @@ public class Stage {
 	/**
 	 * Look for Java files that are out of position according to their
 	 * package name and move them to the proper location.
-	 * @param beingGraded2
+	 * @param stageDirectory location of Java files
 	 * 
 	 */
-	private void arrangeJavaFiles(Path stageDir) {
+	private void arrangeJavaFiles(Path stageDirectory) {
 		if (properties.build.javaSrcDir.size() > 0) {
 			// If at least one Java src dir has been specified, move
 			// .java files whose package declaration does not match their
 			// file location into the appropriate subdirectory
 			// of the first Java src dir.
 		    List<File> javaFiles = 
-				FileUtils.findAllDeepFiles(stageDir, ".java");
+				FileUtils.findAllDeepFiles(stageDirectory, ".java");
 		    for (File javaFile : javaFiles) {
 			    String packageName = getJavaPackage(javaFile);
-				if (notPlacedInPackage(javaFile, packageName, stageDir)) {
+				if (notPlacedInPackage(javaFile, packageName, stageDirectory)) {
 					moveIntoPackage(javaFile, packageName);
 				}
 			}
@@ -455,6 +388,7 @@ public class Stage {
 	 * 
 	 * @param javaFile    a Java source file
 	 * @param packageName The package it belongs to.
+	 * @param stage where the files have been staged
 	 * @return true if this file needs to be moved
 	 */
 	private boolean notPlacedInPackage(File javaFile, String packageName, 

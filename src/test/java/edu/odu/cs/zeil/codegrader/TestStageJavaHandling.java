@@ -93,10 +93,14 @@ public class TestStageJavaHandling {
 		assertThat(launch, not(containsString("lib/")));
 		assertThat(launch, containsString("sqrtProg"));
 
+		Path submissionPath = submissionsPath.resolve("perfect");
+		Submission submission = new Submission(asst, "perfect", submissionPath);
+		TestCaseProperties builder = new DefaultBuildCase(tsProperties,
+			asst).generate();
+		TestCase builderCase = new TestCase(builder);
+		int score = builderCase.performTest(submission, true, stage);
 
-        Stage.BuildResult result = stage.buildCode();
-
-        assertThat(result.getStatusCode(), is(0));
+        assertThat(score, is(-1));
         
 		assertTrue(asst.getGoldStage()
 			.resolve("src")
@@ -111,16 +115,12 @@ public class TestStageJavaHandling {
 		suite.clearTheStage(stagingPath);
 
 		Stage goldStage = new Stage(asst, tsProperties);
-
         goldStage.clear();
-
         goldStage.setupStage();
 
-		goldStage.buildCode();
-
 		Path submissionPath = submissionsPath.resolve("perfect");
-		Submission submission = new Submission(asst, "perfect",
-			submissionPath);
+		Submission submission = new Submission(asst, "perfect", submissionPath);
+
 		suite.processThisSubmission(submission);
 
 		// Check first on the submitter stage setup
@@ -151,8 +151,6 @@ public class TestStageJavaHandling {
 		Stage goldStage = new Stage(asst, tsProperties);
         goldStage.clear();
         goldStage.setupStage();
-		goldStage.buildCode();
-
 
 		suite.processThisSubmission(submission);
 
@@ -178,19 +176,18 @@ public class TestStageJavaHandling {
 
 		Path submissionPath = submissionsPath.resolve("flattened");
 		Submission submission = new Submission(asst, "flattened",
-			submissionPath);
+				submissionPath);
 
 		Stage goldStage = new Stage(asst, tsProperties);
-        goldStage.clear();
-        goldStage.setupStage();
-		goldStage.buildCode();
+		goldStage.clear();
+		goldStage.setupStage();
 
 		suite.processThisSubmission(submission);
 
 		// Check first on the submitter stage setup
 		assertTrue(asst.getSubmitterStage(submission).toFile().exists());
 		assertTrue(asst.getSubmitterStage(submission).resolve("src")
-			.toFile().exists());
+				.toFile().exists());
 		assertTrue(asst.getSubmitterStage(submission).resolve("src")
 			.resolve("sqrtProg.java")
 			.toFile().exists());

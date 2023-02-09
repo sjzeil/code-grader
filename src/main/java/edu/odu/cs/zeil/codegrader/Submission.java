@@ -1,6 +1,10 @@
 package edu.odu.cs.zeil.codegrader;
 
+import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 
@@ -14,7 +18,13 @@ public class Submission {
     private Path submissionDir;
 
 
-    
+ 	/**
+	 * Error logging.
+	 */
+	private static Logger logger = LoggerFactory.getLogger(
+			MethodHandles.lookup().lookupClass());
+
+   
 
     /**
      * Create a submission.
@@ -111,6 +121,8 @@ public class Submission {
                 int score = Integer.parseInt(contents);
                 return score;
             } catch (NumberFormatException ex) {
+                logger.error("Unable to parse score file contents as integer: "
+                    + contents, ex);
                 return -1;
             }
         } else {

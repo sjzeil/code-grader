@@ -45,11 +45,8 @@ public class TestSuite implements Iterable<TestCase> {
 	private Set<String> activeTags;
 	private Stage goldStage;
 	private Stage submitterStage;
-	private List<TestCaseProperties> completedCases;
+	private List<TestCase> completedCases;
 	private Queue<TestCaseProperties> casesToBeRun;
-
-	private int buildScore;
-	private String buildMessage;
 
 	private String contentHash;
 
@@ -208,12 +205,11 @@ public class TestSuite implements Iterable<TestCase> {
 	 */
 	public void performTests() {
 		if (assignment.getGoldDirectory() != null) {
-			System.out.println("Building gold code.");
+			System.out.println("Setting up gold stage.");
 			goldStage = new Stage(assignment, properties);
 			goldStage.setupStage();
-			tryToBuildGoldVersion();
 		}
-
+		
 		SubmissionSet submissions = new SubmissionSet(assignment);
 		if (submissionsToRun.size() > 0) {
 			submissions.setSelectedSubmissions(submissionsToRun);
@@ -428,20 +424,14 @@ public class TestSuite implements Iterable<TestCase> {
 				.resolve(submission.getSubmittedBy() + ".html");
 
 		ArrayList<Detail> details = new ArrayList<>();
-		details.add(new Detail("Build",
-				properties.build.weight,
-				buildScore, buildMessage));
-
 		writeTestCaseSummary(submission, details);
-
-		final int perfectScore = 100;
 
 		int studentSubtotalScore = computeSubTotal(details);
 		int daysLate = computeDaysLate(submission);
 		int penalty = computeLatePenalty(daysLate);
-		int studentTotalScore = (perfectScore - penalty) * studentSubtotalScore;
+		int studentTotalScore = (MAX_SCORE - penalty) * studentSubtotalScore;
 		studentTotalScore = (int) Math.round(
-				((float) studentTotalScore) / ((float) perfectScore));
+				((float) studentTotalScore) / ((float) MAX_SCORE));
 
 		writeHTMLReport(submission, gradeReport,
 				details, studentSubtotalScore, daysLate,
@@ -673,17 +663,17 @@ public class TestSuite implements Iterable<TestCase> {
 		StringBuilder testsSummary = new StringBuilder();
 		testsSummary.append("Test,Score,Weight,Msgs\n");
 
-		for (TestCase tc : this) {
+		for (TestCase tc : completedCases) {
 			String testName = tc.getProperties().getName();
 			String description = tc.getProperties().description.get();
 			if (!description.equals("")) {
-				testName = testName + ": " + description;
+				description = testName + ": " + description;
 			}
 			int score = submission.getScore(testName);
 			int weight = tc.getProperties().getWeight();
 			String message = submission.getMessage(testName);
 			details.add(new Detail(testName, weight, score, message));
-			testsSummary.append("\"" + testName + "\",");
+			testsSummary.append("\"" + description + "\",");
 			testsSummary.append("" + score + ",");
 			testsSummary.append("" + weight + ",");
 			testsSummary.append("\"" + csvEncode(message) + "\"\n");
@@ -808,18 +798,6 @@ public class TestSuite implements Iterable<TestCase> {
 
 	}
 
-	/**
-	 * If the instructor has provided a gold version of the program,
-	 * build the code.
-	 */
-	private void tryToBuildGoldVersion() {
-		Stage.BuildResult result = goldStage.buildCode();
-		if (result.getStatusCode() != 0) {
-			throw new TestConfigurationError(
-					"Gold code does not build\n"
-							+ result.getMessage());
-		}
-	}
 
 	/**
 	 * Runs all selected tests for a given submission. Assumes that code
@@ -834,14 +812,14 @@ public class TestSuite implements Iterable<TestCase> {
 		setTag("build");
 		if (casesToBeRun.isEmpty()) {
 			TestCaseProperties builder = new 
-				DefaultBuildCase(properties, submitterStage,
-									assignment, submission).generate();
+				DefaultBuildCase(properties, assignment).generate();
 			casesToBeRun.add(builder);
 		}
 		while (!casesToBeRun.isEmpty()) {
 			TestCaseProperties tcp = casesToBeRun.remove();
 			TestCase tc = new TestCase(tcp);
 			performAndScoreTest(submission, tc);
+			completedCases.add(tc);
 		}
 		setTag("test");  // If a build task activated "test", then this
 		                         // has no effect.
@@ -849,6 +827,7 @@ public class TestSuite implements Iterable<TestCase> {
 			TestCaseProperties tcp = casesToBeRun.remove();
 			TestCase tc = new TestCase(tcp);
 			performAndScoreTest(submission, tc);
+			completedCases.add(tc);
 		}
 	}
 
@@ -1026,10 +1005,7 @@ public class TestSuite implements Iterable<TestCase> {
 			activeTags.add(tagName);
 			ArrayList<TestCaseProperties> toBeAdded = new ArrayList<>();
 			for (TestCaseProperties tc: cases) {
-				if ((!completedCases.contains(tc)) 
-				  && tc.getKind().equals(tagName)) {
-					toBeAdded.add(tc);
-				}
+				toBeAdded.add(tc);
 			}
 			Collections.sort(toBeAdded);
 			casesToBeRun.addAll(toBeAdded);

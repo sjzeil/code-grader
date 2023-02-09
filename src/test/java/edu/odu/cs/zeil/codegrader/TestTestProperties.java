@@ -2,7 +2,6 @@ package edu.odu.cs.zeil.codegrader;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -71,11 +70,6 @@ public class TestTestProperties {
 		assertThat(value, is("./dividers"));
 	}
 
-	@Test
-	void testTestCaseBadCase() {
-		assertThrows(TestConfigurationError.class,
-	        () -> new TestCaseProperties(asst, "bogus"));
-	}
-
+	
 
 }

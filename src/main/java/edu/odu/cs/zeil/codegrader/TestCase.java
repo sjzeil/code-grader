@@ -17,6 +17,8 @@ import edu.odu.cs.zeil.codegrader.oracle.OracleResult;
 
 public class TestCase {
 
+    private static final String BUILD_KIND = "build";
+
     private static final int MIN_RUNTIME_LIMIT = 2;
 
     private static final int INSTRUCTORS_TIME_MULTIPLIER = 4;
@@ -90,6 +92,13 @@ public class TestCase {
     public void executeTest(Submission submission, 
             Stage stage) {
         String launch = properties.getLaunch();
+        if (launch == null || launch.equals("")) {
+            if (properties.getKind().equals(BUILD_KIND)) {
+                launch = stage.getBuildCommand();
+            } else {
+                launch = stage.getLaunchCommand(properties.getLaunch());
+            }
+        }
         if (!launch.equals("")) {
             if (launch.charAt(0) != '@') {
                 // Normal case: launch an external process
@@ -206,9 +215,11 @@ public class TestCase {
                 INSTRUCTORS_TIME_MULTIPLIER * time0);
         }
         String time = "" + time0 + "\n";
-        FileUtils.writeTextFile(
-            testRecordingDir.resolve(testName + timeExtension), 
-            time);
+        if ((!asGold) && (!properties.getKind().equals(BUILD_KIND))) {
+            FileUtils.writeTextFile(
+                testRecordingDir.resolve(testName + timeExtension), 
+                time);
+        }
         if (properties.getStatus() && crashed()) {
             FileUtils.writeTextFile(
                 testRecordingDir.resolve(testName + ".message"), 

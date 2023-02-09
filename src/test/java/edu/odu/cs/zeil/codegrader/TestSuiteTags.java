@@ -29,9 +29,6 @@ public class TestSuiteTags {
 	private Path stagingPath = Paths.get("build", "test-data", "stage");
 	private Path submissionsPath = asstDestPath.resolve("submissions");
 	private Path recordingPath = asstDestPath.resolve("Grades");
-	private String studentName = "perfect";
-	private Path submissionPath = submissionsPath.resolve(studentName);
-	private Submission submission;
 	
 
 	private Assignment asst;
@@ -59,7 +56,6 @@ public class TestSuiteTags {
 		asst.setSubmissionsDirectory(submissionsPath);
 		asst.setRecordingDirectory(recordingPath);
 
-		submission = new Submission(asst, studentName, submissionPath);
 	}
 
 
