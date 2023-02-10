@@ -146,7 +146,7 @@ public class TestTestSuite {
 		int i = 0;
 		String[] expected = {"t10000", "t2", "t3"};
 		for (TestCase tc: suite) {
-			assertThat(tc.getProperties().getName(), is(expected[i]));
+			assertThat(tc.getProperties().name, is(expected[i]));
 			++i;
 		}
 
@@ -183,6 +183,11 @@ public class TestTestSuite {
 		assertTrue(totalFile.toFile().exists());
 		String total = FileUtils.readTextFile(totalFile.toFile());
 		assertEquals("100\n", total);
+
+		assertThat (suite.isTagActive("t2_OK"), is(true));
+		assertThat (suite.isTagActive("t2_passed"), is(true));
+		assertThat (suite.isTagActive("t2_failed"), is(false));
+
 	}
 
 	@Test
@@ -319,6 +324,89 @@ public class TestTestSuite {
 
 
 
+	@Test
+	void testOnFail() {
+		TestSuite suite = new TestSuite(asst);
+		suite.clearTheStage(stagingPath);
+
+		String submitterName = "bad";
+
+		Path submissionPath = submissionsPath.resolve(submitterName);
+
+		submissionsPath.resolve(submitterName).resolve("makefile")
+		.toFile().delete();  // use default Java launch
+
+		submission = new Submission(asst, submitterName, submissionPath);
+
+		suite.processThisSubmission(submission);
+
+		// Check first on the submitter stage setup
+		assertTrue(asst.getSubmitterStage(submission).toFile().exists());
+		assertTrue(asst.getSubmitterStage(submission).resolve("sqrtProg.java")
+			.toFile().exists());
+
+		// Now check if the build ran.
+		assertTrue(asst.getSubmitterStage(submission).resolve("sqrtProg.class")
+			.toFile().exists());
+
+		assertThat (suite.isTagActive("t2_OK"), is(false));
+		assertThat (suite.isTagActive("t2_failed"), is(true));
+
+		// Were reports generated?
+		assertTrue(submission.getRecordingDir()
+			.resolve("testsSummary.csv")
+			.toFile().exists());
+		assertTrue(submission.getRecordingDir()
+			.resolve(submitterName + ".html")
+			.toFile().exists());
+		Path totalFile = submission.getRecordingDir()
+			.resolve(submitterName + ".total");
+		assertTrue(totalFile.toFile().exists());
+		String total = FileUtils.readTextFile(totalFile.toFile());
+		assertEquals("25\n", total);
+	}
+
+	@Test
+	void testFailIf() {
+		TestSuite suite = new TestSuite(asst);
+		suite.clearTheStage(stagingPath);
+
+		String submitterName = "imprecise";
+
+		Path submissionPath = submissionsPath.resolve(submitterName);
+
+		submissionsPath.resolve(submitterName).resolve("makefile")
+		.toFile().delete();  // use default Java launch
+
+		submission = new Submission(asst, submitterName, submissionPath);
+
+		suite.processThisSubmission(submission);
+
+		// Check first on the submitter stage setup
+		assertTrue(asst.getSubmitterStage(submission).toFile().exists());
+		assertTrue(asst.getSubmitterStage(submission).resolve("sqrtProg.java")
+			.toFile().exists());
+
+		// Now check if the build ran.
+		assertTrue(asst.getSubmitterStage(submission).resolve("sqrtProg.class")
+			.toFile().exists());
+
+		assertThat (suite.isTagActive("t10000_failed"), is(true));
+		assertThat (suite.isTagActive("t2_failed"), is(true));
+
+		// Were reports generated?
+		assertTrue(submission.getRecordingDir()
+			.resolve("testsSummary.csv")
+			.toFile().exists());
+		assertTrue(submission.getRecordingDir()
+			.resolve(submitterName + ".html")
+			.toFile().exists());
+		Path totalFile = submission.getRecordingDir()
+			.resolve(submitterName + ".total");
+		assertTrue(totalFile.toFile().exists());
+		String total = FileUtils.readTextFile(totalFile.toFile());
+		assertEquals("69\n", total);
+	}
 
 
 }

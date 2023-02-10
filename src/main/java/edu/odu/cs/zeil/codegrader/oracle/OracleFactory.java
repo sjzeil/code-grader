@@ -54,7 +54,7 @@ public final class OracleFactory {
                 logger.error("Could not instantiate oracle class "
                         + oracleClass.getCanonicalName()
                         + " in test case "
-                        + testCase.getProperties().getName());
+                        + testCase.getProperties().name);
             }
         } else {
             try {
@@ -70,24 +70,24 @@ public final class OracleFactory {
                 logger.error("Could not identify oracle class named "
                         + oracleName
                         + " in test case "
-                        + testCase.getProperties().getName(), ex);
+                        + testCase.getProperties().name, ex);
             } catch (NoSuchMethodException e) {
                 logger.error("Could not identify oracle class named "
                         + oracleName
                         + " in test case "
-                        + testCase.getProperties().getName(), e);
+                        + testCase.getProperties().name, e);
             } catch (SecurityException e) {
                 logger.error("Could not create oracle class named "
                         + oracleName
                         + " in test case "
-                        + testCase.getProperties().getName(), e);
+                        + testCase.getProperties().name, e);
             } catch (InstantiationException | IllegalAccessException
                     | IllegalArgumentException
                     | InvocationTargetException e) {
                 logger.error("Could not instantiate oracle class named "
                         + oracleName
                         + " in test case "
-                        + testCase.getProperties().getName(), e);
+                        + testCase.getProperties().name, e);
             }
         }
         return new SmartOracle(option, testCase, submission, submitterStage);

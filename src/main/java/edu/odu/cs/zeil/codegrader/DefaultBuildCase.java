@@ -1,7 +1,6 @@
 package edu.odu.cs.zeil.codegrader;
 
-import java.util.Optional;
-import java.util.OptionalInt;
+import java.util.ArrayList;
 
 public class DefaultBuildCase {
 
@@ -27,30 +26,32 @@ public class DefaultBuildCase {
     public TestCaseProperties generate() {
         TestCaseProperties builder = new TestCaseProperties(assignment,
              "builder");
-        builder.kind = Optional.of("build");
-        builder.description = Optional.of("Attempt to build the program.");
-        builder.expected = Optional.of("");
+        builder.kind = "build";
+        builder.description = "Attempt to build the program.";
+        builder.expected = "";
         OracleProperties oracle = new OracleProperties();
         oracle.oracle = "status";
         builder.grading.clear();
         builder.grading.add(oracle);
         if (suite.build.command == null || suite.build.command.equals("")) {
-            builder.launch = Optional.of("");
+            builder.launch = "";
         } else {
-            builder.launch = Optional.of(suite.build.command);
+            builder.launch = suite.build.command;
         }
-        builder.weight = OptionalInt.of(suite.build.weight);
-        builder.params = Optional.of("");
-        builder.expected = Optional.of("");
-        builder.timelimit = OptionalInt.of(DEFAULT_BUILDER_TIME_LIMIT);
-        builder.stderr = Optional.of(true);
-        builder.status = Optional.of(true);
-        /*
+        builder.weight = suite.build.weight;
+        builder.params = "";
+        builder.expected = "";
+        builder.timelimit = DEFAULT_BUILDER_TIME_LIMIT;
+        builder.stderr = true;
+        builder.status = true;
+        
+        builder.onSuccess = new ArrayList<>();
         builder.onSuccess.add("test");
         builder.onSuccess.add("buildOK");
-        builder.onFailure.add("test");
-        builder.onFailure.add("buildFailed");
-        */
+        builder.onFail = new ArrayList<>();
+        builder.onFail.add("test");
+        builder.onFail.add("buildFailed");
+        
         return builder;
     }
 

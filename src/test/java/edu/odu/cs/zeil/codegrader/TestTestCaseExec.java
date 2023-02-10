@@ -88,7 +88,7 @@ public class TestTestCaseExec {
 			+ System.getProperty("java.class.path") 
 			+ " edu.odu.cs.zeil.codegrader.samples.ParamLister";
 		//System.err.println(launcher);
-		testProperties.setLaunch(launcher);
+		testProperties.launch = launcher;
         Submission submission = student1;
         TestCase testCase = new TestCase(testProperties);
 		testCase.executeTest(submission, stage);
@@ -110,7 +110,7 @@ public class TestTestCaseExec {
 			+ System.getProperty("java.class.path") 
 			+ " edu.odu.cs.zeil.codegrader.samples.ParamLister";
 		// System.err.println(launcher);
-		testProperties.setLaunch(launcher);
+		testProperties.launch = launcher;
         Submission submission = student1;
         TestCase testCase = new TestCase(testProperties);
 		testCase.executeTest(submission, stage);
@@ -126,7 +126,7 @@ public class TestTestCaseExec {
 		throws FileNotFoundException, TestConfigurationError  {
         TestCaseProperties testProperties = 
 			new TestCaseProperties(asst, "softCrash");
-		testProperties.setStderr(true);
+		testProperties.stderr = true;
 
 		String javaHome = System.getProperty("java.home");
 		Path javaExec = Paths.get(javaHome, "bin", "java");
@@ -134,7 +134,7 @@ public class TestTestCaseExec {
 			+ System.getProperty("java.class.path") 
 			+ " edu.odu.cs.zeil.codegrader.samples.ParamLister";
 		// System.err.println(launcher);
-		testProperties.setLaunch(launcher);
+		testProperties.launch = launcher;
         Submission submission = student1;
         TestCase testCase = new TestCase(testProperties);
 		testCase.executeTest(submission, stage);
@@ -154,7 +154,7 @@ public class TestTestCaseExec {
 			+ System.getProperty("java.class.path") 
 			+ " edu.odu.cs.zeil.codegrader.samples.SlowProgram";
 		// System.err.println(launcher);
-		testProperties.setLaunch(launcher);
+		testProperties.launch = launcher;
         Submission submission = student1;
         TestCase testCase = new TestCase(testProperties);
 		testCase.executeTest(submission, stage);
@@ -173,7 +173,7 @@ public class TestTestCaseExec {
 			+ System.getProperty("java.class.path") 
 			+ " edu.odu.cs.zeil.codegrader.samples.LargeOutput";
 		// System.err.println(launcher);
-		testProperties.setLaunch(launcher);
+		testProperties.launch = launcher;
         Submission submission = student1;
         TestCase testCase = new TestCase(testProperties);
 		testCase.executeTest(submission, stage);
@@ -205,7 +205,7 @@ public class TestTestCaseExec {
 			+ System.getProperty("java.class.path") 
 			+ " edu.odu.cs.zeil.codegrader.samples.CWDLister";
 		//System.err.println(launcher);
-		testProperties.setLaunch(launcher);
+		testProperties.launch = launcher;
         Submission submission = student1;
         TestCase testCase = new TestCase(testProperties);
 		testCase.executeTest(submission, stage);
@@ -229,7 +229,7 @@ public class TestTestCaseExec {
 			+ System.getProperty("java.class.path") 
 		   	+ " edu.odu.cs.zeil.codegrader.samples.ParamLister";
 		//System.err.println(launcher);
-		testProperties.setLaunch(launcher);
+		testProperties.launch = launcher;
         Submission submission = new Submission(asst, "student1");
         TestCase testCase = new TestCase(testProperties);
 		testCase.executeTest(submission, stage);

@@ -74,7 +74,7 @@ public class TestTestCaseOracle {
 		String launcher = javaExec + " -cp " 
 			+ System.getProperty("java.class.path")
 			+ " edu.odu.cs.zeil.codegrader.samples.ParamLister";
-		testProperties.setLaunch(launcher);
+		testProperties.launch = launcher;
         
 		Stage stage = new Stage(asst, student1,
 			new TestSuiteProperties());
@@ -124,7 +124,7 @@ public class TestTestCaseOracle {
 		String launcher = javaExec + " -cp " 
 			+ System.getProperty("java.class.path")
 			+ " edu.odu.cs.zeil.codegrader.samples.ParamLister";
-		testProperties.setLaunch(launcher);
+		testProperties.launch = launcher;
         
 		Stage stage = new Stage(asst, student1,
 			new TestSuiteProperties());

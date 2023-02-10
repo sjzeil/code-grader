@@ -91,12 +91,12 @@ public class TestCase {
      */
     public void executeTest(Submission submission, 
             Stage stage) {
-        String launch = properties.getLaunch();
+        String launch = properties.launch;
         if (launch == null || launch.equals("")) {
-            if (properties.getKind().equals(BUILD_KIND)) {
+            if (properties.kind.equals(BUILD_KIND)) {
                 launch = stage.getBuildCommand();
             } else {
-                launch = stage.getLaunchCommand(properties.getLaunch());
+                launch = stage.getLaunchCommand(properties.launch);
             }
         }
         if (!launch.equals("")) {
@@ -152,7 +152,7 @@ public class TestCase {
             launchCommandStr,
             timeLimit,
             stdIn, 
-            "test case " + properties.getName());
+            "test case " + properties.name);
         runTCProcess(process);
     }
 
@@ -161,7 +161,7 @@ public class TestCase {
         process.execute(true);
         capturedOutput = process.getOutput();
         capturedError = process.getErr();
-        if (properties.getStderr()) {
+        if (properties.stderr) {
             capturedOutput = capturedOutput + "\n--- std err---\n" 
                 + capturedError;
             capturedError = "";
@@ -191,7 +191,7 @@ public class TestCase {
                 Stage stage)
             throws TestConfigurationError {
         // Copy all test files into the stage.
-        String testCaseName = properties.getName();
+        String testCaseName = properties.name;
         executeTest(submission, stage);
         Path testRecordingDir = submission.getTestCaseDir(testCaseName);
         if (!testRecordingDir.toFile().exists()) {
@@ -200,7 +200,7 @@ public class TestCase {
                 logger.warn("Unable to create directory " + testRecordingDir);
             }
         }
-        String testName = properties.getName();
+        String testName = properties.name;
         String outExtension = (asGold) ? ".expected" : ".out";
         String timeExtension = (asGold) ? ".timelimit" : ".time";
         FileUtils.writeTextFile(
@@ -215,12 +215,12 @@ public class TestCase {
                 INSTRUCTORS_TIME_MULTIPLIER * time0);
         }
         String time = "" + time0 + "\n";
-        if ((!asGold) && (!properties.getKind().equals(BUILD_KIND))) {
+        if ((!asGold) && (!properties.kind.equals(BUILD_KIND))) {
             FileUtils.writeTextFile(
                 testRecordingDir.resolve(testName + timeExtension), 
                 time);
         }
-        if (properties.getStatus() && crashed()) {
+        if (properties.status && crashed()) {
             FileUtils.writeTextFile(
                 testRecordingDir.resolve(testName + ".message"), 
                 "***Program failed with status code " 
@@ -254,7 +254,7 @@ public class TestCase {
             int bestScore = -1;
             String firstMessage = "";
             String actualOutput = getOutput();
-            if (properties.getStderr()) {
+            if (properties.stderr) {
                 String errorOut = getErr();
                 if (!errorOut.equals("")) {
                     actualOutput = actualOutput + "\non std err:\n" + errorOut;
@@ -299,11 +299,52 @@ public class TestCase {
         }
     }
 
+    /**
+     * Fail a test without running it.
+     * 
+     * @param submission to evaluate
+     * @param message explanation of failure
+     * @return test case score
+     */
+    public int failTest(Submission submission,
+                String message)
+            throws TestConfigurationError {
+        // Copy all test files into the stage.
+        String testCaseName = properties.name;
+        
+        Path testRecordingDir = submission.getTestCaseDir(testCaseName);
+        if (!testRecordingDir.toFile().exists()) {
+            boolean ok = testRecordingDir.toFile().mkdirs();
+            if (!ok) {
+                logger.warn("Unable to create directory " + testRecordingDir);
+            }
+        }
+        String testName = properties.name;
+        String outExtension = ".out";
+        String timeExtension = ".time";
+        FileUtils.writeTextFile(
+            testRecordingDir.resolve(testName + outExtension), 
+            message);
+        FileUtils.writeTextFile(
+            testRecordingDir.resolve(testName + ".err"), 
+            "");
+        int time0 = 0;
+        String time = "" + time0 + "\n";
+        if (!properties.kind.equals(BUILD_KIND)) {
+            FileUtils.writeTextFile(
+                testRecordingDir.resolve(testName + timeExtension), 
+                time);
+        }
+        FileUtils.writeTextFile(
+            testRecordingDir.resolve(testName + ".score"), 
+            "0\n");
+        return 0;
+    }
 
     private String getExpected(Submission submission) {
         Optional<File> expectedFile 
             = FileUtils.findFile(submission.getTestCaseDir(
-                properties.getName()), 
+                properties.name), 
                 ".expected");
         if (expectedFile.isPresent()) {
             return FileUtils.readTextFile(expectedFile.get());
@@ -314,20 +355,20 @@ public class TestCase {
 
     private int getTimeLimit(Submission submission) {
         if (submission == null) {
-            return properties.getTimelimit();
+            return properties.timelimit;
         } else {
             Optional<File> limitFile = FileUtils.findFile(
-                    submission.getTestCaseDir(properties.getName()),
+                    submission.getTestCaseDir(properties.name),
                     ".timelimit");
             if (limitFile.isPresent()) {
                 String text = FileUtils.readTextFile(limitFile.get());
                 try {
                     return Integer.parseInt(text.trim());
                 } catch (NumberFormatException ex) {
-                    return properties.getTimelimit();
+                    return properties.timelimit;
                 }
             } else {
-                return properties.getTimelimit();
+                return properties.timelimit;
             }
         }
     }
@@ -463,7 +504,7 @@ public class TestCase {
                                             submission.getTestSuiteDir()
                                                     .toRealPath().toString());
                                 } else if (c2 == 't') {
-                                    result.append(properties.getName());
+                                    result.append(properties.name);
                                 } else if (c2 == 'R') {
                                     result.append(
                                             submission.getRecordingDir()

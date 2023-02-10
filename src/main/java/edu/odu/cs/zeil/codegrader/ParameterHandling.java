@@ -27,7 +27,7 @@ public class ParameterHandling {
         Path stageDir = stage.getStageDir();
         replacements = new ArrayList<>();
         Path testSuiteDir = asst.getTestSuiteDirectory();
-        String tcName = (tc == null) ? "" : tc.getProperties().getName();
+        String tcName = (tc == null) ? "" : tc.getProperties().name;
         String recordingDir = (submission == null) ? "" 
             : submission.getRecordingDir().toAbsolutePath().toString();
         String submissionDir = (submission == null) ? ""

@@ -296,17 +296,6 @@ public class TestSuite implements Iterable<TestCase> {
 			recordAt = assignment.getTestSuiteDirectory();
 		}
 		if (proceedWithGrading) {
-			/*
-			Stage.BuildResult buildResults = submitterStage.buildCode();
-			buildScore = (buildResults.getStatusCode() == 0) ? MAX_SCORE : 0;
-			buildMessage = buildResults.getMessage();
-			System.out.println("  Building submitted code: "
-					+ buildScore + "%.");
-			FileUtils.writeTextFile(recordAt.resolve("build.score"),
-					Integer.toString(buildScore) + "\n");
-			FileUtils.writeTextFile(recordAt.resolve("build.message"),
-					buildResults.getMessage() + "\n");
-			*/
 			runTests(submission);
 			generateReports(submission);
 			recordContentHash(recordAt, submission);
@@ -664,13 +653,15 @@ public class TestSuite implements Iterable<TestCase> {
 		testsSummary.append("Test,Score,Weight,Msgs\n");
 
 		for (TestCase tc : completedCases) {
-			String testName = tc.getProperties().getName();
-			String description = tc.getProperties().description.get();
+			String testName = tc.getProperties().name;
+			String description = tc.getProperties().description;
 			if (!description.equals("")) {
 				description = testName + ": " + description;
+			} else {
+				description = testName;
 			}
 			int score = submission.getScore(testName);
-			int weight = tc.getProperties().getWeight();
+			int weight = tc.getProperties().weight;
 			String message = submission.getMessage(testName);
 			details.add(new Detail(testName, weight, score, message));
 			testsSummary.append("\"" + description + "\",");
@@ -821,6 +812,7 @@ public class TestSuite implements Iterable<TestCase> {
 			performAndScoreTest(submission, tc);
 			completedCases.add(tc);
 		}
+		/*
 		setTag("test");  // If a build task activated "test", then this
 		                         // has no effect.
 		while (!casesToBeRun.isEmpty()) {
@@ -829,17 +821,34 @@ public class TestSuite implements Iterable<TestCase> {
 			performAndScoreTest(submission, tc);
 			completedCases.add(tc);
 		}
+		*/
 	}
 
 	private void performAndScoreTest(Submission submission, TestCase tc) {
-		String testName = tc.getProperties().getName();
-		goldStage = new Stage(assignment, properties);
-		if (assignment.getGoldDirectory() != null) {
-			tc.performTest(submission, true, goldStage);
+		String testName = tc.getProperties().name;
+		String failIf = tc.getProperties().failIf;
+		int score = 0;
+		if ((!failIf.equals("")) && isTagActive(failIf)) {
+			// Immediately fail this case
+			tc.failTest(submission, "Case was not run (" + failIf + ")");
+		} else { 
+			goldStage = new Stage(assignment, properties);
+			if (assignment.getGoldDirectory() != null) {
+				tc.performTest(submission, true, goldStage);
+			}
+			submitterStage = new Stage(assignment, submission, properties);
+			score = tc.performTest(submission, false,
+					submitterStage);
 		}
-		submitterStage = new Stage(assignment, submission, properties);
-		int score = tc.performTest(submission, false,
-				submitterStage);
+		if (score == MAX_SCORE) {
+			for (String tagName: tc.getProperties().onSuccess) {
+				setTag(tagName);
+			}
+		} else {
+			for (String tagName: tc.getProperties().onFail) {
+				setTag(tagName);
+			}
+		}
 		System.out.println("  Test case " + testName
 				+ ": " + score + "%.");
 	}
@@ -991,7 +1000,7 @@ public class TestSuite implements Iterable<TestCase> {
 	 * @param tagName tag name
 	 * @return true iff this tag has been set
 	 */
-    public Object isTagActive(String tagName) {
+    public boolean isTagActive(String tagName) {
         return activeTags.contains(tagName);
     }
 
@@ -1005,7 +1014,9 @@ public class TestSuite implements Iterable<TestCase> {
 			activeTags.add(tagName);
 			ArrayList<TestCaseProperties> toBeAdded = new ArrayList<>();
 			for (TestCaseProperties tc: cases) {
-				toBeAdded.add(tc);
+				if (tc.kind.equals(tagName)) {
+					toBeAdded.add(tc);
+				}
 			}
 			Collections.sort(toBeAdded);
 			casesToBeRun.addAll(toBeAdded);
@@ -1021,7 +1032,7 @@ public class TestSuite implements Iterable<TestCase> {
 		activeTags.remove(tagName);
 		Queue<TestCaseProperties> stillToRun = new LinkedList<>();
 		for (TestCaseProperties tc: casesToBeRun) {
-			if (!tc.getKind().equals(tagName)) {
+			if (!tc.kind.equals(tagName)) {
 				stillToRun.add(tc);
 			}
 		}

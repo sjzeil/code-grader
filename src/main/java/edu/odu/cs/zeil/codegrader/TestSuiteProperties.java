@@ -31,7 +31,7 @@ public class TestSuiteProperties {
     /**
      * Default properties common to all test cases.
      */
-    public TestCaseProperties test;
+    public TestCasePropertiesBase test;
 
     /**
      * Properties related to setup and build.
@@ -78,7 +78,7 @@ public class TestSuiteProperties {
      * Create a property set with an empty list of grading options.
      */
     public TestSuiteProperties() {
-        test = new TestCaseProperties();
+        test = new TestCasePropertiesBase();
         build = new BuildProperties();
         reportTemplate = "";
         assignment = "";

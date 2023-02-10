@@ -12,5 +12,6 @@
         "javac",
         "jjones",
         "timelimit"
-    ]
+    ],
+    "java.format.settings.url": "eclipse-formatter.xml"
 }
