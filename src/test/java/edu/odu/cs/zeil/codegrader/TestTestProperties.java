@@ -45,7 +45,7 @@ public class TestTestProperties {
 		throws FileNotFoundException, TestConfigurationError {
 		TestCaseProperties testProperties
 			= new TestCaseProperties(asst, "largeTests");
-		int value = testProperties.timelimit;
+		int value = testProperties.getTimelimit();
 		assertThat(value, is(2));
 	}
 
@@ -56,7 +56,7 @@ public class TestTestProperties {
 
 		TestCaseProperties testProperties 
 			= new TestCaseProperties(asst, "simpleTests");
-		int value = testProperties.weight;
+		int value = testProperties.getWeight();
 		assertThat(value, is(5));
 		//CHECKSTYLE:ON
 	}
@@ -66,7 +66,7 @@ public class TestTestProperties {
 		throws FileNotFoundException, TestConfigurationError {
 		TestCaseProperties testProperties
 			= new TestCaseProperties(asst, "simpleTests");
-		String value = testProperties.launch;
+		String value = testProperties.getLaunch();
 		assertThat(value, is("./dividers"));
 	}
 

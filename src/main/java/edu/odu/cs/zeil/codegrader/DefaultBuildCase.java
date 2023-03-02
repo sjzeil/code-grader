@@ -26,24 +26,24 @@ public class DefaultBuildCase {
     public TestCaseProperties generate() {
         TestCaseProperties builder = new TestCaseProperties(assignment,
              "builder");
-        builder.kind = "build";
-        builder.description = "Attempt to build the program.";
-        builder.expected = "";
+        builder.setKind("build");
+        builder.setDescription("Attempt to build the program.");
+        builder.setExpected("");
         OracleProperties oracle = new OracleProperties();
         oracle.oracle = "status";
         builder.grading.clear();
         builder.grading.add(oracle);
         if (suite.build.command == null || suite.build.command.equals("")) {
-            builder.launch = "";
+            builder.setLaunch("");
         } else {
-            builder.launch = suite.build.command;
+            builder.setLaunch(suite.build.command);
         }
-        builder.weight = suite.build.weight;
-        builder.params = "";
-        builder.expected = "";
-        builder.timelimit = DEFAULT_BUILDER_TIME_LIMIT;
-        builder.stderr = true;
-        builder.status = true;
+        builder.setWeight(suite.build.weight);
+        builder.setParams("");
+        builder.setExpected("");
+        builder.setTimelimit(DEFAULT_BUILDER_TIME_LIMIT);
+        builder.setStderr(true);
+        builder.setStatus(true);
         
         builder.onSuccess = new ArrayList<>();
         builder.onSuccess.add("test");

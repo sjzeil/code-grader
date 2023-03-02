@@ -654,14 +654,14 @@ public class TestSuite implements Iterable<TestCase> {
 
 		for (TestCase tc : completedCases) {
 			String testName = tc.getProperties().name;
-			String description = tc.getProperties().description;
+			String description = tc.getProperties().getDescription();
 			if (!description.equals("")) {
 				description = testName + ": " + description;
 			} else {
 				description = testName;
 			}
 			int score = submission.getScore(testName);
-			int weight = tc.getProperties().weight;
+			int weight = tc.getProperties().getWeight();
 			String message = submission.getMessage(testName);
 			details.add(new Detail(testName, weight, score, message));
 			testsSummary.append("\"" + description + "\",");
@@ -826,7 +826,7 @@ public class TestSuite implements Iterable<TestCase> {
 
 	private void performAndScoreTest(Submission submission, TestCase tc) {
 		String testName = tc.getProperties().name;
-		String failIf = tc.getProperties().failIf;
+		String failIf = tc.getProperties().getFailIf();
 		int score = 0;
 		if ((!failIf.equals("")) && isTagActive(failIf)) {
 			// Immediately fail this case
@@ -1014,7 +1014,7 @@ public class TestSuite implements Iterable<TestCase> {
 			activeTags.add(tagName);
 			ArrayList<TestCaseProperties> toBeAdded = new ArrayList<>();
 			for (TestCaseProperties tc: cases) {
-				if (tc.kind.equals(tagName)) {
+				if (tc.getKind().equals(tagName)) {
 					toBeAdded.add(tc);
 				}
 			}
@@ -1032,7 +1032,7 @@ public class TestSuite implements Iterable<TestCase> {
 		activeTags.remove(tagName);
 		Queue<TestCaseProperties> stillToRun = new LinkedList<>();
 		for (TestCaseProperties tc: casesToBeRun) {
-			if (!tc.kind.equals(tagName)) {
+			if (!tc.getKind().equals(tagName)) {
 				stillToRun.add(tc);
 			}
 		}
