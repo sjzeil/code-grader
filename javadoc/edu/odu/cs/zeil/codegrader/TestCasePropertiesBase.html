@@ -6,15 +6,16 @@
 <title>TestCasePropertiesBase (code-grader 1.1.4 API)</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
-<link rel="stylesheet" type="text/css" href="../../../../../jquery/jquery-ui.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../../../../../jquery/jquery-ui.min.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../../../../../jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="../../../../../script.js"></script>
 <script type="text/javascript" src="../../../../../jquery/jszip/dist/jszip.min.js"></script>
 <script type="text/javascript" src="../../../../../jquery/jszip-utils/dist/jszip-utils.min.js"></script>
 <!--[if IE]>
 <script type="text/javascript" src="../../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../../jquery/jquery-3.5.1.js"></script>
-<script type="text/javascript" src="../../../../../jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="../../../../../jquery/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../../../../../jquery/jquery-ui.min.js"></script>
 </head>
 <body>
 <script type="text/javascript"><!--
@@ -26,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":9,"i2":10};
+var data = {"i0":10,"i1":10,"i2":9,"i3":9,"i4":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -132,9 +133,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public class <span class="typeNameLabel">TestCasePropertiesBase</span>
 extends java.lang.Object</pre>
-<div class="block">The properties available to describe a test case.
- 
- Each may be null if it has been left unspecified.</div>
 </li>
 </ul>
 </div>
@@ -142,7 +140,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <!-- =========== FIELD SUMMARY =========== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="field.summary">
 <!--   -->
@@ -157,14 +155,29 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>java.util.Optional&lt;java.lang.String&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#description">description</a></span></code></th>
+<td class="colLast">
+<div class="block">Description of this test case (for display in student's grade report)</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>java.util.Optional&lt;java.lang.String&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#expected">expected</a></span></code></th>
 <td class="colLast">
 <div class="block">A string containing expected output when the program under
  evaluation is run.</div>
 </td>
 </tr>
+<tr class="altColor">
+<td class="colFirst"><code>java.util.Optional&lt;java.lang.String&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#failIf">failIf</a></span></code></th>
+<td class="colLast">
+<div class="block">If this tag is active, then this case should fail, unrun, with
+  score of zero.</div>
+</td>
+</tr>
 <tr class="rowColor">
-<td class="colFirst"><code>java.util.List&lt;<a href="OracleProperties.html" title="class in edu.odu.cs.zeil.codegrader">OracleProperties</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.Optional&lt;java.util.List&lt;<a href="OracleProperties.html" title="class in edu.odu.cs.zeil.codegrader">OracleProperties</a>&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#grading">grading</a></span></code></th>
 <td class="colLast">
 <div class="block">The grading criteria for this test case.</div>
@@ -172,12 +185,34 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>java.util.Optional&lt;java.lang.String&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#kind">kind</a></span></code></th>
+<td class="colLast">
+<div class="block">A tag name used to determine when (if ever) a test case should
+ be performed.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>java.util.Optional&lt;java.lang.String&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#launch">launch</a></span></code></th>
 <td class="colLast">
 <div class="block">The command string used to launch the program under evaluation.</div>
 </td>
 </tr>
+<tr class="altColor">
+<td class="colFirst"><code>java.util.Optional&lt;java.util.List&lt;java.lang.String&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onFail">onFail</a></span></code></th>
+<td class="colLast">
+<div class="block">What tags should be activated if this case fails (score < 100)</div>
+</td>
+</tr>
 <tr class="rowColor">
+<td class="colFirst"><code>java.util.Optional&lt;java.util.List&lt;java.lang.String&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onSuccess">onSuccess</a></span></code></th>
+<td class="colLast">
+<div class="block">What tags should be activated if this case succeeds (score == 100)</div>
+</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>java.util.Optional&lt;java.lang.String&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#params">params</a></span></code></th>
 <td class="colLast">
@@ -185,7 +220,7 @@ extends java.lang.Object</pre>
  program under evaluation.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>java.util.Optional&lt;java.lang.Boolean&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#status">status</a></span></code></th>
 <td class="colLast">
@@ -194,7 +229,7 @@ extends java.lang.Object</pre>
  be all that careful about returning status codes.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>java.util.Optional&lt;java.lang.Boolean&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#stderr">stderr</a></span></code></th>
 <td class="colLast">
@@ -202,7 +237,7 @@ extends java.lang.Object</pre>
  program output being evaluated?</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>java.util.OptionalInt</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#timelimit">timelimit</a></span></code></th>
 <td class="colLast">
@@ -211,7 +246,7 @@ extends java.lang.Object</pre>
  unacceptably slow.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>java.util.OptionalInt</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#weight">weight</a></span></code></th>
 <td class="colLast">
@@ -223,7 +258,7 @@ extends java.lang.Object</pre>
 </ul>
 </section>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="constructor.summary">
 <!--   -->
@@ -238,7 +273,14 @@ extends java.lang.Object</pre>
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E()">TestCasePropertiesBase</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Create a property set with an empty list of grading options.</div>
+<div class="block">Create an empty properties set.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.nio.file.Path)">TestCasePropertiesBase</a></span>&#8203;(java.nio.file.Path&nbsp;testCaseDirectory)</code></th>
+<td class="colLast">
+<div class="block">Load property values that are stored in explicit files, e.g.,
+ file anything.params can contain values for the "params" property.</div>
 </td>
 </tr>
 </table>
@@ -246,7 +288,7 @@ extends java.lang.Object</pre>
 </ul>
 </section>
 <!-- ========== METHOD SUMMARY =========== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="method.summary">
 <!--   -->
@@ -260,20 +302,34 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>static <a href="TestCasePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader">TestCasePropertiesBase</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#loadYAML(java.io.File)">loadYAML</a></span>&#8203;(java.io.File&nbsp;input)</code></th>
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(java.lang.Object&nbsp;right)</code></th>
 <td class="colLast">
-<div class="block">Load properties from a string.</div>
+<div class="block">Compare by name.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code>int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hashCode()">hashCode</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Hash code of name.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>static <a href="TestCasePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader">TestCasePropertiesBase</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#loadYAML(java.io.File)">loadYAML</a></span>&#8203;(java.io.File&nbsp;input)</code></th>
+<td class="colLast">
+<div class="block">Load properties from a File.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>static <a href="TestCasePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader">TestCasePropertiesBase</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#loadYAML(java.lang.String)">loadYAML</a></span>&#8203;(java.lang.String&nbsp;input)</code></th>
 <td class="colLast">
 <div class="block">Load properties from a string.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
@@ -286,7 +342,7 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
+<code>clone, finalize, getClass, notify, notifyAll, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -298,12 +354,25 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <!-- ============ FIELD DETAIL =========== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="field.detail">
 <!--   -->
 </a>
 <h3>Field Detail</h3>
+<a id="kind">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>kind</h4>
+<pre>public&nbsp;java.util.Optional&lt;java.lang.String&gt; kind</pre>
+<div class="block">A tag name used to determine when (if ever) a test case should
+ be performed.  Default is "test".
+ 
+ A test suite begins by activating all cases of kind "build".</div>
+</li>
+</ul>
 <a id="params">
 <!--   -->
 </a>
@@ -384,18 +453,59 @@ extends java.lang.Object</pre>
 <a id="grading">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>grading</h4>
-<pre>public&nbsp;java.util.List&lt;<a href="OracleProperties.html" title="class in edu.odu.cs.zeil.codegrader">OracleProperties</a>&gt; grading</pre>
+<pre>public&nbsp;java.util.Optional&lt;java.util.List&lt;<a href="OracleProperties.html" title="class in edu.odu.cs.zeil.codegrader">OracleProperties</a>&gt;&gt; grading</pre>
 <div class="block">The grading criteria for this test case.</div>
+</li>
+</ul>
+<a id="description">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>description</h4>
+<pre>public&nbsp;java.util.Optional&lt;java.lang.String&gt; description</pre>
+<div class="block">Description of this test case (for display in student's grade report)</div>
+</li>
+</ul>
+<a id="onFail">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>onFail</h4>
+<pre>public&nbsp;java.util.Optional&lt;java.util.List&lt;java.lang.String&gt;&gt; onFail</pre>
+<div class="block">What tags should be activated if this case fails (score < 100)</div>
+</li>
+</ul>
+<a id="onSuccess">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>onSuccess</h4>
+<pre>public&nbsp;java.util.Optional&lt;java.util.List&lt;java.lang.String&gt;&gt; onSuccess</pre>
+<div class="block">What tags should be activated if this case succeeds (score == 100)</div>
+</li>
+</ul>
+<a id="failIf">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>failIf</h4>
+<pre>public&nbsp;java.util.Optional&lt;java.lang.String&gt; failIf</pre>
+<div class="block">If this tag is active, then this case should fail, unrun, with
+  score of zero.</div>
 </li>
 </ul>
 </li>
 </ul>
 </section>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="constructor.detail">
 <!--   -->
@@ -404,18 +514,34 @@ extends java.lang.Object</pre>
 <a id="&lt;init&gt;()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>TestCasePropertiesBase</h4>
 <pre>public&nbsp;TestCasePropertiesBase()</pre>
-<div class="block">Create a property set with an empty list of grading options.</div>
+<div class="block">Create an empty properties set.</div>
+</li>
+</ul>
+<a id="&lt;init&gt;(java.nio.file.Path)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>TestCasePropertiesBase</h4>
+<pre>public&nbsp;TestCasePropertiesBase&#8203;(java.nio.file.Path&nbsp;testCaseDirectory)</pre>
+<div class="block">Load property values that are stored in explicit files, e.g.,
+ file anything.params can contain values for the "params" property.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>testCaseDirectory</code> - directory containing configuration info
+      for this test case</dd>
+</dl>
 </li>
 </ul>
 </li>
 </ul>
 </section>
 <!-- ============ METHOD DETAIL ========== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="method.detail">
 <!--   -->
@@ -448,7 +574,7 @@ extends java.lang.Object</pre>
 <h4>loadYAML</h4>
 <pre class="methodSignature">public static&nbsp;<a href="TestCasePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader">TestCasePropertiesBase</a>&nbsp;loadYAML&#8203;(java.io.File&nbsp;input)
                                        throws <a href="TestConfigurationError.html" title="class in edu.odu.cs.zeil.codegrader">TestConfigurationError</a></pre>
-<div class="block">Load properties from a string.</div>
+<div class="block">Load properties from a File.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>input</code> - file containing properties in YAML</dd>
@@ -462,7 +588,7 @@ extends java.lang.Object</pre>
 <a id="toString()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
 <pre class="methodSignature">public&nbsp;java.lang.String&nbsp;toString()</pre>
@@ -470,6 +596,40 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+</dl>
+</li>
+</ul>
+<a id="equals(java.lang.Object)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>equals</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;equals&#8203;(java.lang.Object&nbsp;right)</pre>
+<div class="block">Compare by name.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>right</code> - another test cast property collection</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if the names match</dd>
+</dl>
+</li>
+</ul>
+<a id="hashCode()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>hashCode</h4>
+<pre class="methodSignature">public&nbsp;int&nbsp;hashCode()</pre>
+<div class="block">Hash code of name.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>hash code</dd>
 </dl>
 </li>
 </ul>

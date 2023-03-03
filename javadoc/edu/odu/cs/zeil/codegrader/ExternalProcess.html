@@ -6,15 +6,16 @@
 <title>ExternalProcess (code-grader 1.1.4 API)</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
-<link rel="stylesheet" type="text/css" href="../../../../../jquery/jquery-ui.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../../../../../jquery/jquery-ui.min.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../../../../../jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="../../../../../script.js"></script>
 <script type="text/javascript" src="../../../../../jquery/jszip/dist/jszip.min.js"></script>
 <script type="text/javascript" src="../../../../../jquery/jszip-utils/dist/jszip-utils.min.js"></script>
 <!--[if IE]>
 <script type="text/javascript" src="../../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../../jquery/jquery-3.5.1.js"></script>
-<script type="text/javascript" src="../../../../../jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="../../../../../jquery/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../../../../../jquery/jquery-ui.min.js"></script>
 </head>
 <body>
 <script type="text/javascript"><!--
@@ -88,7 +89,7 @@ loadScripts(document, 'script');</script>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
@@ -129,9 +130,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="description">
 <ul class="blockList">
 <li class="blockList">
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd><code><a href="TCProcess.html" title="interface in edu.odu.cs.zeil.codegrader">TCProcess</a></code></dd>
+</dl>
 <hr>
 <pre>public class <span class="typeNameLabel">ExternalProcess</span>
-extends java.lang.Object</pre>
+extends java.lang.Object
+implements <a href="TCProcess.html" title="interface in edu.odu.cs.zeil.codegrader">TCProcess</a></pre>
 <div class="block">Launches external commands.</div>
 </li>
 </ul>
@@ -139,8 +145,25 @@ extends java.lang.Object</pre>
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
+<!-- =========== FIELD SUMMARY =========== -->
+<section>
+<ul class="blockList">
+<li class="blockList"><a id="field.summary">
+<!--   -->
+</a>
+<h3>Field Summary</h3>
+<ul class="blockList">
+<li class="blockList"><a id="fields.inherited.from.class.edu.odu.cs.zeil.codegrader.TCProcess">
+<!--   -->
+</a>
+<h3>Fields inherited from interface&nbsp;edu.odu.cs.zeil.codegrader.<a href="TCProcess.html" title="interface in edu.odu.cs.zeil.codegrader">TCProcess</a></h3>
+<code><a href="TCProcess.html#IS_WINDOWS">IS_WINDOWS</a></code></li>
+</ul>
+</li>
+</ul>
+</section>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="constructor.summary">
 <!--   -->
@@ -167,7 +190,7 @@ extends java.lang.Object</pre>
 </ul>
 </section>
 <!-- ========== METHOD SUMMARY =========== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="method.summary">
 <!--   -->
@@ -257,7 +280,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="constructor.detail">
 <!--   -->
@@ -291,7 +314,7 @@ extends java.lang.Object</pre>
 </ul>
 </section>
 <!-- ============ METHOD DETAIL ========== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="method.detail">
 <!--   -->
@@ -309,6 +332,8 @@ extends java.lang.Object</pre>
  Standard out and standard err are captured and available as
  getOutput() and getErr(). The status code is also available.</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="TCProcess.html#execute(boolean)">execute</a></code>&nbsp;in interface&nbsp;<code><a href="TCProcess.html" title="interface in edu.odu.cs.zeil.codegrader">TCProcess</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>quiet</code> - do not log failures to run program</dd>
 </dl>
@@ -324,6 +349,10 @@ extends java.lang.Object</pre>
 <div class="block">Runs the external command.
  
  Equivalent to execute(false);</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="TCProcess.html#execute()">execute</a></code>&nbsp;in interface&nbsp;<code><a href="TCProcess.html" title="interface in edu.odu.cs.zeil.codegrader">TCProcess</a></code></dd>
+</dl>
 </li>
 </ul>
 <a id="getOutput()">
@@ -335,6 +364,8 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getOutput()</pre>
 <div class="block">Return the captured output.</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="TCProcess.html#getOutput()">getOutput</a></code>&nbsp;in interface&nbsp;<code><a href="TCProcess.html" title="interface in edu.odu.cs.zeil.codegrader">TCProcess</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>captured std out</dd>
 </dl>
@@ -349,6 +380,8 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getErr()</pre>
 <div class="block">Return the captured error stream.</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="TCProcess.html#getErr()">getErr</a></code>&nbsp;in interface&nbsp;<code><a href="TCProcess.html" title="interface in edu.odu.cs.zeil.codegrader">TCProcess</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>captured std err</dd>
 </dl>
@@ -363,6 +396,8 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;int&nbsp;getTime()</pre>
 <div class="block">Time in seconds of execution.</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="TCProcess.html#getTime()">getTime</a></code>&nbsp;in interface&nbsp;<code><a href="TCProcess.html" title="interface in edu.odu.cs.zeil.codegrader">TCProcess</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>time</dd>
 </dl>
@@ -377,6 +412,8 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;timedOut()</pre>
 <div class="block">Did the prior execution go too long?</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="TCProcess.html#timedOut()">timedOut</a></code>&nbsp;in interface&nbsp;<code><a href="TCProcess.html" title="interface in edu.odu.cs.zeil.codegrader">TCProcess</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true iff execution was killed after exceeding time limit</dd>
 </dl>
@@ -391,6 +428,8 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;crashed()</pre>
 <div class="block">Did the prior execution exit with a non-zero status code?</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="TCProcess.html#crashed()">crashed</a></code>&nbsp;in interface&nbsp;<code><a href="TCProcess.html" title="interface in edu.odu.cs.zeil.codegrader">TCProcess</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true iff prior execution failed/crashed</dd>
 </dl>
@@ -404,6 +443,8 @@ extends java.lang.Object</pre>
 <h4>getOnTime</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;getOnTime()</pre>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="TCProcess.html#getOnTime()">getOnTime</a></code>&nbsp;in interface&nbsp;<code><a href="TCProcess.html" title="interface in edu.odu.cs.zeil.codegrader">TCProcess</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true iff last test execution finished in an acceptable time.</dd>
 </dl>
@@ -417,6 +458,8 @@ extends java.lang.Object</pre>
 <h4>getStatusCode</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;getStatusCode()</pre>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="TCProcess.html#getStatusCode()">getStatusCode</a></code>&nbsp;in interface&nbsp;<code><a href="TCProcess.html" title="interface in edu.odu.cs.zeil.codegrader">TCProcess</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>status code of last execution (usually 0 if successful)</dd>
 </dl>
@@ -474,7 +517,7 @@ extends java.lang.Object</pre>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>

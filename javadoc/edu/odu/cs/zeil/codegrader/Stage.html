@@ -6,15 +6,16 @@
 <title>Stage (code-grader 1.1.4 API)</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
-<link rel="stylesheet" type="text/css" href="../../../../../jquery/jquery-ui.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../../../../../jquery/jquery-ui.min.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../../../../../jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="../../../../../script.js"></script>
 <script type="text/javascript" src="../../../../../jquery/jszip/dist/jszip.min.js"></script>
 <script type="text/javascript" src="../../../../../jquery/jszip-utils/dist/jszip-utils.min.js"></script>
 <!--[if IE]>
 <script type="text/javascript" src="../../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../../jquery/jquery-3.5.1.js"></script>
-<script type="text/javascript" src="../../../../../jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="../../../../../jquery/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../../../../../jquery/jquery-ui.min.js"></script>
 </head>
 <body>
 <script type="text/javascript"><!--
@@ -26,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -141,7 +142,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <!-- ======== NESTED CLASS SUMMARY ======== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="nested.class.summary">
 <!--   -->
@@ -164,7 +165,7 @@ extends java.lang.Object</pre>
 </ul>
 </section>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="constructor.summary">
 <!--   -->
@@ -177,16 +178,16 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(edu.odu.cs.zeil.codegrader.Assignment,edu.odu.cs.zeil.codegrader.Submission,edu.odu.cs.zeil.codegrader.TestSuitePropertiesBase)">Stage</a></span>&#8203;(<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;asst,
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(edu.odu.cs.zeil.codegrader.Assignment,edu.odu.cs.zeil.codegrader.Submission,edu.odu.cs.zeil.codegrader.TestSuiteProperties)">Stage</a></span>&#8203;(<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;asst,
      <a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission,
-     <a href="TestSuitePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader">TestSuitePropertiesBase</a>&nbsp;suiteProperties)</code></th>
+     <a href="TestSuiteProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestSuiteProperties</a>&nbsp;suiteProperties)</code></th>
 <td class="colLast">
 <div class="block">Create a new stage for submitted code.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(edu.odu.cs.zeil.codegrader.Assignment,edu.odu.cs.zeil.codegrader.TestSuitePropertiesBase)">Stage</a></span>&#8203;(<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;asst,
-     <a href="TestSuitePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader">TestSuitePropertiesBase</a>&nbsp;suiteProperties)</code></th>
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(edu.odu.cs.zeil.codegrader.Assignment,edu.odu.cs.zeil.codegrader.TestSuiteProperties)">Stage</a></span>&#8203;(<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;asst,
+     <a href="TestSuiteProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestSuiteProperties</a>&nbsp;suiteProperties)</code></th>
 <td class="colLast">
 <div class="block">Create a new gold version stage.</div>
 </td>
@@ -196,7 +197,7 @@ extends java.lang.Object</pre>
 </ul>
 </section>
 <!-- ========== METHOD SUMMARY =========== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="method.summary">
 <!--   -->
@@ -210,54 +211,39 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code><a href="Stage.BuildResult.html" title="class in edu.odu.cs.zeil.codegrader">Stage.BuildResult</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#buildCode()">buildCode</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Build the submitted code (in the staging area).</div>
-</td>
-</tr>
-<tr id="i1" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#buildGoldVersionIfAvailable()">buildGoldVersionIfAvailable</a></span>()</code></th>
-<td class="colLast">
-<div class="block">If the instructor has provided a gold version of the program,
- build the code.</div>
-</td>
-</tr>
-<tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#clear()">clear</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Delete the entire staging area after use.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getBuildCommand()">getBuildCommand</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Determine the command used to build the code.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLaunchCommand(java.lang.String)">getLaunchCommand</a></span>&#8203;(java.lang.String&nbsp;commandFromProperties)</code></th>
 <td class="colLast">
 <div class="block">Get the launch command for this stage.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getStageDir()">getStageDir</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#parameterSubstitution(java.lang.String)">parameterSubstitution</a></span>&#8203;(java.lang.String&nbsp;launchCommandStr)</code></th>
 <td class="colLast">
 <div class="block">Scans a string for shortcuts, replacing by the appropriate string.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setupStage()">setupStage</a></span>()</code></th>
 <td class="colLast">
@@ -282,13 +268,13 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="constructor.detail">
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a id="&lt;init&gt;(edu.odu.cs.zeil.codegrader.Assignment,edu.odu.cs.zeil.codegrader.Submission,edu.odu.cs.zeil.codegrader.TestSuitePropertiesBase)">
+<a id="&lt;init&gt;(edu.odu.cs.zeil.codegrader.Assignment,edu.odu.cs.zeil.codegrader.Submission,edu.odu.cs.zeil.codegrader.TestSuiteProperties)">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -296,7 +282,7 @@ extends java.lang.Object</pre>
 <h4>Stage</h4>
 <pre>public&nbsp;Stage&#8203;(<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;asst,
              <a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission,
-             <a href="TestSuitePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader">TestSuitePropertiesBase</a>&nbsp;suiteProperties)</pre>
+             <a href="TestSuiteProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestSuiteProperties</a>&nbsp;suiteProperties)</pre>
 <div class="block">Create a new stage for submitted code.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -307,14 +293,14 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a id="&lt;init&gt;(edu.odu.cs.zeil.codegrader.Assignment,edu.odu.cs.zeil.codegrader.TestSuitePropertiesBase)">
+<a id="&lt;init&gt;(edu.odu.cs.zeil.codegrader.Assignment,edu.odu.cs.zeil.codegrader.TestSuiteProperties)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Stage</h4>
 <pre>public&nbsp;Stage&#8203;(<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;asst,
-             <a href="TestSuitePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader">TestSuitePropertiesBase</a>&nbsp;suiteProperties)</pre>
+             <a href="TestSuiteProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestSuiteProperties</a>&nbsp;suiteProperties)</pre>
 <div class="block">Create a new gold version stage.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -328,7 +314,7 @@ extends java.lang.Object</pre>
 </ul>
 </section>
 <!-- ============ METHOD DETAIL ========== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="method.detail">
 <!--   -->
@@ -342,31 +328,6 @@ extends java.lang.Object</pre>
 <h4>clear</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;clear()</pre>
 <div class="block">Delete the entire staging area after use.</div>
-</li>
-</ul>
-<a id="buildGoldVersionIfAvailable()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>buildGoldVersionIfAvailable</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;buildGoldVersionIfAvailable()</pre>
-<div class="block">If the instructor has provided a gold version of the program,
- build the code.</div>
-</li>
-</ul>
-<a id="buildCode()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>buildCode</h4>
-<pre class="methodSignature">public&nbsp;<a href="Stage.BuildResult.html" title="class in edu.odu.cs.zeil.codegrader">Stage.BuildResult</a>&nbsp;buildCode()</pre>
-<div class="block">Build the submitted code (in the staging area).</div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>status code and messages from the build process</dd>
-</dl>
 </li>
 </ul>
 <a id="getBuildCommand()">

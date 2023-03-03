@@ -6,15 +6,16 @@
 <title>TestCaseProperties (code-grader 1.1.4 API)</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
-<link rel="stylesheet" type="text/css" href="../../../../../jquery/jquery-ui.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../../../../../jquery/jquery-ui.min.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../../../../../jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="../../../../../script.js"></script>
 <script type="text/javascript" src="../../../../../jquery/jszip/dist/jszip.min.js"></script>
 <script type="text/javascript" src="../../../../../jquery/jszip-utils/dist/jszip-utils.min.js"></script>
 <!--[if IE]>
 <script type="text/javascript" src="../../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../../jquery/jquery-3.5.1.js"></script>
-<script type="text/javascript" src="../../../../../jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="../../../../../jquery/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../../../../../jquery/jquery-ui.min.js"></script>
 </head>
 <body>
 <script type="text/javascript"><!--
@@ -26,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -88,13 +89,13 @@ loadScripts(document, 'script');</script>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
@@ -129,17 +130,68 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <div class="description">
 <ul class="blockList">
 <li class="blockList">
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd><code>java.lang.Comparable&lt;<a href="TestCaseProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestCaseProperties</a>&gt;</code></dd>
+</dl>
 <hr>
 <pre>public class <span class="typeNameLabel">TestCaseProperties</span>
-extends java.lang.Object</pre>
+extends java.lang.Object
+implements java.lang.Comparable&lt;<a href="TestCaseProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestCaseProperties</a>&gt;</pre>
 </li>
 </ul>
 </div>
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
+<!-- =========== FIELD SUMMARY =========== -->
+<section>
+<ul class="blockList">
+<li class="blockList"><a id="field.summary">
+<!--   -->
+</a>
+<h3>Field Summary</h3>
+<table class="memberSummary">
+<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Field</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>java.util.List&lt;<a href="OracleProperties.html" title="class in edu.odu.cs.zeil.codegrader">OracleProperties</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#grading">grading</a></span></code></th>
+<td class="colLast">
+<div class="block">The grading criteria for this test case.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#name">name</a></span></code></th>
+<td class="colLast">
+<div class="block">Identifies this test case.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>java.util.List&lt;java.lang.String&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onFail">onFail</a></span></code></th>
+<td class="colLast">
+<div class="block">What tags should be activated if this case fails (score < 100)</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>java.util.List&lt;java.lang.String&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onSuccess">onSuccess</a></span></code></th>
+<td class="colLast">
+<div class="block">What tags should be activated if this case succeeds (score == 100)</div>
+</td>
+</tr>
+</table>
+</li>
+</ul>
+</section>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="constructor.summary">
 <!--   -->
@@ -152,6 +204,12 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E()">TestCaseProperties</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Create an empty properties set.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(edu.odu.cs.zeil.codegrader.Assignment,java.lang.String)">TestCaseProperties</a></span>&#8203;(<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;asst,
                   java.lang.String&nbsp;testName)</code></th>
 <td class="colLast">
@@ -164,7 +222,7 @@ extends java.lang.Object</pre>
 </ul>
 </section>
 <!-- ========== METHOD SUMMARY =========== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="method.summary">
 <!--   -->
@@ -178,18 +236,42 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#compareTo(edu.odu.cs.zeil.codegrader.TestCaseProperties)">compareTo</a></span>&#8203;(<a href="TestCaseProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestCaseProperties</a>&nbsp;right)</code></th>
+<td class="colLast">
+<div class="block">Compare two TC properties by name.</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(java.lang.Object&nbsp;right)</code></th>
+<td class="colLast">
+<div class="block">Compare by name.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAssignment()">getAssignment</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getDescription()">getDescription</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getExpected()">getExpected</a></span>()</code></th>
 <td class="colLast">
 <div class="block">The expected output from the program.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getFailIf()">getFailIf</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>java.lang.Iterable&lt;<a href="OracleProperties.html" title="class in edu.odu.cs.zeil.codegrader">OracleProperties</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getGradingOptions()">getGradingOptions</a></span>()</code></th>
 <td class="colLast">
@@ -197,93 +279,135 @@ extends java.lang.Object</pre>
  for this test case.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
-<td class="colFirst"><code>java.io.File</code></td>
+<tr id="i7" class="rowColor">
+<td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getIn()">getIn</a></span>()</code></th>
 <td class="colLast">
-<div class="block">The file to be sent to the standard input of a running test.</div>
+<div class="block">The standard input for the program.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i8" class="altColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getKind()">getKind</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLaunch()">getLaunch</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
-<td class="colFirst"><code>java.lang.String</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getName()">getName</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr id="i6" class="altColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getParams()">getParams</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRecordingDirectory()">getRecordingDirectory</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getStagingDirectory()">getStagingDirectory</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i9" class="rowColor">
-<td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getStatus()">getStatus</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Should the status code of a submitted program be checked
- to see if the program has crashed? Defaults to false;</div>
-</td>
-</tr>
-<tr id="i10" class="altColor">
-<td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getStderr()">getStderr</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Should the contents of the standard error stream be appended to
- the actual output?  Otherwise output sent by the program to the
- standard error stream will be ignored.</div>
-</td>
-</tr>
-<tr id="i11" class="rowColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTestCaseDirectory()">getTestCaseDirectory</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTestSuiteDirectory()">getTestSuiteDirectory</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTimelimit()">getTimelimit</a></span>()</code></th>
-<td class="colLast">
-<div class="block">How many seconds to allow a test execution to run before concluding
- that the program is hanging, caught in an infinite loop, or simply
- unacceptably slow.</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getWeight()">getWeight</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i15" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setLaunch(java.lang.String)">setLaunch</a></span>&#8203;(java.lang.String&nbsp;command)</code></th>
+<tr id="i17" class="rowColor">
+<td class="colFirst"><code>int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hashCode()">hashCode</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Change the command string used to launch the program under evaluation.</div>
+<div class="block">Hash code of name.</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i18" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isStatus()">isStatus</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i19" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isStderr()">isStderr</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setStderr(boolean)">setStderr</a></span>&#8203;(boolean&nbsp;captureErr)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDescription(java.lang.String)">setDescription</a></span>&#8203;(java.lang.String&nbsp;theDescription)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i21" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setExpected(java.lang.String)">setExpected</a></span>&#8203;(java.lang.String&nbsp;theExpected)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i22" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setFailIf(java.lang.String)">setFailIf</a></span>&#8203;(java.lang.String&nbsp;theFailIf)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i23" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setIn(java.lang.String)">setIn</a></span>&#8203;(java.lang.String&nbsp;theInput)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i24" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setKind(java.lang.String)">setKind</a></span>&#8203;(java.lang.String&nbsp;theKind)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i25" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setLaunch(java.lang.String)">setLaunch</a></span>&#8203;(java.lang.String&nbsp;theLaunch)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i26" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setParams(java.lang.String)">setParams</a></span>&#8203;(java.lang.String&nbsp;theParams)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i27" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setStatus(boolean)">setStatus</a></span>&#8203;(boolean&nbsp;theStatus)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i28" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setStderr(boolean)">setStderr</a></span>&#8203;(boolean&nbsp;theStderr)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i29" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setTimelimit(int)">setTimelimit</a></span>&#8203;(int&nbsp;theTimelimit)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i30" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setWeight(int)">setWeight</a></span>&#8203;(int&nbsp;theWeight)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i31" class="rowColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Should the contents of the standard error stream be appended to
- the actual output?  Otherwise output sent by the program to the
- standard error stream will be ignored.</div>
+<div class="block">Render as a string (YAML).</div>
 </td>
 </tr>
 </table>
@@ -292,7 +416,7 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+<code>clone, finalize, getClass, notify, notifyAll, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -303,8 +427,58 @@ extends java.lang.Object</pre>
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
+<!-- ============ FIELD DETAIL =========== -->
+<section>
+<ul class="blockList">
+<li class="blockList"><a id="field.detail">
+<!--   -->
+</a>
+<h3>Field Detail</h3>
+<a id="name">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>name</h4>
+<pre>public&nbsp;java.lang.String name</pre>
+<div class="block">Identifies this test case.</div>
+</li>
+</ul>
+<a id="grading">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>grading</h4>
+<pre>public&nbsp;java.util.List&lt;<a href="OracleProperties.html" title="class in edu.odu.cs.zeil.codegrader">OracleProperties</a>&gt; grading</pre>
+<div class="block">The grading criteria for this test case.</div>
+</li>
+</ul>
+<a id="onFail">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>onFail</h4>
+<pre>public&nbsp;java.util.List&lt;java.lang.String&gt; onFail</pre>
+<div class="block">What tags should be activated if this case fails (score < 100)</div>
+</li>
+</ul>
+<a id="onSuccess">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>onSuccess</h4>
+<pre>public&nbsp;java.util.List&lt;java.lang.String&gt; onSuccess</pre>
+<div class="block">What tags should be activated if this case succeeds (score == 100)</div>
+</li>
+</ul>
+</li>
+</ul>
+</section>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="constructor.detail">
 <!--   -->
@@ -313,7 +487,7 @@ extends java.lang.Object</pre>
 <a id="&lt;init&gt;(edu.odu.cs.zeil.codegrader.Assignment,java.lang.String)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>TestCaseProperties</h4>
 <pre>public&nbsp;TestCaseProperties&#8203;(<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;asst,
@@ -335,27 +509,37 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
+<a id="&lt;init&gt;()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>TestCaseProperties</h4>
+<pre>public&nbsp;TestCaseProperties()</pre>
+<div class="block">Create an empty properties set.</div>
+</li>
+</ul>
 </li>
 </ul>
 </section>
 <!-- ============ METHOD DETAIL ========== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="method.detail">
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="getIn()">
+<a id="toString()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getIn</h4>
-<pre class="methodSignature">public&nbsp;java.io.File&nbsp;getIn()</pre>
-<div class="block">The file to be sent to the standard input of a running test.</div>
+<h4>toString</h4>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;toString()</pre>
+<div class="block">Render as a string (YAML).</div>
 <dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the input path</dd>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 </dl>
 </li>
 </ul>
@@ -369,54 +553,21 @@ extends java.lang.Object</pre>
 <div class="block">The expected output from the program.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
+<dd>the expected output</dd>
+</dl>
+</li>
+</ul>
+<a id="getIn()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getIn</h4>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getIn()</pre>
+<div class="block">The standard input for the program.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
 <dd>the input path</dd>
-</dl>
-</li>
-</ul>
-<a id="getStderr()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getStderr</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;getStderr()</pre>
-<div class="block">Should the contents of the standard error stream be appended to
- the actual output?  Otherwise output sent by the program to the
- standard error stream will be ignored.</div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>true iff the standard error stream should be appended.</dd>
-</dl>
-</li>
-</ul>
-<a id="setStderr(boolean)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setStderr</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;setStderr&#8203;(boolean&nbsp;captureErr)</pre>
-<div class="block">Should the contents of the standard error stream be appended to
- the actual output?  Otherwise output sent by the program to the
- standard error stream will be ignored.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>captureErr</code> - true iff the standard error stream should be appended.</dd>
-</dl>
-</li>
-</ul>
-<a id="getStatus()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getStatus</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;getStatus()</pre>
-<div class="block">Should the status code of a submitted program be checked
- to see if the program has crashed? Defaults to false;</div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>true iff the status code should be checked.</dd>
 </dl>
 </li>
 </ul>
@@ -433,62 +584,6 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a id="getWeight()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getWeight</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;getWeight()</pre>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>how many points (weight) this test case is worth</dd>
-</dl>
-</li>
-</ul>
-<a id="getLaunch()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getLaunch</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getLaunch()</pre>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the command string used to launch the program under evaluation.</dd>
-</dl>
-</li>
-</ul>
-<a id="setLaunch(java.lang.String)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setLaunch</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;setLaunch&#8203;(java.lang.String&nbsp;command)</pre>
-<div class="block">Change the command string used to launch the program under evaluation.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>command</code> - string</dd>
-</dl>
-</li>
-</ul>
-<a id="getTimelimit()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getTimelimit</h4>
-<pre class="methodSignature">public&nbsp;int&nbsp;getTimelimit()</pre>
-<div class="block">How many seconds to allow a test execution to run before concluding
- that the program is hanging, caught in an infinite loop, or simply
- unacceptably slow.</div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the time limit in seconds</dd>
-</dl>
-</li>
-</ul>
 <a id="getTestCaseDirectory()">
 <!--   -->
 </a>
@@ -499,19 +594,6 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the location of the test case information</dd>
-</dl>
-</li>
-</ul>
-<a id="getName()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getName</h4>
-<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getName()</pre>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the name of this test case</dd>
 </dl>
 </li>
 </ul>
@@ -573,13 +655,312 @@ extends java.lang.Object</pre>
 <a id="getAssignment()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>getAssignment</h4>
 <pre class="methodSignature">public&nbsp;<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;getAssignment()</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the assignment settings</dd>
+</dl>
+</li>
+</ul>
+<a id="compareTo(edu.odu.cs.zeil.codegrader.TestCaseProperties)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>compareTo</h4>
+<pre class="methodSignature">public&nbsp;int&nbsp;compareTo&#8203;(<a href="TestCaseProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestCaseProperties</a>&nbsp;right)</pre>
+<div class="block">Compare two TC properties by name.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code>compareTo</code>&nbsp;in interface&nbsp;<code>java.lang.Comparable&lt;<a href="TestCaseProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestCaseProperties</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>right</code> - another TC properties</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>ordering of the names</dd>
+</dl>
+</li>
+</ul>
+<a id="equals(java.lang.Object)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>equals</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;equals&#8203;(java.lang.Object&nbsp;right)</pre>
+<div class="block">Compare by name.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>right</code> - another test cast property collection</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if the names match</dd>
+</dl>
+</li>
+</ul>
+<a id="hashCode()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>hashCode</h4>
+<pre class="methodSignature">public&nbsp;int&nbsp;hashCode()</pre>
+<div class="block">Hash code of name.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code>hashCode</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>hash code</dd>
+</dl>
+</li>
+</ul>
+<a id="getKind()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getKind</h4>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getKind()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the kind</dd>
+</dl>
+</li>
+</ul>
+<a id="setKind(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setKind</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setKind&#8203;(java.lang.String&nbsp;theKind)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>theKind</code> - the kind to set</dd>
+</dl>
+</li>
+</ul>
+<a id="setParams(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setParams</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setParams&#8203;(java.lang.String&nbsp;theParams)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>theParams</code> - the params to set</dd>
+</dl>
+</li>
+</ul>
+<a id="getWeight()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getWeight</h4>
+<pre class="methodSignature">public&nbsp;int&nbsp;getWeight()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the weight</dd>
+</dl>
+</li>
+</ul>
+<a id="setWeight(int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setWeight</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setWeight&#8203;(int&nbsp;theWeight)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>theWeight</code> - the weight to set</dd>
+</dl>
+</li>
+</ul>
+<a id="getLaunch()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getLaunch</h4>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getLaunch()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the launch</dd>
+</dl>
+</li>
+</ul>
+<a id="setLaunch(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setLaunch</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setLaunch&#8203;(java.lang.String&nbsp;theLaunch)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>theLaunch</code> - the launch to set</dd>
+</dl>
+</li>
+</ul>
+<a id="setExpected(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setExpected</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setExpected&#8203;(java.lang.String&nbsp;theExpected)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>theExpected</code> - the expected to set</dd>
+</dl>
+</li>
+</ul>
+<a id="setIn(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setIn</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setIn&#8203;(java.lang.String&nbsp;theInput)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>theInput</code> - the input to set</dd>
+</dl>
+</li>
+</ul>
+<a id="getTimelimit()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getTimelimit</h4>
+<pre class="methodSignature">public&nbsp;int&nbsp;getTimelimit()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the timelimit</dd>
+</dl>
+</li>
+</ul>
+<a id="setTimelimit(int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setTimelimit</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setTimelimit&#8203;(int&nbsp;theTimelimit)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>theTimelimit</code> - the timelimit to set</dd>
+</dl>
+</li>
+</ul>
+<a id="isStderr()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isStderr</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;isStderr()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the stderr</dd>
+</dl>
+</li>
+</ul>
+<a id="setStderr(boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setStderr</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setStderr&#8203;(boolean&nbsp;theStderr)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>theStderr</code> - the stderr to set</dd>
+</dl>
+</li>
+</ul>
+<a id="isStatus()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isStatus</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;isStatus()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the status</dd>
+</dl>
+</li>
+</ul>
+<a id="setStatus(boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setStatus</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setStatus&#8203;(boolean&nbsp;theStatus)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>theStatus</code> - the status to set</dd>
+</dl>
+</li>
+</ul>
+<a id="getDescription()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getDescription</h4>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getDescription()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the description</dd>
+</dl>
+</li>
+</ul>
+<a id="setDescription(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setDescription</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setDescription&#8203;(java.lang.String&nbsp;theDescription)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>theDescription</code> - the description to set</dd>
+</dl>
+</li>
+</ul>
+<a id="getFailIf()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getFailIf</h4>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getFailIf()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the failIf</dd>
+</dl>
+</li>
+</ul>
+<a id="setFailIf(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>setFailIf</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setFailIf&#8203;(java.lang.String&nbsp;theFailIf)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>theFailIf</code> - the failIf to set</dd>
 </dl>
 </li>
 </ul>
@@ -635,13 +1016,13 @@ extends java.lang.Object</pre>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>

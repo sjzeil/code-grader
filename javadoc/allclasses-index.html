@@ -6,15 +6,16 @@
 <title>All Classes (code-grader 1.1.4 API)</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="stylesheet.css" title="Style">
-<link rel="stylesheet" type="text/css" href="jquery/jquery-ui.css" title="Style">
+<link rel="stylesheet" type="text/css" href="jquery/jquery-ui.min.css" title="Style">
+<link rel="stylesheet" type="text/css" href="jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="script.js"></script>
 <script type="text/javascript" src="jquery/jszip/dist/jszip.min.js"></script>
 <script type="text/javascript" src="jquery/jszip-utils/dist/jszip-utils.min.js"></script>
 <!--[if IE]>
 <script type="text/javascript" src="jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="jquery/jquery-3.5.1.js"></script>
-<script type="text/javascript" src="jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="jquery/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="jquery/jquery-ui.min.js"></script>
 </head>
 <body>
 <script type="text/javascript"><!--
@@ -26,8 +27,8 @@
     catch(err) {
     }
 //-->
-var data = {"i0":2,"i1":2,"i2":2,"i3":2,"i4":2,"i5":2,"i6":2,"i7":2,"i8":2,"i9":2,"i10":2,"i11":4,"i12":2,"i13":2,"i14":2,"i15":2,"i16":2,"i17":2,"i18":2,"i19":2,"i20":2,"i21":2,"i22":2,"i23":2,"i24":2,"i25":2,"i26":2,"i27":2,"i28":2,"i29":2,"i30":2,"i31":8,"i32":2,"i33":2,"i34":2,"i35":2,"i36":2};
-var tabs = {65535:["t0","All Classes"],2:["t2","Class Summary"],4:["t3","Enum Summary"],8:["t4","Exception Summary"]};
+var data = {"i0":2,"i1":2,"i2":2,"i3":2,"i4":2,"i5":2,"i6":2,"i7":2,"i8":2,"i9":2,"i10":2,"i11":2,"i12":2,"i13":2,"i14":2,"i15":2,"i16":2,"i17":4,"i18":2,"i19":2,"i20":2,"i21":2,"i22":2,"i23":1,"i24":2,"i25":2,"i26":2,"i27":2,"i28":2,"i29":2,"i30":2,"i31":2,"i32":2,"i33":2,"i34":2,"i35":2,"i36":2,"i37":1,"i38":2,"i39":2,"i40":2,"i41":8,"i42":2,"i43":2,"i44":2,"i45":2,"i46":2};
+var tabs = {65535:["t0","All Classes"],1:["t1","Interface Summary"],2:["t2","Class Summary"],4:["t3","Enum Summary"],8:["t4","Exception Summary"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -104,7 +105,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <table class="typeSummary">
-<caption><span id="t0" class="activeTableTab"><span>All Classes</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Class Summary</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Enum Summary</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Exception Summary</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Classes</span><span class="tabEnd">&nbsp;</span></span><span id="t1" class="tableTab"><span><a href="javascript:show(1);">Interface Summary</a></span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Class Summary</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Enum Summary</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Exception Summary</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Class</th>
 <th class="colLast" scope="col">Description</th>
@@ -117,163 +118,208 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </th>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/BuildProperties.html" title="class in edu.odu.cs.zeil.codegrader">BuildProperties</a></td>
+<td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/BooleanParser.html" title="class in edu.odu.cs.zeil.codegrader">BooleanParser</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/run/CLI.html" title="class in edu.odu.cs.zeil.codegrader.run">CLI</a></td>
+<td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/BuildProperties.html" title="class in edu.odu.cs.zeil.codegrader">BuildProperties</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/CopyPatterns.html" title="class in edu.odu.cs.zeil.codegrader">CopyPatterns</a></td>
+<td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/run/CLI.html" title="class in edu.odu.cs.zeil.codegrader.run">CLI</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
 <tr id="i4" class="altColor">
+<td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/CopyPatterns.html" title="class in edu.odu.cs.zeil.codegrader">CopyPatterns</a></td>
+<th class="colLast" scope="row">&nbsp;</th>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/DefaultBuildCase.html" title="class in edu.odu.cs.zeil.codegrader">DefaultBuildCase</a></td>
+<th class="colLast" scope="row">&nbsp;</th>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/Deferred.html" title="class in edu.odu.cs.zeil.codegrader">Deferred</a>&lt;<a href="edu/odu/cs/zeil/codegrader/Deferred.html" title="type parameter in Deferred">T</a>&gt;</td>
+<th class="colLast" scope="row">&nbsp;</th>
+</tr>
+<tr id="i7" class="rowColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/oracle/ExternalOracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">ExternalOracle</a></td>
 <th class="colLast" scope="row">
 <div class="block">Oracle that works by running an external command.</div>
 </th>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/ExternalProcess.html" title="class in edu.odu.cs.zeil.codegrader">ExternalProcess</a></td>
 <th class="colLast" scope="row">
 <div class="block">Launches external commands.</div>
 </th>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i9" class="rowColor">
+<td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/oracle/FilesExistOracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">FilesExistOracle</a></td>
+<th class="colLast" scope="row">
+<div class="block">Oracle that checks to see if a set of files has been created.</div>
+</th>
+</tr>
+<tr id="i10" class="altColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/FileUtils.html" title="class in edu.odu.cs.zeil.codegrader">FileUtils</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i11" class="rowColor">
+<td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/IntegerParser.html" title="class in edu.odu.cs.zeil.codegrader">IntegerParser</a></td>
+<th class="colLast" scope="row">&nbsp;</th>
+</tr>
+<tr id="i12" class="altColor">
+<td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/InternalTestLauncher.html" title="class in edu.odu.cs.zeil.codegrader">InternalTestLauncher</a></td>
+<th class="colLast" scope="row">&nbsp;</th>
+</tr>
+<tr id="i13" class="rowColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/oracle/JUnit5Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">JUnit5Oracle</a></td>
 <th class="colLast" scope="row">
 <div class="block">An oracle that ignores the expected string and scans the observed string
  for a JUnit 5 report, as generated by running junit-platform-console-*.jar.</div>
 </th>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/Logging.html" title="class in edu.odu.cs.zeil.codegrader">Logging</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/oracle/NumberToken.html" title="class in edu.odu.cs.zeil.codegrader.oracle">NumberToken</a></td>
 <th class="colLast" scope="row">
 <div class="block">A token denoting a number.</div>
 </th>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Oracle</a></td>
 <th class="colLast" scope="row">
 <div class="block">Compares expected and actual outputs to determine if they match.</div>
 </th>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.ScoringOptions.html" title="enum in edu.odu.cs.zeil.codegrader.oracle">Oracle.ScoringOptions</a></td>
 <th class="colLast" scope="row">
 <div class="block">Possible scoring options for test cases.</div>
 </th>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/oracle/OracleFactory.html" title="class in edu.odu.cs.zeil.codegrader.oracle">OracleFactory</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/OracleProperties.html" title="class in edu.odu.cs.zeil.codegrader">OracleProperties</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/oracle/OracleResult.html" title="class in edu.odu.cs.zeil.codegrader.oracle">OracleResult</a></td>
 <th class="colLast" scope="row">
 <div class="block">A test case score generated by an oracle.</div>
 </th>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/Pair.html" title="class in edu.odu.cs.zeil.codegrader">Pair</a>&lt;<a href="edu/odu/cs/zeil/codegrader/Pair.html" title="type parameter in Pair">First</a>,&#8203;<a href="edu/odu/cs/zeil/codegrader/Pair.html" title="type parameter in Pair">Second</a>&gt;</td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/ParameterHandling.html" title="class in edu.odu.cs.zeil.codegrader">ParameterHandling</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i23" class="rowColor">
+<td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/Parser.html" title="interface in edu.odu.cs.zeil.codegrader">Parser</a>&lt;<a href="edu/odu/cs/zeil/codegrader/Parser.html" title="type parameter in Parser">T</a>&gt;</td>
+<th class="colLast" scope="row">&nbsp;</th>
+</tr>
+<tr id="i24" class="altColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/oracle/PunctuationToken.html" title="class in edu.odu.cs.zeil.codegrader.oracle">PunctuationToken</a></td>
 <th class="colLast" scope="row">
 <div class="block">A token representing a punctuation character.</div>
 </th>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i25" class="rowColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/oracle/Scanner.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Scanner</a></td>
 <th class="colLast" scope="row">
 <div class="block">Scanner used to break outputs (actual and expected) into discrete tokens.</div>
 </th>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i26" class="altColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/oracle/SelfScoredOracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">SelfScoredOracle</a></td>
 <th class="colLast" scope="row">
 <div class="block">An oracle that scans the output for the score.</div>
 </th>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i27" class="rowColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/oracle/SmartOracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">SmartOracle</a></td>
 <th class="colLast" scope="row">
 <div class="block">Compares expected and actual outputs to determine if they match.</div>
 </th>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i28" class="altColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/Stage.html" title="class in edu.odu.cs.zeil.codegrader">Stage</a></td>
 <th class="colLast" scope="row">
 <div class="block">A stage is an area (directory) in which a version of the assignment,
  either submitted or gold, can be built and run.</div>
 </th>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i29" class="rowColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/Stage.BuildResult.html" title="class in edu.odu.cs.zeil.codegrader">Stage.BuildResult</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i23" class="rowColor">
+<tr id="i30" class="altColor">
+<td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/oracle/StatusOracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">StatusOracle</a></td>
+<th class="colLast" scope="row">
+<div class="block">An oracle that scores based upon whether the test case launch command
+ succeeded or failed, according to its status code.</div>
+</th>
+</tr>
+<tr id="i31" class="rowColor">
+<td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/StringParser.html" title="class in edu.odu.cs.zeil.codegrader">StringParser</a></td>
+<th class="colLast" scope="row">&nbsp;</th>
+</tr>
+<tr id="i32" class="altColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/oracle/StringToken.html" title="class in edu.odu.cs.zeil.codegrader.oracle">StringToken</a></td>
 <th class="colLast" scope="row">
 <div class="block">A token denoting an alphabetic string.</div>
 </th>
 </tr>
-<tr id="i24" class="altColor">
+<tr id="i33" class="rowColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a></td>
 <th class="colLast" scope="row">
 <div class="block">A Submission represents a student's submitted solution to an assignment.</div>
 </th>
 </tr>
-<tr id="i25" class="rowColor">
+<tr id="i34" class="altColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/SubmissionDateOptions.html" title="class in edu.odu.cs.zeil.codegrader">SubmissionDateOptions</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i26" class="altColor">
+<tr id="i35" class="rowColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/SubmissionSet.html" title="class in edu.odu.cs.zeil.codegrader">SubmissionSet</a></td>
 <th class="colLast" scope="row">
 <div class="block">A collection of submissions.</div>
 </th>
 </tr>
-<tr id="i27" class="rowColor">
+<tr id="i36" class="altColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/oracle/TAPOracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle">TAPOracle</a></td>
 <th class="colLast" scope="row">
 <div class="block">An oracle that ignores the expected string and scans the observed string
  for a TAP (Test Anything Protocol) JUnit 5 report.</div>
 </th>
 </tr>
-<tr id="i28" class="altColor">
+<tr id="i37" class="rowColor">
+<td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/TCProcess.html" title="interface in edu.odu.cs.zeil.codegrader">TCProcess</a></td>
+<th class="colLast" scope="row">
+<div class="block">Launches external commands.</div>
+</th>
+</tr>
+<tr id="i38" class="altColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/TestCase.html" title="class in edu.odu.cs.zeil.codegrader">TestCase</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i29" class="rowColor">
+<tr id="i39" class="rowColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/TestCaseProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestCaseProperties</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i30" class="altColor">
+<tr id="i40" class="altColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/TestCasePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader">TestCasePropertiesBase</a></td>
-<th class="colLast" scope="row">
-<div class="block">The properties available to describe a test case.</div>
-</th>
+<th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i31" class="rowColor">
+<tr id="i41" class="rowColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/TestConfigurationError.html" title="class in edu.odu.cs.zeil.codegrader">TestConfigurationError</a></td>
 <th class="colLast" scope="row">
 <div class="block">Indicates an error in the test configuration significant enough that
@@ -281,25 +327,25 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  being assigned.</div>
 </th>
 </tr>
-<tr id="i32" class="altColor">
+<tr id="i42" class="altColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/TestSuite.html" title="class in edu.odu.cs.zeil.codegrader">TestSuite</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i33" class="rowColor">
+<tr id="i43" class="rowColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/TestSuite.BuildResult.html" title="class in edu.odu.cs.zeil.codegrader">TestSuite.BuildResult</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i34" class="altColor">
-<td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/TestSuitePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader">TestSuitePropertiesBase</a></td>
+<tr id="i44" class="altColor">
+<td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/TestSuiteProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestSuiteProperties</a></td>
 <th class="colLast" scope="row">
 <div class="block">The properties available to describe a test suite.</div>
 </th>
 </tr>
-<tr id="i35" class="rowColor">
+<tr id="i45" class="rowColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/oracle/Token.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Token</a></td>
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
-<tr id="i36" class="altColor">
+<tr id="i46" class="altColor">
 <td class="colFirst"><a href="edu/odu/cs/zeil/codegrader/oracle/WhiteSpaceToken.html" title="class in edu.odu.cs.zeil.codegrader.oracle">WhiteSpaceToken</a></td>
 <th class="colLast" scope="row">
 <div class="block">A token denoting a single whitespace character.</div>

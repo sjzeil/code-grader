@@ -6,15 +6,16 @@
 <title>TestCase (code-grader 1.1.4 API)</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
-<link rel="stylesheet" type="text/css" href="../../../../../jquery/jquery-ui.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../../../../../jquery/jquery-ui.min.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../../../../../jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="../../../../../script.js"></script>
 <script type="text/javascript" src="../../../../../jquery/jszip/dist/jszip.min.js"></script>
 <script type="text/javascript" src="../../../../../jquery/jszip-utils/dist/jszip-utils.min.js"></script>
 <!--[if IE]>
 <script type="text/javascript" src="../../../../../jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="../../../../../jquery/jquery-3.5.1.js"></script>
-<script type="text/javascript" src="../../../../../jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="../../../../../jquery/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../../../../../jquery/jquery-ui.min.js"></script>
 </head>
 <body>
 <script type="text/javascript"><!--
@@ -26,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -139,7 +140,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="constructor.summary">
 <!--   -->
@@ -162,7 +163,7 @@ extends java.lang.Object</pre>
 </ul>
 </section>
 <!-- ========== METHOD SUMMARY =========== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="method.summary">
 <!--   -->
@@ -184,40 +185,47 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#executeTest(edu.odu.cs.zeil.codegrader.Submission,edu.odu.cs.zeil.codegrader.Stage,int)">executeTest</a></span>&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission,
-           <a href="Stage.html" title="class in edu.odu.cs.zeil.codegrader">Stage</a>&nbsp;stage,
-           int&nbsp;buildStatus)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#executeTest(edu.odu.cs.zeil.codegrader.Submission,edu.odu.cs.zeil.codegrader.Stage)">executeTest</a></span>&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission,
+           <a href="Stage.html" title="class in edu.odu.cs.zeil.codegrader">Stage</a>&nbsp;stage)</code></th>
 <td class="colLast">
 <div class="block">Runs the test case using the code in submission.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
+<td class="colFirst"><code>int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#failTest(edu.odu.cs.zeil.codegrader.Submission,java.lang.String)">failTest</a></span>&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission,
+        java.lang.String&nbsp;message)</code></th>
+<td class="colLast">
+<div class="block">Fail a test without running it.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getErr()">getErr</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Return the captured error stream from a runTest call.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getOutput()">getOutput</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Return the captured output from a runTest call.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="TestCaseProperties.html" title="class in edu.odu.cs.zeil.codegrader">TestCaseProperties</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getProperties()">getProperties</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTime()">getTime</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Time in seconds of last runTest call.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#parameterSubstitution(java.lang.String,edu.odu.cs.zeil.codegrader.Stage,edu.odu.cs.zeil.codegrader.Submission)">parameterSubstitution</a></span>&#8203;(java.lang.String&nbsp;launchCommandStr,
                      <a href="Stage.html" title="class in edu.odu.cs.zeil.codegrader">Stage</a>&nbsp;stage,
@@ -226,17 +234,16 @@ extends java.lang.Object</pre>
 <div class="block">Scans a string for shortcuts, replacing by the appropriate string.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>int</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#performTest(edu.odu.cs.zeil.codegrader.Submission,boolean,edu.odu.cs.zeil.codegrader.Stage,int)">performTest</a></span>&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#performTest(edu.odu.cs.zeil.codegrader.Submission,boolean,edu.odu.cs.zeil.codegrader.Stage)">performTest</a></span>&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission,
            boolean&nbsp;asGold,
-           <a href="Stage.html" title="class in edu.odu.cs.zeil.codegrader">Stage</a>&nbsp;stage,
-           int&nbsp;buildStatus)</code></th>
+           <a href="Stage.html" title="class in edu.odu.cs.zeil.codegrader">Stage</a>&nbsp;stage)</code></th>
 <td class="colLast">
 <div class="block">Runs the test case and evaluates the results.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#timedOut()">timedOut</a></span>()</code></th>
 <td class="colLast">
@@ -261,7 +268,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="constructor.detail">
 <!--   -->
@@ -285,21 +292,20 @@ extends java.lang.Object</pre>
 </ul>
 </section>
 <!-- ============ METHOD DETAIL ========== -->
-<section role="region">
+<section>
 <ul class="blockList">
 <li class="blockList"><a id="method.detail">
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="executeTest(edu.odu.cs.zeil.codegrader.Submission,edu.odu.cs.zeil.codegrader.Stage,int)">
+<a id="executeTest(edu.odu.cs.zeil.codegrader.Submission,edu.odu.cs.zeil.codegrader.Stage)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>executeTest</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;executeTest&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission,
-                        <a href="Stage.html" title="class in edu.odu.cs.zeil.codegrader">Stage</a>&nbsp;stage,
-                        int&nbsp;buildStatus)</pre>
+                        <a href="Stage.html" title="class in edu.odu.cs.zeil.codegrader">Stage</a>&nbsp;stage)</pre>
 <div class="block">Runs the test case using the code in submission.
  
  Standard out and standard err are captured and available as
@@ -308,11 +314,10 @@ extends java.lang.Object</pre>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>submission</code> - code to use when running the test case</dd>
 <dd><code>stage</code> - staging area</dd>
-<dd><code>buildStatus</code> - status code from build</dd>
 </dl>
 </li>
 </ul>
-<a id="performTest(edu.odu.cs.zeil.codegrader.Submission,boolean,edu.odu.cs.zeil.codegrader.Stage,int)">
+<a id="performTest(edu.odu.cs.zeil.codegrader.Submission,boolean,edu.odu.cs.zeil.codegrader.Stage)">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -320,8 +325,7 @@ extends java.lang.Object</pre>
 <h4>performTest</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;performTest&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission,
                        boolean&nbsp;asGold,
-                       <a href="Stage.html" title="class in edu.odu.cs.zeil.codegrader">Stage</a>&nbsp;stage,
-                       int&nbsp;buildStatus)
+                       <a href="Stage.html" title="class in edu.odu.cs.zeil.codegrader">Stage</a>&nbsp;stage)
                 throws <a href="TestConfigurationError.html" title="class in edu.odu.cs.zeil.codegrader">TestConfigurationError</a></pre>
 <div class="block">Runs the test case and evaluates the results.
  The actual output, score, and messages are recorded
@@ -332,7 +336,27 @@ extends java.lang.Object</pre>
 <dd><code>asGold</code> - true if the gold version is being run, false if
                       student version is being run.</dd>
 <dd><code>stage</code> - stage area in which code has been built</dd>
-<dd><code>buildStatus</code> - status code from build</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>test case score</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="TestConfigurationError.html" title="class in edu.odu.cs.zeil.codegrader">TestConfigurationError</a></code></dd>
+</dl>
+</li>
+</ul>
+<a id="failTest(edu.odu.cs.zeil.codegrader.Submission,java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>failTest</h4>
+<pre class="methodSignature">public&nbsp;int&nbsp;failTest&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission,
+                    java.lang.String&nbsp;message)
+             throws <a href="TestConfigurationError.html" title="class in edu.odu.cs.zeil.codegrader">TestConfigurationError</a></pre>
+<div class="block">Fail a test without running it.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>submission</code> - to evaluate</dd>
+<dd><code>message</code> - explanation of failure</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>test case score</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>

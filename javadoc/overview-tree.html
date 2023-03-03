@@ -6,15 +6,16 @@
 <title>Class Hierarchy (code-grader 1.1.4 API)</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="stylesheet.css" title="Style">
-<link rel="stylesheet" type="text/css" href="jquery/jquery-ui.css" title="Style">
+<link rel="stylesheet" type="text/css" href="jquery/jquery-ui.min.css" title="Style">
+<link rel="stylesheet" type="text/css" href="jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="script.js"></script>
 <script type="text/javascript" src="jquery/jszip/dist/jszip.min.js"></script>
 <script type="text/javascript" src="jquery/jszip-utils/dist/jszip-utils.min.js"></script>
 <!--[if IE]>
 <script type="text/javascript" src="jquery/jszip-utils/dist/jszip-utils-ie.min.js"></script>
 <![endif]-->
-<script type="text/javascript" src="jquery/jquery-3.5.1.js"></script>
-<script type="text/javascript" src="jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="jquery/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="jquery/jquery-ui.min.js"></script>
 </head>
 <body>
 <script type="text/javascript"><!--
@@ -101,24 +102,31 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </ul>
 </div>
 <div class="contentContainer">
-<section role="region">
+<section>
 <h2 title="Class Hierarchy">Class Hierarchy</h2>
 <ul>
 <li class="circle">java.lang.Object
 <ul>
 <li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Assignment.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">Assignment</span></a> (implements java.lang.Cloneable)</li>
+<li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/BooleanParser.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">BooleanParser</span></a> (implements edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Parser.html" title="interface in edu.odu.cs.zeil.codegrader">Parser</a>&lt;T&gt;)</li>
 <li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/BuildProperties.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">BuildProperties</span></a></li>
 <li class="circle">edu.odu.cs.zeil.codegrader.run.<a href="edu/odu/cs/zeil/codegrader/run/CLI.html" title="class in edu.odu.cs.zeil.codegrader.run"><span class="typeNameLink">CLI</span></a></li>
 <li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/CopyPatterns.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">CopyPatterns</span></a></li>
-<li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/ExternalProcess.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">ExternalProcess</span></a></li>
+<li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/DefaultBuildCase.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">DefaultBuildCase</span></a></li>
+<li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Deferred.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">Deferred</span></a>&lt;T&gt;</li>
+<li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/ExternalProcess.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">ExternalProcess</span></a> (implements edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TCProcess.html" title="interface in edu.odu.cs.zeil.codegrader">TCProcess</a>)</li>
 <li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/FileUtils.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">FileUtils</span></a></li>
+<li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/IntegerParser.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">IntegerParser</span></a> (implements edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Parser.html" title="interface in edu.odu.cs.zeil.codegrader">Parser</a>&lt;T&gt;)</li>
+<li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/InternalTestLauncher.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">InternalTestLauncher</span></a> (implements edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TCProcess.html" title="interface in edu.odu.cs.zeil.codegrader">TCProcess</a>)</li>
 <li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Logging.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">Logging</span></a></li>
 <li class="circle">edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle"><span class="typeNameLink">Oracle</span></a>
 <ul>
 <li class="circle">edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/ExternalOracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle"><span class="typeNameLink">ExternalOracle</span></a></li>
+<li class="circle">edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/FilesExistOracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle"><span class="typeNameLink">FilesExistOracle</span></a></li>
 <li class="circle">edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/JUnit5Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle"><span class="typeNameLink">JUnit5Oracle</span></a></li>
 <li class="circle">edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/SelfScoredOracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle"><span class="typeNameLink">SelfScoredOracle</span></a></li>
 <li class="circle">edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/SmartOracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle"><span class="typeNameLink">SmartOracle</span></a></li>
+<li class="circle">edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/StatusOracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle"><span class="typeNameLink">StatusOracle</span></a></li>
 <li class="circle">edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/TAPOracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle"><span class="typeNameLink">TAPOracle</span></a></li>
 </ul>
 </li>
@@ -130,15 +138,16 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="circle">edu.odu.cs.zeil.codegrader.oracle.<a href="edu/odu/cs/zeil/codegrader/oracle/Scanner.html" title="class in edu.odu.cs.zeil.codegrader.oracle"><span class="typeNameLink">Scanner</span></a></li>
 <li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Stage.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">Stage</span></a></li>
 <li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Stage.BuildResult.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">Stage.BuildResult</span></a></li>
+<li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/StringParser.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">StringParser</span></a> (implements edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Parser.html" title="interface in edu.odu.cs.zeil.codegrader">Parser</a>&lt;T&gt;)</li>
 <li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Submission.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">Submission</span></a></li>
 <li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/SubmissionDateOptions.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">SubmissionDateOptions</span></a></li>
 <li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/SubmissionSet.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">SubmissionSet</span></a> (implements java.lang.Iterable&lt;T&gt;)</li>
 <li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCase.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">TestCase</span></a></li>
-<li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCaseProperties.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">TestCaseProperties</span></a></li>
+<li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCaseProperties.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">TestCaseProperties</span></a> (implements java.lang.Comparable&lt;T&gt;)</li>
 <li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestCasePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">TestCasePropertiesBase</span></a></li>
 <li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestSuite.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">TestSuite</span></a> (implements java.lang.Iterable&lt;T&gt;)</li>
 <li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestSuite.BuildResult.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">TestSuite.BuildResult</span></a></li>
-<li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestSuitePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">TestSuitePropertiesBase</span></a></li>
+<li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TestSuiteProperties.html" title="class in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">TestSuiteProperties</span></a></li>
 <li class="circle">java.lang.Throwable (implements java.io.Serializable)
 <ul>
 <li class="circle">java.lang.Exception
@@ -164,7 +173,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </li>
 </ul>
 </section>
-<section role="region">
+<section>
+<h2 title="Interface Hierarchy">Interface Hierarchy</h2>
+<ul>
+<li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/Parser.html" title="interface in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">Parser</span></a>&lt;T&gt;</li>
+<li class="circle">edu.odu.cs.zeil.codegrader.<a href="edu/odu/cs/zeil/codegrader/TCProcess.html" title="interface in edu.odu.cs.zeil.codegrader"><span class="typeNameLink">TCProcess</span></a></li>
+</ul>
+</section>
+<section>
 <h2 title="Enum Hierarchy">Enum Hierarchy</h2>
 <ul>
 <li class="circle">java.lang.Object
