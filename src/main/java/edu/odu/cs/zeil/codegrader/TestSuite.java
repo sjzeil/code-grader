@@ -1,6 +1,7 @@
 package edu.odu.cs.zeil.codegrader;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Files;
@@ -433,6 +434,26 @@ public class TestSuite implements Iterable<TestCase> {
 						.resolve(submission.getSubmittedBy() + ".total"),
 				"" + studentTotalScore + "\n");
 
+		Path gradeLogFile = assignment.getRecordingDirectory()
+				.resolve("classGradeLog.csv");
+		recordInGradeLog(gradeLogFile, submission, studentTotalScore);
+	}
+
+	private void recordInGradeLog(Path gradeLogFile, Submission submission, int studentTotalScore) {
+		if (!Files.exists(gradeLogFile)) {
+			try (FileWriter gradeLog = new FileWriter(gradeLogFile.toFile())) {
+				gradeLog.write("Student,Date,Grade\n");
+			} catch (IOException ex) {
+				logger.error("Cannot write to grade log " + gradeLogFile, ex);
+			}
+		}
+		try (FileWriter gradeLog = new FileWriter(gradeLogFile.toFile(),true)) {
+			gradeLog.write("\"" + submission.getSubmittedBy() + "\",\"" 
+				+ getSubmissionDate(submission) + "\"," 
+				+ studentTotalScore + "\n");
+		} catch (IOException ex) {
+			logger.error("Cannot append to grade log " + gradeLogFile, ex);
+		}
 	}
 
 	/**
@@ -922,7 +943,7 @@ public class TestSuite implements Iterable<TestCase> {
 					properties.dateSubmitted.in);
 		} else if (!properties.dateSubmitted.mod.equals("")) {
 			return getSubmissionDateMod(sub.getSubmissionDirectory(),
-					properties.dateSubmitted.in);
+					properties.dateSubmitted.mod);
 		} else if (properties.dateSubmitted.git) {
 			return getSubmissionDateByGit(sub.getSubmissionDirectory());
 		} else {
