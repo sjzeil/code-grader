@@ -116,9 +116,11 @@ public class SelfScoredOracle extends Oracle {
             } else if (points >= 0) {
                 return new OracleResult(points, message);
             } else {
-                return new OracleResult(0, "Could not read test report.");    
+                LOG.warn("Oracle could not read test report");
+                return new OracleResult(0, "Could not parse test report.");    
             }
         } catch (IOException ex) {
+            LOG.warn("Oracle could not read test report", ex);
             return new OracleResult(0, "Could not read test report.");
         }
     }

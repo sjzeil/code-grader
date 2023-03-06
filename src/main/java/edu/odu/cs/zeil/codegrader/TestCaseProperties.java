@@ -296,8 +296,8 @@ return new Deferred<Integer>(explicitExtension, value, parser);
 }
 
 private <T> T selectValue(
-    Optional<T> suiteValue,
     Optional<T> caseValue,
+    Optional<T> suiteValue,
     Optional<T> defaultValue,
     T fallback) {
 T value = fallback;

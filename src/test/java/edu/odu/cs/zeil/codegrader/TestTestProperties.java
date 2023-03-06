@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -70,6 +71,14 @@ public class TestTestProperties {
 		assertThat(value, is("././dividers"));
 	}
 
+	@Test
+	void testCaseOraclePropOverride() 
+		throws FileNotFoundException, TestConfigurationError {
+		TestCaseProperties testProperties
+			= new TestCaseProperties(asst, "simpleTests");
+		List<OracleProperties> value = testProperties.grading;
+		assertThat(value.size(), is(2));
+	}
 	
 
 }
