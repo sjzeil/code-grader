@@ -66,7 +66,7 @@ public class TestTestProperties {
 		throws FileNotFoundException, TestConfigurationError {
 		TestCaseProperties testProperties
 			= new TestCaseProperties(asst, "simpleTests");
-		String value = testProperties.launch;
+		String value = testProperties.getLaunch();
 		assertThat(value, is("././dividers"));
 	}
 

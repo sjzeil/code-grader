@@ -262,7 +262,6 @@ public class TestCaseProperties implements Comparable<TestCaseProperties> {
 
     
     private <T> Deferred<T> selectValue(
-        Optional<T> suiteValue,
         Optional<T> caseValue,
         Optional<T> suiteValue,
         Optional<T> defaultValue,
