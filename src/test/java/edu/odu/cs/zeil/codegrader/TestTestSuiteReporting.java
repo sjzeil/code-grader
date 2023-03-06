@@ -94,10 +94,10 @@ public class TestTestSuiteReporting {
 			.resolve(studentName + ".total");
 		assertTrue(totalFile.toFile().exists());
 		String total = FileUtils.readTextFile(totalFile.toFile());
-		assertEquals("81\n", total);
+		assertEquals("63\n", total);
 
         Path messageFile = recordingPath.resolve(studentName)
-            .resolve("TestCases").resolve("t2").resolve("t2.message");
+            .resolve("TestCases").resolve("t10000").resolve("t10000.message");
         String message = FileUtils.readTextFile(messageFile.toFile());
         assertThat (message, containsString("suqare"));
 	}

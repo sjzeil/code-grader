@@ -1,6 +1,7 @@
 package edu.odu.cs.zeil.codegrader;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Files;
@@ -433,6 +434,26 @@ public class TestSuite implements Iterable<TestCase> {
 						.resolve(submission.getSubmittedBy() + ".total"),
 				"" + studentTotalScore + "\n");
 
+		Path gradeLogFile = assignment.getRecordingDirectory()
+				.resolve("classGradeLog.csv");
+		recordInGradeLog(gradeLogFile, submission, studentTotalScore);
+	}
+
+	private void recordInGradeLog(Path gradeLogFile, Submission submission, int studentTotalScore) {
+		if (!Files.exists(gradeLogFile)) {
+			try (FileWriter gradeLog = new FileWriter(gradeLogFile.toFile())) {
+				gradeLog.write("Student,Date,Grade\n");
+			} catch (IOException ex) {
+				logger.error("Cannot write to grade log " + gradeLogFile, ex);
+			}
+		}
+		try (FileWriter gradeLog = new FileWriter(gradeLogFile.toFile(),true)) {
+			gradeLog.write("\"" + submission.getSubmittedBy() + "\",\"" 
+				+ getSubmissionDate(submission) + "\"," 
+				+ studentTotalScore + "\n");
+		} catch (IOException ex) {
+			logger.error("Cannot append to grade log " + gradeLogFile, ex);
+		}
 	}
 
 	/**
@@ -654,14 +675,14 @@ public class TestSuite implements Iterable<TestCase> {
 
 		for (TestCase tc : completedCases) {
 			String testName = tc.getProperties().name;
-			String description = tc.getProperties().description;
+			String description = tc.getProperties().getDescription();
 			if (!description.equals("")) {
 				description = testName + ": " + description;
 			} else {
 				description = testName;
 			}
 			int score = submission.getScore(testName);
-			int weight = tc.getProperties().weight;
+			int weight = tc.getProperties().getWeight();
 			String message = submission.getMessage(testName);
 			details.add(new Detail(testName, weight, score, message));
 			testsSummary.append("\"" + description + "\",");
@@ -826,7 +847,7 @@ public class TestSuite implements Iterable<TestCase> {
 
 	private void performAndScoreTest(Submission submission, TestCase tc) {
 		String testName = tc.getProperties().name;
-		String failIf = tc.getProperties().failIf;
+		String failIf = tc.getProperties().getFailIf();
 		int score = 0;
 		if ((!failIf.equals("")) && isTagActive(failIf)) {
 			// Immediately fail this case
@@ -922,7 +943,7 @@ public class TestSuite implements Iterable<TestCase> {
 					properties.dateSubmitted.in);
 		} else if (!properties.dateSubmitted.mod.equals("")) {
 			return getSubmissionDateMod(sub.getSubmissionDirectory(),
-					properties.dateSubmitted.in);
+					properties.dateSubmitted.mod);
 		} else if (properties.dateSubmitted.git) {
 			return getSubmissionDateByGit(sub.getSubmissionDirectory());
 		} else {
@@ -1014,7 +1035,7 @@ public class TestSuite implements Iterable<TestCase> {
 			activeTags.add(tagName);
 			ArrayList<TestCaseProperties> toBeAdded = new ArrayList<>();
 			for (TestCaseProperties tc: cases) {
-				if (tc.kind.equals(tagName)) {
+				if (tc.getKind().equals(tagName)) {
 					toBeAdded.add(tc);
 				}
 			}
@@ -1032,7 +1053,7 @@ public class TestSuite implements Iterable<TestCase> {
 		activeTags.remove(tagName);
 		Queue<TestCaseProperties> stillToRun = new LinkedList<>();
 		for (TestCaseProperties tc: casesToBeRun) {
-			if (!tc.kind.equals(tagName)) {
+			if (!tc.getKind().equals(tagName)) {
 				stillToRun.add(tc);
 			}
 		}

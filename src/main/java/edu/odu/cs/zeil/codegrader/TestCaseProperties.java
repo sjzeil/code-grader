@@ -24,16 +24,6 @@ public class TestCaseProperties implements Comparable<TestCaseProperties> {
     @JsonIgnore
     private Assignment assignment;
 
-    /**
-     * The file to supply to standard input when the program under
-     * evaluation is run.
-     */
-    @JsonIgnore
-    private File stdIn;
-
-    // Properties obtained from TestCasePropertiesBase
-
-    private static final int DEFAULT_RUN_TIMELIMIT = 5;
 
 
 //CHECKSTYLE:OFF
@@ -49,50 +39,56 @@ public class TestCaseProperties implements Comparable<TestCaseProperties> {
      * 
      * A test suite begins by activating all cases of kind "build".
      */
-    public String kind;
+    private Deferred<String> kind;
 
 
     /**
      * The command line parameters to be supplies when executing the
      * program under evaluation.
     */
-    public String params;
+    private Deferred<String> params;
 
     /**
      * How many points this test case is worth? 
      */
-    public int weight;
+    private Deferred<Integer> weight;
 
     /**
      * The command string used to launch the program under evaluation.
      */
-    public String launch;
+    private Deferred<String> launch;
+
+    /**
+     * A string containing input to be supplied to std in when the program
+     * under evaluation is run;
+     */
+    private Deferred<String> in;
 
     /**
      * A string containing expected output when the program under
      * evaluation is run.
      */
-    public String expected;
+    private Deferred<String> expected;
 
     /**
      * How many seconds to allow a test execution to run before concluding
      * that the program is hanging, caught in an infinite loop, or simply
      * unacceptably slow.
      */
-    public int timelimit;
+    private Deferred<Integer> timelimit;
 
     /**
      * Should the standard error stream be captures and included in the
      * program output being evaluated?
      */
-    public boolean stderr;
+    private Deferred<Boolean> stderr;
 
     /**
      * Should the status code be checked for evidence that a program
      * has crashed? Defaults to false because students aren't likely to
      * be all that careful about returning status codes.
      */
-    public boolean status;
+    private Deferred<Boolean> status;
 
 
     /**
@@ -103,7 +99,7 @@ public class TestCaseProperties implements Comparable<TestCaseProperties> {
     /**
      * Description of this test case (for display in student's grade report)
      */
-    public String description;
+    private Deferred<String> description;
 
 
     /**
@@ -120,7 +116,7 @@ public class TestCaseProperties implements Comparable<TestCaseProperties> {
      * If this tag is active, then this case should fail, unrun, with
      *  score of zero.
      */
-    public String failIf;
+    private Deferred<String> failIf;
 
 //CHECKSTYLE:ON
 
@@ -162,49 +158,51 @@ public class TestCaseProperties implements Comparable<TestCaseProperties> {
             caseProperties = new TestCasePropertiesBase();
         }
         TestCasePropertiesBase defaults = TestCasePropertiesBase.defaults();
-        TestCasePropertiesBase explicit 
-            = new TestCasePropertiesBase(testDirectory);
-        resolveDefaults(explicit, caseProperties, suiteDefaults, defaults);
+        resolveDefaults(caseProperties, suiteDefaults, defaults);
     }
 
 
     private void resolveDefaults(
-            TestCasePropertiesBase explicit,
             TestCasePropertiesBase tCase,
             TestCasePropertiesBase suite,
             TestCasePropertiesBase defaults) {
-        kind = selectValue(explicit.kind, tCase.kind,
-                suite.kind, defaults.kind, "_unknown_");
-        params = selectValue(explicit.params, tCase.params,
-                suite.params, defaults.params, "");
-        weight = selectIntValue(explicit.weight, tCase.weight,
-                suite.weight, defaults.weight, 1);
-        launch = selectValue(explicit.launch, tCase.launch,
-                suite.launch, defaults.launch, "");
-        expected = selectValue(explicit.expected, tCase.expected,
-            suite.expected, defaults.expected, "");
-        timelimit = selectIntValue(explicit.timelimit, tCase.timelimit,
-            suite.timelimit, defaults.timelimit, DEFAULT_RUN_TIMELIMIT);
-        stderr = selectValue(explicit.stderr, tCase.stderr,
-            suite.stderr, defaults.stderr, false);
-        status = selectValue(explicit.status, tCase.status,
-            suite.status, defaults.status, false);
-        description = selectValue(explicit.description, tCase.description,
-            suite.description, defaults.description, "");
-        grading = selectValue(explicit.grading, tCase.grading,
+        kind = selectValue(tCase.kind,
+                suite.kind, defaults.kind, "kind", 
+                new StringParser(true));
+        params = selectValue(tCase.params,
+                suite.params, defaults.params, "params",
+                new StringParser(true));
+        weight = selectValue(tCase.weight,
+                suite.weight, defaults.weight, "weight", 
+                new IntegerParser());
+        launch = selectValue(tCase.launch,
+                suite.launch, defaults.launch, "launch",
+                new StringParser(true));
+        expected = selectValue(tCase.expected,
+            suite.expected, defaults.expected, "expected",
+            new StringParser());
+        in = selectValue(tCase.expected,
+            suite.expected, defaults.expected, "in",
+            new StringParser());
+        timelimit = selectValue(tCase.timelimit,
+            suite.timelimit, defaults.timelimit, "timelimit",
+            new IntegerParser());
+        stderr = selectValue(tCase.stderr,
+            suite.stderr, defaults.stderr, "stderr", new BooleanParser());
+        status = selectValue(tCase.status,
+            suite.status, defaults.status, "status", new BooleanParser());
+        description = selectValue(tCase.description,
+            suite.description, defaults.description, "description",
+            new StringParser(true));
+        grading = selectValue(tCase.grading,
             suite.grading, defaults.grading, new ArrayList<>());
-        onFail = selectValue(explicit.onFail, tCase.onFail,
+        onFail = selectValue(tCase.onFail,
             suite.onFail, defaults.onFail, new ArrayList<>());
-        onSuccess = selectValue(explicit.onSuccess, tCase.onSuccess,
+        onSuccess = selectValue(tCase.onSuccess,
             suite.onSuccess, defaults.onSuccess, new ArrayList<>());
-        failIf = selectValue(explicit.failIf, tCase.failIf,
-            suite.failIf, defaults.failIf, "");
-
-        try {
-            stdIn = FileUtils.findFile(testDirectory, ".in").get();
-        } catch (NoSuchElementException e) {
-            stdIn = null;
-        }
+        failIf = selectValue(tCase.failIf,
+            suite.failIf, defaults.failIf, "failIf", 
+            new StringParser(true));
     }
 
     /**
@@ -214,16 +212,26 @@ public class TestCaseProperties implements Comparable<TestCaseProperties> {
         testDirectory = null;
         name = null;
         assignment = null;
-        kind = null;
-        params = null;
-        weight = 1;
-        launch = null;
-        expected = null;
-        timelimit = 1;
-        stderr = false;
-        status = false;
+        kind = new Deferred<String>("kind", "test", 
+            new StringParser(true));
+        params = new Deferred<String>("params", "test", 
+                new StringParser(true));
+        weight = new Deferred<Integer>("weight", 1, 
+            new IntegerParser());
+        launch = new Deferred<String>("launch", "test", 
+            new StringParser(true));
+        expected = new Deferred<String>("expected", "test", 
+            new StringParser(false));
+        setTimelimit(1);
+        stderr = new Deferred<Boolean>("stderr", false, 
+            new BooleanParser());
+        status = new Deferred<Boolean>("status", false, 
+            new BooleanParser());
         grading = null;
-        description = null;
+        description = new Deferred<String>("description", "test", 
+            new StringParser(true));
+        in = new Deferred<String>("in", "test", 
+            new StringParser(false));
     }
 
 
@@ -253,71 +261,84 @@ public class TestCaseProperties implements Comparable<TestCaseProperties> {
     }
 
     
-    private <T> T selectValue(
-        Optional<T> explicitValue,
+    private <T> Deferred<T> selectValue(
+        Optional<T> suiteValue,
         Optional<T> caseValue,
         Optional<T> suiteValue,
         Optional<T> defaultValue,
-        T fallback) {
-    if (explicitValue.isPresent()) {
-        return explicitValue.get();
-    } else if (caseValue.isPresent()) {
-        return caseValue.get();
+        String explicitExtension,
+        Parser<T> parser) {
+    T value = null;
+    if (caseValue.isPresent()) {
+        value = caseValue.get();
     } else if (suiteValue.isPresent()) {
-        return suiteValue.get();
+        value = suiteValue.get();
     } else if (defaultValue.isPresent()) {
-        return defaultValue.get();
-    } else {
-        return fallback;
+        value = defaultValue.get();
     }
+    return new Deferred<T>(explicitExtension, value, parser);
 }
 
-    private int selectIntValue(
-            OptionalInt explicitValue,
-            OptionalInt caseValue,
-            OptionalInt suiteValue,
-            OptionalInt defaultValue,
-            int fallback) {
-        if (explicitValue.isPresent()) {
-            return explicitValue.getAsInt();
-        } else if (caseValue.isPresent()) {
-            return caseValue.getAsInt();
-        } else if (suiteValue.isPresent()) {
-            return suiteValue.getAsInt();
-        } else if (defaultValue.isPresent()) {
-            return defaultValue.getAsInt();
-        } else {
-            return fallback;
-        }
-    }
+private Deferred<Integer> selectValue(
+    OptionalInt suiteValue,
+    OptionalInt caseValue,
+    OptionalInt defaultValue,
+    String explicitExtension,
+    Parser<Integer> parser) {
+Integer value = null;
+if (caseValue.isPresent()) {
+    value = caseValue.getAsInt();
+} else if (suiteValue.isPresent()) {
+    value = suiteValue.getAsInt();
+} else if (defaultValue.isPresent()) {
+    value = defaultValue.getAsInt();
+}
+return new Deferred<Integer>(explicitExtension, value, parser);
+}
 
+private <T> T selectValue(
+    Optional<T> suiteValue,
+    Optional<T> caseValue,
+    Optional<T> defaultValue,
+    T fallback) {
+T value = fallback;
+if (caseValue.isPresent()) {
+    value = caseValue.get();
+} else if (suiteValue.isPresent()) {
+    value = suiteValue.get();
+} else if (defaultValue.isPresent()) {
+    value = defaultValue.get();
+}
+return value;
+}
 
-    /**
-     * The file to be sent to the standard input of a running test.
-     * 
-     * @return the input path
-     */
-    public File getIn() {
-        return stdIn;
-    }
 
 
     /**
      * The expected output from the program.
      * 
-     * @return the input path
+     * @return the expected output
      */
     public String getExpected() {
-        return expected;
+        return expected.get(testDirectory);
     }
 
+
+    /**
+     * The standard input for the program.
+     * 
+     * @return the input path
+     */
+    public String getIn() {
+        return in.get(testDirectory);
+    }
 
 
     /**
      * @return command line parameters for running the test case.
      */
     public String getParams() {
-        return params;
+        return params.get(testDirectory);
     }
 
 
@@ -403,5 +424,156 @@ public class TestCaseProperties implements Comparable<TestCaseProperties> {
     public int hashCode() {
         return name.hashCode();
     }
+
+
+	/**
+	 * @return the kind
+	 */
+	public String getKind() {
+		return kind.get(testDirectory);
+	}
+
+
+	/**
+	 * @param theKind the kind to set
+	 */
+	public void setKind(String theKind) {
+		kind.set(theKind);
+	}
+
+
+	/**
+	 * @param theParams the params to set
+	 */
+	public void setParams(String theParams) {
+		this.params.set(theParams);
+	}
+
+
+	/**
+	 * @return the weight
+	 */
+	public int getWeight() {
+		return weight.get(testDirectory);
+	}
+
+
+	/**
+	 * @param theWeight the weight to set
+	 */
+	public void setWeight(int theWeight) {
+		this.weight.set(theWeight);
+	}
+
+
+	/**
+	 * @return the launch
+	 */
+	public String getLaunch() {
+		return launch.get(testDirectory);
+	}
+
+
+	/**
+	 * @param theLaunch the launch to set
+	 */
+	public void setLaunch(String theLaunch) {
+		this.launch.set(theLaunch);
+	}
+
+
+	/**
+	 * @param theExpected the expected to set
+	 */
+	public void setExpected(String theExpected) {
+		this.expected.set(theExpected);
+	}
+
+    /**
+	 * @param theInput the input to set
+	 */
+	public void setIn(String theInput) {
+		this.in.set(theInput);
+	}
+
+
+	/**
+	 * @return the timelimit
+	 */
+	public int getTimelimit() {
+		return timelimit.get(testDirectory);
+	}
+
+
+	/**
+	 * @param theTimelimit the timelimit to set
+	 */
+	public void setTimelimit(int theTimelimit) {
+		this.timelimit.set(theTimelimit);
+	}
+
+
+	/**
+	 * @return the stderr
+	 */
+	public boolean isStderr() {
+		return stderr.get(testDirectory);
+	}
+
+
+	/**
+	 * @param theStderr the stderr to set
+	 */
+	public void setStderr(boolean theStderr) {
+		this.stderr.set(theStderr);
+	}
+
+
+	/**
+	 * @return the status
+	 */
+	public boolean isStatus() {
+		return status.get(testDirectory);
+	}
+
+
+	/**
+	 * @param theStatus the status to set
+	 */
+	public void setStatus(boolean theStatus) {
+		this.status.set(theStatus);
+	}
+
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description.get(testDirectory);
+	}
+
+
+	/**
+	 * @param theDescription the description to set
+	 */
+	public void setDescription(String theDescription) {
+		this.description.set(theDescription);
+	}
+
+
+	/**
+	 * @return the failIf
+	 */
+	public String getFailIf() {
+		return failIf.get(testDirectory);
+	}
+
+
+	/**
+	 * @param theFailIf the failIf to set
+	 */
+	public void setFailIf(String theFailIf) {
+		this.failIf.set(theFailIf);
+	}
 
 }

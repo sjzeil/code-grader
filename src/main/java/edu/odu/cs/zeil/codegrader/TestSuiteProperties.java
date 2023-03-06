@@ -98,16 +98,20 @@ public class TestSuiteProperties {
      */
     public static TestSuiteProperties loadYAML(String input)
         throws TestConfigurationError {
-        ObjectMapper mapper = getMapper();
-        try {
-            TestSuiteProperties result = mapper.readValue(input, 
-                TestSuiteProperties.class);
-            return result;
-        } catch (JsonProcessingException e) {
-            String message = "Cannot load YAML from string input\n"
-                + e.getMessage();
-            LOG.error(message, e);
-            throw new TestConfigurationError(message);
+        if (!input.equals("")) {
+            ObjectMapper mapper = getMapper();
+            try {
+                TestSuiteProperties result = mapper.readValue(input,
+                        TestSuiteProperties.class);
+                return result;
+            } catch (JsonProcessingException e) {
+                String message = "Cannot load YAML from string input\n"
+                        + e.getMessage();
+                LOG.error(message, e);
+                throw new TestConfigurationError(message);
+            }
+        } else {
+            return new TestSuiteProperties();
         }
     }
 

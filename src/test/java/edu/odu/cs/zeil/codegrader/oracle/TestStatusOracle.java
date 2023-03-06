@@ -80,7 +80,7 @@ public class TestStatusOracle {
 		testCase = new TestCase(testProperties);
 
 		String launcher = "make";
-		testProperties.launch = launcher;
+		testProperties.setLaunch(launcher);
         
 		Stage stage = new Stage(asst, submission,
 			new TestSuiteProperties());
@@ -112,7 +112,7 @@ public class TestStatusOracle {
 		testCase = new TestCase(testProperties);
 
 		String launcher = "echo";
-		testProperties.launch = launcher;
+		testProperties.setLaunch(launcher);
         
 		Stage stage = new Stage(asst, submission,
 			new TestSuiteProperties());

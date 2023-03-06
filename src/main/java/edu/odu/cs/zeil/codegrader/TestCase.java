@@ -1,6 +1,7 @@
 package edu.odu.cs.zeil.codegrader;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Constructor;
@@ -91,12 +92,12 @@ public class TestCase {
      */
     public void executeTest(Submission submission, 
             Stage stage) {
-        String launch = properties.launch;
+        String launch = properties.getLaunch();
         if (launch == null || launch.equals("")) {
-            if (properties.kind.equals(BUILD_KIND)) {
+            if (properties.getKind().equals(BUILD_KIND)) {
                 launch = stage.getBuildCommand();
             } else {
-                launch = stage.getLaunchCommand(properties.launch);
+                launch = stage.getLaunchCommand(properties.getLaunch());
             }
         }
         if (!launch.equals("")) {
@@ -145,15 +146,29 @@ public class TestCase {
         launchCommandStr = subs.parameterSubstitution(launchCommandStr);
         logger.info("executeTest using command: " + launchCommandStr);
         int timeLimit = Math.max(getTimeLimit(submission), MIN_RUNTIME_LIMIT);
-        File stdIn = properties.getIn();
         logger.info(stage.getStageDir().toString() + " " + timeLimit);
+        String inputText = properties.getIn();
+        File stdInFile = null;
+        if (inputText != null && !inputText.equals("")) {
+            stdInFile = new File(stage.getStageDir().toFile(), "stdIn.tmp");
+            try (FileWriter tempOut 
+                = new FileWriter(stdInFile)) {
+                    tempOut.write(inputText);
+            } catch (IOException ex) {
+                logger.warn("Problem writing stdin content for test.", ex);
+            }
+        }
+        inputText = "";
         ExternalProcess process = new ExternalProcess(
             stage.getStageDir(),
             launchCommandStr,
             timeLimit,
-            stdIn, 
+            stdInFile, 
             "test case " + properties.name);
         runTCProcess(process);
+        if (stdInFile != null) {
+            stdInFile.delete();
+        }
     }
 
 
@@ -161,7 +176,7 @@ public class TestCase {
         process.execute(true);
         capturedOutput = process.getOutput();
         capturedError = process.getErr();
-        if (properties.stderr) {
+        if (properties.isStderr()) {
             capturedOutput = capturedOutput + "\n--- std err---\n" 
                 + capturedError;
             capturedError = "";
@@ -215,12 +230,12 @@ public class TestCase {
                 INSTRUCTORS_TIME_MULTIPLIER * time0);
         }
         String time = "" + time0 + "\n";
-        if ((!asGold) && (!properties.kind.equals(BUILD_KIND))) {
+        if ((!asGold) && (!properties.getKind().equals(BUILD_KIND))) {
             FileUtils.writeTextFile(
                 testRecordingDir.resolve(testName + timeExtension), 
                 time);
         }
-        if (properties.status && crashed()) {
+        if (properties.isStatus() && crashed()) {
             FileUtils.writeTextFile(
                 testRecordingDir.resolve(testName + ".message"), 
                 "***Program failed with status code " 
@@ -254,7 +269,7 @@ public class TestCase {
             int bestScore = -1;
             String firstMessage = "";
             String actualOutput = getOutput();
-            if (properties.stderr) {
+            if (properties.isStderr()) {
                 String errorOut = getErr();
                 if (!errorOut.equals("")) {
                     actualOutput = actualOutput + "\non std err:\n" + errorOut;
@@ -330,7 +345,7 @@ public class TestCase {
             "");
         int time0 = 0;
         String time = "" + time0 + "\n";
-        if (!properties.kind.equals(BUILD_KIND)) {
+        if (!properties.getKind().equals(BUILD_KIND)) {
             FileUtils.writeTextFile(
                 testRecordingDir.resolve(testName + timeExtension), 
                 time);
@@ -355,7 +370,7 @@ public class TestCase {
 
     private int getTimeLimit(Submission submission) {
         if (submission == null) {
-            return properties.timelimit;
+            return properties.getTimelimit();
         } else {
             Optional<File> limitFile = FileUtils.findFile(
                     submission.getTestCaseDir(properties.name),
@@ -365,10 +380,10 @@ public class TestCase {
                 try {
                     return Integer.parseInt(text.trim());
                 } catch (NumberFormatException ex) {
-                    return properties.timelimit;
+                    return properties.getTimelimit();
                 }
             } else {
-                return properties.timelimit;
+                return properties.getTimelimit();
             }
         }
     }

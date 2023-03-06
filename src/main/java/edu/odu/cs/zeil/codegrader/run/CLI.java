@@ -35,11 +35,15 @@ public class CLI {
     private Option student;
     private Option test;
 
+    private Option getDates;
+
     private Option help;
 
     private String selectedStudent;
 
     private String selectedTest;
+
+    private String datePath;
 
     /**
      * Error logging.
@@ -132,6 +136,11 @@ public class CLI {
             } else {
                 selectedTest = "";
             }
+            if (cli.hasOption(getDates)) {
+                datePath = cli.getOptionValue(getDates);
+            } else {
+                datePath = "";
+            }
 
         } catch (ParseException exp) {
             throw new TestConfigurationError(exp.getMessage());
@@ -171,6 +180,9 @@ public class CLI {
             List<String> submissionList = new ArrayList<>();
             submissionList.add(selectedStudent);
             testSuite.setSelectedSubmissions(submissionList);
+        }
+        if (!datePath.equals("")) {
+            testSuite.setSubmissionDateMod(datePath);
         }
         testSuite.performTests();
         System.out.println("Done");
@@ -238,6 +250,12 @@ public class CLI {
                         + "(optional, defaults to all)")
                 .build();
         result.addOption(test);
+        getDates = Option.builder("getDates")
+            .desc("File to examine to determine submission date")
+            .argName("datePath")
+            .hasArgs()
+            .build();
+        result.addOption(getDates);
         help = Option.builder("help")
                 .desc("Print CLI help")
                 .build();
