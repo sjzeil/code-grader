@@ -280,8 +280,8 @@ public class TestCaseProperties implements Comparable<TestCaseProperties> {
 }
 
 private Deferred<Integer> selectValue(
-    OptionalInt suiteValue,
     OptionalInt caseValue,
+    OptionalInt suiteValue,
     OptionalInt defaultValue,
     String explicitExtension,
     Parser<Integer> parser) {
