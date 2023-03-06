@@ -59,6 +59,14 @@ public class TestSuiteProperties {
      */
     public SubmissionDateOptions dateSubmitted;
 
+
+    /**
+     * How to find when a submission was locked (subsequent submissions will
+     * be ignored or graded as zero).
+     */
+    public SubmissionDateOptions submissionLock;
+
+
     /**
      * List of late penalties, as a percentage per day. E.g.,
      * [10, 20, 100] means that a 10% penalty is assessed on the
@@ -70,6 +78,7 @@ public class TestSuiteProperties {
      * graded but will get a score of zero. This is the default.
      */
     public int[] latePenalties;
+
 
     //CHECKSTYLE:ON
 
@@ -161,6 +170,18 @@ public class TestSuiteProperties {
         } catch (JsonProcessingException e) {
             return "**Could not display value.**";
         }
+    }
+
+    /**
+     * Set the path pattern that will be used to recognize that an
+     * assignment has been locked for a student (e.g., after viewing an
+     * on-line solution) so that subsequent submissions will not be accepted.
+     * 
+     * @param pathPattern  a pattern for a file path containing a date & time
+     *          after which submissions cannot be accepted for a specific
+     *          individual.
+     */
+    public void setSubmissionLockIn(String string) {
     }
 
 }
