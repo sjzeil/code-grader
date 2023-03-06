@@ -255,8 +255,8 @@ public class TestCaseProperties implements Comparable<TestCaseProperties> {
     
     private <T> T selectValue(
         Optional<T> explicitValue,
-        Optional<T> suiteValue,
         Optional<T> caseValue,
+        Optional<T> suiteValue,
         Optional<T> defaultValue,
         T fallback) {
     if (explicitValue.isPresent()) {
@@ -274,8 +274,8 @@ public class TestCaseProperties implements Comparable<TestCaseProperties> {
 
     private int selectIntValue(
             OptionalInt explicitValue,
-            OptionalInt suiteValue,
             OptionalInt caseValue,
+            OptionalInt suiteValue,
             OptionalInt defaultValue,
             int fallback) {
         if (explicitValue.isPresent()) {

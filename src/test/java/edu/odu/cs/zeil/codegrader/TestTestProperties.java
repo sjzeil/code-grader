@@ -62,12 +62,12 @@ public class TestTestProperties {
 	}
 
 	@Test
-	void testDefaultProperty() 
+	void testCaseOverridesSuite() 
 		throws FileNotFoundException, TestConfigurationError {
 		TestCaseProperties testProperties
 			= new TestCaseProperties(asst, "simpleTests");
 		String value = testProperties.launch;
-		assertThat(value, is("./dividers"));
+		assertThat(value, is("././dividers"));
 	}
 
 	
