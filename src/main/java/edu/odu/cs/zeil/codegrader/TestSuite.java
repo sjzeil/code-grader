@@ -282,6 +282,15 @@ public class TestSuite implements Iterable<TestCase> {
 				}
 			}
 			if (proceedWithGrading) {
+				if (properties.submissionLock != null) {
+					LocalDateTime lockDate 
+						= parseDateTime(getLockDate(submission));
+					LocalDateTime submissionDateTime 
+						= parseDateTime(getSubmissionDate(submission));
+							}
+			}
+
+			if (proceedWithGrading) {
 				if (!recordAt.toFile().exists()) {
 					boolean ok = recordAt.toFile().mkdirs();
 					if (!ok) {
@@ -951,6 +960,24 @@ public class TestSuite implements Iterable<TestCase> {
 		}
 	}
 
+	/**
+	 * Attempt to determine when this submission was turned in.
+	 * 
+	 * @param sub the submission
+	 * @return a string representing a date and/or time, or "".
+	 */
+	public String getLockDate(Submission sub) {
+		ParameterHandling ph = new ParameterHandling(assignment, null, null, sub, null, null)
+		if (!properties.submissionLock.in.equals("")) {
+			return getLockDateIn(properties.submissionLock.in);
+		} else if (!properties.submissionLock.mod.equals("")) {
+			return getLockDateMod(properties.submissionLock.mod);
+		} else {
+			return "2999-12-31 23:59:59";
+		}
+	}
+
+
 	private String getSubmissionDateByGit(Path submissionDir) {
 		Path potentialGitDir = submissionDir.resolve(".git");
 		if (potentialGitDir.toFile().isDirectory()) {
@@ -988,6 +1015,42 @@ public class TestSuite implements Iterable<TestCase> {
 	}
 
 	private String getSubmissionDateMod(Path submissionDir,
+			String getDateFile) {
+		getDateFile = getDateFile.replace("@I",
+				submissionDir.toAbsolutePath().toString());
+		Path fileName = submissionDir.getFileName();
+		String submitFileName = (fileName == null) ? "" : fileName.toString();
+		getDateFile = getDateFile.replace("@i",
+				submitFileName);
+
+		// Use modification date of the file
+		Path criticalFile = Paths.get(getDateFile);
+		try {
+			FileTime fileTime = Files.getLastModifiedTime(criticalFile);
+			Instant instant = fileTime.toInstant();
+			LocalDateTime modDateTime = instant
+					.atZone(ZoneId.systemDefault()).toLocalDateTime();
+			return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(modDateTime);
+		} catch (IOException e) {
+			return "";
+		}
+	}
+
+	private String getLockDateIn(String getDateFile) {
+		getDateFile = getDateFile.replace("@I",
+				submissionDir.toAbsolutePath().toString());
+		Path fileName = submissionDir.getFileName();
+		String submitFileName = (fileName == null) ? "" : fileName.toString();
+		getDateFile = getDateFile.replace("@i",
+				submitFileName);
+
+		// Use contents of the file.
+		String dateStr = FileUtils
+				.readTextFile(Paths.get(getDateFile).toFile()).trim();
+		return dateStr;
+	}
+
+	private String getlockDateMod(Path submissionDir,
 			String getDateFile) {
 		getDateFile = getDateFile.replace("@I",
 				submissionDir.toAbsolutePath().toString());
@@ -1066,5 +1129,14 @@ public class TestSuite implements Iterable<TestCase> {
     public void clearTags() {
 		activeTags.clear();
 		casesToBeRun.clear();
-    }
+	}
+
+	/**
+	 * 
+	 * @return the suite properties (for unit testing purposes)
+	 */
+	TestSuiteProperties getProperties()
+	{
+		return properties;
+	}
 }
