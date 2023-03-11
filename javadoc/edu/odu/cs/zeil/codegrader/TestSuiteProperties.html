@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":9,"i2":10};
+var data = {"i0":9,"i1":9,"i2":10,"i3":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -197,6 +197,14 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code><a href="SubmissionDateOptions.html" title="class in edu.odu.cs.zeil.codegrader">SubmissionDateOptions</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#submissionLock">submissionLock</a></span></code></th>
+<td class="colLast">
+<div class="block">How to find when a submission was locked (subsequent submissions will
+ be ignored or graded as zero).</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code><a href="TestCasePropertiesBase.html" title="class in edu.odu.cs.zeil.codegrader">TestCasePropertiesBase</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#test">test</a></span></code></th>
 <td class="colLast">
@@ -259,6 +267,15 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i2" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSubmissionLockIn(java.lang.String)">setSubmissionLockIn</a></span>&#8203;(java.lang.String&nbsp;pathPattern)</code></th>
+<td class="colLast">
+<div class="block">Set the path pattern that will be used to recognize that an
+ assignment has been locked for a student (e.g., after viewing an
+ on-line solution) so that subsequent submissions will not be accepted.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
@@ -349,6 +366,17 @@ extends java.lang.Object</pre>
 <div class="block">How to find when submission was submitted.</div>
 </li>
 </ul>
+<a id="submissionLock">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>submissionLock</h4>
+<pre>public&nbsp;<a href="SubmissionDateOptions.html" title="class in edu.odu.cs.zeil.codegrader">SubmissionDateOptions</a> submissionLock</pre>
+<div class="block">How to find when a submission was locked (subsequent submissions will
+ be ignored or graded as zero).</div>
+</li>
+</ul>
 <a id="latePenalties">
 <!--   -->
 </a>
@@ -437,7 +465,7 @@ extends java.lang.Object</pre>
 <a id="toString()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
 <pre class="methodSignature">public&nbsp;java.lang.String&nbsp;toString()</pre>
@@ -445,6 +473,24 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+</dl>
+</li>
+</ul>
+<a id="setSubmissionLockIn(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>setSubmissionLockIn</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setSubmissionLockIn&#8203;(java.lang.String&nbsp;pathPattern)</pre>
+<div class="block">Set the path pattern that will be used to recognize that an
+ assignment has been locked for a student (e.g., after viewing an
+ on-line solution) so that subsequent submissions will not be accepted.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>pathPattern</code> - a pattern for a file path containing a date & time
+          after which submissions cannot be accepted for a specific
+          individual.</dd>
 </dl>
 </li>
 </ul>

@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -242,30 +242,37 @@ implements java.lang.Iterable&lt;<a href="TestCase.html" title="class in edu.odu
 </td>
 </tr>
 <tr id="i5" class="rowColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLockDate(edu.odu.cs.zeil.codegrader.Submission)">getLockDate</a></span>&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;sub)</code></th>
+<td class="colLast">
+<div class="block">Attempt to determine when this submission was turned in.</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getNumTestsToPerform()">getNumTestsToPerform</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSubmissionDate(edu.odu.cs.zeil.codegrader.Submission)">getSubmissionDate</a></span>&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;sub)</code></th>
 <td class="colLast">
 <div class="block">Attempt to determine when this submission was turned in.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isTagActive(java.lang.String)">isTagActive</a></span>&#8203;(java.lang.String&nbsp;tagName)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>java.util.Iterator&lt;<a href="TestCase.html" title="class in edu.odu.cs.zeil.codegrader">TestCase</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#iterator()">iterator</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Provides access to the list of test cases in this suite.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#needsRegrading(java.nio.file.Path,edu.odu.cs.zeil.codegrader.Submission)">needsRegrading</a></span>&#8203;(java.nio.file.Path&nbsp;recordAt,
               <a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission)</code></th>
@@ -273,42 +280,42 @@ implements java.lang.Iterable&lt;<a href="TestCase.html" title="class in edu.odu
 <div class="block">Check to see if a submission needs to be (re)graded.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>java.time.LocalDateTime</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#parseDateTime(java.lang.String)">parseDateTime</a></span>&#8203;(java.lang.String&nbsp;dateTimeString)</code></th>
 <td class="colLast">
 <div class="block">Flexible parsing of dates and time.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#performTests()">performTests</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Perform all selected tests for all selected submissions.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#processThisSubmission(edu.odu.cs.zeil.codegrader.Submission)">processThisSubmission</a></span>&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission)</code></th>
 <td class="colLast">
 <div class="block">Process a submission.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDueDate(java.lang.String)">setDueDate</a></span>&#8203;(java.lang.String&nbsp;date)</code></th>
 <td class="colLast">
 <div class="block">Set the due date for this suite.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setLaunch(java.lang.String)">setLaunch</a></span>&#8203;(java.lang.String&nbsp;launcher)</code></th>
 <td class="colLast">
 <div class="block">Set the default launch command for all test cases in this suite.</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSelectedSubmissions(java.util.List)">setSelectedSubmissions</a></span>&#8203;(java.util.List&lt;java.lang.String&gt;&nbsp;submissionList)</code></th>
 <td class="colLast">
@@ -316,7 +323,7 @@ implements java.lang.Iterable&lt;<a href="TestCase.html" title="class in edu.odu
  performTests.</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSelectedTests(java.util.List)">setSelectedTests</a></span>&#8203;(java.util.List&lt;java.lang.String&gt;&nbsp;testList)</code></th>
 <td class="colLast">
@@ -324,21 +331,21 @@ implements java.lang.Iterable&lt;<a href="TestCase.html" title="class in edu.odu
  performTests.</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSubmissionDateByGit(boolean)">setSubmissionDateByGit</a></span>&#8203;(boolean&nbsp;setByGit)</code></th>
 <td class="colLast">
 <div class="block">Submission dates will be read from a file.</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSubmissionDateIn(java.lang.String)">setSubmissionDateIn</a></span>&#8203;(java.lang.String&nbsp;filePath)</code></th>
 <td class="colLast">
 <div class="block">Submission dates will be read from a file.</div>
 </td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSubmissionDateMod(java.lang.String)">setSubmissionDateMod</a></span>&#8203;(java.lang.String&nbsp;filePath)</code></th>
 <td class="colLast">
@@ -346,7 +353,7 @@ implements java.lang.Iterable&lt;<a href="TestCase.html" title="class in edu.odu
  date of a file.</div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setTag(java.lang.String)">setTag</a></span>&#8203;(java.lang.String&nbsp;tagName)</code></th>
 <td class="colLast">
@@ -669,6 +676,22 @@ implements java.lang.Iterable&lt;<a href="TestCase.html" title="class in edu.odu
 <li class="blockList">
 <h4>getSubmissionDate</h4>
 <pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getSubmissionDate&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;sub)</pre>
+<div class="block">Attempt to determine when this submission was turned in.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>sub</code> - the submission</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a string representing a date and/or time, or "".</dd>
+</dl>
+</li>
+</ul>
+<a id="getLockDate(edu.odu.cs.zeil.codegrader.Submission)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getLockDate</h4>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getLockDate&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;sub)</pre>
 <div class="block">Attempt to determine when this submission was turned in.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
