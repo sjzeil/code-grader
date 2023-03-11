@@ -2,3 +2,6 @@ test:
   launch: ./dividers
   timelimit: 1
   stderr: 1
+  grading:
+    - oracle: edu.odu.cs.oracle1
+  

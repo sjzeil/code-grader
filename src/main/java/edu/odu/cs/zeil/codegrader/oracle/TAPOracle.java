@@ -3,8 +3,12 @@ package edu.odu.cs.zeil.codegrader.oracle;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.lang.invoke.MethodHandles;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.odu.cs.zeil.codegrader.OracleProperties;
 import edu.odu.cs.zeil.codegrader.Stage;
@@ -34,6 +38,12 @@ import edu.odu.cs.zeil.codegrader.TestCase;
  */
 public class TAPOracle extends Oracle {
 
+
+    /**
+	 * Error logging.
+	 */
+	private static Logger logger = LoggerFactory.getLogger(
+        MethodHandles.lookup().lookupClass());
 
     private static final double PERFECT_SCORE = 100.0;
 
@@ -85,9 +95,11 @@ public class TAPOracle extends Oracle {
                         * (double) nSuccessful) / ((double) nStarted);
                 return new OracleResult((int) Math.round(score), actual);
             } else {
-                return new OracleResult(0, "Could not read test report.");    
+                logger.warn("Oracle could not parse test report");
+                return new OracleResult(0, "Could not parse test report.");    
             }
         } catch (IOException ex) {
+            logger.warn("Oracle could not read test report", ex);
             return new OracleResult(0, "Could not read test report.");
         }
     }
