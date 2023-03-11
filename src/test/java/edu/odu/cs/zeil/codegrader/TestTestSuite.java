@@ -108,7 +108,31 @@ public class TestTestSuite {
 		Path totalFile = submission.getRecordingDir()
 			.resolve(studentName + ".total");
 		String total = FileUtils.readTextFile(totalFile.toFile());
-		assertThat(total.trim(), is("0"));
+		assertThat(total.trim(), is(""));
+
+	}
+
+	@Test
+	void testLaterLockedSubmission() {
+		TestSuite suite = new TestSuite(asst);
+		TestSuiteProperties props = suite.getProperties();
+		props.setSubmissionLockIn("@R/@s.lock");
+		submission.getRecordingDir().toFile().mkdirs();
+		FileUtils.writeTextFile(
+			submission.getRecordingDir().resolve("perfect.lock"),
+			"2100-01-01 05:00  No more submissions.");
+		suite.clearTheStage(stagingPath);
+
+		Path recordAt = submission.getRecordingDir();
+
+		assertTrue(suite.needsRegrading(recordAt, submission));
+
+		suite.processThisSubmission(submission);
+
+		Path totalFile = submission.getRecordingDir()
+			.resolve(studentName + ".total");
+		String total = FileUtils.readTextFile(totalFile.toFile());
+		assertThat(total.trim(), is("100"));
 
 	}
 

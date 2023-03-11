@@ -181,7 +181,9 @@ public class TestSuiteProperties {
      *          after which submissions cannot be accepted for a specific
      *          individual.
      */
-    public void setSubmissionLockIn(String string) {
+    public void setSubmissionLockIn(String pathPattern) {
+        submissionLock = new SubmissionDateOptions();
+        submissionLock.in = pathPattern;
     }
 
 }
