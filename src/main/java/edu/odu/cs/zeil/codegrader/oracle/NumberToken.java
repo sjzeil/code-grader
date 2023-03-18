@@ -33,23 +33,31 @@ public class NumberToken extends Token {
 				if (delta < 0.0) {
 					inferAbsoluteErrorBound(getLexeme());
 				}
-				Double d1 = Double.parseDouble(getLexeme());
-				Double d2 = Double.parseDouble(act.getLexeme());
-				return (Math.abs(d1 - d2) <= delta);
-			} else {
-				if (act.getLexeme().contains(".")) {
-					// Integer to floating point comparison
-					if (delta < 0.0) {
-						return false;
-					}
+				try {
 					Double d1 = Double.parseDouble(getLexeme());
 					Double d2 = Double.parseDouble(act.getLexeme());
 					return (Math.abs(d1 - d2) <= delta);
-				} else {
-					// Integer to integer comparison
-					Integer n1 = Integer.parseInt(getLexeme());
-					Integer n2 = Integer.parseInt(act.getLexeme());
-					return n1.intValue() == n2.intValue();
+				} catch (NumberFormatException ex) {
+					return false;
+				}
+			} else {
+				try {
+					if (act.getLexeme().contains(".")) {
+						// Integer to floating point comparison
+						if (delta < 0.0) {
+							return false;
+						}
+						Double d1 = Double.parseDouble(getLexeme());
+						Double d2 = Double.parseDouble(act.getLexeme());
+						return (Math.abs(d1 - d2) <= delta);
+					} else {
+						// Integer to integer comparison
+						Integer n1 = Integer.parseInt(getLexeme());
+						Integer n2 = Integer.parseInt(act.getLexeme());
+						return n1.intValue() == n2.intValue();
+					}
+				} catch (NumberFormatException ex) {
+					return false;
 				}
 			}
 		} else {
