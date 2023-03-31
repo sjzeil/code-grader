@@ -230,7 +230,7 @@ public class TestCase {
                 INSTRUCTORS_TIME_MULTIPLIER * time0);
         }
         String time = "" + time0 + "\n";
-        if ((!asGold) && (!properties.getKind().equals(BUILD_KIND))) {
+        if (!properties.getKind().equals(BUILD_KIND)) {
             FileUtils.writeTextFile(
                 testRecordingDir.resolve(testName + timeExtension), 
                 time);
