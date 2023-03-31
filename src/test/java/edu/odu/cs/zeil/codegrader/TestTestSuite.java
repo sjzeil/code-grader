@@ -89,6 +89,54 @@ public class TestTestSuite {
 	}
 
 	@Test
+	void testLockedSubmission() {
+		TestSuite suite = new TestSuite(asst);
+		TestSuiteProperties props = suite.getProperties();
+		props.setSubmissionLockIn("@R/@s.lock");
+		submission.getRecordingDir().toFile().mkdirs();
+		FileUtils.writeTextFile(
+			submission.getRecordingDir().resolve("perfect.lock"),
+			"1999-01-01 05:00  No more submissions.");
+		suite.clearTheStage(stagingPath);
+
+		Path recordAt = submission.getRecordingDir();
+
+		assertTrue(suite.needsRegrading(recordAt, submission));
+
+		suite.processThisSubmission(submission);
+
+		Path totalFile = submission.getRecordingDir()
+			.resolve(studentName + ".total");
+		String total = FileUtils.readTextFile(totalFile.toFile());
+		assertThat(total.trim(), is(""));
+
+	}
+
+	@Test
+	void testLaterLockedSubmission() {
+		TestSuite suite = new TestSuite(asst);
+		TestSuiteProperties props = suite.getProperties();
+		props.setSubmissionLockIn("@R/@s.lock");
+		submission.getRecordingDir().toFile().mkdirs();
+		FileUtils.writeTextFile(
+			submission.getRecordingDir().resolve("perfect.lock"),
+			"2100-01-01 05:00  No more submissions.");
+		suite.clearTheStage(stagingPath);
+
+		Path recordAt = submission.getRecordingDir();
+
+		assertTrue(suite.needsRegrading(recordAt, submission));
+
+		suite.processThisSubmission(submission);
+
+		Path totalFile = submission.getRecordingDir()
+			.resolve(studentName + ".total");
+		String total = FileUtils.readTextFile(totalFile.toFile());
+		assertThat(total.trim(), is("100"));
+
+	}
+
+	@Test
 	void testDateParsing() {
 		LocalDateTime dt0 = LocalDateTime.of(2022, 12, 15, 23, 59, 59);
 		LocalDateTime dt1 = LocalDateTime.of(2022, 12, 15, 20, 58, 16);

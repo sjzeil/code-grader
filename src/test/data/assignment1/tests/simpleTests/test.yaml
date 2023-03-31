@@ -1,1 +1,5 @@
+launch: ././dividers
 weight: 5
+grading:
+  - oracle: edu.odu.cs.oracle2
+  - oracle: edu.odu.cs.oracle3

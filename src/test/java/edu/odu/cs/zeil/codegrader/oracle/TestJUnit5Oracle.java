@@ -80,4 +80,42 @@ public class TestJUnit5Oracle {
         assertThat(result.message, equalTo(observed));
     }
 
+    @Test
+    void testJU5OracleDirtier() throws FileNotFoundException {
+        Oracle oracle = new JUnit5Oracle(new OracleProperties(), testCase,
+                sub, stage);
+
+        String observed = "make[1]: Entering directory '/home/zeil/courses/cs350/AutoGrading/s23-zeil/WorkArea/'                                                                                                                      javac -cp 'src/main/java:lib/*' src/main/java/edu/odu/cs/cs350/tdd/Book.java                                            javac -cp 'src/main/java:lib/*' src/main/java/edu/odu/cs/cs350/tdd/SJZTestBook.java                                     java -jar lib/junit-platform-console-standalone-1.7.2.jar  -cp 'src/main/java:lib/hamcrest-all-1.3.jar:lib/junit-jupiter-api-5.7.2.jar:lib/junit-jupiter-engine-5.7.2.jar:lib/junit-jupiter-params-5.6.2.jar:lib/junit-platform-console-standalone-1.7.2.jar:lib/unitTestTracker.jar' -c edu.odu.cs.cs350.tdd.SJZTestBook\n"
++ "\n"
++ "        Thanks for using JUnit! Support its development at https://junit.org/sponsoring\n"
++ "        \n"
++ "        .\n"
++ "        +-- JUnit Jupiter [OK]\n"
++ "        | '-- SJZTestBook [OK]\n"
++ "        |   +-- testAddChapter() [OK]\n"
++ "        |   '-- testConstructor() [OK]\n"
++ "        '-- JUnit Vintage [OK]\n"
++ "        \n"
++ "        Test run finished after 135 ms\n"
++ "        [         3 containers found      ]\n"
++ "        [         0 containers skipped    ]\n"
++ "[         3 containers started    ]\n"
++ "[         0 containers aborted    ]\n"
++ "[         3 containers successful ]\n"
++ "[         0 containers failed     ]\n"
++ "[         2 tests found           ]\n"
++ "[         0 tests skipped         ]\n"
++ "[         2 tests started         ]\n"
++ "[         0 tests aborted         ]\n"
++ "[         2 tests successful      ]\n"
++ "[         0 tests failed          ]\n"
++ "\n"
++ "make[1]: Leaving directory '/home/zeil/courses/cs350/AutoGrading/s23-zeil/WorkArea/\n"
+        ;
+
+        OracleResult result = oracle.compare("", observed);
+        assertThat(result.score, equalTo(100));
+        assertThat(result.message, equalTo(observed));
+    }
+
 }

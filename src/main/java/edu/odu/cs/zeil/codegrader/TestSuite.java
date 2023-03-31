@@ -280,7 +280,28 @@ public class TestSuite implements Iterable<TestCase> {
 				if (!needsRegrading(recordAt, submission)) {
 					proceedWithGrading = false;
 				}
+				if (!proceedWithGrading) {
+					System.out.println("  Has already been graded - skipping.");
+				}
 			}
+			if (proceedWithGrading) {
+				if (properties.submissionLock != null) {
+					LocalDateTime lockDate 
+						= parseDateTime(getLockDate(submission));
+					LocalDateTime submissionDateTime 
+						= parseDateTime(getSubmissionDate(submission));
+					proceedWithGrading = submissionDateTime.compareTo(lockDate) <= 0;
+					if (!proceedWithGrading) {
+						String msg = "Submitted by " 
+							+ submission.getSubmittedBy()
+							+ " at " + submissionDateTime
+							+ " but locked at " + lockDate;
+						logger.warn(msg);
+						System.out.println(msg);
+					}
+				}
+			}
+
 			if (proceedWithGrading) {
 				if (!recordAt.toFile().exists()) {
 					boolean ok = recordAt.toFile().mkdirs();
@@ -290,8 +311,6 @@ public class TestSuite implements Iterable<TestCase> {
 				}
 				copyTestSuiteToRecordingArea(submission);
 				submitterStage.setupStage();
-			} else {
-				System.out.println("  Has already been graded - skipping.");
 			}
 		} else {
 			recordAt = assignment.getTestSuiteDirectory();
@@ -434,8 +453,8 @@ public class TestSuite implements Iterable<TestCase> {
 						.resolve(submission.getSubmittedBy() + ".total"),
 				"" + studentTotalScore + "\n");
 
-		Path gradeLogFile = assignment.getRecordingDirectory()
-				.resolve("classGradeLog.csv");
+		Path gradeLogFile = submission.getRecordingDir()
+				.resolve("gradeLog.csv");
 		recordInGradeLog(gradeLogFile, submission, studentTotalScore);
 	}
 
@@ -447,7 +466,8 @@ public class TestSuite implements Iterable<TestCase> {
 				logger.error("Cannot write to grade log " + gradeLogFile, ex);
 			}
 		}
-		try (FileWriter gradeLog = new FileWriter(gradeLogFile.toFile(),true)) {
+		try (FileWriter gradeLog = new FileWriter(
+				gradeLogFile.toFile(), true)) {
 			gradeLog.write("\"" + submission.getSubmittedBy() + "\",\"" 
 				+ getSubmissionDate(submission) + "\"," 
 				+ studentTotalScore + "\n");
@@ -947,9 +967,27 @@ public class TestSuite implements Iterable<TestCase> {
 		} else if (properties.dateSubmitted.git) {
 			return getSubmissionDateByGit(sub.getSubmissionDirectory());
 		} else {
-			return "";
+			return "2020-01-01 00:00:00";
 		}
 	}
+
+	/**
+	 * Attempt to determine when this submission was turned in.
+	 * 
+	 * @param sub the submission
+	 * @return a string representing a date and/or time, or "".
+	 */
+	public String getLockDate(Submission sub) {
+		ParameterHandling ph = new ParameterHandling(assignment, null, null, sub, null, null);
+		if (!properties.submissionLock.in.equals("")) {
+			return getLockDateIn(ph.parameterSubstitution(properties.submissionLock.in));
+		} else if (!properties.submissionLock.mod.equals("")) {
+			return getLockDateMod(ph.parameterSubstitution(properties.submissionLock.mod));
+		} else {
+			return "2999-12-31 23:59:59";
+		}
+	}
+
 
 	private String getSubmissionDateByGit(Path submissionDir) {
 		Path potentialGitDir = submissionDir.resolve(".git");
@@ -957,7 +995,7 @@ public class TestSuite implements Iterable<TestCase> {
 			String gitCmd = "git log -1 --date=format:%Y-%m-%d_%T --format=%ad";
 			return getSubmissionDateByCommand(gitCmd, potentialGitDir);
 		} else {
-			return "";
+			return "2021-01-01 00:00:00";
 		}
 	}
 
@@ -1006,6 +1044,37 @@ public class TestSuite implements Iterable<TestCase> {
 			return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(modDateTime);
 		} catch (IOException e) {
 			return "";
+		}
+	}
+
+	private String getLockDateIn(String getDateFile) {
+		Path fileName = Paths.get(getDateFile);
+		if (fileName != null && fileName.toFile().exists()) {
+			// Use contents of the file.
+			String dateStr = FileUtils
+					.readTextFile(fileName.toFile()).trim();
+			return dateStr;
+		} else {
+			return "2099-12-31 23:59:59";
+		}
+	}
+
+
+	private String getLockDateMod(String getDateFile) {
+		Path fileName = Paths.get(getDateFile);
+		if (fileName != null && fileName.toFile().exists()) {
+			// Use modification date of the file
+			try {
+				FileTime fileTime = Files.getLastModifiedTime(fileName);
+				Instant instant = fileTime.toInstant();
+				LocalDateTime modDateTime = instant
+						.atZone(ZoneId.systemDefault()).toLocalDateTime();
+				return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(modDateTime);
+			} catch (IOException e) {
+				return "";
+			}
+		} else {
+			return "2099-12-31 23:59:59";
 		}
 	}
 
@@ -1066,5 +1135,14 @@ public class TestSuite implements Iterable<TestCase> {
     public void clearTags() {
 		activeTags.clear();
 		casesToBeRun.clear();
-    }
+	}
+
+	/**
+	 * 
+	 * @return the suite properties (for unit testing purposes)
+	 */
+	TestSuiteProperties getProperties()
+	{
+		return properties;
+	}
 }

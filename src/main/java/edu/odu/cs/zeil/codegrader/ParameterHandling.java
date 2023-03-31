@@ -2,13 +2,12 @@ package edu.odu.cs.zeil.codegrader;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ParameterHandling {
 
 
-    private char[] tags = {'P', 'S', 'I', 'T', 't', 'R', 'A', 'E'};
-    private ArrayList<String> replacements;
+    private HashMap<Character, String> replacements;
 
     /**
      * Set up an object for parameter substitution .
@@ -24,8 +23,8 @@ public class ParameterHandling {
             Stage stage, Submission submission,
             File expected, File actual) {
 
-        Path stageDir = stage.getStageDir();
-        replacements = new ArrayList<>();
+        Path stageDir = (stage != null) ? stage.getStageDir() : null;
+        replacements = new HashMap<>();
         Path testSuiteDir = asst.getTestSuiteDirectory();
         String tcName = (tc == null) ? "" : tc.getProperties().name;
         String recordingDir = (submission == null) ? "" 
@@ -33,21 +32,23 @@ public class ParameterHandling {
         String submissionDir = (submission == null) ? ""
                 : submission.getSubmissionDirectory()
                     .toAbsolutePath().toString();
-        replacements.add((tc == null) 
-            ? "" 
-            : tc.getProperties().getParams()); // P
-        replacements.add(stageDir.toAbsolutePath().toString()); // S
-        replacements.add(submissionDir); // I
-        replacements.add(testSuiteDir.resolve(tcName)
-            .toAbsolutePath().toString()); // T
-        replacements.add(tcName); // t
-        replacements.add(recordingDir); // R
-        replacements.add((actual == null)
-                ? ""
-                : actual.getAbsolutePath()); // A
-        replacements.add((expected == null)
-                ? ""
-                : expected.getAbsolutePath()); // E
+        replacements.put('P', 
+            (tc == null) ? "" : tc.getProperties().getParams());
+        if (stageDir != null) {
+            replacements.put('S', stageDir.toAbsolutePath().toString());
+        }
+        if (submission != null) {
+            replacements.put('s', submission.getSubmittedBy());
+        }
+        replacements.put('I', submissionDir);
+        replacements.put('T', 
+            testSuiteDir.resolve(tcName).toAbsolutePath().toString());
+        replacements.put('t', tcName);
+        replacements.put('R', recordingDir);
+        replacements.put('A', 
+            (actual == null) ? "" : actual.getAbsolutePath());
+        replacements.put('E', 
+            (expected == null) ? "" : expected.getAbsolutePath());
     }
 
     /**
@@ -56,6 +57,7 @@ public class ParameterHandling {
      * <ul>
      * <li>@P the test command line parameters</li>
      * <li>@S the staging directory</li>
+     * <li>@s the name/ID of the submitter</li>
      * <li>@T the test suite directory</li>
      * <li>@t the test case name</li>
      * <li>@R the reporting directory</li>
@@ -83,7 +85,7 @@ public class ParameterHandling {
                                         launchCommandStr.charAt(i + 2));
                         if (ok) {
                             i += 2;
-                            result.append(replacements.get(0));
+                            result.append(replacements.get('P'));
                         } else {
                             i += 1;
                             result.append(c);
@@ -109,21 +111,10 @@ public class ParameterHandling {
             if (c == '@') {
                 if (i + 1 < launchCommandStr.length()) {
                     char c2 = launchCommandStr.charAt(i + 1);
-                    int selection = 0;
-                    while (selection < tags.length && c2 != tags[selection]) {
-                        ++selection;
-                    }
-                    if (selection < tags.length) {
-                        boolean ok = (i + 2 >= launchCommandStr.length())
-                                || !Character.isAlphabetic(
-                                        launchCommandStr.charAt(i + 2));
-                        if (ok) {
-                            i += 2;
-                            result.append(replacements.get(selection));
-                        } else {
-                            i += 1;
-                            result.append(c);
-                        }
+                    String replacement = replacements.get(c2);
+                    if (replacement != null) {
+                        i += 2;
+                        result.append(replacement);
                     } else {
                         i += 1;
                         result.append(c);

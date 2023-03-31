@@ -262,8 +262,8 @@ public class TestCaseProperties implements Comparable<TestCaseProperties> {
 
     
     private <T> Deferred<T> selectValue(
-        Optional<T> suiteValue,
         Optional<T> caseValue,
+        Optional<T> suiteValue,
         Optional<T> defaultValue,
         String explicitExtension,
         Parser<T> parser) {
@@ -279,8 +279,8 @@ public class TestCaseProperties implements Comparable<TestCaseProperties> {
 }
 
 private Deferred<Integer> selectValue(
-    OptionalInt suiteValue,
     OptionalInt caseValue,
+    OptionalInt suiteValue,
     OptionalInt defaultValue,
     String explicitExtension,
     Parser<Integer> parser) {
@@ -296,8 +296,8 @@ return new Deferred<Integer>(explicitExtension, value, parser);
 }
 
 private <T> T selectValue(
-    Optional<T> suiteValue,
     Optional<T> caseValue,
+    Optional<T> suiteValue,
     Optional<T> defaultValue,
     T fallback) {
 T value = fallback;
