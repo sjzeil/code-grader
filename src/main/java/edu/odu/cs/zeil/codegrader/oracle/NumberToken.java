@@ -52,12 +52,14 @@ public class NumberToken extends Token {
 						return (Math.abs(d1 - d2) <= delta);
 					} else {
 						// Integer to integer comparison
-						Integer n1 = Integer.parseInt(getLexeme());
-						Integer n2 = Integer.parseInt(act.getLexeme());
-						return n1.intValue() == n2.intValue();
+						Long n1 = Long.parseLong(getLexeme());
+						Long n2 = Long.parseLong(act.getLexeme());
+						return n1.longValue() == n2.longValue();
 					}
 				} catch (NumberFormatException ex) {
-					return false;
+					// Fallback if numbers are unparseable. Accept if the
+					// lexemes match.
+					return getLexeme().equals(act.getLexeme());
 				}
 			}
 		} else {
