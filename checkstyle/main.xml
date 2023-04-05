@@ -79,7 +79,7 @@
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/JUnit5Oracle.java">
 </file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/NumberToken.java">
-<error line="68" column="22" severity="warning" message="&apos;10.0&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="78" column="22" severity="warning" message="&apos;10.0&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 </file>
 <file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/Oracle.java">
 </file>
