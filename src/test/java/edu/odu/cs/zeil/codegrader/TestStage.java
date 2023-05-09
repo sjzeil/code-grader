@@ -2,6 +2,7 @@ package edu.odu.cs.zeil.codegrader;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -139,6 +140,8 @@ public class TestStage {
 
 
         assertThat(score, is(0));
+
+        assertThat(builderCase.getOutput(), containsString("error"));
     }
 
 

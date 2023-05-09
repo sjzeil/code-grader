@@ -239,7 +239,9 @@ public class TestCase {
             FileUtils.writeTextFile(
                 testRecordingDir.resolve(testName + ".message"), 
                 "***Program failed with status code " 
-                    + statusCode + "\n");
+                    + statusCode + "\n"
+                    + capturedOutput + "\n"
+                    + capturedError);
             if (asGold) {
                 throw new TestConfigurationError(
                     "Gold version crashed on test " + testName 
