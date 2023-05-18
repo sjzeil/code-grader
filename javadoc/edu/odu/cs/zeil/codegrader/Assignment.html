@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -161,7 +161,9 @@ implements java.lang.Cloneable</pre>
 </tr>
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E()">Assignment</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Create an empty assignment.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -205,13 +207,18 @@ implements java.lang.Cloneable</pre>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getHasInstructorCode()">getHasInstructorCode</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getInPlace()">getInPlace</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Should this assignment be graded "in place", rather than using a
  separate stage and recording area?</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getInstructorCodeDirectory()">getInstructorCodeDirectory</a></span>()</code></th>
 <td class="colLast">
@@ -220,7 +227,7 @@ implements java.lang.Cloneable</pre>
  the total build.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getManual()">getManual</a></span>()</code></th>
 <td class="colLast">
@@ -228,7 +235,7 @@ implements java.lang.Cloneable</pre>
  report.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRecordingDirectory()">getRecordingDirectory</a></span>()</code></th>
 <td class="colLast">
@@ -236,7 +243,7 @@ implements java.lang.Cloneable</pre>
  compiled and tested.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getStagingDirectory()">getStagingDirectory</a></span>()</code></th>
 <td class="colLast">
@@ -244,7 +251,7 @@ implements java.lang.Cloneable</pre>
  compiled and tested.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSubmissionsDirectory()">getSubmissionsDirectory</a></span>()</code></th>
 <td class="colLast">
@@ -252,14 +259,14 @@ implements java.lang.Cloneable</pre>
  from an entire class.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSubmitterStage(edu.odu.cs.zeil.codegrader.Submission)">getSubmitterStage</a></span>&#8203;(<a href="Submission.html" title="class in edu.odu.cs.zeil.codegrader">Submission</a>&nbsp;submission)</code></th>
 <td class="colLast">
 <div class="block">Get the staging directory for the submitted version.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTestSuiteDirectory()">getTestSuiteDirectory</a></span>()</code></th>
 <td class="colLast">
@@ -267,14 +274,21 @@ implements java.lang.Cloneable</pre>
  that will be used to evaluate the submissions.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setGoldDirectory(java.nio.file.Path)">setGoldDirectory</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Set the path to the gold directory.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
+<td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setHasInstructorCode(boolean)">setHasInstructorCode</a></span>&#8203;(boolean&nbsp;hasCode)</code></th>
+<td class="colLast">
+<div class="block">Indicate whether instructor is supplying source code.</div>
+</td>
+</tr>
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setInPlace(boolean)">setInPlace</a></span>&#8203;(boolean&nbsp;gradeInPlace)</code></th>
 <td class="colLast">
@@ -282,42 +296,42 @@ implements java.lang.Cloneable</pre>
  separate stage and recording area.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setInstructorCodeDirectory(java.nio.file.Path)">setInstructorCodeDirectory</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Set the path to the instructor code directory.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setManual(java.nio.file.Path)">setManual</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Set the path to the manually assigned grades.</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setRecordingDirectory(java.nio.file.Path)">setRecordingDirectory</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Set the path to the recording directory.</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setStagingDirectory(java.nio.file.Path)">setStagingDirectory</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Set the path to the staging directory.</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSubmissionsDirectory(java.nio.file.Path)">setSubmissionsDirectory</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
 <td class="colLast">
 <div class="block">Set the path to the submissions directory.</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code><a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setTestSuiteDirectory(java.nio.file.Path)">setTestSuiteDirectory</a></span>&#8203;(java.nio.file.Path&nbsp;path)</code></th>
 <td class="colLast">
@@ -355,6 +369,7 @@ implements java.lang.Cloneable</pre>
 <li class="blockList">
 <h4>Assignment</h4>
 <pre>public&nbsp;Assignment()</pre>
+<div class="block">Create an empty assignment.</div>
 </li>
 </ul>
 </li>
@@ -383,6 +398,37 @@ implements java.lang.Cloneable</pre>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the path to the directory containing instructor-supplied
          code or null if no instructor's code is supplied.</dd>
+</dl>
+</li>
+</ul>
+<a id="getHasInstructorCode()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getHasInstructorCode</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;getHasInstructorCode()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if there is instructor code to be copied along with the
+ code from the submitter.</dd>
+</dl>
+</li>
+</ul>
+<a id="setHasInstructorCode(boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setHasInstructorCode</h4>
+<pre class="methodSignature">public&nbsp;<a href="Assignment.html" title="class in edu.odu.cs.zeil.codegrader">Assignment</a>&nbsp;setHasInstructorCode&#8203;(boolean&nbsp;hasCode)</pre>
+<div class="block">Indicate whether instructor is supplying source code.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>hasCode</code> - true if there is instructor code to be copied along
+     with the code from the submitter.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the assignment</dd>
 </dl>
 </li>
 </ul>
