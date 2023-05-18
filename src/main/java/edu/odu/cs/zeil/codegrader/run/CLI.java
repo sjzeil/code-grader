@@ -83,8 +83,14 @@ public class CLI {
             }
 
             if (cli.hasOption(iSrc)) {
-                assignment.setInstructorCodeDirectory(
-                        Paths.get(cli.getOptionValue(iSrc)));
+                String path = cli.getOptionValue(iSrc);
+                if (path.equals("-")) { // special case
+                    assignment.setHasInstructorCode(false);
+                } else {
+                    assignment.setHasInstructorCode(true);
+                    assignment.setInstructorCodeDirectory(Paths.get(path));
+                }
+                
             }
 
             if (cli.hasOption(recording)) {
@@ -109,6 +115,9 @@ public class CLI {
             if (cli.hasOption(gold)) {
                 assignment.setGoldDirectory(
                         Paths.get(cli.getOptionValue(gold)));
+                if (!cli.hasOption("isrc")) {
+                   assignment.setHasInstructorCode(true); 
+                }
             }
 
             if (cli.hasOption(submissions)) {

@@ -207,7 +207,25 @@ public class TestCase {
             throws TestConfigurationError {
         // Copy all test files into the stage.
         String testCaseName = properties.name;
-        executeTest(submission, stage);
+        try {
+            executeTest(submission, stage);
+        } catch (TestConfigurationError ex) {
+            if (asGold) {
+                // A configuration error in the Gold program is bad news.
+                throw ex;
+            } else {
+                // A configuration error in the student program can be triggered
+                // by prior compilation errors making it impossible to infer
+                // an execution command.
+                logger.warn("Problem executing test case " + testCaseName 
+                    + " on " + submission.getSubmittedBy(), ex);
+                crashed = true;
+                onTime = true;
+                statusCode = -1;
+                expiredTime = 0;
+                capturedOutput = "**Unable to run program.**";
+            }
+        }
         Path testRecordingDir = submission.getTestCaseDir(testCaseName);
         if (!testRecordingDir.toFile().exists()) {
             boolean ok = testRecordingDir.toFile().mkdirs();

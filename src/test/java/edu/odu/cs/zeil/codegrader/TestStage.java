@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -114,6 +115,31 @@ public class TestStage {
 
         assertThat(score, is(100));
     }
+
+
+
+    @Test
+    void testNoInstructorCodeBuild() {
+        asst.setHasInstructorCode(false);
+        Submission submission = new Submission(asst, "perfect",
+                submissionsPath.resolve("perfect"));
+        
+        Stage stage = new Stage(asst, submission, tsProperties);
+
+        stage.clear();
+
+        stage.setupStage();
+
+        // Check first on the submitter stage setup
+        assertTrue(asst.getSubmitterStage(submission).toFile().exists());
+        assertTrue(asst.getSubmitterStage(submission).resolve("sqrtProg.java")
+                .toFile().exists());
+        assertFalse(asst.getSubmitterStage(submission).resolve("makefile")
+                .toFile().exists());
+
+    }
+
+
 
     @Test
     void testSubmissionBuildFailure() {

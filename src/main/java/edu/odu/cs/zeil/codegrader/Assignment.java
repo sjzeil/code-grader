@@ -10,6 +10,17 @@ import java.nio.file.Path;
 public class Assignment implements Cloneable {
 
     /**
+     * Indicates that instructor is providing code that must be added to the
+     * the submitter's code when compiling and/or running the submission.
+     * 
+     * This will be true if 
+     *   1) the program is run with the -isrc parameter and the value is not '-'
+     *   2) the program is run with the -gold parameter and the -isrc parameter
+     *      is missing or not '-'.
+     */
+    private boolean hasInstructorCode;
+
+    /**
      * The directory containing code supplied by the instructor.
      * (Often the same as the gold directory).
      */
@@ -55,8 +66,13 @@ public class Assignment implements Cloneable {
      */
     private boolean inPlace;
 
-
-
+    /**
+     * Create an empty assignment.
+     */
+    public Assignment() {
+        inPlace = false;
+        hasInstructorCode = true;
+    }
 
     /**
      * The instructor code directory is the location of an instructor's code
@@ -74,6 +90,25 @@ public class Assignment implements Cloneable {
         } else {
             return goldDirectory;
         }
+    }
+
+    /**
+     * @return true if there is instructor code to be copied along with the
+     * code from the submitter.
+     */
+    public boolean getHasInstructorCode() {
+        return hasInstructorCode;
+    }
+
+    /**
+     * Indicate whether instructor is supplying source code.
+     * @param hasCode true if there is instructor code to be copied along
+     *     with the code from the submitter.
+     * @return the assignment
+     */
+    public Assignment setHasInstructorCode(boolean hasCode) {
+        hasInstructorCode = hasCode;
+        return this;
     }
 
     /**
@@ -238,7 +273,8 @@ public class Assignment implements Cloneable {
             .setRecordingDirectory(recordingDirectory)
             .setGoldDirectory(goldDirectory)
             .setTestSuiteDirectory(testSuiteDirectory)
-            .setManual(manual);
+            .setManual(manual)
+            .setHasInstructorCode(hasInstructorCode);
         return theClone;
     }
 

@@ -182,7 +182,7 @@ public class Stage {
 						StringBuilder commandStr = new StringBuilder();
 						commandStr.append("g++ -g -std=c++17 ");
 						for (File srcDir : cppDirs) {
-							commandStr.append(srcDir.toString()
+							commandStr.append(srcDir.getAbsolutePath()
 									+ File.separator + "*.cpp ");
 						}
 						command = commandStr.toString();
@@ -294,19 +294,20 @@ public class Stage {
 			if (!stageDir.toFile().exists()) {
 				stageDir.toFile().mkdirs();
 			}
-			try {
-				FileUtils.copyDirectory(
-						assignment.getInstructorCodeDirectory(),
-						stageDir,
-						properties.build.instructorFiles.include,
-						properties.build.instructorFiles.exclude
-						);
-			} catch (IOException e) {
-				throw new TestConfigurationError(
-						"Could not copy instructor files from "
+			if (assignment.getHasInstructorCode()) {
+				try {
+					FileUtils.copyDirectory(
+							assignment.getInstructorCodeDirectory(),
+							stageDir,
+							properties.build.instructorFiles.include,
+							properties.build.instructorFiles.exclude);
+				} catch (IOException e) {
+					throw new TestConfigurationError(
+							"Could not copy instructor files from "
 							+ assignment.getInstructorCodeDirectory().toString()
 							+ " into " + stageDir.toString() + "\n"
 							+ e.getMessage());
+				}
 			}
 		}
 		try {
