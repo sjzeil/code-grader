@@ -174,6 +174,7 @@ public class TestTestCaseExec {
 			+ " edu.odu.cs.zeil.codegrader.samples.LargeOutput";
 		// System.err.println(launcher);
 		testProperties.setLaunch(launcher);
+		testProperties.setTimelimit(60);
         Submission submission = student1;
         TestCase testCase = new TestCase(testProperties);
 		testCase.executeTest(submission, stage);
