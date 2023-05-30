@@ -1,0 +1,19 @@
+test:
+  grading:
+    - oracle: smart
+      cap: 100
+      ws: false
+      emptyLines: false
+    - oracle: smart
+      cap: 90
+      ws: false
+      emptyLines: false
+      case: false
+    - oracle: smart
+      cap: 90
+      ws: false
+      emptyLines: false
+      punctuation: false
+    - oracle: smart
+      cap: 75
+      numbersOnly: true
