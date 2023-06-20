@@ -177,7 +177,7 @@ public class TestCase {
         capturedOutput = process.getOutput();
         capturedError = process.getErr();
         if (properties.isStderr()) {
-            capturedOutput = capturedOutput + "\n--- std err---\n" 
+            capturedOutput = capturedOutput + Message.OUTPUT_ERROR_MARKER
                 + capturedError;
             capturedError = "";
         }

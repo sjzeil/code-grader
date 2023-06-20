@@ -17,7 +17,7 @@ public class TestSmartOracleReporting {
         String lexeme = "world";
         Token token = new StringToken(lexeme, line.indexOf(lexeme));
 
-        String display = SmartOracle.displayInContext(token, line);
+        String display = SmartOracle.displayInContext(token, line, "[", "]");
         assertThat(display, is("Hello [world]!"));
 	}
 
@@ -27,7 +27,7 @@ public class TestSmartOracleReporting {
         String lexeme = "Hello";
         Token token = new StringToken(lexeme, line.indexOf(lexeme));
 
-        String display = SmartOracle.displayInContext(token, line);
+        String display = SmartOracle.displayInContext(token, line, "[", "]");
         assertThat(display, is("[Hello] world!"));
 	}
 
@@ -37,7 +37,7 @@ public class TestSmartOracleReporting {
         String lexeme = "!";
         Token token = new StringToken(lexeme, line.indexOf(lexeme));
 
-        String display = SmartOracle.displayInContext(token, line);
+        String display = SmartOracle.displayInContext(token, line, "[", "]");
         assertThat(display, is("Hello world[!]"));
 	}
 
@@ -47,7 +47,7 @@ public class TestSmartOracleReporting {
         String lexeme = "\t";
         Token token = new StringToken(lexeme, line.indexOf(lexeme));
 
-        String display = SmartOracle.displayInContext(token, line);
+        String display = SmartOracle.displayInContext(token, line, "[", "]");
         assertThat(display, is("Hello[\\t]world!"));
 	}
 

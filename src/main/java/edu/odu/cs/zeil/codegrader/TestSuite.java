@@ -290,7 +290,8 @@ public class TestSuite implements Iterable<TestCase> {
 						= parseDateTime(getLockDate(submission));
 					LocalDateTime submissionDateTime 
 						= parseDateTime(getSubmissionDate(submission));
-					proceedWithGrading = submissionDateTime.compareTo(lockDate) <= 0;
+					proceedWithGrading 
+						= submissionDateTime.compareTo(lockDate) <= 0;
 					if (!proceedWithGrading) {
 						String msg = "Submitted by " 
 							+ submission.getSubmittedBy()
@@ -418,10 +419,12 @@ public class TestSuite implements Iterable<TestCase> {
 		}
 
 		public String toString() {
-			return "<tr><td><i>" + htmlEncode(name)
+			Message nameMsg = new Message(name);
+			Message oracleMsg = new Message(message.trim());
+			return "<tr><td><i>" + nameMsg.toHTML()
 					+ "</i></td><td>" + score
 					+ "</td><td>" + weight
-					+ "</td><td><pre>" + htmlEncode(message.trim())
+					+ "</td><td><pre>" + oracleMsg.toHTML()
 					+ "</pre></td></tr>\n";
 		}
 
@@ -458,7 +461,8 @@ public class TestSuite implements Iterable<TestCase> {
 		recordInGradeLog(gradeLogFile, submission, studentTotalScore);
 	}
 
-	private void recordInGradeLog(Path gradeLogFile, Submission submission, int studentTotalScore) {
+	private void recordInGradeLog(Path gradeLogFile, 
+	  Submission submission, int studentTotalScore) {
 		if (!Files.exists(gradeLogFile)) {
 			try (FileWriter gradeLog = new FileWriter(gradeLogFile.toFile())) {
 				gradeLog.write("Student,Date,Grade\n");
@@ -607,6 +611,8 @@ public class TestSuite implements Iterable<TestCase> {
 		return (int) Math.round(score);
 	}
 
+	private static final String CSS = "<style>\n.expected {background-color: green;}\n.observed {background-color: red;} </style>";
+
 	private void writeHTMLReport(Submission submission, Path gradeReport,
 			ArrayList<Detail> details,
 			int studentSubtotalScore, int daysLate, int penalty,
@@ -614,6 +620,7 @@ public class TestSuite implements Iterable<TestCase> {
 
 		StringBuilder htmlContent = new StringBuilder();
 		htmlContent.append("<html><head>\n");
+		htmlContent.append(CSS);
 		htmlContent.append(element("title",
 				"Grade report for " + getAssignmentName()
 						+ ": " + submission.getSubmittedBy()));
@@ -676,13 +683,16 @@ public class TestSuite implements Iterable<TestCase> {
 	}
 
 	private String row(String title, String value) {
-		return "<tr><td><i>" + htmlEncode(title)
-				+ "</i></td><td>" + htmlEncode(value)
+		Message titleMsg = new Message(title);
+		Message valueMessage = new Message(value);
+		return "<tr><td><i>" + titleMsg.toHTML()
+				+ "</i></td><td>" + valueMessage.toHTML()
 				+ "</td></tr>\n";
 	}
 
 	private Object element(String tagName, String content) {
-		return "<" + tagName + ">" + htmlEncode(content) + "</" + tagName + ">";
+		Message contentMsg = new Message(content);
+		return "<" + tagName + ">" + contentMsg.toHTML() + "</" + tagName + ">";
 	}
 
 	private void writeTestCaseSummary(Submission submission,
@@ -722,17 +732,6 @@ public class TestSuite implements Iterable<TestCase> {
 		return msg.replace("\"", "'");
 	}
 
-	private String htmlEncode(String msg) {
-		if (msg.length() > MAX_MESSAGE_LENGTH) {
-			msg = msg.substring(0, MAX_MESSAGE_LENGTH - 1)
-					+ "\n[message clipped after "
-					+ MAX_MESSAGE_LENGTH + " characters]";
-		}
-		msg = msg.replace("&", "&amp;");
-		msg = msg.replace("<", "&lt;");
-		msg = msg.replace(">", "&gt;");
-		return msg;
-	}
 
 	/**
 	 * Get a name for the assignment. If not given in the .yaml file, a default
@@ -978,11 +977,14 @@ public class TestSuite implements Iterable<TestCase> {
 	 * @return a string representing a date and/or time, or "".
 	 */
 	public String getLockDate(Submission sub) {
-		ParameterHandling ph = new ParameterHandling(assignment, null, null, sub, null, null);
+		ParameterHandling ph = new ParameterHandling(assignment, 
+			null, null, sub, null, null);
 		if (!properties.submissionLock.in.equals("")) {
-			return getLockDateIn(ph.parameterSubstitution(properties.submissionLock.in));
+			return getLockDateIn(ph.parameterSubstitution(
+				properties.submissionLock.in));
 		} else if (!properties.submissionLock.mod.equals("")) {
-			return getLockDateMod(ph.parameterSubstitution(properties.submissionLock.mod));
+			return getLockDateMod(ph.parameterSubstitution(
+				properties.submissionLock.mod));
 		} else {
 			return "2999-12-31 23:59:59";
 		}
@@ -1069,7 +1071,8 @@ public class TestSuite implements Iterable<TestCase> {
 				Instant instant = fileTime.toInstant();
 				LocalDateTime modDateTime = instant
 						.atZone(ZoneId.systemDefault()).toLocalDateTime();
-				return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(modDateTime);
+				return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(
+					modDateTime);
 			} catch (IOException e) {
 				return "";
 			}
@@ -1141,8 +1144,7 @@ public class TestSuite implements Iterable<TestCase> {
 	 * 
 	 * @return the suite properties (for unit testing purposes)
 	 */
-	TestSuiteProperties getProperties()
-	{
+	TestSuiteProperties getProperties() {
 		return properties;
 	}
 }
