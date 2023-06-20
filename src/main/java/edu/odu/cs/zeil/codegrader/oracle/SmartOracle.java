@@ -20,7 +20,7 @@ import edu.odu.cs.zeil.codegrader.TestCase;
  */
 public class SmartOracle extends Oracle {
 
-	private static final int CONTEXT_SIZE = 24;
+	private static final int CONTEXT_SIZE = 64;
 	private static final Pattern WINDOWS_LINE_ENDINGS = Pattern.compile("\r\n");
 	private static final Pattern MULTI_LF = Pattern.compile("\n\n+");
 	private static final Pattern MULTI_WS = Pattern.compile("[ \t\r\f]+");
