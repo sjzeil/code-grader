@@ -95,7 +95,7 @@ loadScripts(document, 'script');</script>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
@@ -169,6 +169,34 @@ extends <a href="Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle"
 <!--   -->
 </a>
 <h3>Field Summary</h3>
+<table class="memberSummary">
+<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Field</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#BEGIN_EXPECTED">BEGIN_EXPECTED</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#BEGIN_OBSERVED">BEGIN_OBSERVED</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#END_EXPECTED">END_EXPECTED</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#END_OBSERVED">END_OBSERVED</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+</table>
 <ul class="blockList">
 <li class="blockList"><a id="fields.inherited.from.class.edu.odu.cs.zeil.codegrader.oracle.Oracle">
 <!--   -->
@@ -229,8 +257,10 @@ extends <a href="Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle"
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static java.lang.String</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#displayInContext(edu.odu.cs.zeil.codegrader.oracle.Token,java.lang.String)">displayInContext</a></span>&#8203;(<a href="Token.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Token</a>&nbsp;token,
-                java.lang.String&nbsp;line)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#displayInContext(edu.odu.cs.zeil.codegrader.oracle.Token,java.lang.String,java.lang.String,java.lang.String)">displayInContext</a></span>&#8203;(<a href="Token.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Token</a>&nbsp;token,
+                java.lang.String&nbsp;line,
+                java.lang.String&nbsp;startMarker,
+                java.lang.String&nbsp;endMarker)</code></th>
 <td class="colLast">
 <div class="block">Display a token within the line where it occurs.</div>
 </td>
@@ -259,6 +289,68 @@ extends <a href="Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle"
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
+<!-- ============ FIELD DETAIL =========== -->
+<section>
+<ul class="blockList">
+<li class="blockList"><a id="field.detail">
+<!--   -->
+</a>
+<h3>Field Detail</h3>
+<a id="BEGIN_EXPECTED">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>BEGIN_EXPECTED</h4>
+<pre>public static final&nbsp;java.lang.String BEGIN_EXPECTED</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../../../constant-values.html#edu.odu.cs.zeil.codegrader.oracle.SmartOracle.BEGIN_EXPECTED">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a id="END_EXPECTED">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>END_EXPECTED</h4>
+<pre>public static final&nbsp;java.lang.String END_EXPECTED</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../../../constant-values.html#edu.odu.cs.zeil.codegrader.oracle.SmartOracle.END_EXPECTED">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a id="BEGIN_OBSERVED">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>BEGIN_OBSERVED</h4>
+<pre>public static final&nbsp;java.lang.String BEGIN_OBSERVED</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../../../constant-values.html#edu.odu.cs.zeil.codegrader.oracle.SmartOracle.BEGIN_OBSERVED">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a id="END_OBSERVED">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>END_OBSERVED</h4>
+<pre>public static final&nbsp;java.lang.String END_OBSERVED</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../../../constant-values.html#edu.odu.cs.zeil.codegrader.oracle.SmartOracle.END_OBSERVED">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+</li>
+</ul>
+</section>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <section>
 <ul class="blockList">
@@ -317,19 +409,23 @@ extends <a href="Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle"
 </dl>
 </li>
 </ul>
-<a id="displayInContext(edu.odu.cs.zeil.codegrader.oracle.Token,java.lang.String)">
+<a id="displayInContext(edu.odu.cs.zeil.codegrader.oracle.Token,java.lang.String,java.lang.String,java.lang.String)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>displayInContext</h4>
 <pre class="methodSignature">public static&nbsp;java.lang.String&nbsp;displayInContext&#8203;(<a href="Token.html" title="class in edu.odu.cs.zeil.codegrader.oracle">Token</a>&nbsp;token,
-                                                java.lang.String&nbsp;line)</pre>
+                                                java.lang.String&nbsp;line,
+                                                java.lang.String&nbsp;startMarker,
+                                                java.lang.String&nbsp;endMarker)</pre>
 <div class="block">Display a token within the line where it occurs.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>token</code> - a token</dd>
 <dd><code>line</code> - the line in which it occurs</dd>
+<dd><code>startMarker</code> - string to display just before the changed token</dd>
+<dd><code>endMarker</code> - string to display just after the changed token</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a string containing parts of the line before and after
                         the token itself.</dd>
@@ -394,7 +490,7 @@ extends <a href="Oracle.html" title="class in edu.odu.cs.zeil.codegrader.oracle"
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
