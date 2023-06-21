@@ -356,7 +356,7 @@ public class TestTestSuite {
 			.toFile().exists());
 
 		// Were reports generated in place?
-		String studentName = "perfect";
+		String studentName = System.getProperty("user.name");
 		assertTrue(asst.getTestSuiteDirectory()
 				.resolve("testsSummary.csv")
 				.toFile().exists());
@@ -368,6 +368,12 @@ public class TestTestSuite {
 		assertTrue(totalFile.toFile().exists());
 		String total = FileUtils.readTextFile(totalFile.toFile());
 		assertEquals("100\n", total);
+
+		// In-place processing should not leave hash files.
+		Path hashFile =  asst.getTestSuiteDirectory()
+			.resolve(studentName + ".hash");
+		assertFalse(hashFile.toFile().exists());
+		
 	}
 
 

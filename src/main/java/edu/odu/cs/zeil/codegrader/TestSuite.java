@@ -219,30 +219,32 @@ public class TestSuite implements Iterable<TestCase> {
 		for (Submission submission : submissions) {
 			processThisSubmission(submission);
 		}
-		StringBuilder classSummary = new StringBuilder();
-		classSummary.append("student," + getAssignmentName() + "\n");
+		if (!assignment.getInPlace()) {
+			StringBuilder classSummary = new StringBuilder();
+			classSummary.append("student," + getAssignmentName() + "\n");
 
-		submissions.setSelectedSubmissions(new HashSet<String>());
-		for (Submission submission : submissions) {
-			File submissionFile = submission.getRecordingDir().toFile();
-			if (submissionFile.isDirectory()) {
-				Optional<File> scoreFile = FileUtils.findFile(
-						submissionFile.toPath(), ".total");
-				if (scoreFile.isPresent()) {
-					String score = FileUtils.readTextFile(scoreFile.get())
-							.trim();
-					classSummary.append(submissionFile.getName());
-					classSummary.append(",");
-					classSummary.append(score);
-					classSummary.append("\n");
+			submissions.setSelectedSubmissions(new HashSet<String>());
+			for (Submission submission : submissions) {
+				File submissionFile = submission.getRecordingDir().toFile();
+				if (submissionFile.isDirectory()) {
+					Optional<File> scoreFile = FileUtils.findFile(
+							submissionFile.toPath(), ".total");
+					if (scoreFile.isPresent()) {
+						String score = FileUtils.readTextFile(scoreFile.get())
+								.trim();
+						classSummary.append(submissionFile.getName());
+						classSummary.append(",");
+						classSummary.append(score);
+						classSummary.append("\n");
+					}
 				}
 			}
+			Path classSummaryFile = assignment.getRecordingDirectory()
+					.resolve("classSummary.csv");
+			FileUtils.writeTextFile(classSummaryFile, classSummary.toString());
 		}
-		Path classSummaryFile = assignment.getRecordingDirectory()
-				.resolve("classSummary.csv");
-		FileUtils.writeTextFile(classSummaryFile, classSummary.toString());
 
-		if (submissionsToRun.size() == 0) {
+		if (submissionsToRun.size() == 0 && !assignment.getInPlace()) {
 			try {
 				FileUtils.deleteDirectory(assignment.getStagingDirectory());
 			} catch (IOException e) {
@@ -311,7 +313,9 @@ public class TestSuite implements Iterable<TestCase> {
 					}
 				}
 				copyTestSuiteToRecordingArea(submission);
-				submitterStage.setupStage();
+				if (!assignment.getInPlace()) {
+					submitterStage.setupStage();
+				}
 			}
 		} else {
 			recordAt = assignment.getTestSuiteDirectory();
@@ -332,13 +336,15 @@ public class TestSuite implements Iterable<TestCase> {
 	 * @param submission the submission to check
 	 */
 	private void recordContentHash(Path recordAt, Submission submission) {
-		if (contentHash == null || contentHash.equals("")) {
-			contentHash = computeContentHash(
-					submission.getSubmissionDirectory());
+		if (!assignment.getInPlace()) {
+			if (contentHash == null || contentHash.equals("")) {
+				contentHash = computeContentHash(
+						submission.getSubmissionDirectory());
+			}
+			Path hashFile = recordAt.resolve(submission.getSubmittedBy()
+					+ ".hash");
+			FileUtils.writeTextFile(hashFile, contentHash + "\n");
 		}
-		Path hashFile = recordAt.resolve(submission.getSubmittedBy()
-				+ ".hash");
-		FileUtils.writeTextFile(hashFile, contentHash + "\n");
 	}
 
 	/**
@@ -638,10 +644,15 @@ public class TestSuite implements Iterable<TestCase> {
 
 		htmlContent.append("</body></html>\n");
 
+		Path reportFile = submission.getRecordingDir()
+						.resolve(submission.getSubmittedBy() + ".html");
 		FileUtils.writeTextFile(
-				submission.getRecordingDir()
-						.resolve(submission.getSubmittedBy() + ".html"),
+				reportFile,
 				htmlContent.toString());
+		if (assignment.getInPlace()) {
+			System.err.println("Grade report written to " 
+				+ reportFile.toString());
+		}
 	}
 
 	private void addAssignmentDetails(StringBuilder htmlContent,
@@ -773,14 +784,16 @@ public class TestSuite implements Iterable<TestCase> {
 	 * @param submission the submission being graded
 	 */
 	private void copyTestSuiteToRecordingArea(Submission submission) {
-		Path studentGradingArea = submission.getTestSuiteDir();
-		try {
-			FileUtils.copyDirectory(assignment.getTestSuiteDirectory(),
-					studentGradingArea, null, null,
-					StandardCopyOption.REPLACE_EXISTING);
-		} catch (IOException ex) {
-			logger.warn("Problem copying the suite to the recording area "
-					+ studentGradingArea.toString(), ex);
+		if (!assignment.getInPlace()) {
+			Path studentGradingArea = submission.getTestSuiteDir();
+			try {
+				FileUtils.copyDirectory(assignment.getTestSuiteDirectory(),
+						studentGradingArea, null, null,
+						StandardCopyOption.REPLACE_EXISTING);
+			} catch (IOException ex) {
+				logger.warn("Problem copying the suite to the recording area "
+						+ studentGradingArea.toString(), ex);
+			}
 		}
 	}
 

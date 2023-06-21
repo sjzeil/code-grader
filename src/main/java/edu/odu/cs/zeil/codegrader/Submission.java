@@ -58,7 +58,11 @@ public class Submission {
      * @return the identifier of the submitter
      */
     String getSubmittedBy() {
-        return submittedBy;
+        if (!assignment.getInPlace()) {
+            return submittedBy;
+        } else {
+            return System.getProperty("user.name");
+        }
     }
 
     /**
