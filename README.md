@@ -13,7 +13,6 @@ Goals include
     * comparison of output against execution of a "gold version" of the code, supplied by the instructor
     * arbitrary instructor-supplied scripts
 * Flexible grading schemes, including partial credit for common mistakes such as upper/lower-case mistakes and misspelled words in boilerplate text.
-* Student grade reports written to spreadsheets, so that  instructors can compute overall scores in any way that they desire.
 * Easy integration with GitHub Classroom or other use of GitHub to support student submissions.
 
 More information will accumulate in the [Wiki]
