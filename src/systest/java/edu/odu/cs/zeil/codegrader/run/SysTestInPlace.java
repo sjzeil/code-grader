@@ -80,7 +80,7 @@ public class SysTestInPlace {
 	}
 
 	@Test
-	void testInPlaceRunWithRcordingOverride() {
+	void testInPlaceRunWithRecordingOverride() {
 
 		Path submission = testDataPath.resolve("workArea");
 

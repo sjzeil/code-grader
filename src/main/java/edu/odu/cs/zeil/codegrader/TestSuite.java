@@ -278,7 +278,8 @@ public class TestSuite implements Iterable<TestCase> {
 		Path recordAt = submission.getRecordingDir();
 		boolean recordingWithinStage = false;
 		try {
-			recordingWithinStage = Files.isSameFile(recordAt, assignment.getTestSuiteDirectory());
+			recordingWithinStage = Files.isSameFile(recordAt,
+				assignment.getTestSuiteDirectory());
 		} catch (IOException ex) {
 			recordingWithinStage = false;
 		}
@@ -622,7 +623,9 @@ public class TestSuite implements Iterable<TestCase> {
 		return (int) Math.round(score);
 	}
 
-	private static final String CSS = "<style>\n.expected {background-color: green;}\n.observed {background-color: red;} </style>";
+	private static final String CSS 
+		= "<style>\n.expected {background-color: green;}\n"
+			+ ".observed {background-color: red;} </style>";
 
 	private void writeHTMLReport(Submission submission, Path gradeReport,
 			ArrayList<Detail> details,
