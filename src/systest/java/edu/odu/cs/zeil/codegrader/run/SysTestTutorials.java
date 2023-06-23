@@ -1,8 +1,7 @@
 package edu.odu.cs.zeil.codegrader.run;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -26,8 +25,6 @@ import edu.odu.cs.zeil.codegrader.FileUtils;
 public class SysTestTutorials {
 
 	private Path testDataPath = Paths.get("build", "test-data");
-	private Path assignmentPath = Paths.get("src", "test", "data",
-			"java-sqrt-assignment");
 	private Path tutorialsPath = Paths.get("src", "systest", "data",
 			"tutorials");
 

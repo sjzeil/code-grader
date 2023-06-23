@@ -105,7 +105,10 @@ public class Submission {
           studentRecordingArea = assignment.getRecordingDirectory()
 				.resolve(getSubmittedBy());
         } else {
-            studentRecordingArea = assignment.getTestSuiteDirectory();
+            studentRecordingArea = assignment.getRecordingDirectory();
+            if (studentRecordingArea == null) {
+                studentRecordingArea = assignment.getTestSuiteDirectory();
+            }
         }
 		return studentRecordingArea;
 	}

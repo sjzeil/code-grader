@@ -341,6 +341,7 @@ public class TestTestSuite {
 			.resolve("perfect");
 		asst.setSubmissionsDirectory(inPlacePath);
 		asst.setInPlace(true);
+		asst.setRecordingDirectory(testSuitePath);
 
 		TestSuite suite = new TestSuite(asst);
 
@@ -376,6 +377,46 @@ public class TestTestSuite {
 		
 	}
 
+	@Test
+	void testInPlaceProcessingRecording() {
+		asst.setTestSuiteDirectory(testSuitePath);
+		Path inPlacePath = asstDestPath.resolve("submissions")
+			.resolve("perfect");
+		asst.setSubmissionsDirectory(inPlacePath);
+		Path recording = asstDestPath.resolve("recording");
+		asst.setRecordingDirectory(recording);
+		asst.setInPlace(true);
+
+		TestSuite suite = new TestSuite(asst);
+
+		suite.processThisSubmission(submission);
+
+		// Check first on the submitter stage setup
+		assertTrue(asst.getSubmitterStage(submission).toFile().exists());
+		assertTrue(asst.getSubmitterStage(submission).resolve("sqrtProg.java")
+			.toFile().exists());
+
+		// Now check if the build ran in place.
+		assertTrue(inPlacePath.resolve("sqrtProg.class")
+			.toFile().exists());
+
+		// Were reports generated in place?
+		String studentName = System.getProperty("user.name");
+		assertTrue(recording.resolve("testsSummary.csv")
+				.toFile().exists());
+		assertTrue(recording.resolve(studentName + ".html")
+			.toFile().exists());
+		Path totalFile = recording.resolve(studentName + ".total");
+		assertTrue(totalFile.toFile().exists());
+		String total = FileUtils.readTextFile(totalFile.toFile());
+		assertEquals("100\n", total);
+
+		// In-place processing should not leave hash files.
+		Path hashFile =  asst.getTestSuiteDirectory()
+			.resolve(studentName + ".hash");
+		assertFalse(hashFile.toFile().exists());
+		
+	}
 
 
 	@Test

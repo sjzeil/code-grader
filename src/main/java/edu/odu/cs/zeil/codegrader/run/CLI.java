@@ -47,8 +47,6 @@ public class CLI {
 
     private String datePath;
 
-    private boolean isInPlace;
-
     /**
      * Error logging.
      */

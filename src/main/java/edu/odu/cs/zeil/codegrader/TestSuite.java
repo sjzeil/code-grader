@@ -275,9 +275,14 @@ public class TestSuite implements Iterable<TestCase> {
 			submitterStage.clear();
 		}
 		boolean proceedWithGrading = true;
-		Path recordAt;
-		if (!assignment.getInPlace()) {
-			recordAt = submission.getRecordingDir();
+		Path recordAt = submission.getRecordingDir();
+		boolean recordingWithinStage = false;
+		try {
+			recordingWithinStage = Files.isSameFile(recordAt, assignment.getTestSuiteDirectory());
+		} catch (IOException ex) {
+			recordingWithinStage = false;
+		}
+		if (!assignment.getInPlace() || !recordingWithinStage) {
 			if (recordAt.toFile().isDirectory()) {
 				if (!needsRegrading(recordAt, submission)) {
 					proceedWithGrading = false;
