@@ -53,6 +53,10 @@ public class TestMessage {
         assertThat(msg.toHTML(), is("This is <i>italic</i> text."));
     }
 
-
+@Test
+    void testReportOnfailure() {
+        assertThat("oops", is("failing"));
+    }
+    
 
 }
