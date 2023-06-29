@@ -112,9 +112,9 @@ public class SelfScoredOracle extends Oracle {
             if (points >= 0 && possible > 0) {
                 double score = (PERFECT_SCORE
                         * (double) points) / ((double) possible);
-                return new OracleResult((int) Math.round(score), message);
+                return new OracleResult((int) Math.round(score), actual);
             } else if (points >= 0) {
-                return new OracleResult(points, message);
+                return new OracleResult(points, actual);
             } else {
                 LOG.warn("Oracle could not read test report");
                 return new OracleResult(0, "Could not parse test report.");    
