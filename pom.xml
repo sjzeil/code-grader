@@ -139,6 +139,13 @@
   </build>
   <reporting>
     <plugins>
+    <!-- PMD -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.21.0</version>
+      </plugin>
+      <!-- unit test reports -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
@@ -147,11 +154,11 @@
           <testFailureIgnore>true</testFailureIgnore>
         </configuration>
       </plugin>
-      <!-- plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
         <version>3.3.0</version>
-      </plugin -->
+      </plugin>
       <!-- checkstyle -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -160,6 +167,11 @@
         <configuration>
           <configLocation>config/checkstyle/checkstyle.xml</configLocation>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>4.7.3.5</version>
       </plugin>
     </plugins>
   </reporting>
