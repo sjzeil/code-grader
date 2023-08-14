@@ -274,7 +274,8 @@ public class Assignment implements Cloneable {
             .setGoldDirectory(goldDirectory)
             .setTestSuiteDirectory(testSuiteDirectory)
             .setManual(manual)
-            .setHasInstructorCode(hasInstructorCode);
+            .setHasInstructorCode(hasInstructorCode)
+            .setInPlace(inPlace);
         return theClone;
     }
 

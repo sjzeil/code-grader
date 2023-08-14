@@ -104,6 +104,7 @@ public class TestSelfScoredOracle {
         OracleResult result = oracle.compare("", observed);
         assertThat(result.score, equalTo(75));
         assertThat(result.message, containsString("6 out of 8"));
+        assertThat(result.message, containsString("ok 1"));
     }
 
 }

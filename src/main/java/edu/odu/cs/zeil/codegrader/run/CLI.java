@@ -37,6 +37,8 @@ public class CLI {
 
     private Option getDates;
 
+    private Option inPlace;
+
     private Option help;
 
     private String selectedStudent;
@@ -64,6 +66,8 @@ public class CLI {
         try {
             // parse the command line arguments
             CommandLine cli = parser.parse(options, args, true);
+
+            assignment.setInPlace(cli.hasOption(inPlace));
 
             if (cli.hasOption(help)) {
                 HelpFormatter formatter = new HelpFormatter();
@@ -265,6 +269,14 @@ public class CLI {
             .hasArgs()
             .build();
         result.addOption(getDates);
+        inPlace = Option.builder("inPlace")
+            .desc("Triggers inPlace grading: the submission "
+               + "directory points directly to a student submission, "
+               + "that same directory serves as the stage, "
+               + "and no Gold version is used."
+               )
+            .build();
+        result.addOption(inPlace);
         help = Option.builder("help")
                 .desc("Print CLI help")
                 .build();

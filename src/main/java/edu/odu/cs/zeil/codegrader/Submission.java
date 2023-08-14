@@ -58,7 +58,11 @@ public class Submission {
      * @return the identifier of the submitter
      */
     String getSubmittedBy() {
-        return submittedBy;
+        if (!assignment.getInPlace()) {
+            return submittedBy;
+        } else {
+            return System.getProperty("user.name");
+        }
     }
 
     /**
@@ -101,7 +105,10 @@ public class Submission {
           studentRecordingArea = assignment.getRecordingDirectory()
 				.resolve(getSubmittedBy());
         } else {
-            studentRecordingArea = assignment.getTestSuiteDirectory();
+            studentRecordingArea = assignment.getRecordingDirectory();
+            if (studentRecordingArea == null) {
+                studentRecordingArea = assignment.getTestSuiteDirectory();
+            }
         }
 		return studentRecordingArea;
 	}

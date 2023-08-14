@@ -48,10 +48,12 @@ To run the tests, execute the `testMe.sh` script, which contains the command
         -suite Tests \
         -submissions submissions \
         -gold Gold \
+        -isrc - \
         -recording graded
 
 The command parameters indicate that test suite is in `Tests`, the student
 submissions are in `submissions/`, the instructor's solution is in `Gold/`,
+no instructor code will be combined with student's code before grading,
 and the grading information will be recorded in `graded/`.
 
 Because a gold version of the code has been supplied, the instructor did not
