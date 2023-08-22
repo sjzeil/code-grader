@@ -433,9 +433,10 @@ public class TestSuite implements Iterable<TestCase> {
 		public String toString() {
 			Message nameMsg = new Message(name);
 			Message oracleMsg = new Message(message.trim());
+			String weightMsg = (weight > 0) ? "" + weight : "";
 			return "<tr><td><i>" + nameMsg.toHTML()
 					+ "</i></td><td>" + score
-					+ "</td><td>" + weight
+					+ "</td><td>" + weightMsg
 					+ "</td><td><pre>" + oracleMsg.toHTML()
 					+ "</pre></td></tr>\n";
 		}
@@ -693,11 +694,13 @@ public class TestSuite implements Iterable<TestCase> {
 				}
 			}
 		}
-		if (penalty > 0) {
-			content.append(row("Subtotal:", "" + studentSubtotalScore));
-			content.append(row("Penalties:", "" + -penalty + "%"));
+		if (properties.totals) {
+			if (penalty > 0) {
+				content.append(row("Subtotal:", "" + studentSubtotalScore));
+				content.append(row("Penalties:", "" + -penalty + "%"));
+			}
+			content.append(row("Total:", "" + studentTotalScore));
 		}
-		content.append(row("Total:", "" + studentTotalScore));
 		content.append("</table>\n");
 	}
 
@@ -731,7 +734,8 @@ public class TestSuite implements Iterable<TestCase> {
 				description = testName;
 			}
 			int score = submission.getScore(testName);
-			int weight = tc.getProperties().getWeight();
+			int weight = (properties.totals) 
+				? tc.getProperties().getWeight() : 0;
 			String message = submission.getMessage(testName);
 			details.add(new Detail(testName, weight, score, message));
 			testsSummary.append("\"" + description + "\",");

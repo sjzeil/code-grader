@@ -3,6 +3,7 @@ package edu.odu.cs.zeil.codegrader;
 import java.io.File;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
+import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -59,6 +60,13 @@ public class TestSuiteProperties {
      */
     public SubmissionDateOptions dateSubmitted;
 
+    /**
+     * Should totals be reported (true by default) in grade reports? Can be
+     * turned off if the purpose of the report is feedback rather than
+     * evaluation.
+     */
+    public boolean totals;
+
 
     /**
      * How to find when a submission was locked (subsequent submissions will
@@ -92,6 +100,7 @@ public class TestSuiteProperties {
         reportTemplate = "";
         assignment = "";
         dueDate = "";
+        totals = true;
         latePenalties = new int[1];
         final int lateNotAccepted = 100;
         latePenalties[0] = lateNotAccepted;
