@@ -23,7 +23,7 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">1</div>
+<div class="counter">3</div>
 <p>tests</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">16.993s</div>
+<div class="counter">56.151s</div>
 <p>duration</p>
 </div>
 </td>
@@ -78,8 +78,18 @@
 </tr>
 </thead>
 <tr>
+<td class="success">testTutorialPartialCredit()</td>
+<td class="success">20.020s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
 <td class="success">testTutorialSimpleCppStdIn()</td>
-<td class="success">16.993s</td>
+<td class="success">15.699s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testTutorialSimpleJavaParams()</td>
+<td class="success">20.432s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -89,7 +99,7 @@
 <span class="code">
 <pre>Setting up gold stage.
   Test case builder: 0%.
-2023-08-22 19:27:07,209 WARN [Test worker] edu.odu.cs.zeil.codegrader.TestCase:220 - Problem executing test case test01 on broken
+2023-08-31 15:50:29,970 WARN [Test worker] edu.odu.cs.zeil.codegrader.TestCase:220 - Problem executing test case test01 on broken
 edu.odu.cs.zeil.codegrader.TestConfigurationError: Could not infer a launch command for build/test-data/stage/broken
 	at edu.odu.cs.zeil.codegrader.Stage.getLaunchCommand(Stage.java:514) ~[main/:?]
 	at edu.odu.cs.zeil.codegrader.TestCase.executeTest(TestCase.java:100) ~[main/:?]
@@ -184,7 +194,7 @@ edu.odu.cs.zeil.codegrader.TestConfigurationError: Could not infer a launch comm
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) [gradle-worker.jar:?]
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) [gradle-worker.jar:?]
   Test case test01: 0%.
-2023-08-22 19:27:07,497 WARN [Test worker] edu.odu.cs.zeil.codegrader.TestCase:220 - Problem executing test case test100 on broken
+2023-08-31 15:50:30,222 WARN [Test worker] edu.odu.cs.zeil.codegrader.TestCase:220 - Problem executing test case test100 on broken
 edu.odu.cs.zeil.codegrader.TestConfigurationError: Could not infer a launch command for build/test-data/stage/broken
 	at edu.odu.cs.zeil.codegrader.Stage.getLaunchCommand(Stage.java:514) ~[main/:?]
 	at edu.odu.cs.zeil.codegrader.TestCase.executeTest(TestCase.java:100) ~[main/:?]
@@ -279,7 +289,7 @@ edu.odu.cs.zeil.codegrader.TestConfigurationError: Could not infer a launch comm
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) [gradle-worker.jar:?]
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) [gradle-worker.jar:?]
   Test case test100: 0%.
-2023-08-22 19:27:07,734 WARN [Test worker] edu.odu.cs.zeil.codegrader.TestCase:220 - Problem executing test case test2 on broken
+2023-08-31 15:50:30,335 WARN [Test worker] edu.odu.cs.zeil.codegrader.TestCase:220 - Problem executing test case test2 on broken
 edu.odu.cs.zeil.codegrader.TestConfigurationError: Could not infer a launch command for build/test-data/stage/broken
 	at edu.odu.cs.zeil.codegrader.Stage.getLaunchCommand(Stage.java:514) ~[main/:?]
 	at edu.odu.cs.zeil.codegrader.TestCase.executeTest(TestCase.java:100) ~[main/:?]
@@ -389,14 +399,90 @@ edu.odu.cs.zeil.codegrader.TestConfigurationError: Could not infer a launch comm
   Generating reports...
   Total for imperfect is 25
   Test case builder: 100%.
-2023-08-22 19:27:16,246 WARN [Test worker] edu.odu.cs.zeil.codegrader.ExternalProcess:290 - Shutting down execution of test case test01 due to time out.
-limit: 2s   observed: 2002ms.
+2023-08-31 15:50:38,075 WARN [Test worker] edu.odu.cs.zeil.codegrader.ExternalProcess:290 - Shutting down execution of test case test01 due to time out.
+limit: 2s   observed: 2001ms.
   Test case test01: 0%.
-2023-08-22 19:27:18,464 WARN [Test worker] edu.odu.cs.zeil.codegrader.ExternalProcess:290 - Shutting down execution of test case test100 due to time out.
+2023-08-31 15:50:40,287 WARN [Test worker] edu.odu.cs.zeil.codegrader.ExternalProcess:290 - Shutting down execution of test case test100 due to time out.
 limit: 2s   observed: 2002ms.
   Test case test100: 0%.
-2023-08-22 19:27:20,577 WARN [Test worker] edu.odu.cs.zeil.codegrader.ExternalProcess:290 - Shutting down execution of test case test2 due to time out.
+2023-08-31 15:50:42,397 WARN [Test worker] edu.odu.cs.zeil.codegrader.ExternalProcess:290 - Shutting down execution of test case test2 due to time out.
+limit: 2s   observed: 2001ms.
+  Test case test2: 0%.
+  Generating reports...
+  Total for looped is 25
+  Test case builder: 100%.
+  Test case test01: 100%.
+  Test case test100: 100%.
+  Test case test2: 100%.
+  Generating reports...
+  Total for perfect is 100
+Done
+Setting up gold stage.
+  Test case builder: 0%.
+  Test case test01: 0%.
+  Test case test100: 0%.
+  Test case test2: 0%.
+  Generating reports...
+  Total for broken is 0
+  Test case builder: 100%.
+  Test case test01: 0%.
+  Test case test100: 0%.
+  Test case test2: 0%.
+  Generating reports...
+  Total for buggy is 25
+  Test case builder: 100%.
+  Test case test01: 90%.
+  Test case test100: 90%.
+  Test case test2: 90%.
+  Generating reports...
+  Total for imperfect is 93
+  Test case builder: 100%.
+2023-08-31 15:50:57,014 WARN [Test worker] edu.odu.cs.zeil.codegrader.ExternalProcess:290 - Shutting down execution of test case test01 due to time out.
 limit: 2s   observed: 2002ms.
+  Test case test01: 0%.
+2023-08-31 15:50:59,229 WARN [Test worker] edu.odu.cs.zeil.codegrader.ExternalProcess:290 - Shutting down execution of test case test100 due to time out.
+limit: 2s   observed: 2001ms.
+  Test case test100: 0%.
+2023-08-31 15:51:01,447 WARN [Test worker] edu.odu.cs.zeil.codegrader.ExternalProcess:290 - Shutting down execution of test case test2 due to time out.
+limit: 2s   observed: 2001ms.
+  Test case test2: 0%.
+  Generating reports...
+  Total for looped is 25
+  Test case builder: 100%.
+  Test case test01: 100%.
+  Test case test100: 100%.
+  Test case test2: 100%.
+  Generating reports...
+  Total for perfect is 100
+Done
+Setting up gold stage.
+  Test case builder: 0%.
+  Test case test01: 0%.
+  Test case test100: 0%.
+  Test case test2: 0%.
+  Generating reports...
+  Total for broken is 0
+  Test case builder: 100%.
+  Test case test01: 0%.
+  Test case test100: 0%.
+  Test case test2: 0%.
+  Generating reports...
+  Total for buggy is 25
+  Test case builder: 100%.
+  Test case test01: 0%.
+  Test case test100: 0%.
+  Test case test2: 0%.
+  Generating reports...
+  Total for imperfect is 25
+  Test case builder: 100%.
+2023-08-31 15:51:17,102 WARN [Test worker] edu.odu.cs.zeil.codegrader.ExternalProcess:290 - Shutting down execution of test case test01 due to time out.
+limit: 2s   observed: 2003ms.
+  Test case test01: 0%.
+2023-08-31 15:51:19,345 WARN [Test worker] edu.odu.cs.zeil.codegrader.ExternalProcess:290 - Shutting down execution of test case test100 due to time out.
+limit: 2s   observed: 2002ms.
+  Test case test100: 0%.
+2023-08-31 15:51:21,562 WARN [Test worker] edu.odu.cs.zeil.codegrader.ExternalProcess:290 - Shutting down execution of test case test2 due to time out.
+limit: 2s   observed: 2001ms.
   Test case test2: 0%.
   Generating reports...
   Total for looped is 25
@@ -418,7 +504,7 @@ Done
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 7.4.2</a> at Aug 22, 2023, 7:31:23 PM</p>
+<a href="http://www.gradle.org">Gradle 7.4.2</a> at Aug 31, 2023, 3:54:54 PM</p>
 </div>
 </div>
 </body>
