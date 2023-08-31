@@ -140,6 +140,16 @@ public class TestSmartOracle {
 	}
 
 	@Test
+	void testDefaults3() throws FileNotFoundException {
+		Oracle oracle = new SmartOracle(new OracleProperties(), testCase,
+			sub, stage);
+
+		String actual = "The 50 most common words are:\n  the\t46764\n  and\t29744\n  to\t22316\n  of\t21827\n  a\t14256\n  in\t12696\n  ?\t12647\n  he\t12068\n  that\t10567\n  his\t10494";
+		OracleResult result = oracle.compare(actual, actual);
+		assertThat(result.score, equalTo(OracleProperties.DEFAULT_POINT_CAP));
+	}
+
+	@Test
 	void testNumericCompare() throws FileNotFoundException {
 		Oracle oracle = new SmartOracle(new OracleProperties(),
 			testCase, sub, stage);
