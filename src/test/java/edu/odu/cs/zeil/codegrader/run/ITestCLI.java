@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.odu.cs.zeil.codegrader.FileUtils;
 
-public class TestCLI {
+public class ITestCLI {
 
 	private Path testDataPath = Paths.get("build", "test-data");
 	private Path assignmentPath = Paths.get("src", "test", "data",
