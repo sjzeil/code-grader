@@ -24,12 +24,13 @@ import com.opencsv.exceptions.CsvException;
 
 import edu.odu.cs.zeil.codegrader.ExternalProcess;
 import edu.odu.cs.zeil.codegrader.FileUtils;
+import edu.odu.cs.zeil.codegrader.TestConfigurationError;
 
 public class SysTestCLI {
 
 	private Path testDataPath = Paths.get("build", "test-data");
-	private Path assignmentPath = Paths.get("src", "test", "data",
-			"java-sqrt-assignment");
+	Path libraryTests = Paths.get("..", "code-grader", "src", "test", "data");
+	private Path assignmentPath = libraryTests.resolve("java-sqrt-assignment");
 	private Path tutorialsPath = Paths.get("src", "systest", "data",
 			"tutorials");
 

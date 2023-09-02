@@ -19,8 +19,8 @@ import edu.odu.cs.zeil.codegrader.FileUtils;
 public class TestCLI {
 
 	private Path testDataPath = Paths.get("build", "test-data");
-	private Path assignmentPath = Paths.get("src", "test", "data",
-			"java-sqrt-assignment");
+	Path libraryTests = Paths.get("..", "code-grader", "src", "test", "data");
+	private Path assignmentPath = libraryTests.resolve("java-sqrt-assignment");
 
 	/**
 	 * Set up assignment2 params test.
@@ -94,8 +94,7 @@ public class TestCLI {
 	void testCLICpp() {
 
 		testDataPath = Paths.get("build", "test-data");
-		assignmentPath = Paths.get("src", "test", "data",
-			"cpp-assignment");
+		assignmentPath = libraryTests.resolve("cpp-assignment");
 
 		Path stage = testDataPath.resolve("stage");
 		Path recording = testDataPath.resolve("recording");
@@ -156,8 +155,7 @@ public class TestCLI {
 		String selectedStudentScore = "46";
 
 		testDataPath = Paths.get("build", "test-data");
-		assignmentPath = Paths.get("src", "test", "data",
-			"cpp-assignment");
+		assignmentPath = libraryTests.resolve("cpp-assignment");
 
 		Path stage = testDataPath.resolve("stage");
 		Path recording = testDataPath.resolve("recording");
@@ -213,8 +211,7 @@ public class TestCLI {
 	void testCLICpp2() {
 
 		testDataPath = Paths.get("build", "test-data");
-		assignmentPath = Paths.get("src", "test", "data",
-			"cpp-assignment2");
+		assignmentPath = libraryTests.resolve("cpp-assignment2");
 
 		Path stage = testDataPath.resolve("stage");
 		Path recording = testDataPath.resolve("recording");
@@ -378,8 +375,7 @@ public class TestCLI {
 	void testCLIVersioned() {
 
 		testDataPath = Paths.get("build", "test-data");
-		assignmentPath = Paths.get("src", "test", "data",
-			"versioned");
+		assignmentPath = libraryTests.resolve("versioned");
 
 		Path stage = testDataPath.resolve("stage");
 		Path recording = testDataPath.resolve("recording");
