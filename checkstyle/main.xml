@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="8.37">
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Assignment.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Assignment.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/BooleanParser.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/BooleanParser.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/BuildProperties.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/BuildProperties.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/CopyPatterns.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/CopyPatterns.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/DefaultBuildCase.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/DefaultBuildCase.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Deferred.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Deferred.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/ExternalProcess.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/ExternalProcess.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/FileUtils.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/FileUtils.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/IntegerParser.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/IntegerParser.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/InternalTestLauncher.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/InternalTestLauncher.java">
 <error line="17" column="5" severity="warning" message="Class &apos;InternalTestLauncher&apos; looks like designed for extension (can be subclassed), but the method &apos;getOutput&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;InternalTestLauncher&apos; final or making the method &apos;getOutput&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
 <error line="23" column="5" severity="warning" message="Class &apos;InternalTestLauncher&apos; looks like designed for extension (can be subclassed), but the method &apos;getErr&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;InternalTestLauncher&apos; final or making the method &apos;getErr&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
 <error line="29" column="5" severity="warning" message="Class &apos;InternalTestLauncher&apos; looks like designed for extension (can be subclassed), but the method &apos;getTime&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;InternalTestLauncher&apos; final or making the method &apos;getTime&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
@@ -27,61 +27,61 @@
 <error line="47" column="5" severity="warning" message="Class &apos;InternalTestLauncher&apos; looks like designed for extension (can be subclassed), but the method &apos;getOnTime&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;InternalTestLauncher&apos; final or making the method &apos;getOnTime&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
 <error line="53" column="5" severity="warning" message="Class &apos;InternalTestLauncher&apos; looks like designed for extension (can be subclassed), but the method &apos;getStatusCode&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;InternalTestLauncher&apos; final or making the method &apos;getStatusCode&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Logging.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Logging.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Message.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Message.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/OracleProperties.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/OracleProperties.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Pair.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Pair.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/ParameterHandling.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/ParameterHandling.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Parser.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Parser.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Stage.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Stage.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/StringParser.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/StringParser.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Submission.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Submission.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/SubmissionDateOptions.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/SubmissionDateOptions.java">
 <error line="5" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
 <error line="14" column="19" severity="warning" message="Variable &apos;mod&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
 <error line="18" column="19" severity="warning" message="Variable &apos;in&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
 <error line="23" column="20" severity="warning" message="Variable &apos;git&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/SubmissionSet.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/SubmissionSet.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TCProcess.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TCProcess.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestCase.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestCase.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestCaseProperties.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestCaseProperties.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestCasePropertiesBase.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestCasePropertiesBase.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestConfigurationError.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestConfigurationError.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestSuite.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestSuite.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestSuiteProperties.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestSuiteProperties.java">
 <error line="6" column="8" severity="warning" message="Unused import - java.util.Optional." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/ExternalOracle.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/ExternalOracle.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/FilesExistOracle.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/FilesExistOracle.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/JUnit5Oracle.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/JUnit5Oracle.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/NumberToken.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/NumberToken.java">
 <error line="78" column="22" severity="warning" message="&apos;10.0&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/Oracle.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/Oracle.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/OracleFactory.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/OracleFactory.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/OracleResult.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/OracleResult.java">
 <error line="7" column="16" severity="warning" message="Variable &apos;score&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
 <error line="8" column="19" severity="warning" message="Variable &apos;message&apos; must be private and have accessor methods." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
 <error line="10" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
@@ -89,26 +89,26 @@
 <error line="15" column="5" severity="warning" message="Class &apos;OracleResult&apos; looks like designed for extension (can be subclassed), but the method &apos;toString&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;OracleResult&apos; final or making the method &apos;toString&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
 <error line="15" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/PunctuationToken.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/PunctuationToken.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/Scanner.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/Scanner.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/SelfScoredOracle.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/SelfScoredOracle.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/SmartOracle.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/SmartOracle.java">
 <error line="34" column="33" severity="warning" message="Name &apos;logger&apos; must match pattern &apos;^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.ConstantNameCheck"/>
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/StatusOracle.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/StatusOracle.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/StringToken.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/StringToken.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/TAPOracle.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/TAPOracle.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/Token.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/Token.java">
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/WhiteSpaceToken.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/oracle/WhiteSpaceToken.java">
 <error line="24" column="53" severity="warning" message="&apos;typecast&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
 </file>
-<file name="/home/runner/work/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/run/CLI.java">
+<file name="/home/zeil/git/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/run/CLI.java">
 </file>
 </checkstyle>
