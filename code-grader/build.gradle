@@ -123,17 +123,6 @@ task copyBake (type: Copy) {
     dependsOn 'bake'
 }
 
-/*
-task copyJar (type: Copy) {
-    from 'build/libs'
-    into 'build/reports/lib'
-    rename { String fileName ->
-        fileName.replace("-$project.version", "")
-    }
-    dependsOn 'jar'
-}
-*/
-
 
 import edu.odu.cs.zeil.report_accumulator.ReportStats
 
@@ -165,7 +154,6 @@ if (!project.hasProperty("ivyRepoPass")) {
 task deploySite (type: Delete, dependsOn: 'gitPublishPush') {
     group = "Reporting"
     description  'Commit and push website changes to GitHub'
-    delete pagesDir
 }
 
 ////  Publication of website to GitHub
@@ -174,9 +162,6 @@ gitPublishCopy.dependsOn site
 gitPublish {
     // where to publish to (repo must exist)
     repoUri = 'git@github.com:sjzeil/code-grader.git'
-
-    // where to fetch from prior to fetching from the remote (i.e. a local repo to save time)
-    //referenceRepoUri = 'file://..'
 
     // branch will be created if it doesn't exist
     branch = 'gh-pages'
@@ -205,4 +190,51 @@ gitPublish {
     
     // for signing commits, omit to use the default from your gitconfig
     sign = false
+}
+
+// Publishing library to a Maven repo
+
+publishing {
+    publications {
+        codegraderLibrary(MavenPublication) {
+            from components.java
+            groupId = 'edu.odu.cs.zeil'
+            artifactId = project.name
+            version = project.version
+            pom {
+                name = "code-grader"
+                description = 'Automatic grading of programming projects.'
+                url = 'https://github.com/sjzeil/code-grader'
+                licenses {
+                    license {
+                        name = "BSD 3-Clause License"
+                        url = "https://github.com/sjzeil/code-grader/blob/main/LICENSE"
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'sjzeil'
+                        name = 'Steven Zeil'
+                        email = 'szeil@odu.edu'
+                    }
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            name = 'Zeil-Maven-repo'
+            def mavenRepoBase="sftp://linux.cs.odu.edu:22/home/zeil/secure_html/mavenrepo"
+            def releasesRepoUrl = mavenRepoBase + "/releases"
+            def snapshotsRepoUrl = mavenRepoBase + '/snapshots'
+            //url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+            url = mavenRepoBase
+            credentials {
+                // Credentials are loaded from ~/.gradle/gradle.properties
+                username project.ivyRepoUser
+                password project.ivyRepoPass
+            }
+        }
+    }
 }

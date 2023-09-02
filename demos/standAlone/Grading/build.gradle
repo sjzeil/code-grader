@@ -1,0 +1,15 @@
+plugins {
+   id 'java'
+}
+
+repositories {
+    maven { 
+        url 'https://www.cs.odu.edu/~zeil/mavenrepo/'
+    }
+    jcenter()
+}
+
+dependencies {
+    implementation 'edu.odu.cs.zeil:code-grader:1.1.4'
+}
+
