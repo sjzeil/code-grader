@@ -161,59 +161,8 @@ if (!project.hasProperty("ivyRepoPass")) {
 
 ////////  Website publication on GitHub pages ///////////////////
 
-def pagesDir = file("${project.rootDir}/../website-temp").absolutePath
 
-task clearPages(type: Delete) {
-    delete pagesDir
-}
-
-task workTree(dependsOn: ['clearPages']) { 
-    doLast {
-        exec {
-            workingDir = '.'
-            commandLine = ['git', 'worktree', 'add', '-f', pagesDir, 'gh-pages']
-        }
-        exec {
-            workingDir = pagesDir
-            commandLine = ['git', 'checkout', 'gh-pages']
-        }
-        exec {
-            workingDir = pagesDir
-            commandLine = ['git', 'pull']
-        }
-    }
-}
-
-task copyWebsite (type: Copy, dependsOn: ['site', 'workTree']) {
-    from 'build/reports'
-    into pagesDir
-}
-
-
-task commitWebsite (dependsOn: 'copyWebsite') {
-    doLast {
-        Date now = new Date()
-
-        exec {
-            workingDir = pagesDir
-            commandLine = ['git', 'add', pagesDir]
-            ignoreExitValue = true
-        }
-        exec {
-            workingDir = pagesDir
-            commandLine = ['git', 'commit', '-m', 'Updating webpages at ' + now.toString()]
-            ignoreExitValue = true
-        }
-    }
-}
-
-task pushWebsite (type: Exec, dependsOn: 'commitWebsite') {
-    workingDir = pagesDir
-    commandLine = ['git', 'push']
-    ignoreExitValue = true
-}
-
-task deploySite (type: Delete, dependsOn: 'pushWebsite') {
+task deploySite (type: Delete, dependsOn: 'gitPublishPush') {
     group = "Reporting"
     description  'Commit and push website changes to GitHub'
     delete pagesDir
@@ -221,13 +170,13 @@ task deploySite (type: Delete, dependsOn: 'pushWebsite') {
 
 ////  Publication of website to GitHub
 
-gitPublishCommit.dependsOn site
+gitPublishCopy.dependsOn site
 gitPublish {
     // where to publish to (repo must exist)
     repoUri = 'git@github.com:sjzeil/code-grader.git'
 
     // where to fetch from prior to fetching from the remote (i.e. a local repo to save time)
-    referenceRepoUri = null
+    //referenceRepoUri = 'file://..'
 
     // branch will be created if it doesn't exist
     branch = 'gh-pages'

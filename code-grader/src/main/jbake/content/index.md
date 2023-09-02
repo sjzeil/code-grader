@@ -33,38 +33,57 @@ Goals include
 
 ## Inputs 
 
-There are five critical file directories:
+There are six critical directories:
 
 
 1. The _Gold_ directory (optional): Contains the instructor's code for the assignment. 
 
-    At the very least, this includes files provided by the instructor that students might not be expected to change. 
+    This should be a full copy of the program that can be built and run. When provided, this is used to generate the expected test output and expected test run timings.
 
-    In many cases, this contains an entire working solution to the assignment.
+2. The _Instructor Code_ directory (optional), containing instructor code that must be combined with the student's
+   to form the entire program.   If not specified, this defaults to the _Gold_ directory (if that has been provided).
 
-2. The _Submissions_ directory, containing the submissions from all students, each in its own subdirectory. A student's individual submission directory contains all of a student's code, but may also contain copies of files from the _gold_ directory provided by the instructor. 
+3. The _Submissions_ directory, containing the submissions from all students, each in its own subdirectory. A student's individual submission directory contains all of a student's code, but may also contain copies of files provided to the student by the instructor. 
 
-3. The _Tests_ directory: Contains files that define how the project is to be built and tested. 
-
-4. The _Staging_ directory: where the student code is collected, compiled, and tested.
+4. The _Tests_ directory: Contains files that define how the project is to be built and tested. 
 
 5. The _Reporting_ directory: where info about the performance of the students' submissions is placed.
 
+6. The _Staging_ directory (optional): where the student code is collected, compiled, and tested.  By default, this
+   is a temporary directory within the _Reporting_ directory.
+
+
+
 ## The Grading Model
+
+<img src='https://sjzeil.github.io/code-grader/images/flow.png' align='right' style='max-width:66%;' />
 
 1. Setup
 
-    The contents of the Release directory, excluding selected files, are copied to the Submission directory.
+    * If the instructor has provided a Gold version, its source code is copied to the gold Stage.
+    * If the instructor has provided a Gold version or Instructor code, that code is copied to the student Stage. 
+    * A student's submitted code is copied to the student Stage. This may supplement or overwrite the instructor-supplied code. 
 
 2. Build
-    1. If a Gold directory has been provided, the program in it is built.
-    2. The student's program in the Submission directory is built.
+    * If a Gold version has been provided, the program in the gold Stage is built.
+    * The student's program student Stage is built.
 
-3. Tests
+3. Test
     
-    Each test case in the Test directory is run and scored.
+    For each test case in the Test directory:
+    * The test case info is copied into the student's Reporting directory, into the student Stage, and, if a gold version was provided, into the gold Stage.
+    * If a Gold version was provided, the program in the gold Stage is run on that test case.
+    * The program in the student Stage is run on that test case.
+        * Student programs that run overly long are terminated.
+            * If a Gold version was supplied, the time limit for the student's program is a multiple of the time taken by the Gold program on the same test case. 
+            * If no Gold program is available, the time limit can be specified as part of the test case configuration.
+    * The output from the student program is scored.
+        * By default, output from the student's submission is compared to output from the Gold program on the same test.
+        * If no Gold program is available, output from the student's submission is compared to expected output provided as part of the test case info.
 
-4. Reporting
 
-    Build and test results are assembled into a spreadsheet, which
-    is deposited in the Submission directory
+4. Report
+
+    Build and test results are assembled into a CSV file for the instructor's gradebook and an HTML grade report
+    for each student. 
+
