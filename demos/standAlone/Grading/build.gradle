@@ -13,3 +13,26 @@ dependencies {
     implementation 'edu.odu.cs.zeil:code-grader:1.1.4'
 }
 
+task codeGrader(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  mainClass = 'edu.odu.cs.zeil.codegrader.run.CLI'
+
+  args '-inPlace', 
+       '-suite', 'Tests', 
+       '-submissions', '..',
+       '-recording', 'build/grades'
+}
+
+task codeGraderReport(type: Copy, dependsOn: codeGrader) {
+    from 'build/grades/grades'
+    include '*.html'
+    into '..'
+}
+
+codeGraderReport.doLast {
+    println 'The grade report is in ' + System.getProperty('user.name') + '.html'
+}
+
+
+test.dependsOn(codeGrader)
+

@@ -1,0 +1,6 @@
+**/*.err
+**/*.message
+**/*.out
+**/*.score
+**/*.time
+**/*.html
