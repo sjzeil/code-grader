@@ -10,17 +10,16 @@ repositories {
 }
 
 dependencies {
-    implementation 'edu.odu.cs.zeil:code-grader:1.1.4'
+    implementation 'edu.odu.cs.zeil:code-grader:1.1.5'
 }
 
 task codeGrader(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   mainClass = 'edu.odu.cs.zeil.codegrader.run.CLI'
 
-  args '-inPlace', 
-       '-suite', 'Tests', 
+  args '-suite', 'Tests', 
        '-submissions', '..',
-       '-recording', 'build/grades'
+       '-recording', 'build'
 }
 
 task codeGraderReport(type: Copy, dependsOn: codeGrader) {

@@ -1,3 +1,7 @@
+build:
+  studentFiles:
+    exclude:
+      - Grading/**/*
 test:
   launch: ./sqrtProg
   grading:

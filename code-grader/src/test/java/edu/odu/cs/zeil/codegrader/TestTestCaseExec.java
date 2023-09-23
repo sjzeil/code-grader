@@ -2,6 +2,7 @@ package edu.odu.cs.zeil.codegrader;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -217,34 +218,39 @@ public class TestTestCaseExec {
 		assertThat(execCWD.toRealPath(), is(stage.getStageDir().toRealPath()));
 	}
 
-	/* Move to to TestStage? 
 	@Test
-	void testParamSubstitutionTestCase() 
+	void testParamSubstitution1() 
 		throws IOException, TestConfigurationError  {
         TestCaseProperties testProperties 
 			= new TestCaseProperties(asst, "paramsSub");
 
-		String javaHome = System.getProperty("java.home");
-		Path javaExec = Paths.get(javaHome, "bin", "java");
-		String launcher = javaExec + " -cp " 
-			+ System.getProperty("java.class.path") 
-		   	+ " edu.odu.cs.zeil.codegrader.samples.ParamLister";
+		String launcher = "java foo";
 		//System.err.println(launcher);
-		testProperties.launch = launcher;
-        Submission submission = new Submission(asst, "student1");
+		testProperties.setLaunch(launcher);
+        Submission submission = student1;
         TestCase testCase = new TestCase(testProperties);
-		testCase.executeTest(submission, stage);
-		assertThat(testCase.crashed(), is(false));
-		assertThat(testCase.timedOut(), is(false));
-		assertThat(testCase.getErr(), is("4\n"));
-		String[] lines = testCase.getOutput().trim().split("\n");
-		assertThat(Paths.get(lines[0]).toRealPath(),
-			is(asst.getStagingDirectory().toRealPath()));
-		assertThat(Paths.get(lines[1]).toRealPath(),
-			is(asst.getTestSuiteDirectory().toRealPath()));
-		assertThat(lines[2], is("paramsSub"));
-		assertThat(lines[3], is("@treble"));
+		String substituted 
+		  = testCase.getSubstitutedLaunchCommand(submission, stage, launcher);
+		assertThat(substituted, containsString("reble"));
 	}
-*/
+
+	@Test
+	void testParamSubstitution2() 
+		throws IOException, TestConfigurationError  {
+        TestCaseProperties testProperties 
+			= new TestCaseProperties(asst, "paramsSub");
+
+		String launcher = "java --args=<@P>";
+		testProperties.setLaunch(launcher);
+        Submission submission = student1;
+        TestCase testCase = new TestCase(testProperties);
+		String substituted 
+		  = testCase.getSubstitutedLaunchCommand(submission, stage, launcher);
+		assertThat(substituted, containsString("--args=<"));
+		assertThat(substituted, containsString("reble>"));
+		int pos = substituted.indexOf('>');
+        assertThat(substituted.substring(pos), not(containsString("reble")));
+        
+	}
 
 }

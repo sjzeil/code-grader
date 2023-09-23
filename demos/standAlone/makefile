@@ -17,7 +17,5 @@ test: sqrtProg
 	@echo '** ' Grade report is in `ls *.html` ' **'
 
 clean:
-	rm -rf sqrtProg Grading/build Grading/*.log Grading/Tests/*/*.err \
-	  Grading/Tests/*/*.out Grading/Tests/*/*.message Grading/Tests/*/*.score \
-	  Grading/Tests/*/*.time
+	rm -rf sqrtProg Grading/build 
 

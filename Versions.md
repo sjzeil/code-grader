@@ -1,3 +1,7 @@
+1.1.5 9/23/2023
+* Fixed but causing test command line params to be duplicated when listed
+  explicitly within the launch command.
+
 1.1.4 12/2/2022
 * Commands lines and parameters for test execution may now contain wild cards.
 * Improved handling of process killing when timing out long-running tests in

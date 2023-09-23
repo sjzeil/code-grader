@@ -139,11 +139,8 @@ public class TestCase {
 
     private void executeExternalTestCommand(Submission submission,
             Stage stage, String launch) {
-        String launchCommandStr = stage.getLaunchCommand(launch)  + ' '
-                + properties.getParams();
-        ParameterHandling subs = new ParameterHandling(
-            properties.getAssignment(), this, stage, submission, null, null);
-        launchCommandStr = subs.parameterSubstitution(launchCommandStr);
+        String launchCommandStr = getSubstitutedLaunchCommand(submission, 
+            stage, launch);
         logger.info("executeTest using command: " + launchCommandStr);
         int timeLimit = Math.max(getTimeLimit(submission), MIN_RUNTIME_LIMIT);
         logger.info(stage.getStageDir().toString() + " " + timeLimit);
@@ -169,6 +166,28 @@ public class TestCase {
         if (stdInFile != null) {
             stdInFile.delete();
         }
+    }
+
+
+    /**
+     * Prepare the launch command to execute a test case, with all
+     * substitutions performed.
+     * 
+     * @param submission submission info
+     * @param stage  the stage in which the case will be executed
+     * @param launch the basic launch string
+     * @return the launch string with all substitutions
+     */
+    public String getSubstitutedLaunchCommand(Submission submission, 
+            Stage stage, String launch) {
+        String launchCommandStr = stage.getLaunchCommand(launch);
+        if (!launchCommandStr.contains("@P")) {
+            launchCommandStr +=  ' ' + properties.getParams();
+        }
+        ParameterHandling subs = new ParameterHandling(
+            properties.getAssignment(), this, stage, submission, null, null);
+        launchCommandStr = subs.parameterSubstitution(launchCommandStr);
+        return launchCommandStr;
     }
 
 
