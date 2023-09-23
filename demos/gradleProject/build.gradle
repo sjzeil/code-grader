@@ -1,0 +1,47 @@
+plugins {
+   id 'java'
+   id 'application'
+}
+
+repositories {
+    maven { 
+        url 'https://www.cs.odu.edu/~zeil/mavenrepo/'
+    }
+    mavenCentral()
+}
+
+application {
+    mainClass = 'sqrtProg'
+}
+
+
+// Add code-grader on target test
+
+dependencies {
+    implementation 'edu.odu.cs.zeil:code-grader:1.1.4'
+}
+
+task codeGrader(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  mainClass = 'edu.odu.cs.zeil.codegrader.run.CLI'
+
+  args '-suite', 'Tests', 
+       '-submissions', '..',
+       '-student', project.name,
+       '-recording', 'build'
+}
+
+task codeGraderReport(type: Copy, dependsOn: codeGrader) {
+    from 'build/grades/' + project.name
+    include project.name + '.html'
+    into 'build'
+    rename(project.name + '.html', 'testReport.html')
+}
+
+codeGraderReport.doLast {
+    println '** The grade report is in build/testReport.html **'
+}
+
+
+test.dependsOn(codeGraderReport)
+

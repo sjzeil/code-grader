@@ -6,16 +6,18 @@
 #  make clean: cleans up everything except the source code and the most
 #               recent test report
 #
-all: sqrtProg.class
+all: sqrtProg
 
-sqrtProg.class: sqrtProg.java
-	javac $<
+sqrtProg: sqrtProg.cpp
+	g++ -g -std=c++17 -o $@ $<
 
-test: sqrtProg.class
+test: sqrtProg
 	cd Grading; ./gradlew test
+	@cp Grading/build/grades/grades/*.html .
+	@echo '** ' Grade report is in `ls *.html` ' **'
 
 clean:
-	rm -r *.class Grading/build Grading/*.log Grading/Tests/*/*.err \
+	rm -rf sqrtProg Grading/build Grading/*.log Grading/Tests/*/*.err \
 	  Grading/Tests/*/*.out Grading/Tests/*/*.message Grading/Tests/*/*.score \
 	  Grading/Tests/*/*.time
 

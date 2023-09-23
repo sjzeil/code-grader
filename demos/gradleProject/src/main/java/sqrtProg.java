@@ -8,7 +8,7 @@ public class sqrtProg {
 
     public void printSqrt()
     {
-        double root = Math.sqrt(x) + 0.00005; // affects only final digit
+        double root = Math.sqrt(x) + ((x < 1.0) ? 0.0002 : 0); // bug: affects small numbers only
         System.out.printf("The square root of %.2f is %.4f.%n",
              x, root);
     }

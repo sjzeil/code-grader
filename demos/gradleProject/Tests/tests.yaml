@@ -1,5 +1,11 @@
+
+build:
+  studentFiles:
+    exclude:
+      - Tests/**/*
+      - build/**/*
 test:
-  launch: ./sqrtProg
+  launch: java -cp build/classes/java/main sqrtProg
   grading:
   - oracle: "smart"
     ws: true
