@@ -28,8 +28,6 @@ jobs:
     - name: Prepare artifacts
       run: |
         mkdir downloads
-        pwd
-        ls
         cp code-grader-standalone/build/libs/*.jar downloads/code-grader.jar
     - name: Publish artifacts
       uses: actions/upload-artifact@v3
@@ -43,5 +41,5 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@v4.3.4
       with:
         branch: gh-pages
-        folder: build/reports
+        folder: code-grader/build/reports
         
