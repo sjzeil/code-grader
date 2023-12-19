@@ -98,11 +98,11 @@ public class JUnit5Oracle extends Oracle {
                 return new OracleResult((int) Math.round(score), actual);
             } else {
                 logger.warn("Oracle could not parse test report");
-                return new OracleResult(0, "Could not parse test report.");    
+                return new OracleResult(0, "Could not parse test report.\n(Code had compilation errors or crashed before tests could be run.)");    
             }
         } catch (IOException ex) {
             logger.warn("Oracle could not read test report", ex);
-            return new OracleResult(0, "Could not read test report.");
+            return new OracleResult(0, "Could not read test report.\n(Tests were not run?)");
         }
     }
 
