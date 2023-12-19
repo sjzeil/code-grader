@@ -441,6 +441,14 @@ public class TestSuite implements Iterable<TestCase> {
 					+ "</pre></td></tr>\n";
 		}
 
+		public String toText() {
+			String divider = "=-".repeat(40);
+			return divider + "\n" 
+			        + name + "\nscore=" + score + "\tweight=" + weight + "\n"
+					+ message.trim()
+					+ "\n";
+		}
+
 	}
 
 	private void generateReports(Submission submission) {
@@ -459,6 +467,9 @@ public class TestSuite implements Iterable<TestCase> {
 				((float) studentTotalScore) / ((float) MAX_SCORE));
 
 		writeHTMLReport(submission, gradeReport,
+				details, studentSubtotalScore, daysLate,
+				penalty, studentTotalScore);
+		writeTextReport(submission, gradeReport,
 				details, studentSubtotalScore, daysLate,
 				penalty, studentTotalScore);
 
@@ -664,6 +675,34 @@ public class TestSuite implements Iterable<TestCase> {
 		}
 	}
 
+	private void writeTextReport(Submission submission, Path gradeReport,
+			ArrayList<Detail> details,
+			int studentSubtotalScore, int daysLate, int penalty,
+			int studentTotalScore) {
+
+		StringBuilder reportContent = new StringBuilder();
+		reportContent.append(
+				"Grade report for " + getAssignmentName()
+						+ ": " + submission.getSubmittedBy() + "\n\n");
+
+		addAssignmentInfoToTextReport(reportContent,
+				submission, studentSubtotalScore, daysLate, penalty,
+				studentTotalScore);
+
+		reportContent.append("\n");
+		addAssignmentDetailsToTextReport(reportContent, details);
+
+		Path reportFile = submission.getRecordingDir()
+						.resolve(submission.getSubmittedBy() + ".txt");
+		FileUtils.writeTextFile(
+				reportFile,
+				reportContent.toString());
+		if (assignment.getInPlace()) {
+			System.err.println("Grade report written to " 
+				+ reportFile.toString());
+		}
+	}
+
 	private void addAssignmentDetails(StringBuilder htmlContent,
 			ArrayList<Detail> details) {
 
@@ -675,6 +714,15 @@ public class TestSuite implements Iterable<TestCase> {
 		}
 		htmlContent.append("</table>\n");
 	}
+
+	private void addAssignmentDetailsToTextReport(StringBuilder reportContent,
+			ArrayList<Detail> details) {
+
+		for (Detail detail : details) {
+			reportContent.append(detail.toText());
+		}
+	}
+
 
 	private void addAssignmentInfo(StringBuilder content,
 			Submission submission,
@@ -703,6 +751,35 @@ public class TestSuite implements Iterable<TestCase> {
 		}
 		content.append("</table>\n");
 	}
+
+
+	private void addAssignmentInfoToTextReport(StringBuilder content,
+			Submission submission,
+			int studentSubtotalScore, int daysLate, int penalty,
+			int studentTotalScore) {
+
+		String dueDate = properties.dueDate;
+		String submissionDate = getSubmissionDate(submission);
+
+		if (!submissionDate.equals("")) {
+			content.append("Submitted: " +  submissionDate + "\n");
+			if (!dueDate.equals("")) {
+				content.append("Due: " + dueDate + "\n");
+				if (daysLate > 0) {
+					content.append("Days late: " + daysLate + "\n");
+				}
+			}
+		}
+		if (properties.totals) {
+			if (penalty > 0) {
+				content.append("Subtotal: " + studentSubtotalScore + "\n");
+				content.append("Penalties: " + -penalty + "%\n");
+			}
+			content.append("Total: " + studentTotalScore + "\n");
+		}
+	}
+
+
 
 	private String row(String title, String value) {
 		Message titleMsg = new Message(title);

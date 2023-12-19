@@ -1,3 +1,6 @@
+1.1.6 12/19/2023
+* Added a .txt version of the student grade report.
+
 1.1.5 9/23/2023
 * Fixed but causing test command line params to be duplicated when listed
   explicitly within the launch command.

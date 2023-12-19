@@ -406,6 +406,8 @@ public class TestTestSuite {
 				.toFile().exists());
 		assertTrue(recording.resolve(studentName + ".html")
 			.toFile().exists());
+		assertTrue(recording.resolve(studentName + ".txt")
+			.toFile().exists());
 		Path totalFile = recording.resolve(studentName + ".total");
 		assertTrue(totalFile.toFile().exists());
 		String total = FileUtils.readTextFile(totalFile.toFile());
