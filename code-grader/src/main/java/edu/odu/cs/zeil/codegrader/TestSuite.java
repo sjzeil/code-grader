@@ -443,9 +443,14 @@ public class TestSuite implements Iterable<TestCase> {
 
 		public String toText() {
 			String divider = "=-".repeat(40);
+			String messageText = message.trim();
+			messageText = messageText.replaceAll("[\b][^\b]*?[\b]", "");
+			messageText = messageText.replaceAll("&lt;", "<");
+			messageText = messageText.replaceAll("&gt;", ">");
+			messageText = messageText.replaceAll("&amp;", "&");
 			return divider + "\n" 
 			        + name + "\nscore=" + score + "\tweight=" + weight + "\n"
-					+ message.trim()
+					+ messageText
 					+ "\n";
 		}
 

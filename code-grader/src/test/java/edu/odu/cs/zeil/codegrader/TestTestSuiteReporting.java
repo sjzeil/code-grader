@@ -90,6 +90,9 @@ public class TestTestSuiteReporting {
 		assertTrue(submission.getRecordingDir()
 			.resolve(studentName + ".html")
 			.toFile().exists());
+		assertTrue(submission.getRecordingDir()
+			.resolve(studentName + ".txt")
+			.toFile().exists());
 		Path totalFile = submission.getRecordingDir()
 			.resolve(studentName + ".total");
 		assertTrue(totalFile.toFile().exists());
