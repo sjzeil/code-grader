@@ -1,0 +1,6 @@
+kind: build
+launch: make
+grading:
+  - oracle: status
+onSuccess: ["test", "buildOK"]
+onFail: ["buildFailed"]

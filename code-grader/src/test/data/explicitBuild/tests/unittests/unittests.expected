@@ -1,0 +1,13 @@
+1..8
+ok 1 - testAllLC
+ok 2 - testAllUC
+ok 3 - testFollower
+ok 4 - testMixedCase
+ok 5 - testSeparatorDistinct
+ok 6 - testSeparatorSharedPrefixes
+ok 7 - testSeparatorZs
+ok 8 - testSpecial
+# UnitTest: passed 8 out of 8 tests, for a success rate of 100.0%
+
+--- end of output ---
+--- std error ---

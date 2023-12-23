@@ -1,0 +1,14 @@
+build:
+  studentFiles:
+    include: ["*.cpp", "*.h"]
+    exclude: ["makefile"]
+  instructorFiles:
+    include: ["makefile"]
+    exclude: ["*.cpp", "*.h"]
+test:
+  launch: ./dividers
+  timelimit: 5
+  stderr: 1
+  grading:
+    - oracle: edu.odu.cs.oracle1
+  
