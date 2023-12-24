@@ -674,10 +674,6 @@ public class TestSuite implements Iterable<TestCase> {
 		FileUtils.writeTextFile(
 				reportFile,
 				htmlContent.toString());
-		if (assignment.getInPlace()) {
-			System.err.println("Grade report written to " 
-				+ reportFile.toString());
-		}
 	}
 
 	private void writeTextReport(Submission submission, Path gradeReport,
