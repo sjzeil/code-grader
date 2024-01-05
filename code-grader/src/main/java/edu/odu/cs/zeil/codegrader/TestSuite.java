@@ -488,6 +488,21 @@ public class TestSuite implements Iterable<TestCase> {
 		Path gradeLogFile = submission.getRecordingDir()
 				.resolve("gradeLog.csv");
 		recordInGradeLog(gradeLogFile, submission, studentTotalScore);
+
+		if (assignment.getInPlace()) {
+			Path builderDir = submission.getTestSuiteDir().resolve("builder");
+			if (builderDir.toFile().exists()) {
+				Optional<File> yamlFile = FileUtils.findFile(builderDir, "yaml");
+				if (!yamlFile.isPresent()) {
+					try {
+						logger.info("removing " + builderDir.toString());
+					    FileUtils.deleteDirectory(builderDir);
+					} catch (IOException e) {
+						logger.warn("Unable to delete " + builderDir.toString(), e);
+					}
+				}
+			}
+		}
 	}
 
 	private void recordInGradeLog(Path gradeLogFile, 
