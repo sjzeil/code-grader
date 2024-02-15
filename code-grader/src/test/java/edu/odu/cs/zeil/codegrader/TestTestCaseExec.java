@@ -218,6 +218,18 @@ public class TestTestCaseExec {
 		assertThat(execCWD.toRealPath(), is(stage.getStageDir().toRealPath()));
 	}
 
+
+	@Test
+	void testParams() 
+		throws IOException, TestConfigurationError  {
+        TestCaseProperties testProperties 
+			= new TestCaseProperties(asst, "paramsSub");
+		int value = testProperties.getTimelimit();
+		assertThat(value, is(3));
+	}
+
+
+
 	@Test
 	void testParamSubstitution1() 
 		throws IOException, TestConfigurationError  {

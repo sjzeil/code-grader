@@ -59,6 +59,8 @@ public class TestTestProperties {
 			= new TestCaseProperties(asst, "simpleTests");
 		int value = testProperties.getWeight();
 		assertThat(value, is(5));
+		value = testProperties.getTimelimit();
+		assertThat(value, is(15));
 		//CHECKSTYLE:ON
 	}
 
