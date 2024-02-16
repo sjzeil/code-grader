@@ -991,7 +991,8 @@ public class TestSuite implements Iterable<TestCase> {
 			tc.failTest(submission, "Case was not run (" + failIf + ")");
 		} else {
 			Path testRecordingDir = submission.getTestCaseDir(testName);
-			if (testRecordingDir.toFile().exists()) { // Clear recording directory
+			Assignment asst = tc.getProperties().getAssignment();
+			if (testRecordingDir.toFile().exists() && !asst.getInPlace()) { // Clear recording directory
 				try {
 					FileUtils.deleteDirectory(testRecordingDir);
 				} catch (IOException e) {
