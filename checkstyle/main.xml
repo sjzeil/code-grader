@@ -67,6 +67,9 @@
 <error line="445" column="42" severity="warning" message="&apos;40&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 <error line="495" severity="warning" message="Line is longer than 80 characters (found 81)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="501" severity="warning" message="Line is longer than 80 characters (found 84)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="994" severity="warning" message="Line is longer than 80 characters (found 82)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="998" severity="warning" message="Line is longer than 80 characters (found 98)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="999" severity="warning" message="Line is longer than 80 characters (found 86)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
 <file name="/home/runner/work/code-grader/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestSuiteProperties.java">
 <error line="6" column="8" severity="warning" message="Unused import - java.util.Optional." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
