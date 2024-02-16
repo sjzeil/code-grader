@@ -4,3 +4,4 @@ grading:
   - oracle: status
 onSuccess: ["test", "buildOK"]
 onFail: ["buildFailed"]
+timelimit: 60

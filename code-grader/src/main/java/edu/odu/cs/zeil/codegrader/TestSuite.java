@@ -989,7 +989,17 @@ public class TestSuite implements Iterable<TestCase> {
 		if ((!failIf.equals("")) && isTagActive(failIf)) {
 			// Immediately fail this case
 			tc.failTest(submission, "Case was not run (" + failIf + ")");
-		} else { 
+		} else {
+			Path testRecordingDir = submission.getTestCaseDir(testName);
+			if (testRecordingDir.toFile().exists()) { // Clear recording directory
+				try {
+					FileUtils.deleteDirectory(testRecordingDir);
+				} catch (IOException e) {
+					logger.warn("Unable to delete directory " + testRecordingDir + "; test case " 
+					+ testName + "may not be proprly isolated form prior test runs.");
+				}
+			}
+	 
 			goldStage = new Stage(assignment, properties);
 			if (assignment.getGoldDirectory() != null) {
 				tc.performTest(submission, true, goldStage);

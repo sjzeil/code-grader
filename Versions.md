@@ -1,3 +1,6 @@
+1.1.7 2/16/2024
+* Fixed bug causing test cases to have shorter time limits when run a second time
+
 1.1.6 12/19/2023
 * Added a .txt version of the student grade report.
 
