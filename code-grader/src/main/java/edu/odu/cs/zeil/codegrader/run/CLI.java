@@ -193,6 +193,7 @@ public class CLI {
             List<String> submissionList = new ArrayList<>();
             submissionList.add(selectedStudent);
             testSuite.setSelectedSubmissions(submissionList);
+            assignment.setSelectedStudent(selectedStudent);
         }
         if (!datePath.equals("")) {
             testSuite.setSubmissionDateMod(datePath);

@@ -337,14 +337,15 @@ public class TestTestSuite {
 	@Test
 	void testInPlaceProcessing() {
 		asst.setTestSuiteDirectory(testSuitePath);
-		Path inPlacePath = asstDestPath.resolve("submissions")
-			.resolve("perfect");
-		asst.setSubmissionsDirectory(inPlacePath);
-		asst.setInPlace(true);
-		asst.setRecordingDirectory(testSuitePath);
+		asst.setSubmissionsDirectory(submissionPath);
 
 		TestSuite suite = new TestSuite(asst);
+		java.util.List<String> students = new java.util.ArrayList<>();
+		students.add("-");
+		suite.setSelectedSubmissions(students);
+		studentName = "-";
 
+		submission = new Submission(asst, "-", submissionPath);
 		suite.processThisSubmission(submission);
 
 		// Check first on the submitter stage setup
@@ -352,26 +353,25 @@ public class TestTestSuite {
 		assertTrue(asst.getSubmitterStage(submission).resolve("sqrtProg.java")
 			.toFile().exists());
 
-		// Now check if the build ran in place.
-		assertTrue(inPlacePath.resolve("sqrtProg.class")
+		// Now check if the build ran.
+		assertTrue(asst.getSubmitterStage(submission).resolve("sqrtProg.class")
 			.toFile().exists());
 
 		// Were reports generated in place?
-		String studentName = System.getProperty("user.name");
-		assertTrue(asst.getTestSuiteDirectory()
-				.resolve("testsSummary.csv")
-				.toFile().exists());
-		assertTrue(asst.getTestSuiteDirectory()
+		assertTrue(submission.getRecordingDir()
+			.resolve("testsSummary.csv")
+			.toFile().exists());
+		assertTrue(submission.getRecordingDir()
 			.resolve(studentName + ".html")
 			.toFile().exists());
-		Path totalFile = asst.getTestSuiteDirectory()
+		Path totalFile = submission.getRecordingDir()
 			.resolve(studentName + ".total");
 		assertTrue(totalFile.toFile().exists());
 		String total = FileUtils.readTextFile(totalFile.toFile());
-		assertEquals("100\n", total);
+		assertEquals("100\n", total); // 10% penalty
 
 		// In-place processing should not leave hash files.
-		Path hashFile =  asst.getTestSuiteDirectory()
+		Path hashFile =  submission.getRecordingDir()
 			.resolve(studentName + ".hash");
 		assertFalse(hashFile.toFile().exists());
 		

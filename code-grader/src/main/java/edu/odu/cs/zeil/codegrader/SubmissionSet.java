@@ -39,6 +39,10 @@ public class SubmissionSet implements Iterable<Submission> {
             submissions.add(new Submission(assignment,
                     submissionsDir.toFile().getName(),
                     submissionsDir));
+        } else if (assignment.getSelectedStudent().equals("-")) {
+            submissions.add(new Submission(assignment,
+                    "-",
+                    submissionsDir));
         } else {
             Map<String, Integer> highestVersion = new TreeMap<>();
             Map<String, File> highestVersionDir = new TreeMap<>();

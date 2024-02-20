@@ -342,7 +342,7 @@ public class TestSuite implements Iterable<TestCase> {
 	 * @param submission the submission to check
 	 */
 	private void recordContentHash(Path recordAt, Submission submission) {
-		if (!assignment.getInPlace()) {
+		if (!assignment.getInPlace() && !submission.getSubmittedBy().equals("-")) {
 			if (contentHash == null || contentHash.equals("")) {
 				contentHash = computeContentHash(
 						submission.getSubmissionDirectory());
