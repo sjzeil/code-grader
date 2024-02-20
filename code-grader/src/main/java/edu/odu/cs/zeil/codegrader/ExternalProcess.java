@@ -147,7 +147,7 @@ public class ExternalProcess implements TCProcess {
          * Maximum number of characters that will be accumulated before deciding
          * that the process is stuck in a loop.
          */
-        private static final int CAPTURE_LIMIT = 2000000;
+        private static final int CAPTURE_LIMIT = 250000;
 
         /**
          * Create the reader thread.
@@ -167,10 +167,9 @@ public class ExternalProcess implements TCProcess {
 
         public void run() {
             try {
-                String line = in.readLine();
-                while ((!forceStop) && (line != null)) {
-                    contents.append(line);
-                    contents.append("\n");
+                int c;
+                while ((!forceStop) && ((c = in.read()) >= 0)) {
+                    contents.append((char)c);
                     if (contents.length() > CAPTURE_LIMIT) {
                         contents.append("** Test output clipped after "
                                 + contents.length() + " bytes.\n");
@@ -178,7 +177,6 @@ public class ExternalProcess implements TCProcess {
                                 + contents.length() + " bytes.");
                         break;
                     }
-                    line = in.readLine();
                 }
                 in.close();
                 finished = true;

@@ -1,3 +1,10 @@
+1.1.8 2/20/2024
+* Improved handling of programs with very large outputs (up to 250,000 chars)
+* Added new handling of student named '-'.  This student name signals that
+  the code to be graded is directly in the submissions folder rather than in
+  a student-named sub-directory of the submissions folder.  This will replace
+  the -inPlace processing option soon. That option is now deprecated.
+
 1.1.7 2/16/2024
 * Fixed bug causing test cases to have shorter time limits when run a second time
 
