@@ -1,3 +1,8 @@
+1.1.8 4/30/2024
+* Fixed bug affecting Windows use. Command lines for launching tests were being
+  echoed, captured as part of the output, and confusing oracles into issuing
+  false failure reports.
+
 1.1.7 2/16/2024
 * Fixed bug causing test cases to have shorter time limits when run a second time
 
