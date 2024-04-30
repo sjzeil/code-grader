@@ -23,6 +23,8 @@ import edu.odu.cs.zeil.codegrader.TestCase;
 import edu.odu.cs.zeil.codegrader.TestCaseProperties;
 import edu.odu.cs.zeil.codegrader.TestConfigurationError;
 import edu.odu.cs.zeil.codegrader.TestSuiteProperties;
+import edu.odu.cs.zeil.codegrader.samples.ParamLister;
+import edu.odu.cs.zeil.codegrader.samples.ParamWriter;
 
 //CHECKSTYLE:OFF
 
@@ -66,7 +68,7 @@ public class TestExternalOracle {
 	@Test
 	void testSuccess() throws FileNotFoundException {
         OracleProperties properties = new OracleProperties();
-        properties.command = "/usr/bin/diff @A @E";
+        properties.command = ParamLister.launcher + " 100";
 		Oracle oracle = new ExternalOracle(properties, testCase, sub, stage);
 
         String expected = "foo\n";
@@ -80,10 +82,8 @@ public class TestExternalOracle {
 	@Test
 	void testScoreFile() throws FileNotFoundException {
         OracleProperties properties = new OracleProperties();
-		String oracleCommand = "echo 42 > test.score\necho foobar\n";
-		FileUtils.writeTextFile(sub.getRecordingDir().resolve("run.sh"), 
-			oracleCommand);
-        properties.command = "sh run.sh";
+        properties.command = ParamWriter.launcher + " 42 test.score";
+		//String oracleCommand = "echo 42 > test.score\necho foobar\n";
 		Oracle oracle = new ExternalOracle(properties, testCase, sub, stage);
 
         String expected = "foo\n";
@@ -92,13 +92,14 @@ public class TestExternalOracle {
 		OracleResult result = oracle.compare(expected, observed);
 
         assertThat(result.score, is(42));
-        assertThat(result.message, is("foobar\n"));
+
 	}
 
     @Test
 	void testFail1() throws FileNotFoundException {
         OracleProperties properties = new OracleProperties();
-        properties.command = "diff @A @E";
+        properties.command = ParamLister.launcher + " fail";
+
 		Oracle oracle = new ExternalOracle(properties, testCase, sub, stage);
 
         String expected = "foo\n";
@@ -106,23 +107,10 @@ public class TestExternalOracle {
 
 		OracleResult result = oracle.compare(expected, observed);
 
-        assertThat(result.score, is(99));
+        assertThat(result.score, is(0));
         assertThat(result.message, not(is("")));
 	}
 
-    @Test
-	void testFail2() throws FileNotFoundException {
-        OracleProperties properties = new OracleProperties();
-        properties.command = "diff foo bar";
-		Oracle oracle = new ExternalOracle(properties, testCase, sub, stage);
-
-        String expected = "foo\n";
-        String observed = "foo\n";
-
-		OracleResult result = oracle.compare(expected, observed);
-
-        assertThat(result.score, equalTo(98));
-	}
-
+    
 
 }

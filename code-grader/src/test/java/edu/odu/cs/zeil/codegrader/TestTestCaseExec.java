@@ -149,8 +149,8 @@ public class TestTestCaseExec {
         TestCaseProperties testProperties 
 			= new TestCaseProperties(asst, "softCrash");
 
-		String javaHome = System.getProperty("java.home");
-		Path javaExec = Paths.get(javaHome, "bin", "java");
+		//String javaHome = System.getProperty("java.home");
+		String javaExec = "java";
 		String launcher = javaExec + " -cp " 
 			+ System.getProperty("java.class.path") 
 			+ " edu.odu.cs.zeil.codegrader.samples.SlowProgram";
