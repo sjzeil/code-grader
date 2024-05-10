@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="8.37">
 <file name="/home/runner/work/code-grader/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Assignment.java">
+<error line="337" column="5" severity="warning" message="Class &apos;Assignment&apos; looks like designed for extension (can be subclassed), but the method &apos;getSelectedStudent&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;Assignment&apos; final or making the method &apos;getSelectedStudent&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
+<error line="337" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="341" column="5" severity="warning" message="Class &apos;Assignment&apos; looks like designed for extension (can be subclassed), but the method &apos;setSelectedStudent&apos; does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class &apos;Assignment&apos; final or making the method &apos;setSelectedStudent&apos; static/final/abstract/empty, or adding allowed annotation for the method." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
+<error line="341" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
 </file>
 <file name="/home/runner/work/code-grader/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/BooleanParser.java">
 </file>
@@ -13,6 +17,7 @@
 <file name="/home/runner/work/code-grader/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/Deferred.java">
 </file>
 <file name="/home/runner/work/code-grader/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/ExternalProcess.java">
+<error line="172" column="42" severity="warning" message="&apos;typecast&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
 </file>
 <file name="/home/runner/work/code-grader/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/FileUtils.java">
 </file>
@@ -58,18 +63,24 @@
 <file name="/home/runner/work/code-grader/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestCase.java">
 </file>
 <file name="/home/runner/work/code-grader/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestCaseProperties.java">
+<error line="184" severity="warning" message="Line is longer than 80 characters (found 86)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
 <file name="/home/runner/work/code-grader/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestCasePropertiesBase.java">
 </file>
 <file name="/home/runner/work/code-grader/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestConfigurationError.java">
 </file>
 <file name="/home/runner/work/code-grader/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestSuite.java">
-<error line="445" column="42" severity="warning" message="&apos;40&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="495" severity="warning" message="Line is longer than 80 characters (found 81)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="501" severity="warning" message="Line is longer than 80 characters (found 84)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="995" severity="warning" message="Line is longer than 80 characters (found 104)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="999" severity="warning" message="Line is longer than 80 characters (found 98)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="1000" severity="warning" message="Line is longer than 80 characters (found 86)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="345" severity="warning" message="Line is longer than 80 characters (found 83)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="427" severity="warning" message="Line is longer than 80 characters (found 94)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="450" column="42" severity="warning" message="&apos;40&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="457" severity="warning" message="Line is longer than 80 characters (found 108)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="500" severity="warning" message="Line is longer than 80 characters (found 81)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="506" severity="warning" message="Line is longer than 80 characters (found 84)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="661" column="42" severity="warning" message="&apos;100.0f&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="845" severity="warning" message="Line is longer than 80 characters (found 82)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="1007" severity="warning" message="Line is longer than 80 characters (found 104)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="1011" severity="warning" message="Line is longer than 80 characters (found 98)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="1012" severity="warning" message="Line is longer than 80 characters (found 87)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
 <file name="/home/runner/work/code-grader/code-grader/code-grader/src/main/java/edu/odu/cs/zeil/codegrader/TestSuiteProperties.java">
 </file>
