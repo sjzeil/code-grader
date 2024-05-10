@@ -1,0 +1,24 @@
+dueDate: 12/15/2022
+latePenalties: [10, 20, 100]
+test:
+  launch: java sqrtProg
+  grading:
+    - oracle: "smart"
+      ws: true
+      case: true
+      cap: 100
+    - ws: false
+      case: false
+      cap: 95
+    - ws: false
+      case: false
+      punctuation: false
+      cap: 90
+    - ws: false
+      numbersOnly: true
+      cap: 75
+
+build:
+  studentFiles:
+    include:
+    - "**.java"

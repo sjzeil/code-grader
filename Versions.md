@@ -1,3 +1,17 @@
+1.2.0 2/20/2024
+* Added new boolean test case option, "multiplier". A multiplier case does not
+  add its score to the total but multiplies it. For example, a score of 50
+  (out of 100) reduces the total of all other test cases by half. 
+
+    This is intended to permit test cases that check for assignment requirements,
+    e.g., an assignment that requires that students use java.util.HashMap might
+    have a test case that uses Java reflection to make sure that at least one
+    data member has that type, dropping the total score to zero if students
+    submit an array-based solution.
+
+    Another use might be for "modify this program"-style assignments to test
+    whether students are simply resubmitting the original unchanged code.
+
 1.1.8 2/20/2024
 * Improved handling of programs with very large outputs (up to 250,000 chars)
 * Added new handling of student named '-'.  This student name signals that

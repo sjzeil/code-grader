@@ -54,6 +54,11 @@ public class TestCaseProperties implements Comparable<TestCaseProperties> {
     private Deferred<Integer> weight;
 
     /**
+     * is this test case a multiplier?? 
+     */
+    private Deferred<Boolean> multiplier;
+
+    /**
      * The command string used to launch the program under evaluation.
      */
     private Deferred<String> launch;
@@ -175,6 +180,8 @@ public class TestCaseProperties implements Comparable<TestCaseProperties> {
         weight = selectValue(tCase.weight,
                 suite.weight, defaults.weight, "weight", 
                 new IntegerParser());
+        multiplier = selectValue(tCase.multiplier,
+            suite.multiplier, defaults.multiplier, "multiplier", new BooleanParser());
         launch = selectValue(tCase.launch,
                 suite.launch, defaults.launch, "launch",
                 new StringParser(true));
@@ -218,6 +225,8 @@ public class TestCaseProperties implements Comparable<TestCaseProperties> {
                 new StringParser(true));
         weight = new Deferred<Integer>("weight", 1, 
             new IntegerParser());
+        multiplier = new Deferred<Boolean>("multiplier", false, 
+            new BooleanParser());
         launch = new Deferred<String>("launch", "test", 
             new StringParser(true));
         expected = new Deferred<String>("expected", "test", 
@@ -456,6 +465,12 @@ return value;
 		return weight.get(testDirectory);
 	}
 
+	/**
+	 * @return true if is a multiplier
+	 */
+	public boolean isMultiplier() {
+		return multiplier.get(testDirectory);
+	}
 
 	/**
 	 * @param theWeight the weight to set

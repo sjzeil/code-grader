@@ -59,6 +59,11 @@ public class TestCasePropertiesBase  {
     public OptionalInt weight;
 
     /**
+     * Is this test a multiplier for the overall score?
+     */
+    public Optional<Boolean> multiplier;
+
+    /**
      * The command string used to launch the program under evaluation.
      */
     public Optional<String> launch;
@@ -131,6 +136,7 @@ public class TestCasePropertiesBase  {
         TestCasePropertiesBase result = new TestCasePropertiesBase();
         result.params = Optional.of("");
         result.weight = OptionalInt.of(1);
+        result.multiplier = Optional.of(false);
         result.launch = Optional.of("");
         result.expected = Optional.of("");
         result.timelimit = OptionalInt.of(DEFAULT_RUN_TIMELIMIT);
@@ -156,6 +162,7 @@ public class TestCasePropertiesBase  {
         kind = Optional.empty();
         params = Optional.empty();
         weight = OptionalInt.empty();
+        multiplier = Optional.empty();
         launch = Optional.empty();
         expected = Optional.empty();
         timelimit = OptionalInt.empty();
@@ -179,6 +186,7 @@ public class TestCasePropertiesBase  {
         kind = readExplicitString(testCaseDirectory, "kind");
         params = readExplicitString(testCaseDirectory, "params");
         weight = readExplicitInt(testCaseDirectory, "weight");
+        multiplier = readExplicitBoolean(testCaseDirectory, "multiplier");
         launch = readExplicitString(testCaseDirectory, "launch");
         expected = readExplicitString(testCaseDirectory, "expected");
         timelimit = readExplicitInt(testCaseDirectory, "timelimit");

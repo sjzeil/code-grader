@@ -12,14 +12,14 @@
         },
         {
             "type": "java",
-            "name": "CLI - tutorial",
+            "name": "cs350",
             "request": "launch",
             "mainClass": "edu.odu.cs.zeil.codegrader.run.CLI",
-            "args": ["-suite", "tutorials/simpleCppStdIn/Tests",
-                "-submissions",  "tutorials/simpleCppStdIn/submissions",
-                "-gold", "tutorials/simpleCppStdIn/Gold",
-                "-isrc", "-",
-                "-recording", "tutorials/simpleCppStdIn/graded"],
+            "args": ["-suite", "/home/zeil/courses/cs350/s24/Assts/gitBranchingAsst/Grading",
+                "-submissions",  "/home/zeil/courses/cs350/AutoGrading/s24-live/WorkArea/gitBranchingAsst/submissions",
+                "-recording", "/home/zeil/courses/cs350/AutoGrading/s24-live/WorkArea/gitBranchingAsst",
+                "-student", "cs_mhayd002"
+            ],
             "projectName": "code-grader"
         },
         {
