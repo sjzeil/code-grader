@@ -12,6 +12,11 @@
     Another use might be for "modify this program"-style assignments to test
     whether students are simply resubmitting the original unchanged code.
 
+1.1.9 4/30/2024
+* Fixed bug affecting Windows use. Command lines for launching tests were being
+  echoed, captured as part of the output, and confusing oracles into issuing
+  false failure reports.
+
 1.1.8 2/20/2024
 * Improved handling of programs with very large outputs (up to 250,000 chars)
 * Added new handling of student named '-'.  This student name signals that

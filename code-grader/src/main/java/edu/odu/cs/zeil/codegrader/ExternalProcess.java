@@ -202,7 +202,13 @@ public class ExternalProcess implements TCProcess {
     public void execute(boolean quiet) {
         String scriptFileName = getScriptFileName();
         Path scriptFile = context.resolve(scriptFileName);
-        FileUtils.writeTextFile(scriptFile, commandStr + "\n");
+        String scriptContents = commandStr;
+        if (IS_WINDOWS) {
+            scriptContents = "@ECHO OFF\r\n" + commandStr + "\r\n";
+        } else {
+            scriptContents = commandStr + "\n";
+        }
+        FileUtils.writeTextFile(scriptFile, scriptContents);
         List<String> launchCommand = new ArrayList<>();
         if (IS_WINDOWS) {
             launchCommand.add("cmd");
@@ -257,7 +263,7 @@ public class ExternalProcess implements TCProcess {
             expiredTime = (int) 
                 ((elapsed + ONE_HALF_SEC) / ONE_SEC); // round to closest sec.
             Files.delete(scriptFile);
-            
+
             if (onTime) {
                 final int tenthSeconds = 100;
                 final int tenthSecondsPerSecond = 10;

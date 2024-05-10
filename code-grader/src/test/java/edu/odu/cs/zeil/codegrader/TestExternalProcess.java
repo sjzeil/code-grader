@@ -3,6 +3,7 @@ package edu.odu.cs.zeil.codegrader;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,6 +11,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 public class TestExternalProcess {
 
@@ -18,7 +21,15 @@ public class TestExternalProcess {
     public String ls = (isWindows) ? "dir" : "ls";
     public String cat0 = (isWindows) ? "findstr x*" : "cat";
     public String cat2 = (isWindows) ? "type" : "cat";
-    public String sleep5 = (isWindows) ? "timeout /t 5" : "sleep 5000";
+
+    //String javaHome = System.getProperty("java.home");
+    String javaExec = "java";
+    public String slowLauncher = javaExec + " -cp " 
+        + System.getProperty("java.class.path") 
+        + " edu.odu.cs.zeil.codegrader.samples.SlowProgram";
+
+    public String sleep5 = (isWindows) ? slowLauncher : "sleep 5000";
+    
 
     @Test
     void testBasicExt() throws IOException {
@@ -82,6 +93,7 @@ public class TestExternalProcess {
     }
 
     @Test
+    @DisabledOnOs(OS.WINDOWS)
     void testWildCardsExt() throws IOException {
         Path testDir = Paths.get("build", "test-data", "ext");
         if (Files.exists(testDir)) {
@@ -122,6 +134,8 @@ public class TestExternalProcess {
         assertThat(ep.getErr(), is(""));
         assertThat(ep.getOutput(), containsString("baz"));
         assertThat(ep.getOutput(), containsString("qux"));
+        assertThat(ep.getOutput(), not(containsString("findstr")));
+        assertThat(ep.getOutput(), not(containsString("cat")));
         assertThat(ep.getOnTime(), is(true));
         assertThat(ep.getStatusCode(), is(0));
     }

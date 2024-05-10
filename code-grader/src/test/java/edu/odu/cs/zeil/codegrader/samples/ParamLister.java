@@ -13,6 +13,12 @@ import java.io.InputStreamReader;
  */
 public final class ParamLister {
 
+    // Assumes that "java" is in the PATH
+    public static String launcher = "java -cp " 
+        + System.getProperty("java.class.path") 
+        + " edu.odu.cs.zeil.codegrader.samples.ParamLister";
+
+
     /**
      * Run the program.
      * @param args CLI parameters
