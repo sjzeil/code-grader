@@ -118,4 +118,40 @@ public class TestJUnit5Oracle {
         assertThat(result.message, equalTo(observed));
     }
 
+
+
+    @Test
+    void testJU5Gradle() throws IOException {
+        Oracle oracle = new JUnit5Oracle(new OracleProperties(), testCase,
+                sub, stage);
+
+        Path reportDir = stage.getStageDir().resolve("build/reports/tests/test/");
+        reportDir.toFile().mkdirs();
+        FileUtils.copyDirectory(Paths.get("src/test/data/ju5"), reportDir, null, null, StandardCopyOption.REPLACE_EXISTING);        
+
+        String observed = "\n";
+
+        OracleResult result = oracle.compare("", observed);
+        assertThat(result.score, equalTo(80));
+        
+    }
+
+    @Test
+    void testJU5Maven() throws IOException {
+        Oracle oracle = new JUnit5Oracle(new OracleProperties(), testCase,
+                sub, stage);
+
+        Path reportDir = stage.getStageDir().resolve("target/surefire-reports");
+        reportDir.toFile().mkdirs();
+        FileUtils.copyDirectory(Paths.get("src/test/data/ju5"), reportDir, null, null, StandardCopyOption.REPLACE_EXISTING);
+
+        String observed = "\n";
+
+        OracleResult result = oracle.compare("", observed);
+        assertThat(result.score, equalTo(50));
+        
+    }
+
+
 }
+
