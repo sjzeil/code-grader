@@ -1,4 +1,8 @@
-1.2.0 2/20/2024
+1.2.1 5/11/2024
+* junit5 oracle now locates test reports in Gradle and Maven builds if it cannot
+  determine tests passed from the standard output.
+
+1.2.0 5/10/2024
 * Added new boolean test case option, "multiplier". A multiplier case does not
   add its score to the total but multiplies it. For example, a score of 50
   (out of 100) reduces the total of all other test cases by half. 
