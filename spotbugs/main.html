@@ -135,7 +135,7 @@
          <br/>
       </p>
       <h2>Metrics</h2>
-      <p>3674 lines of code analyzed,
+      <p>3748 lines of code analyzed,
 	in 55 classes, 
 	in 3 packages.</p>
       <table width="500" cellpadding="5" cellspacing="2">
@@ -146,23 +146,23 @@
          </tr>
          <tr class="tablerow0">
             <td>High Priority Warnings</td>
-            <td align="right">5</td>
-            <td align="right">1.36</td>
+            <td align="right">7</td>
+            <td align="right">1.87</td>
          </tr>
          <tr class="tablerow1">
             <td>Medium Priority Warnings</td>
-            <td align="right">20</td>
-            <td align="right">5.44</td>
+            <td align="right">21</td>
+            <td align="right">5.60</td>
          </tr>
          <tr class="$totalClass">
             <td>
                <b>Total Warnings</b>
             </td>
             <td align="right">
-               <b>25</b>
+               <b>28</b>
             </td>
             <td align="right">
-               <b>6.80</b>
+               <b>7.47</b>
             </td>
          </tr>
       </table>
@@ -219,7 +219,7 @@
             <td>
                <a href="#Warnings_I18N">Internationalization Warnings</a>
             </td>
-            <td align="right">4</td>
+            <td align="right">6</td>
          </tr>
          <tr class="tablerow1">
             <td>
@@ -237,14 +237,14 @@
             <td>
                <a href="#Warnings_STYLE">Dodgy code Warnings</a>
             </td>
-            <td align="right">3</td>
+            <td align="right">4</td>
          </tr>
          <tr class="tablerow0">
             <td>
                <b>Total</b>
             </td>
             <td align="right">
-               <b>25</b>
+               <b>28</b>
             </td>
          </tr>
       </table>
@@ -374,6 +374,34 @@
                   <br/>In class edu.odu.cs.zeil.codegrader.TestSuite<br/>In method edu.odu.cs.zeil.codegrader.TestSuite.recordInGradeLog(Path, Submission, int)<br/>Called method new java.io.FileWriter(File, boolean)<br/>At TestSuite.java:[line 523]</p>
             </td>
          </tr>
+         <tr class="tablerow1" onclick="toggleRow('d2e482');">
+            <td>
+               <span class="priority-1">Dm</span>
+            </td>
+            <td>Found reliance on default encoding in edu.odu.cs.zeil.codegrader.oracle.JUnit5Oracle.parseGradleReport(): new java.io.FileReader(File)</td>
+         </tr>
+         <tr class="detailrow1">
+            <td/>
+            <td>
+               <p id="d2e482" style="display: none;">
+                  <a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.oracle.JUnit5Oracle<br/>In method edu.odu.cs.zeil.codegrader.oracle.JUnit5Oracle.parseGradleReport()<br/>Called method new java.io.FileReader(File)<br/>At JUnit5Oracle.java:[line 170]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0" onclick="toggleRow('d2e497');">
+            <td>
+               <span class="priority-1">Dm</span>
+            </td>
+            <td>Found reliance on default encoding in edu.odu.cs.zeil.codegrader.oracle.JUnit5Oracle.parseMavenReport(): new java.io.FileReader(File)</td>
+         </tr>
+         <tr class="detailrow0">
+            <td/>
+            <td>
+               <p id="d2e497" style="display: none;">
+                  <a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.oracle.JUnit5Oracle<br/>In method edu.odu.cs.zeil.codegrader.oracle.JUnit5Oracle.parseMavenReport()<br/>Called method new java.io.FileReader(File)<br/>At JUnit5Oracle.java:[line 131]</p>
+            </td>
+         </tr>
       </table>
       <h2>
          <a name="Warnings_MALICIOUS_CODE">Malicious code vulnerability Warnings</a>
@@ -411,7 +439,7 @@
                   <br/>In class edu.odu.cs.zeil.codegrader.TestCaseProperties<br/>In method edu.odu.cs.zeil.codegrader.TestCaseProperties.getAssignment()<br/>Field edu.odu.cs.zeil.codegrader.TestCaseProperties.assignment<br/>At TestCaseProperties.java:[line 403]</p>
             </td>
          </tr>
-         <tr class="tablerow1" onclick="toggleRow('d2e482');">
+         <tr class="tablerow1" onclick="toggleRow('d2e528');">
             <td>
                <span class="priority-2">EI</span>
             </td>
@@ -420,7 +448,7 @@
          <tr class="detailrow1">
             <td/>
             <td>
-               <p id="d2e482" style="display: none;">
+               <p id="d2e528" style="display: none;">
                   <a href="#EI_EXPOSE_REP">Bug type EI_EXPOSE_REP (click for details)</a>
                   <br/>In class edu.odu.cs.zeil.codegrader.oracle.Oracle<br/>In method edu.odu.cs.zeil.codegrader.oracle.Oracle.getStage()<br/>Field edu.odu.cs.zeil.codegrader.oracle.Oracle.stage<br/>At Oracle.java:[line 237]</p>
             </td>
@@ -639,13 +667,27 @@
                   <br/>In class edu.odu.cs.zeil.codegrader.TestCaseProperties<br/>In method new edu.odu.cs.zeil.codegrader.TestCaseProperties(Assignment, String)<br/>Local variable named caseProperties<br/>At TestCaseProperties.java:[line 157]</p>
             </td>
          </tr>
-         <tr class="tablerow1" onclick="toggleRow('d2e84');">
+         <tr class="tablerow1" onclick="toggleRow('d2e512');">
+            <td>
+               <span class="priority-2">NP</span>
+            </td>
+            <td>Possible null pointer dereference in edu.odu.cs.zeil.codegrader.oracle.JUnit5Oracle.parseMavenReport() due to return value of called method</td>
+         </tr>
+         <tr class="detailrow1">
+            <td/>
+            <td>
+               <p id="d2e512" style="display: none;">
+                  <a href="#NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE">Bug type NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE (click for details)</a>
+                  <br/>In class edu.odu.cs.zeil.codegrader.oracle.JUnit5Oracle<br/>In method edu.odu.cs.zeil.codegrader.oracle.JUnit5Oracle.parseMavenReport()<br/>Value loaded from ?<br/>Dereferenced at JUnit5Oracle.java:[line 129]<br/>Known null at JUnit5Oracle.java:[line 129]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0" onclick="toggleRow('d2e84');">
             <td>
                <span class="priority-2">UrF</span>
             </td>
             <td>Unread public/protected field: edu.odu.cs.zeil.codegrader.BuildProperties.timeLimit</td>
          </tr>
-         <tr class="detailrow1">
+         <tr class="detailrow0">
             <td/>
             <td>
                <p id="d2e84" style="display: none;">
@@ -738,6 +780,15 @@ after the call to initLogging, the logger configuration is lost
 <p><em>Ulf Ochsenfahrt and Eric Fellheimer</em></p>
           
       <h2>
+         <a name="NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE">NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE: Possible null pointer dereference due to return value of called method</a>
+      </h2>
+      
+<p> The return value from a method is dereferenced without a null check,
+and the return value of that method is one that should generally be checked
+for null.  This may lead to a <code>NullPointerException</code> when the code is executed.
+</p>
+      
+   <h2>
          <a name="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE">RV_RETURN_VALUE_IGNORED_BAD_PRACTICE: Method ignores exceptional return value</a>
       </h2>
 
