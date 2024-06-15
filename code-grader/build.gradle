@@ -3,9 +3,9 @@ plugins {
     id 'application'
 	id 'project-report'
 	id 'checkstyle'
-	id "com.github.spotbugs" version "5.0.8"
+	id "com.github.spotbugs" version "5.2.5"
 	id 'org.jbake.site' version "5.3.0"
-	id 'edu.odu.cs.report_accumulator' version '1.4'
+	//id 'edu.odu.cs.report_accumulator' version '1.4'
     id 'org.ajoberstar.git-publish' version '4.2.0'
     id 'maven-publish'
 }
@@ -93,14 +93,18 @@ task reports (dependsOn: ['htmlDependencyReport', 'javadoc', 'check']) {
 
 javadoc.failOnError=false
 
+import com.github.spotbugs.snom.Confidence
+import com.github.spotbugs.snom.Effort
 spotbugsMain {
     ignoreFailures = true
-    effort = 'max'
-    reportLevel = 'medium'
+    effort = Effort.MAX
+    reportLevel = Confidence.DEFAULT
+    /*
     reports {
        xml.enabled = false
        html.enabled = true
     }
+    */
 }
 
 spotbugsTest.enabled = false
@@ -123,7 +127,7 @@ task copyBake (type: Copy) {
     dependsOn 'bake'
 }
 
-
+/*
 import edu.odu.cs.zeil.report_accumulator.ReportStats
 
 
@@ -131,6 +135,12 @@ task collectStats (type: ReportStats, dependsOn: ['build','htmlDependencyReport'
     description "Collect statistics from various reports & analysis tools"
     reportsURL = 'https://sjzeil.github.io/code-grader/'
     htmlSourceDir = file("build/jbake")
+}
+*/
+task collectStats (dependsOn: ['build','htmlDependencyReport', 'check', 'copyJDocs', 'copyBake']) {
+    description "Disabled statistics collection"
+    //reportsURL = 'https://sjzeil.github.io/code-grader/'
+    //htmlSourceDir = file("build/jbake")
 }
 
 
@@ -219,12 +229,19 @@ publishing {
                     }
                 }
             }
+        
         }
+        
     }
 
     repositories {
         maven {
             name = 'Zeil-Maven-repo'
+            url = '../../mvnrepo/'
+        }
+        /*
+        maven {
+            name = 'Zeil-Maven-repo-old'
             def mavenRepoBase="sftp://linux.cs.odu.edu:22/home/zeil/secure_html/mavenrepo"
             def releasesRepoUrl = mavenRepoBase + "/releases"
             def snapshotsRepoUrl = mavenRepoBase + '/snapshots'
@@ -235,6 +252,6 @@ publishing {
                 username project.ivyRepoUser
                 password project.ivyRepoPass
             }
-        }
+        }*/
     }
 }

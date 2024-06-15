@@ -1,11 +1,6 @@
 pluginManagement {
     repositories {
-        maven { // Use my own CS dept repo
-            url 'https://www.cs.odu.edu/~zeil/mavenrepo'
-        }
-        ivy { // Use my own CS dept repo
-            url 'https://www.cs.odu.edu/~zeil/ivyrepo'
-        }
+        //mavenLocal()
         gradlePluginPortal()
         mavenCentral()
     }
