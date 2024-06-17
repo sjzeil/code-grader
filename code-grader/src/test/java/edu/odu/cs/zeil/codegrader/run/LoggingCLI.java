@@ -3,8 +3,6 @@ package edu.odu.cs.zeil.codegrader.run;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -19,9 +17,8 @@ import org.slf4j.LoggerFactory;
 import edu.odu.cs.zeil.codegrader.Assignment;
 import edu.odu.cs.zeil.codegrader.Logging;
 import edu.odu.cs.zeil.codegrader.TestConfigurationError;
-import edu.odu.cs.zeil.codegrader.TestSuite;
 
-public class CLI {
+public class LoggingCLI {
 
     private Assignment assignment;
 
@@ -43,11 +40,6 @@ public class CLI {
 
     private Option help;
 
-    private String selectedStudent;
-
-    private String selectedTest;
-
-    private String datePath;
 
     /**
      * Error logging.
@@ -59,7 +51,7 @@ public class CLI {
      * 
      * @param args command-line arguments
      */
-    public CLI(String[] args) {        
+    public LoggingCLI(String[] args) {        
         assignment = new Assignment();
         CommandLineParser parser = new DefaultParser();
         Options options = setUpOptions();
@@ -95,6 +87,7 @@ public class CLI {
                 logger.error(msg);
                 throw new TestConfigurationError(msg);
             }
+            
 
             if (cli.hasOption(suite)) {
                 assignment.setTestSuiteDirectory(
@@ -148,21 +141,6 @@ public class CLI {
                     (Paths.get(cli.getOptionValue(manual))));
             }
 
-            if (cli.hasOption(student)) {
-                selectedStudent = cli.getOptionValue(student);
-            } else {
-                selectedStudent = "";
-            }
-            if (cli.hasOption(test)) {
-                selectedTest = cli.getOptionValue(test);
-            } else {
-                selectedTest = "";
-            }
-            if (cli.hasOption(getDates)) {
-                datePath = cli.getOptionValue(getDates);
-            } else {
-                datePath = "";
-            }
 
         } catch (ParseException exp) {
             throw new TestConfigurationError(exp.getMessage());
@@ -173,13 +151,14 @@ public class CLI {
      * Run the grader via CLI arguments.
      * 
      * @param args command line arguments
+     * @throws IOException 
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         try {
-            CLI run = new CLI(args);
-            run.go(args);
+            LoggingCLI run = new LoggingCLI(args);
+            run.go();
         } catch (TestConfigurationError ex) {
-            System.err.println("Error: Test configuration error.\n" + ex.getMessage());
+            System.err.println("Test configuration error. " + ex.getMessage());
             throw ex;
         }
     }
@@ -187,26 +166,8 @@ public class CLI {
     /**
      * Run the CLI handler, launching the program.
      */
-    public void go(String[] args) {
-        logger.info("Starting: " + String.join(" ", args));
-            
-        TestSuite testSuite = new TestSuite(assignment);
-        if (!selectedTest.equals("")) {
-            List<String> selections = new ArrayList<>();
-            selections.add(selectedTest);
-            testSuite.setSelectedTests(selections);
-        }
-        if (!selectedStudent.equals("")) {
-            List<String> submissionList = new ArrayList<>();
-            submissionList.add(selectedStudent);
-            testSuite.setSelectedSubmissions(submissionList);
-            assignment.setSelectedStudent(selectedStudent);
-        }
-        if (!datePath.equals("")) {
-            testSuite.setSubmissionDateMod(datePath);
-        }
-        testSuite.performTests();
-        System.out.println("Done");
+    public void go() {
+        logger.info("in go() function");
     }
 
     private Options setUpOptions() {
@@ -291,4 +252,5 @@ public class CLI {
         result.addOption(help);
         return result;
     }
+
 }

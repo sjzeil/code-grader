@@ -4,21 +4,29 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "type": "java",
-            "name": "Current File",
+            "name": "LoggingCLI",
             "request": "launch",
-            "mainClass": "${file}"
+            "mainClass": "edu.odu.cs.zeil.codegrader.run.LoggingCLI",
+            "projectName": "code-grader-code-grader",
+            "args": ["-recording", "build/test-results/recording"]
         },
         {
             "type": "java",
             "name": "cs350",
             "request": "launch",
             "mainClass": "edu.odu.cs.zeil.codegrader.run.CLI",
-            "args": ["-suite", "/home/zeil/courses/cs350/s24/Assts/gitBranchingAsst/Grading",
-                "-submissions",  "/home/zeil/courses/cs350/AutoGrading/s24-live/WorkArea/gitBranchingAsst/submissions",
-                "-recording", "/home/zeil/courses/cs350/AutoGrading/s24-live/WorkArea/gitBranchingAsst",
-                "-student", "cs_mhayd002"
+            "args": [
+                "-suite",
+                "/home/zeil/courses/cs350/s24/Assts/gitBranchingAsst/Grading",
+                "-submissions",
+                "/home/zeil/courses/cs350/AutoGrading/s24-live/WorkArea/gitBranchingAsst/submissions",
+                "-recording",
+                "/home/zeil/courses/cs350/AutoGrading/s24-live/WorkArea/gitBranchingAsst",
+                "-student",
+                "cs_mhayd002"
             ],
             "projectName": "code-grader"
         },
