@@ -192,7 +192,9 @@ public class TestTestSuite {
 	void testGitDating() {
 		TestSuite suite = new TestSuite(asst);
         String gitDate = suite.getSubmissionDateByGit(Paths.get(".."));
-        assertThat(gitDate, is("2024-09-05_10:52:55"));
+        LocalDateTime parsedDate = suite.parseDateTime(gitDate);
+        assertThat(gitDate, is("2024-09-05 12:52:05"));
+        assertThat(parsedDate, is("2024-09-05 10:52:55"));
 	}
 
 
