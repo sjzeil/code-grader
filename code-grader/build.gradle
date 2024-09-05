@@ -17,8 +17,8 @@ java {
 
 
 application {
-    mainModule = 'odu.edu.cs.zeil.codegrader' // name defined in module-info.java
-    mainClass = 'odu.edu.cs.zeil.codegrader.cli.RunTests'
+    //mainModule = 'edu.odu.cs.zeil.codegrader' // name defined in module-info.java
+    mainClass = 'edu.odu.cs.zeil.codegrader.run.CLI'
 }
 
 
@@ -37,9 +37,16 @@ dependencies {
 }
 
 application {
-    mainClassName = 'odu.edu.cs.zeil.codegrader.cli.RunTests'
+    mainClassName = 'edu.odu.cs.zeil.codegrader.run.CLI'
 }
 
+run {
+    args '-suite', '/home/zeil/courses/cs361/f24live/Assts/lab1-sampleProject/Grading',
+         '-submissions', '/home/zeil/courses/cs361/AutoGrading/f24live/WorkArea/lab1-sampleProject/submissions',
+          '-recording', 'build/lab1-sampleProject',
+          '-student', 'student1',
+          '-gold', '/home/zeil/courses/cs361/f24live/Assts/lab1-sampleProject/Gold'
+}
 
 tasks.withType(Test) {
 	ignoreFailures = true
@@ -55,7 +62,7 @@ jar {
     manifest {
         attributes 'Implementation-Title': 'code-grader',
            'Implementation-Version': '1.0',
-            'Main-Class': 'edu.odu.cs.zeil.codegrader.cli.RunTests'
+            'Main-Class': 'edu.odu.cs.zeil.codegrader.run.CLI'
 		}
 }
 

@@ -1,3 +1,7 @@
+1.2.2 9/5/2024
+* Fixed bug causing git repository dates to be reported in UTC instead of
+  in local time.
+
 1.2.1 5/11/2024
 * junit5 oracle now locates test reports in Gradle and Maven builds if it cannot
   determine tests passed from the standard output.

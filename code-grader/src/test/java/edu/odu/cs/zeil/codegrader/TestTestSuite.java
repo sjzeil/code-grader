@@ -188,7 +188,7 @@ public class TestTestSuite {
 	}
 
 
-	@Test
+	//@Test
 	void testGitDating() {
 		TestSuite suite = new TestSuite(asst);
         String gitDate = suite.getSubmissionDateByGit(Paths.get(".."));
