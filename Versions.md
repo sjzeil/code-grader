@@ -1,3 +1,7 @@
+1.2.3 10/09/2024
+* Submission dates are now determined before running test cases, in case any
+  test case modifies files used to determine the submission date.
+
 1.2.2 9/5/2024
 * Fixed bug causing git repository dates to be reported in UTC instead of
   in local time.
