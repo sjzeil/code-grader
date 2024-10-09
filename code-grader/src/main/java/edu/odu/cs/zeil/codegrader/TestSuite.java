@@ -296,8 +296,9 @@ public class TestSuite implements Iterable<TestCase> {
 				if (properties.submissionLock != null) {
 					LocalDateTime lockDate 
 						= parseDateTime(getLockDate(submission));
-					LocalDateTime submissionDateTime 
-						= parseDateTime(getSubmissionDate(submission));
+					String submissionDateTimeStr = getSubmissionDate(submission);
+					submission.setSubmissionDate(submissionDateTimeStr);
+					LocalDateTime submissionDateTime = parseDateTime(submissionDateTimeStr);
 					proceedWithGrading 
 						= submissionDateTime.compareTo(lockDate) <= 0;
 					if (!proceedWithGrading) {
@@ -522,7 +523,7 @@ public class TestSuite implements Iterable<TestCase> {
 		try (FileWriter gradeLog = new FileWriter(
 				gradeLogFile.toFile(), true)) {
 			gradeLog.write("\"" + submission.getSubmittedBy() + "\",\"" 
-				+ getSubmissionDate(submission) + "\"," 
+				+ submission.getSubmissionDate() + "\"," 
 				+ studentTotalScore + "\n");
 		} catch (IOException ex) {
 			logger.error("Cannot append to grade log " + gradeLogFile, ex);
@@ -538,8 +539,8 @@ public class TestSuite implements Iterable<TestCase> {
 	 */
 	public int computeDaysLate(Submission submission) {
 		String dueDateStr = properties.dueDate;
-		String submissionDateStr = getSubmissionDate(submission);
-
+		String submissionDateStr = submission.getSubmissionDate();
+		
 		if (dueDateStr.equals("") || submissionDateStr.equals("")) {
 			return 0;
 		}
@@ -758,7 +759,7 @@ public class TestSuite implements Iterable<TestCase> {
 
 		content.append("<table border='1'>\n");
 		String dueDate = properties.dueDate;
-		String submissionDate = getSubmissionDate(submission);
+		String submissionDate = submission.getSubmissionDate();
 
 		if (!submissionDate.equals("")) {
 			content.append(row("Submitted:", submissionDate));
@@ -786,7 +787,7 @@ public class TestSuite implements Iterable<TestCase> {
 			int studentTotalScore) {
 
 		String dueDate = properties.dueDate;
-		String submissionDate = getSubmissionDate(submission);
+		String submissionDate = submission.getSubmissionDate();
 
 		if (!submissionDate.equals("")) {
 			content.append("Submitted: " +  submissionDate + "\n");

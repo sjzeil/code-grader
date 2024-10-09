@@ -157,6 +157,7 @@ public class TestTestSuite {
 	void testDaysLate() {
 		TestSuite suite = new TestSuite(asst);
 
+		suite.getSubmissionDate(submission);
 		assertThat(suite.computeDaysLate(submission), is(0));
 
 		suite.setDueDate("2022-09-15");
@@ -165,24 +166,29 @@ public class TestTestSuite {
 		FileUtils.writeTextFile(timeFile, "2022-09-09_20:58:16");
 
 		suite.setSubmissionDateIn(timeFileStr);
+		suite.getSubmissionDate(submission);
 		assertThat(suite.computeDaysLate(submission), is(0));
 
 		// Use modification date instead of contents
 		suite.setSubmissionDateMod(timeFileStr);
+		submission.setSubmissionDate(suite.getSubmissionDate(submission));
 		assertThat(suite.computeDaysLate(submission), greaterThan(0));
 
 
 		FileUtils.writeTextFile(timeFile, "09/15/2022 23:59:16");
 		suite.setSubmissionDateIn(timeFileStr);
+		submission.setSubmissionDate(suite.getSubmissionDate(submission));
 		assertThat(suite.computeDaysLate(submission), is(0));
 
 		FileUtils.writeTextFile(timeFile, "09/17/2022 23:59:16");
 		suite.setSubmissionDateIn(timeFileStr);
+		submission.setSubmissionDate(suite.getSubmissionDate(submission));
 		assertThat(suite.computeDaysLate(submission), is(2));
 
 		// Use modification date instead of contents
 		FileUtils.writeTextFile(timeFile, "09/15/2022 23:59:16");
 		suite.setSubmissionDateMod(timeFileStr);
+		submission.setSubmissionDate(suite.getSubmissionDate(submission));
 		assertThat(suite.computeDaysLate(submission), greaterThan(0));
 		
 	}
@@ -259,6 +265,7 @@ public class TestTestSuite {
 		FileUtils.writeTextFile(timeFile, "2022-12-16"); // one day late
 
 		suite.setSubmissionDateIn(timeFileStr); 
+		submission.setSubmissionDate(suite.getSubmissionDate(submission));
 		suite.clearTheStage(stagingPath);
 
 		submissionsPath.resolve("perfect").resolve("makefile")
@@ -290,7 +297,8 @@ public class TestTestSuite {
 			"2022-12-16  00:00:00"); // one second late
 
 		suite.setSubmissionDateIn(timeFileStr); 
-
+		submission.setSubmissionDate(suite.getSubmissionDate(submission));
+		
 		suite.clearTheStage(stagingPath);
 
 		submissionsPath.resolve(studentName).resolve("makefile")
@@ -319,10 +327,11 @@ public class TestTestSuite {
 		Path timeFile = submissionPath.resolve("perfect.time");
 		String timeFileStr = timeFile.toAbsolutePath().toString();
 		FileUtils.writeTextFile(timeFile, 
-			"2022-12-20"); // fave days late
+			"2022-12-20"); // five days late
 
 		suite.setSubmissionDateIn(timeFileStr); 
-
+		submission.setSubmissionDate(suite.getSubmissionDate(submission));
+		
 		suite.clearTheStage(stagingPath);
 
 		submissionsPath.resolve("perfect").resolve("makefile")
