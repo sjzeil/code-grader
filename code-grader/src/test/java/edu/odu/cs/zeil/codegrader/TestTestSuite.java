@@ -187,6 +187,21 @@ public class TestTestSuite {
 		
 	}
 
+
+	@Test
+	void testGitDating() {
+		TestSuite suite = new TestSuite(asst);
+        Path thisRepo = Paths.get("..");
+        String date = suite.getSubmissionDateByGit(thisRepo);
+        assertThat(date.startsWith("2021"), is(false));
+        assertThat(date.startsWith("20"), is(true));
+        date = suite.getSubmissionDateByGit(Paths.get("."));
+        assertThat(date.startsWith("2021"), is(false));
+        assertThat(date.startsWith("20"), is(true));
+	}
+
+
+
 	@Test
 	void testTestCaseIdentification() {
 		TestSuite suite = new TestSuite(asst);
