@@ -1,3 +1,7 @@
+1.2.4 11/10/2024
+* Fixed bug in which repository logs were not being parsed on Windows systems
+  (determining when a repo was last pushed/submitted).
+
 1.2.3 10/09/2024
 * Submission dates are now determined before running test cases, in case any
   test case modifies files used to determine the submission date.
