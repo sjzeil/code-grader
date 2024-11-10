@@ -157,6 +157,7 @@ public class TestTestSuite {
 	void testDaysLate() {
 		TestSuite suite = new TestSuite(asst);
 
+		suite.getSubmissionDate(submission);
 		assertThat(suite.computeDaysLate(submission), is(0));
 
 		suite.setDueDate("2022-09-15");
@@ -165,24 +166,29 @@ public class TestTestSuite {
 		FileUtils.writeTextFile(timeFile, "2022-09-09_20:58:16");
 
 		suite.setSubmissionDateIn(timeFileStr);
+		suite.getSubmissionDate(submission);
 		assertThat(suite.computeDaysLate(submission), is(0));
 
 		// Use modification date instead of contents
 		suite.setSubmissionDateMod(timeFileStr);
+		submission.setSubmissionDate(suite.getSubmissionDate(submission));
 		assertThat(suite.computeDaysLate(submission), greaterThan(0));
 
 
 		FileUtils.writeTextFile(timeFile, "09/15/2022 23:59:16");
 		suite.setSubmissionDateIn(timeFileStr);
+		submission.setSubmissionDate(suite.getSubmissionDate(submission));
 		assertThat(suite.computeDaysLate(submission), is(0));
 
 		FileUtils.writeTextFile(timeFile, "09/17/2022 23:59:16");
 		suite.setSubmissionDateIn(timeFileStr);
+		submission.setSubmissionDate(suite.getSubmissionDate(submission));
 		assertThat(suite.computeDaysLate(submission), is(2));
 
 		// Use modification date instead of contents
 		FileUtils.writeTextFile(timeFile, "09/15/2022 23:59:16");
 		suite.setSubmissionDateMod(timeFileStr);
+		submission.setSubmissionDate(suite.getSubmissionDate(submission));
 		assertThat(suite.computeDaysLate(submission), greaterThan(0));
 		
 	}
@@ -262,6 +268,7 @@ public class TestTestSuite {
 		FileUtils.writeTextFile(timeFile, "2022-12-16"); // one day late
 
 		suite.setSubmissionDateIn(timeFileStr); 
+		submission.setSubmissionDate(suite.getSubmissionDate(submission));
 		suite.clearTheStage(stagingPath);
 
 		submissionsPath.resolve("perfect").resolve("makefile")
@@ -293,7 +300,8 @@ public class TestTestSuite {
 			"2022-12-16  00:00:00"); // one second late
 
 		suite.setSubmissionDateIn(timeFileStr); 
-
+		submission.setSubmissionDate(suite.getSubmissionDate(submission));
+		
 		suite.clearTheStage(stagingPath);
 
 		submissionsPath.resolve(studentName).resolve("makefile")
@@ -322,10 +330,11 @@ public class TestTestSuite {
 		Path timeFile = submissionPath.resolve("perfect.time");
 		String timeFileStr = timeFile.toAbsolutePath().toString();
 		FileUtils.writeTextFile(timeFile, 
-			"2022-12-20"); // fave days late
+			"2022-12-20"); // five days late
 
 		suite.setSubmissionDateIn(timeFileStr); 
-
+		submission.setSubmissionDate(suite.getSubmissionDate(submission));
+		
 		suite.clearTheStage(stagingPath);
 
 		submissionsPath.resolve("perfect").resolve("makefile")
@@ -352,14 +361,15 @@ public class TestTestSuite {
 	@Test
 	void testInPlaceProcessing() {
 		asst.setTestSuiteDirectory(testSuitePath);
-		Path inPlacePath = asstDestPath.resolve("submissions")
-			.resolve("perfect");
-		asst.setSubmissionsDirectory(inPlacePath);
-		asst.setInPlace(true);
-		asst.setRecordingDirectory(testSuitePath);
+		asst.setSubmissionsDirectory(submissionPath);
 
 		TestSuite suite = new TestSuite(asst);
+		java.util.List<String> students = new java.util.ArrayList<>();
+		students.add("-");
+		suite.setSelectedSubmissions(students);
+		studentName = "-";
 
+		submission = new Submission(asst, "-", submissionPath);
 		suite.processThisSubmission(submission);
 
 		// Check first on the submitter stage setup
@@ -367,26 +377,25 @@ public class TestTestSuite {
 		assertTrue(asst.getSubmitterStage(submission).resolve("sqrtProg.java")
 			.toFile().exists());
 
-		// Now check if the build ran in place.
-		assertTrue(inPlacePath.resolve("sqrtProg.class")
+		// Now check if the build ran.
+		assertTrue(asst.getSubmitterStage(submission).resolve("sqrtProg.class")
 			.toFile().exists());
 
 		// Were reports generated in place?
-		String studentName = System.getProperty("user.name");
-		assertTrue(asst.getTestSuiteDirectory()
-				.resolve("testsSummary.csv")
-				.toFile().exists());
-		assertTrue(asst.getTestSuiteDirectory()
+		assertTrue(submission.getRecordingDir()
+			.resolve("testsSummary.csv")
+			.toFile().exists());
+		assertTrue(submission.getRecordingDir()
 			.resolve(studentName + ".html")
 			.toFile().exists());
-		Path totalFile = asst.getTestSuiteDirectory()
+		Path totalFile = submission.getRecordingDir()
 			.resolve(studentName + ".total");
 		assertTrue(totalFile.toFile().exists());
 		String total = FileUtils.readTextFile(totalFile.toFile());
-		assertEquals("100\n", total);
+		assertEquals("100\n", total); // 10% penalty
 
 		// In-place processing should not leave hash files.
-		Path hashFile =  asst.getTestSuiteDirectory()
+		Path hashFile =  submission.getRecordingDir()
 			.resolve(studentName + ".hash");
 		assertFalse(hashFile.toFile().exists());
 		

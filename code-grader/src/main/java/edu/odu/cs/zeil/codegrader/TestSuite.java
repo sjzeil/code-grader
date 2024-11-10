@@ -296,8 +296,9 @@ public class TestSuite implements Iterable<TestCase> {
 				if (properties.submissionLock != null) {
 					LocalDateTime lockDate 
 						= parseDateTime(getLockDate(submission));
-					LocalDateTime submissionDateTime 
-						= parseDateTime(getSubmissionDate(submission));
+					String submissionDateTimeStr = getSubmissionDate(submission);
+					submission.setSubmissionDate(submissionDateTimeStr);
+					LocalDateTime submissionDateTime = parseDateTime(submissionDateTimeStr);
 					proceedWithGrading 
 						= submissionDateTime.compareTo(lockDate) <= 0;
 					if (!proceedWithGrading) {
@@ -342,7 +343,7 @@ public class TestSuite implements Iterable<TestCase> {
 	 * @param submission the submission to check
 	 */
 	private void recordContentHash(Path recordAt, Submission submission) {
-		if (!assignment.getInPlace()) {
+		if (!assignment.getInPlace() && !submission.getSubmittedBy().equals("-")) {
 			if (contentHash == null || contentHash.equals("")) {
 				contentHash = computeContentHash(
 						submission.getSubmissionDirectory());
@@ -420,12 +421,14 @@ public class TestSuite implements Iterable<TestCase> {
 	private class Detail {
 		private String name;
 		private int weight;
+        private boolean multiplier;
 		private int score;
 		private String message;
 
-		Detail(String aName, int aWeight, int aScore, String aMessage) {
+		Detail(String aName, int aWeight, boolean isMultiplier, int aScore, String aMessage) {
 			name = aName;
 			weight = aWeight;
+            multiplier = isMultiplier;
 			score = aScore;
 			message = aMessage;
 		}
@@ -434,6 +437,9 @@ public class TestSuite implements Iterable<TestCase> {
 			Message nameMsg = new Message(name);
 			Message oracleMsg = new Message(message.trim());
 			String weightMsg = (weight > 0) ? "" + weight : "";
+            if (multiplier) {
+                weightMsg = "*";
+            }
 			return "<tr><td><i>" + nameMsg.toHTML()
 					+ "</i></td><td>" + score
 					+ "</td><td>" + weightMsg
@@ -449,7 +455,7 @@ public class TestSuite implements Iterable<TestCase> {
 			messageText = messageText.replaceAll("&gt;", ">");
 			messageText = messageText.replaceAll("&amp;", "&");
 			return divider + "\n" 
-			        + name + "\nscore=" + score + "\tweight=" + weight + "\n"
+			        + name + "\nscore=" + score + "\tweight=" + weight + "\tmultiplier=" + multiplier + "\n"
 					+ messageText
 					+ "\n";
 		}
@@ -517,7 +523,7 @@ public class TestSuite implements Iterable<TestCase> {
 		try (FileWriter gradeLog = new FileWriter(
 				gradeLogFile.toFile(), true)) {
 			gradeLog.write("\"" + submission.getSubmittedBy() + "\",\"" 
-				+ getSubmissionDate(submission) + "\"," 
+				+ submission.getSubmissionDate() + "\"," 
 				+ studentTotalScore + "\n");
 		} catch (IOException ex) {
 			logger.error("Cannot append to grade log " + gradeLogFile, ex);
@@ -533,8 +539,8 @@ public class TestSuite implements Iterable<TestCase> {
 	 */
 	public int computeDaysLate(Submission submission) {
 		String dueDateStr = properties.dueDate;
-		String submissionDateStr = getSubmissionDate(submission);
-
+		String submissionDateStr = submission.getSubmissionDate();
+		
 		if (dueDateStr.equals("") || submissionDateStr.equals("")) {
 			return 0;
 		}
@@ -647,11 +653,17 @@ public class TestSuite implements Iterable<TestCase> {
 	private int computeSubTotal(ArrayList<Detail> details) {
 		int weightedSum = 0;
 		int weights = 0;
+        float multiplier = 1.0f;
 		for (Detail detail : details) {
-			weightedSum += detail.score * detail.weight;
-			weights += detail.weight;
+            if (!detail.multiplier) {
+			    weightedSum += detail.score * detail.weight;
+			    weights += detail.weight;
+            } else {
+                float r = detail.score / 100.0f;
+                multiplier *= r;
+            }
 		}
-		float score = ((float) weightedSum) / ((float) weights);
+		float score = multiplier * ((float) weightedSum) / ((float) weights);
 		return (int) Math.round(score);
 	}
 
@@ -747,7 +759,7 @@ public class TestSuite implements Iterable<TestCase> {
 
 		content.append("<table border='1'>\n");
 		String dueDate = properties.dueDate;
-		String submissionDate = getSubmissionDate(submission);
+		String submissionDate = submission.getSubmissionDate();
 
 		if (!submissionDate.equals("")) {
 			content.append(row("Submitted:", submissionDate));
@@ -775,7 +787,7 @@ public class TestSuite implements Iterable<TestCase> {
 			int studentTotalScore) {
 
 		String dueDate = properties.dueDate;
-		String submissionDate = getSubmissionDate(submission);
+		String submissionDate = submission.getSubmissionDate();
 
 		if (!submissionDate.equals("")) {
 			content.append("Submitted: " +  submissionDate + "\n");
@@ -829,8 +841,9 @@ public class TestSuite implements Iterable<TestCase> {
 			int score = submission.getScore(testName);
 			int weight = (properties.totals) 
 				? tc.getProperties().getWeight() : 0;
+            boolean multiplier = tc.getProperties().isMultiplier();
 			String message = submission.getMessage(testName);
-			details.add(new Detail(testName, weight, score, message));
+			details.add(new Detail(testName, weight, multiplier, score, message));
 			testsSummary.append("\"" + description + "\",");
 			testsSummary.append("" + score + ",");
 			testsSummary.append("" + weight + ",");
@@ -997,7 +1010,7 @@ public class TestSuite implements Iterable<TestCase> {
 					FileUtils.deleteDirectory(testRecordingDir);
 				} catch (IOException e) {
 					logger.warn("Unable to delete directory " + testRecordingDir + "; test case " 
-					+ testName + "may not be proprly isolated form prior test runs.");
+					+ testName + "may not be properly isolated form prior test runs.");
 				}
 			}
 	 

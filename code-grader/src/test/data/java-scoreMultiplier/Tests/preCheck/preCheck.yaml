@@ -1,0 +1,12 @@
+launch: java ParamLister
+params: "@s 1"
+multiplier: true
+grading:
+  - oracle: "smart"
+    ws: true
+    case: true
+    cap: 100
+  - ws: false
+    numbersOnly: true
+    cap: 50
+

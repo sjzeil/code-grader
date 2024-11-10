@@ -1,6 +1,7 @@
 package edu.odu.cs.zeil.codegrader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+//import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -13,23 +14,24 @@ import org.junit.jupiter.api.Test;
 
 
 
-public class TestTestSuite2 {
+public class TestScoreMultiplier {
 
 	//CHECKSTYLE:OFF
 
 	private Path asstSrcPath = Paths.get("src", "test", "data", 
-		"explicitBuild");
+		"java-scoreMultiplier");
 
 	private Path asstDestPath = Paths.get("build", "test-data", 
-		"explicit-build");
+		"java-scoreMultiplier");
 
-	private Path testSuitePath = asstDestPath.resolve("tests");
+	private Path testSuitePath = asstDestPath.resolve("Tests");
 	private Path stagingPath = Paths.get("build", "test-data", "stage");
 	private Path submissionsPath = asstDestPath.resolve("submissions");
 	private Path recordingPath = asstDestPath.resolve("Grades");
-	private String studentName = "good";
-	private Path submissionPath = submissionsPath.resolve(studentName);
-	private Path instructorPath = asstDestPath.resolve("gold");
+	private String studentName1 = "perfect";
+	private String studentName2 = "nearPerfect";
+	//private Path submissionPath = submissionsPath.resolve(studentName);
+	//private Path instructorPath = asstDestPath.resolve("gold");
 	private Submission submission;
 	
 
@@ -57,19 +59,21 @@ public class TestTestSuite2 {
 		asst.setStagingDirectory(stagingPath);
 		asst.setSubmissionsDirectory(submissionsPath);
 		asst.setRecordingDirectory(recordingPath);
-        asst.setInstructorCodeDirectory(instructorPath);
+        //asst.setInstructorCodeDirectory(instructorPath);
 
-		submission = new Submission(asst, studentName, submissionPath);
 	}
 
 
 
 
 	@Test
-	void testRegularSubmission() {
+	void testMultiplierPasses() {
 		TestSuite suite = new TestSuite(asst);
 
 		suite.clearTheStage(stagingPath);
+
+        Path submissionPath = submissionsPath.resolve(studentName1);
+        submission = new Submission(asst, studentName1, submissionPath);
 
 		suite.processThisSubmission(submission);
 					
@@ -79,13 +83,39 @@ public class TestTestSuite2 {
 			.resolve("testsSummary.csv")
 			.toFile().exists());
 		assertTrue(submission.getRecordingDir()
-			.resolve(studentName + ".html")
+			.resolve(studentName1 + ".html")
 			.toFile().exists());
 		Path totalFile = submission.getRecordingDir()
-			.resolve(studentName + ".total");
+			.resolve(studentName1 + ".total");
 		assertTrue(totalFile.toFile().exists());
 		String total = FileUtils.readTextFile(totalFile.toFile());
 		assertEquals("100\n", total); // 10% penalty
+	}
+
+	@Test
+	void testMultiplierFails() {
+		TestSuite suite = new TestSuite(asst);
+
+		suite.clearTheStage(stagingPath);
+
+        Path submissionPath = submissionsPath.resolve(studentName2);
+        submission = new Submission(asst, studentName2, submissionPath);
+
+		suite.processThisSubmission(submission);
+					
+		// Were reports generated?
+
+		assertTrue(submission.getRecordingDir()
+			.resolve("testsSummary.csv")
+			.toFile().exists());
+		assertTrue(submission.getRecordingDir()
+			.resolve(studentName2 + ".html")
+			.toFile().exists());
+		Path totalFile = submission.getRecordingDir()
+			.resolve(studentName2 + ".total");
+		assertTrue(totalFile.toFile().exists());
+		String total = FileUtils.readTextFile(totalFile.toFile());
+		assertEquals("50\n", total); // 50% penalty
 	}
 
 

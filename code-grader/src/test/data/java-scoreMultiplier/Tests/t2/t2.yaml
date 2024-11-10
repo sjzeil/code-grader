@@ -1,0 +1,3 @@
+onSuccess: ["t2_OK", "t2_passed"]
+onFail: ["t2_failed"]
+failIf: "t10000_failed"

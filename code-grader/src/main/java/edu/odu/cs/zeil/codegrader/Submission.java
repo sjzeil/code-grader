@@ -16,6 +16,7 @@ public class Submission {
     private Assignment assignment;
     private String submittedBy;
     private Path submissionDir;
+    private String submissionDate;
 
 
  	/**
@@ -38,6 +39,7 @@ public class Submission {
         assignment = theAssignment;
         submittedBy = submitter;
         submissionDir = theSubmissionDir;
+        submissionDate = "2021-01-01 00:00:00";
     }
 
     /**
@@ -153,6 +155,13 @@ public class Submission {
         }
 	}
 
+    public void setSubmissionDate(String dateTime) {
+        submissionDate = dateTime;
+    }
+
+    public String getSubmissionDate() {
+        return submissionDate;
+    }
 
 
 }

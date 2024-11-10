@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'application'
 	id 'org.hidetake.ssh' version '2.9.0'
-    id 'org.unbroken-dome.test-sets' version '4.0.0' 
+    //id 'org.unbroken-dome.test-sets' version '4.0.0' 
 }
 
 java {
@@ -30,7 +30,32 @@ application {
     mainClassName = 'odu.edu.cs.zeil.codegrader.cli.RunTests'
 }
 
-testSets { systest }
+sourceSets {
+    systest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+configurations {
+    systestImplementation.extendsFrom testImplementation
+    systestRuntimeOnly.extendsFrom testRuntimeOnly
+}
+
+tasks.register('systest', Test) {
+    description = 'Runs system tests.'
+    group = 'verification'
+
+    testClassesDirs = sourceSets.systest.output.classesDirs
+    classpath = sourceSets.systest.runtimeClasspath
+    shouldRunAfter test
+    dependsOn jar
+
+    useJUnitPlatform()
+
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
 
 tasks.withType(Test) {
 	ignoreFailures = true
@@ -40,8 +65,9 @@ tasks.withType(Test) {
 	}
 }
 
+
 check.dependsOn(systest)
-systest.dependsOn(jar)
+//systest.dependsOn(jar)
 
 
 jar {

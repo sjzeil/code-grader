@@ -1,7 +1,40 @@
-1.1.8 4/30/2024
+1.2.3 10/09/2024
+* Submission dates are now determined before running test cases, in case any
+  test case modifies files used to determine the submission date.
+
+1.2.2 9/5/2024
+* Fixed bug causing git repository dates to be reported in UTC instead of
+  in local time.
+
+1.2.1 5/11/2024
+* junit5 oracle now locates test reports in Gradle and Maven builds if it cannot
+  determine tests passed from the standard output.
+
+1.2.0 5/10/2024
+* Added new boolean test case option, "multiplier". A multiplier case does not
+  add its score to the total but multiplies it. For example, a score of 50
+  (out of 100) reduces the total of all other test cases by half. 
+
+    This is intended to permit test cases that check for assignment requirements,
+    e.g., an assignment that requires that students use java.util.HashMap might
+    have a test case that uses Java reflection to make sure that at least one
+    data member has that type, dropping the total score to zero if students
+    submit an array-based solution.
+
+    Another use might be for "modify this program"-style assignments to test
+    whether students are simply resubmitting the original unchanged code.
+
+1.1.9 4/30/2024
 * Fixed bug affecting Windows use. Command lines for launching tests were being
   echoed, captured as part of the output, and confusing oracles into issuing
   false failure reports.
+
+1.1.8 2/20/2024
+* Improved handling of programs with very large outputs (up to 250,000 chars)
+* Added new handling of student named '-'.  This student name signals that
+  the code to be graded is directly in the submissions folder rather than in
+  a student-named sub-directory of the submissions folder.  This will replace
+  the -inPlace processing option soon. That option is now deprecated.
 
 1.1.7 2/16/2024
 * Fixed bug causing test cases to have shorter time limits when run a second time

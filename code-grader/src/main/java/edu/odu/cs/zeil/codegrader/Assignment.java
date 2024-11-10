@@ -66,12 +66,15 @@ public class Assignment implements Cloneable {
      */
     private boolean inPlace;
 
+    private String theSelectedStudent;
+
     /**
      * Create an empty assignment.
      */
     public Assignment() {
         inPlace = false;
         hasInstructorCode = true;
+        theSelectedStudent = "";
     }
 
     /**
@@ -329,6 +332,14 @@ public class Assignment implements Cloneable {
     */
     public boolean getInPlace() {
         return inPlace;
+    }
+
+    public String getSelectedStudent() {
+        return theSelectedStudent;
+    }
+
+    public void setSelectedStudent(String selected) {
+        theSelectedStudent = selected;
     }
 
 
