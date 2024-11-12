@@ -117,6 +117,7 @@ public class TestTestSuite {
 		TestSuite suite = new TestSuite(asst);
 		TestSuiteProperties props = suite.getProperties();
 		props.setSubmissionLockIn("@R/@s.lock");
+        props.setDueDate("12/31/2101");
 		submission.getRecordingDir().toFile().mkdirs();
 		FileUtils.writeTextFile(
 			submission.getRecordingDir().resolve("perfect.lock"),
