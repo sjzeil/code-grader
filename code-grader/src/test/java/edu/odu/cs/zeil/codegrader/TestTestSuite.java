@@ -445,6 +445,52 @@ public class TestTestSuite {
 		
 	}
 
+	@Test
+	void testOnCrash() {
+		TestSuite suite = new TestSuite(asst);
+		suite.clearTheStage(stagingPath);
+
+		String submitterName = "crashes";
+
+		Path submissionPath = submissionsPath.resolve(submitterName);
+
+		submissionsPath.resolve(submitterName).resolve("makefile")
+		.toFile().delete();  // use default Java launch
+
+		submission = new Submission(asst, submitterName, submissionPath);
+
+		suite.processThisSubmission(submission);
+
+		// Check first on the submitter stage setup
+		assertTrue(asst.getSubmitterStage(submission).toFile().exists());
+		assertTrue(asst.getSubmitterStage(submission).resolve("sqrtProg.java")
+			.toFile().exists());
+
+		// Now check if the build ran.
+		assertTrue(asst.getSubmitterStage(submission).resolve("sqrtProg.class")
+			.toFile().exists());
+
+		assertThat (suite.isTagActive("t2_OK"), is(false));
+		assertThat (suite.isTagActive("t2_failed"), is(true));
+
+		// Were reports generated?
+		assertTrue(submission.getRecordingDir()
+			.resolve("testsSummary.csv")
+			.toFile().exists());
+		assertTrue(submission.getRecordingDir()
+			.resolve(submitterName + ".html")
+			.toFile().exists());
+		Path totalFile = submission.getRecordingDir()
+			.resolve(submitterName + ".total");
+		assertTrue(totalFile.toFile().exists());
+		String total = FileUtils.readTextFile(totalFile.toFile());
+		assertEquals("25\n", total);
+
+        // Does std err output appear in the report?
+        Path htmlFile = submission.getRecordingDir().resolve(submitterName + ".html");
+        String report = FileUtils.readTextFile(htmlFile.toFile());
+        assertTrue(report.contains("ArithmeticException"));
+	}
 
 	@Test
 	void testOnFail() {

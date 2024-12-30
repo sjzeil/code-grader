@@ -324,6 +324,12 @@ public class TestCase {
                     bestScore = evaluation.score;
                     if (firstMessage.equals("")) {
                         firstMessage = evaluation.message;
+                        if (!properties.isStderr()) {
+                            String errorOut = getErr();
+                            if (!errorOut.equals("")) {
+                                firstMessage = firstMessage + "\non std err:\n" + errorOut;
+                            }
+                        }            
                     }
                 }
             }
@@ -340,6 +346,12 @@ public class TestCase {
                     scoreScaling * (float) evaluation.score);
                 bestScore = evaluation.score;
                 firstMessage = evaluation.message;
+                if (!properties.isStderr()) {
+                    String errorOut = getErr();
+                    if (!errorOut.equals("")) {
+                        firstMessage = firstMessage + "\non std err:\n" + errorOut;
+                    }
+                }
             }
             FileUtils.writeTextFile(
                 testRecordingDir.resolve(testName + ".score"), 
