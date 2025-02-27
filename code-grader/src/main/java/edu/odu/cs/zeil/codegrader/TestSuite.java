@@ -293,12 +293,13 @@ public class TestSuite implements Iterable<TestCase> {
 				}
 			}
 			if (proceedWithGrading) {
-				if (properties.submissionLock != null) {
+				String submissionDateTimeStr = getSubmissionDate(submission);
+				submission.setSubmissionDate(submissionDateTimeStr);
+				LocalDateTime submissionDateTime = parseDateTime(submissionDateTimeStr);
+				logger.info("Submission date is " + submissionDateTimeStr);
+			    if (properties.submissionLock != null) {
 					LocalDateTime lockDate 
 						= parseDateTime(getLockDate(submission));
-					String submissionDateTimeStr = getSubmissionDate(submission);
-					submission.setSubmissionDate(submissionDateTimeStr);
-					LocalDateTime submissionDateTime = parseDateTime(submissionDateTimeStr);
 					proceedWithGrading 
 						= submissionDateTime.compareTo(lockDate) <= 0;
 					if (!proceedWithGrading) {
