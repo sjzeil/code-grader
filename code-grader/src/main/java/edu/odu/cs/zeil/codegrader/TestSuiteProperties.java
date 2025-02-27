@@ -194,4 +194,13 @@ public class TestSuiteProperties {
         submissionLock.in = pathPattern;
     }
 
+    /**
+     * Set the assignment due date (for testing purposes) .
+     * 
+     * @param date  a date string.
+     */
+    public void setDueDate(String date) {
+        dueDate = date;
+    }
+
 }

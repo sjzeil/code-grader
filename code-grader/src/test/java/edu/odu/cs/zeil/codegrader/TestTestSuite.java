@@ -117,6 +117,7 @@ public class TestTestSuite {
 		TestSuite suite = new TestSuite(asst);
 		TestSuiteProperties props = suite.getProperties();
 		props.setSubmissionLockIn("@R/@s.lock");
+        props.setDueDate("12/31/2101");
 		submission.getRecordingDir().toFile().mkdirs();
 		FileUtils.writeTextFile(
 			submission.getRecordingDir().resolve("perfect.lock"),
@@ -194,13 +195,16 @@ public class TestTestSuite {
 	}
 
 
-	//@Test
+	@Test
 	void testGitDating() {
 		TestSuite suite = new TestSuite(asst);
-        String gitDate = suite.getSubmissionDateByGit(Paths.get(".."));
-        LocalDateTime parsedDate = suite.parseDateTime(gitDate);
-        assertThat(gitDate, is("2024-09-05 12:52:05"));
-        assertThat(parsedDate, is("2024-09-05 10:52:55"));
+        Path thisRepo = Paths.get("..");
+        String date = suite.getSubmissionDateByGit(thisRepo);
+        assertThat(date.startsWith("2021"), is(false));
+        assertThat(date.startsWith("20"), is(true));
+        date = suite.getSubmissionDateByGit(Paths.get("."));
+        assertThat(date.startsWith("2021"), is(false));
+        assertThat(date.startsWith("20"), is(true));
 	}
 
 
@@ -441,6 +445,52 @@ public class TestTestSuite {
 		
 	}
 
+	@Test
+	void testOnCrash() {
+		TestSuite suite = new TestSuite(asst);
+		suite.clearTheStage(stagingPath);
+
+		String submitterName = "crashes";
+
+		Path submissionPath = submissionsPath.resolve(submitterName);
+
+		submissionsPath.resolve(submitterName).resolve("makefile")
+		.toFile().delete();  // use default Java launch
+
+		submission = new Submission(asst, submitterName, submissionPath);
+
+		suite.processThisSubmission(submission);
+
+		// Check first on the submitter stage setup
+		assertTrue(asst.getSubmitterStage(submission).toFile().exists());
+		assertTrue(asst.getSubmitterStage(submission).resolve("sqrtProg.java")
+			.toFile().exists());
+
+		// Now check if the build ran.
+		assertTrue(asst.getSubmitterStage(submission).resolve("sqrtProg.class")
+			.toFile().exists());
+
+		assertThat (suite.isTagActive("t2_OK"), is(false));
+		assertThat (suite.isTagActive("t2_failed"), is(true));
+
+		// Were reports generated?
+		assertTrue(submission.getRecordingDir()
+			.resolve("testsSummary.csv")
+			.toFile().exists());
+		assertTrue(submission.getRecordingDir()
+			.resolve(submitterName + ".html")
+			.toFile().exists());
+		Path totalFile = submission.getRecordingDir()
+			.resolve(submitterName + ".total");
+		assertTrue(totalFile.toFile().exists());
+		String total = FileUtils.readTextFile(totalFile.toFile());
+		assertEquals("25\n", total);
+
+        // Does std err output appear in the report?
+        Path htmlFile = submission.getRecordingDir().resolve(submitterName + ".html");
+        String report = FileUtils.readTextFile(htmlFile.toFile());
+        assertTrue(report.contains("ArithmeticException"));
+	}
 
 	@Test
 	void testOnFail() {

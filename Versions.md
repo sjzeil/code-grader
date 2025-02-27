@@ -1,3 +1,12 @@
+1.2.5 12/30/2024
+* If std err is non-empty after running a test case, the contents are appended to the report even if the test case settings indicate that std err is not checked.
+
+    This should make it more obvious when student code has crashed.
+
+1.2.4 11/10/2024
+* Fixed bug in which repository logs were not being parsed on Windows systems
+  (determining when a repo was last pushed/submitted).
+
 1.2.3 10/09/2024
 * Submission dates are now determined before running test cases, in case any
   test case modifies files used to determine the submission date.

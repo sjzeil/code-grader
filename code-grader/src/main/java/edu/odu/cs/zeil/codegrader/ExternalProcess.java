@@ -204,7 +204,8 @@ public class ExternalProcess implements TCProcess {
         Path scriptFile = context.resolve(scriptFileName);
         String scriptContents = commandStr;
         if (IS_WINDOWS) {
-            scriptContents = "@ECHO OFF\r\n" + commandStr + "\r\n";
+            String winCommandStr = commandStr.replaceAll("%", "%%");
+            scriptContents = "@ECHO OFF\r\n" + winCommandStr + "\r\n";
         } else {
             scriptContents = commandStr + "\n";
         }

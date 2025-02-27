@@ -1136,17 +1136,17 @@ public class TestSuite implements Iterable<TestCase> {
 
 	String getSubmissionDateByGit(Path submissionDir) {
 		Path potentialGitDir = submissionDir.resolve(".git");
+        String date = "";
 		if (potentialGitDir.toFile().isDirectory()) {
-			String gitCmd = "git log -1 --date=iso-strict-local --format=%ad";
-			String date = getSubmissionDateByCommand(gitCmd, potentialGitDir);
-            date = date.replace('T', '_');
-            if (date.length() > 19)
-                date = date.substring(0, 19);
-            logger.info("Git repository dated as " + date);
-            return date;
-		} else {
-			return "2021-01-01 00:00:00";
+			String gitCmd = "git log -1 --date=format:%Y-%m-%d_%T --format=%ad";
+			date = getSubmissionDateByCommand(gitCmd, submissionDir);
 		}
+        if (date.length() < 10) {
+            LocalDateTime dt = LocalDateTime.now();
+            date = dt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            date = date.replace('T', ' ');
+        }
+        return date;
 	}
 
 	private String getSubmissionDateByCommand(String getDateCommand,
