@@ -1,6 +1,6 @@
 # code-grader
 
-This project is the long-overdue replacement for the automatic grading script (in Perl) that I have been using for over 25 years.
+This project is the long-overdue replacement for the automatic grading script (in Perl) that I had been using for over 25 years.
 
 ## Goals
 
@@ -19,7 +19,7 @@ More information will accumulate in the [Wiki]
 
 ## Status
 
-Current version: _1.2.5_
+Current version: _1.2.6_
 
 * [Tutorials and Reference Documentation](https://github.com/sjzeil/code-grader/wiki).
 * [Project reports](https://sjzeil.github.io/code-grader/)

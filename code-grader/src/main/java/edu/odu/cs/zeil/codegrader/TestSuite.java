@@ -295,21 +295,25 @@ public class TestSuite implements Iterable<TestCase> {
 			if (proceedWithGrading) {
 				String submissionDateTimeStr = getSubmissionDate(submission);
 				submission.setSubmissionDate(submissionDateTimeStr);
-				LocalDateTime submissionDateTime = parseDateTime(submissionDateTimeStr);
-				logger.info("Submission date is " + submissionDateTimeStr);
-			    if (properties.submissionLock != null) {
-					LocalDateTime lockDate 
-						= parseDateTime(getLockDate(submission));
-					proceedWithGrading 
-						= submissionDateTime.compareTo(lockDate) <= 0;
-					if (!proceedWithGrading) {
-						String msg = "Submitted by " 
-							+ submission.getSubmittedBy()
-							+ " at " + submissionDateTime
-							+ " but locked at " + lockDate;
-						logger.warn(msg);
-						System.out.println(msg);
+				if (submissionDateTimeStr.length() > 0) {
+					LocalDateTime submissionDateTime = parseDateTime(submissionDateTimeStr);
+					logger.info("Submission date is " + submissionDateTimeStr);
+					if (properties.submissionLock != null) {
+						LocalDateTime lockDate = parseDateTime(getLockDate(submission));
+						proceedWithGrading = submissionDateTime.compareTo(lockDate) <= 0;
+						if (!proceedWithGrading) {
+							String msg = "Submitted by "
+									+ submission.getSubmittedBy()
+									+ " at " + submissionDateTime
+									+ " but locked at " + lockDate;
+							logger.warn(msg);
+							System.out.println(msg);
+						}
 					}
+				} else {
+					String msg = "Unable to determine submission date";
+					logger.warn(msg);
+					System.out.println(msg);
 				}
 			}
 

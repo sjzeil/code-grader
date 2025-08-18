@@ -1,3 +1,6 @@
+1.2.6 08/18/2025
+* If unable to determine submission date, continue with just a warning
+
 1.2.5 12/30/2024
 * If std err is non-empty after running a test case, the contents are appended to the report even if the test case settings indicate that std err is not checked.
 
