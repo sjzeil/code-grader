@@ -3,6 +3,7 @@ package edu.odu.cs.zeil.codegrader;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 
 import org.junit.jupiter.api.Test;
 
@@ -53,6 +54,19 @@ public class TestMessage {
         assertThat(msg.toHTML(), is("This is <i>italic</i> text."));
     }
 
+    @Test
+    void testLongMessageWithPassThru() {
+        StringBuffer buf = new StringBuffer();
+        buf.append(Message.HTML_PASSTHROUGH);
+        for (int i = 0; i < 1000; ++i) {
+            buf.append("abcdefghijklmnopqrstuvwxyz");
+        }
+        buf.append(Message.HTML_PASSTHROUGH);
+        String str = buf.toString();
+        Message msg = new Message(str);
+        assertThat(msg.toHTML(), containsString("abcdef"));
+        assertThat(msg.toHTML(), not(containsString("clipped")));
+    }
 
 
 }

@@ -1,3 +1,7 @@
+1.2.7 11/4/2025
+* Testcase messages will no longer be clipped at 5000 characters if they contain
+  an HTML passthrough marker.  Such clipping is prone to generating broken HTML.
+
 1.2.6 08/18/2025
 * If unable to determine submission date, continue with just a warning
 

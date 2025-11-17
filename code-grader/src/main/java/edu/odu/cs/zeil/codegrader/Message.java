@@ -50,7 +50,7 @@ public class Message {
 	 * @param msg
 	 */
 	public Message(String msg) {
-		if (msg.length() > MAX_MESSAGE_LENGTH) {
+		if ((msg.length() > MAX_MESSAGE_LENGTH) && (msg.indexOf(HTML_PASSTHROUGH) < 0)) {
 			msgText = msg.substring(0, MAX_MESSAGE_LENGTH - 1)
 					+ "\n[clipped after "
 					+ MAX_MESSAGE_LENGTH + " characters]";
