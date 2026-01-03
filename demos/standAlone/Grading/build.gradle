@@ -6,7 +6,7 @@ repositories {
     maven { 
         url 'https://www.cs.odu.edu/~zeil/mavenrepo/'
     }
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {

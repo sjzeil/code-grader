@@ -3,16 +3,16 @@ plugins {
     id 'application'
 	id 'project-report'
 	id 'checkstyle'
-	id "com.github.spotbugs" version "5.2.5"
-	id 'org.jbake.site' version "5.3.0"
-	//id 'edu.odu.cs.report_accumulator' version '1.4'
-    id 'org.ajoberstar.git-publish' version '4.2.0'
+	id "com.github.spotbugs" version "6.4.8"
+	id 'org.jbake.site' version "5.5.0"
+    
+	id 'org.ajoberstar.git-publish' version '5.1.3'
     id 'maven-publish'
 }
 
 java {
-	    sourceCompatibility = JavaVersion.toVersion(11)
-	    targetCompatibility = JavaVersion.toVersion(11)
+	    sourceCompatibility = JavaVersion.toVersion(17)
+	    targetCompatibility = JavaVersion.toVersion(17)
 }
 
 
@@ -36,9 +36,6 @@ dependencies {
     testImplementation 'org.hamcrest:hamcrest-library:2.2'
 }
 
-application {
-    mainClassName = 'edu.odu.cs.zeil.codegrader.run.CLI'
-}
 
 run {
     args '-suite', '/home/zeil/courses/cs361/f24live/Assts/lab1-sampleProject/Grading',
@@ -86,7 +83,7 @@ checkstyle {
 
 tasks.withType(Checkstyle) {
   reports {
-    html.destination project.file("build/reports/checkstyle/main.html")
+    //html.destination = project.file("build/reports/checkstyle/main.html")
   }
 }
 
@@ -95,7 +92,7 @@ checkstyleTest.enabled = false
 check.dependsOn htmlDependencyReport
 
 task reports (dependsOn: ['htmlDependencyReport', 'javadoc', 'check']) {
-    description 'Generate all reports for this project'
+    description = 'Generate all reports for this project'
 }
 
 javadoc.failOnError=false
@@ -105,7 +102,7 @@ import com.github.spotbugs.snom.Effort
 spotbugsMain {
     ignoreFailures = true
     effort = Effort.MAX
-    reportLevel = Confidence.DEFAULT
+    reportLevel = Confidence.valueOf('DEFAULT')
     /*
     reports {
        xml.enabled = false
