@@ -36,7 +36,7 @@ public class TestTAPOracle {
 	private Stage stage;
 	
 	@BeforeEach
-	private void setup() throws IOException, TestConfigurationError {
+	void setup() throws IOException, TestConfigurationError {
         Path testData = Paths.get("build", "test-data");
         if (testData.toFile().exists()) {
             FileUtils.deleteDirectory(testData);

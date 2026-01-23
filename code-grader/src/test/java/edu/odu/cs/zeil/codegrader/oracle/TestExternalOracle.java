@@ -42,7 +42,7 @@ public class TestExternalOracle {
 	//private static final int OK = OracleProperties.DEFAULT_POINT_CAP;
 	
 	@BeforeEach
-	private void setup() throws IOException, TestConfigurationError {
+	void setup() throws IOException, TestConfigurationError {
         Path testData = Paths.get("build", "test-data");
         if (testData.toFile().exists()) {
             FileUtils.deleteDirectory(testData);
