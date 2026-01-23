@@ -1,0 +1,20 @@
+test:
+  timelimit: 300
+  launch: echo
+  params: "100"
+  grading:
+    - oracle: self
+      pattern: "^(?<pts>[0-9]+).*$"
+  stderr: false
+  expected: N/A
+dueDate: 2025-03-01
+latePenalties: [10, 20, 100]
+build:
+  command: echo N/A
+  javaSrcDir: ["src/main/java"]
+  weight: 0
+  studentFiles:
+    exclude: ['makefile', '.git']
+  instructorFiles:
+    include: ['makefile']
+    exclude: ['**/CashRegister.java']

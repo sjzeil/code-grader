@@ -25,6 +25,8 @@ public class TestSelectiveCopying2 {
             .resolve("gold");
     private final Path suitePath = asstSrcPath
             .resolve("suite");
+    private final Path suitePath2 = asstSrcPath
+            .resolve("suite2");
 
     private final Path asstDestPath = Paths.get("build", "test-data",
             "copyTest2");
@@ -116,6 +118,39 @@ public class TestSelectiveCopying2 {
         assertTrue(stagePath.resolve("makefile").toFile().exists());
         assertTrue(deepSrcPath.resolve("Money.java").toFile().exists());
         assertTrue(stagePath.resolve("lib").resolve("hamcrest-all-1.3.jar").toFile().exists());
+
+        String makeFileContents = FileUtils.readTextFile(stagePath.resolve("makefile").toFile()).strip();
+        assertFalse(makeFileContents.contains("student"));
+    }
+
+        @Test
+    public void testSuiteCopies2() {
+        Assignment asst = new Assignment();
+		asst.setTestSuiteDirectory(suitePath2);
+		asst.setStagingDirectory(asstDestPath);
+		asst.setSubmissionsDirectory(submissionPath);
+		asst.setRecordingDirectory(asstDestPath);
+        asst.setInstructorCodeDirectory(goldPath);
+
+		Submission submission = new Submission(asst, "johnDoe", submissionPath);
+        TestSuite suite = new TestSuite(asst);
+        //suite.getProperties().
+		
+		suite.processThisSubmission(submission);
+
+        Path deepSrcPathRel = Paths.get("src", "main", "java");
+        Path stagePath = asstDestPath.resolve("johnDoe");
+        Path deepSrcPath = stagePath.resolve(deepSrcPathRel);
+        
+        assertTrue(deepSrcPath.resolve("CashRegister.java").toFile().exists());
+        assertTrue(deepSrcPath.resolve("TestRegister.java").toFile().exists());
+        assertFalse(deepSrcPath.resolve("SJZTestRegister.java").toFile().exists());
+        assertTrue(stagePath.resolve("makefile").toFile().exists());
+        assertTrue(deepSrcPath.resolve("Money.java").toFile().exists());
+        assertFalse(stagePath.resolve("lib").resolve("hamcrest-all-1.3.jar").toFile().exists());
+
+        String makeFileContents = FileUtils.readTextFile(stagePath.resolve("makefile").toFile()).strip();
+        assertFalse(makeFileContents.contains("student"));
     }
 
 }
