@@ -1,4 +1,4 @@
-dueDate: 12/15/2022
+dueDate: 12/15/2030
 latePenalties: [10, 20, 100]
 test:
   launch: java sqrtProg
