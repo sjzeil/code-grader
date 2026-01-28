@@ -33,6 +33,10 @@ public class SubmissionSet implements Iterable<Submission> {
         submissionsToRun = submissions;
     }
 
+    public void add(Submission sub) { // For testing purposes
+        submissions.add(sub);
+    }
+
     private void findSubmissions() {
         Path submissionsDir = assignment.getSubmissionsDirectory();
         if (assignment.getInPlace()) {

@@ -1,8 +1,10 @@
 package edu.odu.cs.zeil.codegrader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,6 +13,8 @@ import java.nio.file.StandardCopyOption;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.opencsv.*;
+import com.opencsv.exceptions.CsvValidationException;
 
 
 public class TestTestSuite2 {
@@ -88,6 +92,63 @@ public class TestTestSuite2 {
 		assertEquals("100\n", total); // 10% penalty
 	}
 
+	@Test
+	void testClassReportingDefault() throws CsvValidationException, IOException {
+		TestSuite suite = new TestSuite(asst);
+
+		suite.clearTheStage(stagingPath);
+
+					
+		// Were reports generated?
+
+		Submission jones1 = new Submission(asst, "jones", Paths.get("build"), "2025-01-01T12:00:00");
+		suite.recordInGradeLog(jones1, 100);
+
+		Submission smith1 = new Submission(asst, "smith", Paths.get("build"), "2025-01-03T12:00:00");
+		suite.recordInGradeLog(smith1, 90);
+
+		Submission jones2 = new Submission(asst, "jones", Paths.get("build"), "2025-01-05T12:00:00");
+		suite.recordInGradeLog(jones2, 85);
+
+		SubmissionSet submissions = new SubmissionSet(asst);
+		submissions.add(jones1);
+		submissions.add(jones2);
+		submissions.add(smith1);
+		suite.prepareClassSummary(submissions);
+
+		Path summaryFile = suite.getClassGradeSummaryFile();
+		assertTrue(summaryFile.toFile().exists());
+
+		{
+			String[] row = {"xx", "", ""};
+			String[] found = null;
+			try (CSVReader csvReader = new CSVReader(new FileReader(summaryFile.toFile()))) {
+				while (row != null) {
+					if (row[0].equals("jones")) {
+						found = row;
+					}
+					row = csvReader.readNext();
+				}
+			}
+			assertNotNull(found, "No grade recorded for jones");
+			assertEquals(found[1], "85");
+		}
+
+		{
+			String[] row = {"xx", "", ""};
+			String[] found = null;
+			try (CSVReader csvReader = new CSVReader(new FileReader(summaryFile.toFile()))) {
+				while (row != null) {
+					if (row[0].equals("smith")) {
+						found = row;
+					}
+					row = csvReader.readNext();
+				}
+			}
+			assertNotNull(found, "No grade recorded for smith");
+			assertEquals(found[1], "90");
+		}	
+	}
 
 
 

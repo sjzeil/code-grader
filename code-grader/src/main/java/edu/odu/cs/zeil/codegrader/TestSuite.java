@@ -1,6 +1,7 @@
 package edu.odu.cs.zeil.codegrader;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
@@ -20,10 +21,12 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
@@ -32,6 +35,9 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 
 public class TestSuite implements Iterable<TestCase> {
 
@@ -219,30 +225,7 @@ public class TestSuite implements Iterable<TestCase> {
 		for (Submission submission : submissions) {
 			processThisSubmission(submission);
 		}
-		if (!assignment.getInPlace()) {
-			StringBuilder classSummary = new StringBuilder();
-			classSummary.append("student," + getAssignmentName() + "\n");
-
-			submissions.setSelectedSubmissions(new HashSet<String>());
-			for (Submission submission : submissions) {
-				File submissionFile = submission.getRecordingDir().toFile();
-				if (submissionFile.isDirectory()) {
-					Optional<File> scoreFile = FileUtils.findFile(
-							submissionFile.toPath(), ".total");
-					if (scoreFile.isPresent()) {
-						String score = FileUtils.readTextFile(scoreFile.get())
-								.trim();
-						classSummary.append(submissionFile.getName());
-						classSummary.append(",");
-						classSummary.append(score);
-						classSummary.append("\n");
-					}
-				}
-			}
-			Path classSummaryFile = assignment.getRecordingDirectory()
-					.resolve("classSummary.csv");
-			FileUtils.writeTextFile(classSummaryFile, classSummary.toString());
-		}
+		prepareClassSummary(submissions);
 
 		if (submissionsToRun.size() == 0 && !assignment.getInPlace()) {
 			try {
@@ -253,6 +236,59 @@ public class TestSuite implements Iterable<TestCase> {
 						+ " at end of processing: \n", e);
 			}
 		}
+	}
+
+	public void prepareClassSummary(SubmissionSet submissions) {
+		if (!assignment.getInPlace()) {
+			StringBuilder classSummary = new StringBuilder();
+			classSummary.append("student," + getAssignmentName() + "\n");
+
+			submissions.setSelectedSubmissions(new HashSet<String>());
+
+			Map<String,Submission> submitters = new HashMap<>();
+			for (Submission submission : submissions) {
+				submitters.put(submission.getSubmittedBy(), submission);
+			}
+			for (String submitter: submitters.keySet()) {
+				Submission submission = submitters.get(submitter);
+				String score = getLastScoreFor(submission);
+				if (score != "") {
+					classSummary.append(submission.getSubmittedBy());
+					classSummary.append(",");
+					classSummary.append(score);
+					classSummary.append("\n");
+				}
+			}
+			Path classSummaryFile = getClassGradeSummaryFile();
+			FileUtils.writeTextFile(classSummaryFile, classSummary.toString());
+		}
+	}
+
+	private String getLastScoreFor(Submission submission) {
+		Path gradeLogFile = submission.getRecordingDir()
+				.resolve("gradeLog.csv");
+		String score = "";
+		try (com.opencsv.CSVReader reader = new com.opencsv.CSVReader(new FileReader(gradeLogFile.toFile()))) {
+			String[] row = reader.readNext();
+			while (row != null) {
+				String scoreStr = row[2];
+				try {
+					double d = Double.parseDouble(scoreStr);
+					score = scoreStr;
+				} catch (NumberFormatException ex) {
+					// ignore this row
+				}
+ 				row = reader.readNext();
+			}
+		} catch (IOException | CsvValidationException e) {
+			logger.warn("Unable to read score from  " + gradeLogFile, e);
+		}
+		return score;
+	}
+
+	public Path getClassGradeSummaryFile() {
+		return assignment.getRecordingDirectory()
+				.resolve("classSummary.csv");
 	}
 
 	/**
@@ -496,9 +532,8 @@ public class TestSuite implements Iterable<TestCase> {
 						.resolve(submission.getSubmittedBy() + ".total"),
 				"" + studentTotalScore + "\n");
 
-		Path gradeLogFile = submission.getRecordingDir()
-				.resolve("gradeLog.csv");
-		recordInGradeLog(gradeLogFile, submission, studentTotalScore);
+		
+		recordInGradeLog(submission, studentTotalScore);
 
 		if (assignment.getInPlace()) {
 			Path builderDir = submission.getTestSuiteDir().resolve("builder");
@@ -516,9 +551,14 @@ public class TestSuite implements Iterable<TestCase> {
 		}
 	}
 
-	private void recordInGradeLog(Path gradeLogFile, 
-	  Submission submission, int studentTotalScore) {
+	public void recordInGradeLog(Submission submission, int studentTotalScore) {
+		Path recordingDir = submission.getRecordingDir();
+		Path gradeLogFile = recordingDir
+				.resolve("gradeLog.csv");
 		if (!Files.exists(gradeLogFile)) {
+			if (!Files.exists(recordingDir)) {
+				recordingDir.toFile().mkdirs();
+			}
 			try (FileWriter gradeLog = new FileWriter(gradeLogFile.toFile())) {
 				gradeLog.write("Student,Date,Grade\n");
 			} catch (IOException ex) {

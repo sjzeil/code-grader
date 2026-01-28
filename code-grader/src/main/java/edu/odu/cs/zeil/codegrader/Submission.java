@@ -43,6 +43,21 @@ public class Submission {
     }
 
     /**
+     * Create a submission.
+     * 
+     * @param theAssignment assignment that this is a submission to.
+     * @param submitter who submitted this
+     * @param theSubmissionDir where the submission is located
+     */
+    public Submission(Assignment theAssignment, String submitter,
+            Path theSubmissionDir, String theSubmissionDate) {
+        assignment = theAssignment;
+        submittedBy = submitter;
+        submissionDir = theSubmissionDir;
+        submissionDate = theSubmissionDate;
+    }
+
+    /**
      * The gold directory is the location of an instructor's solution to
      * the assignment. If available (non-null), the instructor's solution
      * is run prior to each test of the student's submission in order to collect

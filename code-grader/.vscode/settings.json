@@ -13,5 +13,7 @@
         "jjones",
         "timelimit"
     ],
-    "java.format.settings.url": "eclipse-formatter.xml"
+    "java.format.settings.url": "eclipse-formatter.xml",
+    "python.testing.autoTestDiscoverOnSaveEnabled": false,
+    "python.testing.autoTestDiscoverOnSavePattern": "**/test*.py"
 }
