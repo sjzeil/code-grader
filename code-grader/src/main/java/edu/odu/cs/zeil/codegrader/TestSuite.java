@@ -216,7 +216,7 @@ public class TestSuite implements Iterable<TestCase> {
 			goldStage = new Stage(assignment, properties);
 			goldStage.setupStage();
 		}
-		
+
 		SubmissionSet submissions = new SubmissionSet(assignment);
 		if (submissionsToRun.size() > 0) {
 			submissions.setSelectedSubmissions(submissionsToRun);
@@ -245,11 +245,13 @@ public class TestSuite implements Iterable<TestCase> {
 
 			submissions.setSelectedSubmissions(new HashSet<String>());
 
-			Map<String,Submission> submitters = new HashMap<>();
+			Map<String, Submission> submitters = new HashMap<>();
 			for (Submission submission : submissions) {
-				submitters.put(submission.getSubmittedBy(), submission);
+				if (beforeCutoffDate(submission.getSubmissionDate())) {
+					submitters.put(submission.getSubmittedBy(), submission);
+				}
 			}
-			for (String submitter: submitters.keySet()) {
+			for (String submitter : submitters.keySet()) {
 				Submission submission = submitters.get(submitter);
 				String score = getLastScoreFor(submission);
 				if (score != "") {
@@ -274,16 +276,31 @@ public class TestSuite implements Iterable<TestCase> {
 				String scoreStr = row[2];
 				try {
 					double d = Double.parseDouble(scoreStr);
-					score = scoreStr;
+					String submissionDate = row[1];
+					if (beforeCutoffDate(submissionDate)) {
+						score = scoreStr;
+					}
 				} catch (NumberFormatException ex) {
 					// ignore this row
 				}
- 				row = reader.readNext();
+
+				row = reader.readNext();
 			}
 		} catch (IOException | CsvValidationException e) {
 			logger.warn("Unable to read score from  " + gradeLogFile, e);
 		}
 		return score;
+	}
+
+	private boolean beforeCutoffDate(String submissionDateStr) {
+		String cutoffDateStr = properties.cutoffDate;
+		if (submissionDateStr.length() > 0) {
+			LocalDateTime submissionDateTime = parseDateTime(submissionDateStr);
+			LocalDateTime cutoffDateTime = parseDateTime(cutoffDateStr);
+			return submissionDateTime.compareTo(cutoffDateTime) < 0;
+		} else {
+			return false;
+		}
 	}
 
 	public Path getClassGradeSummaryFile() {
@@ -315,7 +332,7 @@ public class TestSuite implements Iterable<TestCase> {
 		boolean recordingWithinStage = false;
 		try {
 			recordingWithinStage = Files.isSameFile(recordAt,
-				assignment.getTestSuiteDirectory());
+					assignment.getTestSuiteDirectory());
 		} catch (IOException ex) {
 			recordingWithinStage = false;
 		}
@@ -462,14 +479,14 @@ public class TestSuite implements Iterable<TestCase> {
 	private class Detail {
 		private String name;
 		private int weight;
-        private boolean multiplier;
+		private boolean multiplier;
 		private int score;
 		private String message;
 
 		Detail(String aName, int aWeight, boolean isMultiplier, int aScore, String aMessage) {
 			name = aName;
 			weight = aWeight;
-            multiplier = isMultiplier;
+			multiplier = isMultiplier;
 			score = aScore;
 			message = aMessage;
 		}
@@ -478,9 +495,9 @@ public class TestSuite implements Iterable<TestCase> {
 			Message nameMsg = new Message(name);
 			Message oracleMsg = new Message(message.trim());
 			String weightMsg = (weight > 0) ? "" + weight : "";
-            if (multiplier) {
-                weightMsg = "*";
-            }
+			if (multiplier) {
+				weightMsg = "*";
+			}
 			return "<tr><td><i>" + nameMsg.toHTML()
 					+ "</i></td><td>" + score
 					+ "</td><td>" + weightMsg
@@ -495,8 +512,8 @@ public class TestSuite implements Iterable<TestCase> {
 			messageText = messageText.replaceAll("&lt;", "<");
 			messageText = messageText.replaceAll("&gt;", ">");
 			messageText = messageText.replaceAll("&amp;", "&");
-			return divider + "\n" 
-			        + name + "\nscore=" + score + "\tweight=" + weight + "\tmultiplier=" + multiplier + "\n"
+			return divider + "\n"
+					+ name + "\nscore=" + score + "\tweight=" + weight + "\tmultiplier=" + multiplier + "\n"
 					+ messageText
 					+ "\n";
 		}
@@ -532,7 +549,6 @@ public class TestSuite implements Iterable<TestCase> {
 						.resolve(submission.getSubmittedBy() + ".total"),
 				"" + studentTotalScore + "\n");
 
-		
 		recordInGradeLog(submission, studentTotalScore);
 
 		if (assignment.getInPlace()) {
@@ -542,7 +558,7 @@ public class TestSuite implements Iterable<TestCase> {
 				if (!yamlFile.isPresent()) {
 					try {
 						logger.info("removing " + builderDir.toString());
-					    FileUtils.deleteDirectory(builderDir);
+						FileUtils.deleteDirectory(builderDir);
 					} catch (IOException e) {
 						logger.warn("Unable to delete " + builderDir.toString(), e);
 					}
@@ -567,9 +583,9 @@ public class TestSuite implements Iterable<TestCase> {
 		}
 		try (FileWriter gradeLog = new FileWriter(
 				gradeLogFile.toFile(), true)) {
-			gradeLog.write("\"" + submission.getSubmittedBy() + "\",\"" 
-				+ submission.getSubmissionDate() + "\"," 
-				+ studentTotalScore + "\n");
+			gradeLog.write("\"" + submission.getSubmittedBy() + "\",\""
+					+ submission.getSubmissionDate() + "\","
+					+ studentTotalScore + "\n");
 		} catch (IOException ex) {
 			logger.error("Cannot append to grade log " + gradeLogFile, ex);
 		}
@@ -585,7 +601,7 @@ public class TestSuite implements Iterable<TestCase> {
 	public int computeDaysLate(Submission submission) {
 		String dueDateStr = properties.dueDate;
 		String submissionDateStr = submission.getSubmissionDate();
-		
+
 		if (dueDateStr.equals("") || submissionDateStr.equals("")) {
 			return 0;
 		}
@@ -597,8 +613,8 @@ public class TestSuite implements Iterable<TestCase> {
 				// submission is late
 				LocalDateTime latePeriodStart = dueDateTime.plusSeconds(1);
 				long days = 1
-					+ ChronoUnit.DAYS.between(latePeriodStart,
-						submissionDateTime);
+						+ ChronoUnit.DAYS.between(latePeriodStart,
+								submissionDateTime);
 				return (int) days;
 			} else {
 				return 0;
@@ -608,12 +624,9 @@ public class TestSuite implements Iterable<TestCase> {
 		}
 	}
 
-	static final Pattern MM_DD_YYYY 
-		= Pattern.compile("([0-9]+)/([0-9]+)/([0-9]+)");
-	static final Pattern YYYY_MM_DD
-		= Pattern.compile("([0-9]+)-([0-9]+)-([0-9]+)");
-	static final Pattern HH_MM_SS
-		= Pattern.compile("([0-9]+)[^0-9]([0-9]+)[^0-9]([0-9]+)");
+	static final Pattern MM_DD_YYYY = Pattern.compile("([0-9]+)/([0-9]+)/([0-9]+)");
+	static final Pattern YYYY_MM_DD = Pattern.compile("([0-9]+)-([0-9]+)-([0-9]+)");
+	static final Pattern HH_MM_SS = Pattern.compile("([0-9]+)[^0-9]([0-9]+)[^0-9]([0-9]+)");
 	static final Pattern HH_MM = Pattern.compile("([0-9]+)[^0-9]([0-9]+)");
 
 	/**
@@ -631,7 +644,7 @@ public class TestSuite implements Iterable<TestCase> {
 
 		try {
 			LocalDateTime dateTime = LocalDateTime.parse(dateTimeString,
-				DateTimeFormatter.ofPattern("EEE LLL [d][dd] HH:mm:ss yyyy"));
+					DateTimeFormatter.ofPattern("EEE LLL [d][dd] HH:mm:ss yyyy"));
 			return dateTime;
 		} catch (DateTimeParseException ex) {
 			// Continue on
@@ -698,22 +711,21 @@ public class TestSuite implements Iterable<TestCase> {
 	private int computeSubTotal(ArrayList<Detail> details) {
 		int weightedSum = 0;
 		int weights = 0;
-        float multiplier = 1.0f;
+		float multiplier = 1.0f;
 		for (Detail detail : details) {
-            if (!detail.multiplier) {
-			    weightedSum += detail.score * detail.weight;
-			    weights += detail.weight;
-            } else {
-                float r = detail.score / 100.0f;
-                multiplier *= r;
-            }
+			if (!detail.multiplier) {
+				weightedSum += detail.score * detail.weight;
+				weights += detail.weight;
+			} else {
+				float r = detail.score / 100.0f;
+				multiplier *= r;
+			}
 		}
 		float score = multiplier * ((float) weightedSum) / ((float) weights);
 		return (int) Math.round(score);
 	}
 
-	private static final String CSS 
-		= "<style>\n.expected {background-color: green;}\n"
+	private static final String CSS = "<style>\n.expected {background-color: green;}\n"
 			+ ".observed {background-color: red;} </style>";
 
 	private void writeHTMLReport(Submission submission, Path gradeReport,
@@ -742,7 +754,7 @@ public class TestSuite implements Iterable<TestCase> {
 		htmlContent.append("</body></html>\n");
 
 		Path reportFile = submission.getRecordingDir()
-						.resolve(submission.getSubmittedBy() + ".html");
+				.resolve(submission.getSubmittedBy() + ".html");
 		FileUtils.writeTextFile(
 				reportFile,
 				htmlContent.toString());
@@ -766,13 +778,13 @@ public class TestSuite implements Iterable<TestCase> {
 		addAssignmentDetailsToTextReport(reportContent, details);
 
 		Path reportFile = submission.getRecordingDir()
-						.resolve(submission.getSubmittedBy() + ".txt");
+				.resolve(submission.getSubmittedBy() + ".txt");
 		FileUtils.writeTextFile(
 				reportFile,
 				reportContent.toString());
 		if (assignment.getInPlace()) {
-			System.err.println("Grade report written to " 
-				+ reportFile.toString());
+			System.err.println("Grade report written to "
+					+ reportFile.toString());
 		}
 	}
 
@@ -795,7 +807,6 @@ public class TestSuite implements Iterable<TestCase> {
 			reportContent.append(detail.toText());
 		}
 	}
-
 
 	private void addAssignmentInfo(StringBuilder content,
 			Submission submission,
@@ -825,7 +836,6 @@ public class TestSuite implements Iterable<TestCase> {
 		content.append("</table>\n");
 	}
 
-
 	private void addAssignmentInfoToTextReport(StringBuilder content,
 			Submission submission,
 			int studentSubtotalScore, int daysLate, int penalty,
@@ -835,7 +845,7 @@ public class TestSuite implements Iterable<TestCase> {
 		String submissionDate = submission.getSubmissionDate();
 
 		if (!submissionDate.equals("")) {
-			content.append("Submitted: " +  submissionDate + "\n");
+			content.append("Submitted: " + submissionDate + "\n");
 			if (!dueDate.equals("")) {
 				content.append("Due: " + dueDate + "\n");
 				if (daysLate > 0) {
@@ -851,8 +861,6 @@ public class TestSuite implements Iterable<TestCase> {
 			content.append("Total: " + studentTotalScore + "\n");
 		}
 	}
-
-
 
 	private String row(String title, String value) {
 		Message titleMsg = new Message(title);
@@ -884,9 +892,10 @@ public class TestSuite implements Iterable<TestCase> {
 				description = testName;
 			}
 			int score = submission.getScore(testName);
-			int weight = (properties.totals) 
-				? tc.getProperties().getWeight() : 0;
-            boolean multiplier = tc.getProperties().isMultiplier();
+			int weight = (properties.totals)
+					? tc.getProperties().getWeight()
+					: 0;
+			boolean multiplier = tc.getProperties().isMultiplier();
 			String message = submission.getMessage(testName);
 			details.add(new Detail(testName, weight, multiplier, score, message));
 			testsSummary.append("\"" + description + "\",");
@@ -905,7 +914,6 @@ public class TestSuite implements Iterable<TestCase> {
 		}
 		return msg.replace("\"", "'");
 	}
-
 
 	/**
 	 * Get a name for the assignment. If not given in the .yaml file, a default
@@ -1005,21 +1013,19 @@ public class TestSuite implements Iterable<TestCase> {
 
 	}
 
-
 	/**
 	 * Runs all selected tests for a given submission. Assumes that code
 	 * for gold version and submission have been built. Test results are
 	 * recorded in the recording area.
 	 * 
-	 * @param submission  submission to be tested
+	 * @param submission submission to be tested
 	 */
 	private void runTests(Submission submission) {
 		clearTags();
 		completedCases.clear();
 		setTag("build");
 		if (casesToBeRun.isEmpty()) {
-			TestCaseProperties builder = new 
-				DefaultBuildCase(properties, assignment).generate();
+			TestCaseProperties builder = new DefaultBuildCase(properties, assignment).generate();
 			casesToBeRun.add(builder);
 		}
 		while (!casesToBeRun.isEmpty()) {
@@ -1029,15 +1035,15 @@ public class TestSuite implements Iterable<TestCase> {
 			completedCases.add(tc);
 		}
 		/*
-		setTag("test");  // If a build task activated "test", then this
-		                         // has no effect.
-		while (!casesToBeRun.isEmpty()) {
-			TestCaseProperties tcp = casesToBeRun.remove();
-			TestCase tc = new TestCase(tcp);
-			performAndScoreTest(submission, tc);
-			completedCases.add(tc);
-		}
-		*/
+		 * setTag("test"); // If a build task activated "test", then this
+		 * // has no effect.
+		 * while (!casesToBeRun.isEmpty()) {
+		 * TestCaseProperties tcp = casesToBeRun.remove();
+		 * TestCase tc = new TestCase(tcp);
+		 * performAndScoreTest(submission, tc);
+		 * completedCases.add(tc);
+		 * }
+		 */
 	}
 
 	private void performAndScoreTest(Submission submission, TestCase tc) {
@@ -1054,11 +1060,11 @@ public class TestSuite implements Iterable<TestCase> {
 				try {
 					FileUtils.deleteDirectory(testRecordingDir);
 				} catch (IOException e) {
-					logger.warn("Unable to delete directory " + testRecordingDir + "; test case " 
-					+ testName + "may not be properly isolated form prior test runs.");
+					logger.warn("Unable to delete directory " + testRecordingDir + "; test case "
+							+ testName + "may not be properly isolated form prior test runs.");
 				}
 			}
-	 
+
 			goldStage = new Stage(assignment, properties);
 			if (assignment.getGoldDirectory() != null) {
 				tc.performTest(submission, true, goldStage);
@@ -1068,11 +1074,11 @@ public class TestSuite implements Iterable<TestCase> {
 					submitterStage);
 		}
 		if (score == MAX_SCORE) {
-			for (String tagName: tc.getProperties().onSuccess) {
+			for (String tagName : tc.getProperties().onSuccess) {
 				setTag(tagName);
 			}
 		} else {
-			for (String tagName: tc.getProperties().onFail) {
+			for (String tagName : tc.getProperties().onFail) {
 				setTag(tagName);
 			}
 		}
@@ -1164,33 +1170,32 @@ public class TestSuite implements Iterable<TestCase> {
 	 * @return a string representing a date and/or time, or "".
 	 */
 	public String getLockDate(Submission sub) {
-		ParameterHandling ph = new ParameterHandling(assignment, 
-			null, null, sub, null, null);
+		ParameterHandling ph = new ParameterHandling(assignment,
+				null, null, sub, null, null);
 		if (!properties.submissionLock.in.equals("")) {
 			return getLockDateIn(ph.parameterSubstitution(
-				properties.submissionLock.in));
+					properties.submissionLock.in));
 		} else if (!properties.submissionLock.mod.equals("")) {
 			return getLockDateMod(ph.parameterSubstitution(
-				properties.submissionLock.mod));
+					properties.submissionLock.mod));
 		} else {
 			return "2999-12-31 23:59:59";
 		}
 	}
 
-
 	String getSubmissionDateByGit(Path submissionDir) {
 		Path potentialGitDir = submissionDir.resolve(".git");
-        String date = "";
+		String date = "";
 		if (potentialGitDir.toFile().isDirectory()) {
 			String gitCmd = "git log -1 --date=format:%Y-%m-%d_%T --format=%ad";
 			date = getSubmissionDateByCommand(gitCmd, submissionDir);
 		}
-        if (date.length() < 10) {
-            LocalDateTime dt = LocalDateTime.now();
-            date = dt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-            date = date.replace('T', ' ');
-        }
-        return date;
+		if (date.length() < 10) {
+			LocalDateTime dt = LocalDateTime.now();
+			date = dt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+			date = date.replace('T', ' ');
+		}
+		return date;
 	}
 
 	private String getSubmissionDateByCommand(String getDateCommand,
@@ -1253,7 +1258,6 @@ public class TestSuite implements Iterable<TestCase> {
 		}
 	}
 
-
 	private String getLockDateMod(String getDateFile) {
 		Path fileName = Paths.get(getDateFile);
 		if (fileName != null && fileName.toFile().exists()) {
@@ -1264,7 +1268,7 @@ public class TestSuite implements Iterable<TestCase> {
 				LocalDateTime modDateTime = instant
 						.atZone(ZoneId.systemDefault()).toLocalDateTime();
 				return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(
-					modDateTime);
+						modDateTime);
 			} catch (IOException e) {
 				return "";
 			}
@@ -1285,20 +1289,21 @@ public class TestSuite implements Iterable<TestCase> {
 	 * @param tagName tag name
 	 * @return true iff this tag has been set
 	 */
-    public boolean isTagActive(String tagName) {
-        return activeTags.contains(tagName);
-    }
+	public boolean isTagActive(String tagName) {
+		return activeTags.contains(tagName);
+	}
 
 	/**
 	 * Set the named tag and queue up any unperformed test cases with
 	 * that tag name as its kind.
+	 * 
 	 * @param tagName a tag name
 	 */
-    public void setTag(String tagName) {
+	public void setTag(String tagName) {
 		if (!activeTags.contains(tagName)) {
 			activeTags.add(tagName);
 			ArrayList<TestCaseProperties> toBeAdded = new ArrayList<>();
-			for (TestCaseProperties tc: cases) {
+			for (TestCaseProperties tc : cases) {
 				if (tc.getKind().equals(tagName)) {
 					toBeAdded.add(tc);
 				}
@@ -1306,28 +1311,29 @@ public class TestSuite implements Iterable<TestCase> {
 			Collections.sort(toBeAdded);
 			casesToBeRun.addAll(toBeAdded);
 		}
-    }
+	}
 
 	/**
 	 * Clear the named tag and remove any unperformed test cases with
 	 * that tag name as its kind from the queue of tests to be performed.
+	 * 
 	 * @param tagName a tag name
 	 */
-    public void clearTag(String tagName) {
+	public void clearTag(String tagName) {
 		activeTags.remove(tagName);
 		Queue<TestCaseProperties> stillToRun = new LinkedList<>();
-		for (TestCaseProperties tc: casesToBeRun) {
+		for (TestCaseProperties tc : casesToBeRun) {
 			if (!tc.getKind().equals(tagName)) {
 				stillToRun.add(tc);
 			}
 		}
 		casesToBeRun = stillToRun;
-    }
+	}
 
 	/**
 	 * Clear all tags and clear the queue of tests to be performed.
 	 */
-    public void clearTags() {
+	public void clearTags() {
 		activeTags.clear();
 		casesToBeRun.clear();
 	}

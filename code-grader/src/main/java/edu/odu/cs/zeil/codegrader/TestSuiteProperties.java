@@ -55,6 +55,13 @@ public class TestSuiteProperties {
     public String dueDate;
 
     /**
+     * Only submissions before this date will be considered for addition into
+     * the class grade summary. Later submissions will still be graded and receive
+     * a report, but ignored when summarizing all grades.
+     */
+    public String cutoffDate;
+
+    /**
      * How to find when submission was submitted.
      */
     public SubmissionDateOptions dateSubmitted;
@@ -104,6 +111,7 @@ public class TestSuiteProperties {
         final int lateNotAccepted = 100;
         latePenalties[0] = lateNotAccepted;
         dateSubmitted = new SubmissionDateOptions();
+        cutoffDate = "2200-01-01 00:00:00";
     }
 
     /**

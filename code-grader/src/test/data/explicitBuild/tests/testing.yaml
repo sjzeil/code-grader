@@ -9,4 +9,4 @@ test:
   launch: ./dividers
   timelimit: 5
   stderr: 0
-  
+cutoffDate: "2099-12-31"
