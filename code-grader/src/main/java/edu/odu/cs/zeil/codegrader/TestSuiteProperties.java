@@ -73,6 +73,13 @@ public class TestSuiteProperties {
      */
     public boolean totals;
 
+    /**
+     * True indicates that a student's best score will be selected for reporting
+     * in the class summary. False indicates that the score of the last submission
+     * will be reported.
+     */
+    public boolean bestScores;
+
 
     /**
      * How to find when a submission was locked (subsequent submissions will
@@ -112,6 +119,7 @@ public class TestSuiteProperties {
         latePenalties[0] = lateNotAccepted;
         dateSubmitted = new SubmissionDateOptions();
         cutoffDate = "2200-01-01 00:00:00";
+        bestScores = true;
     }
 
     /**

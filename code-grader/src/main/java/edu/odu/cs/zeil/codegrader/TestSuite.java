@@ -253,7 +253,7 @@ public class TestSuite implements Iterable<TestCase> {
 			}
 			for (String submitter : submitters.keySet()) {
 				Submission submission = submitters.get(submitter);
-				String score = getLastScoreFor(submission);
+				String score = getScoreFor(submission);
 				if (score != "") {
 					classSummary.append(submission.getSubmittedBy());
 					classSummary.append(",");
@@ -290,6 +290,43 @@ public class TestSuite implements Iterable<TestCase> {
 			logger.warn("Unable to read score from  " + gradeLogFile, e);
 		}
 		return score;
+	}
+
+	private String getBestScoreFor(Submission submission) {
+		Path gradeLogFile = submission.getRecordingDir()
+				.resolve("gradeLog.csv");
+		String score = "";
+		double bestScore = 0.0;
+		try (com.opencsv.CSVReader reader = new com.opencsv.CSVReader(new FileReader(gradeLogFile.toFile()))) {
+			String[] row = reader.readNext();
+			while (row != null) {
+				String scoreStr = row[2];
+				try {
+					double d = Double.parseDouble(scoreStr);
+					String submissionDate = row[1];
+					if (beforeCutoffDate(submissionDate)) {
+						if (d > bestScore) {
+							score = scoreStr;
+							bestScore = d;
+						}
+					}
+				} catch (NumberFormatException ex) {
+					// ignore this row
+				}
+
+				row = reader.readNext();
+			}
+		} catch (IOException | CsvValidationException e) {
+			logger.warn("Unable to read score from  " + gradeLogFile, e);
+		}
+		return score;
+	}
+
+		private String getScoreFor(Submission submission) {
+			if (properties.bestScores)
+				return getBestScoreFor(submission);
+			else
+				return getLastScoreFor(submission);
 	}
 
 	private boolean beforeCutoffDate(String submissionDateStr) {

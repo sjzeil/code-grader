@@ -118,6 +118,43 @@ public class TestTestSuite2 {
 
 		String[] found = searchGradeSummaryFor(summaryFile, "jones");
 		assertNotNull(found, "No grade recorded for jones");
+		assertEquals(found[1], "100");
+
+		found = searchGradeSummaryFor(summaryFile, "smith");
+		assertNotNull(found, "No grade recorded for smith");
+		assertEquals(found[1], "90");
+
+	}
+
+	@Test
+	void testClassReportingLastScore() throws CsvValidationException, IOException {
+		TestSuite suite = new TestSuite(asst);
+
+		suite.clearTheStage(stagingPath);
+		suite.getProperties().bestScores = false;
+
+		// Were reports generated?
+
+		Submission jones1 = new Submission(asst, "jones", Paths.get("build"), "2025-01-01T12:00:00");
+		suite.recordInGradeLog(jones1, 100);
+
+		Submission smith1 = new Submission(asst, "smith", Paths.get("build"), "2025-01-03T12:00:00");
+		suite.recordInGradeLog(smith1, 90);
+
+		Submission jones2 = new Submission(asst, "jones", Paths.get("build"), "2025-01-05T12:00:00");
+		suite.recordInGradeLog(jones2, 85);
+
+		SubmissionSet submissions = new SubmissionSet(asst);
+		submissions.add(jones1);
+		submissions.add(jones2);
+		submissions.add(smith1);
+		suite.prepareClassSummary(submissions);
+
+		Path summaryFile = suite.getClassGradeSummaryFile();
+		assertTrue(summaryFile.toFile().exists());
+
+		String[] found = searchGradeSummaryFor(summaryFile, "jones");
+		assertNotNull(found, "No grade recorded for jones");
 		assertEquals(found[1], "85");
 
 		found = searchGradeSummaryFor(summaryFile, "smith");
@@ -126,7 +163,7 @@ public class TestTestSuite2 {
 
 	}
 
-		@Test
+	@Test
 	void testClassReportingCutoff() throws CsvValidationException, IOException {
 		TestSuite suite = new TestSuite(asst);
 		suite.getProperties().cutoffDate = "2025-01-03T00:00:00";
@@ -141,7 +178,8 @@ public class TestTestSuite2 {
 		Submission smith1 = new Submission(asst, "smith", Paths.get("build"), "2025-01-03 12:00:00");
 		suite.recordInGradeLog(smith1, 90);
 
-		Submission jones2 = new Submission(asst, "jones", Paths.get("build"), "2025-01-05 12:00:00"); // after the cutoff date
+		Submission jones2 = new Submission(asst, "jones", Paths.get("build"), "2025-01-05 12:00:00"); // after the
+																										// cutoff date
 		suite.recordInGradeLog(jones2, 100);
 
 		SubmissionSet submissions = new SubmissionSet(asst);

@@ -1,32 +1,47 @@
+1.3.0 1/30/2026
+
+New test suite properties:
+
+* cutoffDate: Submissions on or after this date will be graded and a grade report generated, but will not be recorded in the class summary (classSummary.csv)  Defaults to a date decades into the future, in effect imposing no cutoff.
+* bestScores: If true, the students' highest score across all submissions (prior to the cutoffDate) is reported in in the class summary (classSummary.csv). If false, the grade from the last graded submission is reported. Defaults to true, though prior behavior was consistent with false.
+
 1.2.7 11/4/2025
+
 * Testcase messages will no longer be clipped at 5000 characters if they contain
   an HTML passthrough marker.  Such clipping is prone to generating broken HTML.
 
 1.2.6 08/18/2025
+
 * If unable to determine submission date, continue with just a warning
 
 1.2.5 12/30/2024
+
 * If std err is non-empty after running a test case, the contents are appended to the report even if the test case settings indicate that std err is not checked.
 
     This should make it more obvious when student code has crashed.
 
 1.2.4 11/10/2024
+
 * Fixed bug in which repository logs were not being parsed on Windows systems
   (determining when a repo was last pushed/submitted).
 
 1.2.3 10/09/2024
+
 * Submission dates are now determined before running test cases, in case any
   test case modifies files used to determine the submission date.
 
 1.2.2 9/5/2024
+
 * Fixed bug causing git repository dates to be reported in UTC instead of
   in local time.
 
 1.2.1 5/11/2024
+
 * junit5 oracle now locates test reports in Gradle and Maven builds if it cannot
   determine tests passed from the standard output.
 
 1.2.0 5/10/2024
+
 * Added new boolean test case option, "multiplier". A multiplier case does not
   add its score to the total but multiplies it. For example, a score of 50
   (out of 100) reduces the total of all other test cases by half. 
@@ -41,11 +56,13 @@
     whether students are simply resubmitting the original unchanged code.
 
 1.1.9 4/30/2024
+
 * Fixed bug affecting Windows use. Command lines for launching tests were being
   echoed, captured as part of the output, and confusing oracles into issuing
   false failure reports.
 
 1.1.8 2/20/2024
+
 * Improved handling of programs with very large outputs (up to 250,000 chars)
 * Added new handling of student named '-'.  This student name signals that
   the code to be graded is directly in the submissions folder rather than in
@@ -53,22 +70,27 @@
   the -inPlace processing option soon. That option is now deprecated.
 
 1.1.7 2/16/2024
+
 * Fixed bug causing test cases to have shorter time limits when run a second time
 
 1.1.6 12/19/2023
+
 * Added a .txt version of the student grade report.
 
 1.1.5 9/23/2023
+
 * Fixed but causing test command line params to be duplicated when listed
   explicitly within the launch command.
 
 1.1.4 12/2/2022
+
 * Commands lines and parameters for test execution may now contain wild cards.
 * Improved handling of process killing when timing out long-running tests in
   Linux. Should be less likely to leave zombie processes and `.nfs` files
   behind.
 
 1.1.3 10/26/2022
+
 * The stage directory for a student's submission is now named with the 
   student's ID instead of the generic name `submission`. This reduces
   the potential for conflicts if the grader should be run simultaneously
