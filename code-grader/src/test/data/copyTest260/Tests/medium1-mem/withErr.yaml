@@ -1,0 +1,2 @@
+launch: ./mergeLists
+stderr: true

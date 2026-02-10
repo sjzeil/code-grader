@@ -1,0 +1,9 @@
+/Debug/
+*~
+*.d
+*.o
+*.exe
+/make.dep
+/docs/
+mergeLists
+unittest

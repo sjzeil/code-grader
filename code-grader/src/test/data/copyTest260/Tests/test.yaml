@@ -1,0 +1,11 @@
+test:
+  timelimit: 10
+dueDate: 2026-05-04
+latePenalties: [0, 10, 100]
+build:
+  command: make clean; make
+  weight: 1
+  studentFiles:
+    include: ["readingList.h", "readingList.cpp"]
+  instructorFiles:
+    exclude: ["readingList.h", "readingList.cpp"]

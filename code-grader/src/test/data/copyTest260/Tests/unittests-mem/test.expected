@@ -1,0 +1,15 @@
+1..9
+ok 1 - testRLAddDiscrete
+ok 2 - testRLAddDuplicates
+ok 3 - testRLAssign
+ok 4 - testRLConstructor
+ok 5 - testRLCopy
+ok 6 - testRLDefaultConstructor
+ok 7 - testRLInput
+ok 8 - testRLRemove
+ok 9 - zzMemoryCheck
+# UnitTest: passed 9 out of 9 tests, for a success rate of 100.0%
+
+--- end of output ---
+--- std error ---
+Leaked memory: 0 blocks

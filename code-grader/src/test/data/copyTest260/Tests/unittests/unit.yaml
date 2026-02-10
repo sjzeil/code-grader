@@ -1,0 +1,4 @@
+launch: ./unittest
+grading:
+  - oracle: tap
+weight: 5

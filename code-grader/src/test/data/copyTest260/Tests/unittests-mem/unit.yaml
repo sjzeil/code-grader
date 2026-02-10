@@ -1,0 +1,3 @@
+launch: ./unittest
+weight: 5
+stderr: true

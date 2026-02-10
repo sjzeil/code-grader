@@ -1,0 +1,10 @@
+1..8
+ok 1 - testRLAddDiscrete
+ok 2 - testRLAddDuplicates
+ok 3 - testRLAssign
+ok 4 - testRLConstructor
+ok 5 - testRLCopy
+ok 6 - testRLDefaultConstructor
+ok 7 - testRLInput
+ok 8 - testRLRemove
+# UnitTest: passed 8 out of 8 tests, for a success rate of 100.0%

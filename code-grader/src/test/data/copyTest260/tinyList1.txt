@@ -1,0 +1,3 @@
+etext19640	Twain, Mark, 1835-1910	Adventures of Huckleberry Finn
+etext13	Carroll, Lewis, 1832-1898	The Hunting of the Snark
+etext9038	Twain, Mark, 1835-1910	The Adventures of Tom Sawyer
