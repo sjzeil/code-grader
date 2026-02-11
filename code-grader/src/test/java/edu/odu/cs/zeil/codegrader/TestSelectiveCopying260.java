@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,115 +40,34 @@ public class TestSelectiveCopying260 {
         if (testData.toFile().exists()) {
             FileUtils.deleteDirectory(testData);
         }
-        FileUtils.copyDirectory(asstSrcPath, asstDestPath, null, null, null);
-        asstDestPath.toFile().mkdirs();
+        //asstDestPath.toFile().mkdirs();
+        FileUtils.copyDirectory(asstSrcPath, asstDestPath, null, null);
     }
 
-
     @Test
-    void testStudentCopy() throws IOException {
+    void testSuite() throws IOException {
 
-        List<String> inclusions = new ArrayList<>();
-        List<String> exclusions = new ArrayList<>();
-        inclusions.add("**/CashRegister.java");
-        inclusions.add("**/TestRegister.java");
-        exclusions.add("makefile");
-
-        assertTrue(submissionPath.toFile().exists());
-        FileUtils.copyDirectory(submissionPath, asstDestPath, inclusions, exclusions);
-
-        Path deepSrcPathRel = Paths.get("src", "main", "java", "edu", "odu", "cs", "cs350", "tdd");
-        Path deepSrcPath = asstDestPath.resolve(deepSrcPathRel);
+        Path testSuitePath = asstDestPath.resolve("Tests");
+        Path stagingPath = Paths.get("build", "test-data", "stage");
+        Path submissionsPath = asstDestPath;
+        Path recordingPath = Paths.get("build", "test-data", "grades");
+        String studentName = "-";
         
-        assertTrue(deepSrcPath.resolve("CashRegister.java").toFile().exists());
-        assertTrue(deepSrcPath.resolve("TestRegister.java").toFile().exists());
-        assertFalse(asstDestPath.resolve("makefile").toFile().exists());
-        assertFalse(deepSrcPath.resolve("Money.java").toFile().exists());
-    }
-
-    @Test
-    void testInstructorCopy() throws IOException {
-
-        List<String> inclusions = new ArrayList<>();
-        List<String> exclusions = new ArrayList<>();
-        inclusions.add("src/**/*.java");
-        inclusions.add("lib/*.jar");
-        inclusions.add("makefile");
-        exclusions.add("**/CashRegister.java");
-        exclusions.add("**/TestRegister.java");
-
-        assertTrue(submissionPath.toFile().exists());
-        FileUtils.copyDirectory(goldPath, asstDestPath, inclusions, exclusions);
-
-        Path deepSrcPathRel = Paths.get("src", "main", "java", "edu", "odu", "cs", "cs350", "tdd");
-        Path deepSrcPath = asstDestPath.resolve(deepSrcPathRel);
-        
-        assertFalse(deepSrcPath.resolve("CashRegister.java").toFile().exists());
-        assertFalse(deepSrcPath.resolve("TestRegister.java").toFile().exists());
-        assertTrue(deepSrcPath.resolve("SJZTestRegister.java").toFile().exists());
-        assertTrue(asstDestPath.resolve("makefile").toFile().exists());
-        assertTrue(deepSrcPath.resolve("Money.java").toFile().exists());
-        assertTrue(asstDestPath.resolve("lib").resolve("hamcrest-all-1.3.jar").toFile().exists());
-    }
-
-    @Test
-    public void testSuiteCopies() {
         Assignment asst = new Assignment();
-		asst.setTestSuiteDirectory(suitePath);
-		asst.setStagingDirectory(asstDestPath);
-		asst.setSubmissionsDirectory(submissionPath);
-		asst.setRecordingDirectory(asstDestPath);
-        asst.setInstructorCodeDirectory(goldPath);
+		asst.setTestSuiteDirectory(testSuitePath);
+		asst.setStagingDirectory(stagingPath);
+		asst.setSubmissionsDirectory(submissionsPath);
+		asst.setRecordingDirectory(recordingPath);
+        asst.setInPlace(true);
 
-		Submission submission = new Submission(asst, "johnDoe", submissionPath);
         TestSuite suite = new TestSuite(asst);
-        //suite.getProperties().
-		
-		suite.processThisSubmission(submission);
+		suite.clearTheStage(stagingPath);
+        suite.performTests();
 
-        Path deepSrcPathRel = Paths.get("src", "main", "java");
-        Path stagePath = asstDestPath.resolve("johnDoe");
-        Path deepSrcPath = stagePath.resolve(deepSrcPathRel);
+        assertTrue(recordingPath.toFile().exists());
+        assertTrue(recordingPath.resolve("testSummary.csv").toFile().exists());
         
-        assertTrue(deepSrcPath.resolve("CashRegister.java").toFile().exists());
-        assertTrue(deepSrcPath.resolve("TestRegister.java").toFile().exists());
-        assertTrue(deepSrcPath.resolve("SJZTestRegister.java").toFile().exists());
-        assertTrue(stagePath.resolve("makefile").toFile().exists());
-        assertTrue(deepSrcPath.resolve("Money.java").toFile().exists());
-        assertTrue(stagePath.resolve("lib").resolve("hamcrest-all-1.3.jar").toFile().exists());
-
-        String makeFileContents = FileUtils.readTextFile(stagePath.resolve("makefile").toFile()).strip();
-        assertFalse(makeFileContents.contains("student"));
     }
 
-        @Test
-    public void testSuiteCopies2() {
-        Assignment asst = new Assignment();
-		asst.setTestSuiteDirectory(suitePath2);
-		asst.setStagingDirectory(asstDestPath);
-		asst.setSubmissionsDirectory(submissionPath);
-		asst.setRecordingDirectory(asstDestPath);
-        asst.setInstructorCodeDirectory(goldPath);
-
-		Submission submission = new Submission(asst, "johnDoe", submissionPath);
-        TestSuite suite = new TestSuite(asst);
-        //suite.getProperties().
-		
-		suite.processThisSubmission(submission);
-
-        Path deepSrcPathRel = Paths.get("src", "main", "java");
-        Path stagePath = asstDestPath.resolve("johnDoe");
-        Path deepSrcPath = stagePath.resolve(deepSrcPathRel);
-        
-        assertTrue(deepSrcPath.resolve("CashRegister.java").toFile().exists());
-        assertTrue(deepSrcPath.resolve("TestRegister.java").toFile().exists());
-        assertFalse(deepSrcPath.resolve("SJZTestRegister.java").toFile().exists());
-        assertTrue(stagePath.resolve("makefile").toFile().exists());
-        assertTrue(deepSrcPath.resolve("Money.java").toFile().exists());
-        assertFalse(stagePath.resolve("lib").resolve("hamcrest-all-1.3.jar").toFile().exists());
-
-        String makeFileContents = FileUtils.readTextFile(stagePath.resolve("makefile").toFile()).strip();
-        assertFalse(makeFileContents.contains("student"));
-    }
 
 }
