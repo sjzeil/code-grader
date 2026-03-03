@@ -919,6 +919,7 @@ public class TestSuite implements Iterable<TestCase> {
 	private void writeTestCaseSummary(Submission submission,
 			ArrayList<Detail> details) {
 		// Write out the tests summary.
+        submission.getRecordingDir().toFile().mkdirs();
 		Path testsSummaryFile = submission.getRecordingDir()
 				.resolve("testsSummary.csv");
 		StringBuilder testsSummary = new StringBuilder();

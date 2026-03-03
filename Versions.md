@@ -1,3 +1,7 @@
+1.3.1 3/3/2026
+
+* Fix for missing recording directory when writing testSummaries.csv
+
 1.3.0 1/30/2026
 
 New test suite properties:
