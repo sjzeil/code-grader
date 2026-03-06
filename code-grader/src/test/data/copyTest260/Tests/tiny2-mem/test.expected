@@ -1,0 +1,12 @@
+tinyList2.txt contained 3 books.
+tinyList1.txt contained 3 books.
+Their merge contains 5 books.
+etext13	Carroll, Lewis, 1832-1898	The Hunting of the Snark
+etext19640	Twain, Mark, 1835-1910	Adventures of Huckleberry Finn
+etext20595	Twain, Mark, 1835-1910	The Awful German Language
+etext23717	Carroll, Lewis, 1832-1898	Jabberwocky
+etext9038	Twain, Mark, 1835-1910	The Adventures of Tom Sawyer
+
+--- end of output ---
+--- std error ---
+No memory leak detected.

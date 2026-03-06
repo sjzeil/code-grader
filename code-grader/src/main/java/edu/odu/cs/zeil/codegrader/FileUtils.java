@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -117,6 +118,15 @@ public final class FileUtils {
 
         });
     }
+
+    public static void copyDirectory(Path source, Path target,
+            List<String> inclusions,
+            List<String> exclusions)
+            throws IOException {
+        CopyOption[] options = {StandardCopyOption.REPLACE_EXISTING};
+        copyDirectory(source, target, inclusions, exclusions, options);
+    }
+
 
     /**
      * Directory delete utility.

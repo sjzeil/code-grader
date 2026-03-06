@@ -1,0 +1,3 @@
+etext9038	Twain, Mark, 1835-1910	The Adventures of Tom Sawyer
+etext20595	Twain, Mark, 1835-1910	The Awful German Language
+etext23717	Carroll, Lewis, 1832-1898	Jabberwocky

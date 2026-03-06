@@ -1,0 +1,35 @@
+name: CS361 assignment check
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "request"
+  request:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-20.04
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      #- uses: actions/checkout@v2
+  
+      # A "hook" to request automatic grading.
+      - name: request
+        shell: bash
+        run: |
+          wget "https://www.cs.odu.edu/~zeil/cs361/@sem@/scripts/requests/requestGrading.php?asst=@asst@&repo=$REPOURL" -O response.txt -o logfile
+          cat response.txt
+          echo ---
+          cat logfile
+        env:
+          REPOURL: ${{ github.repositoryUrl }}
+
+

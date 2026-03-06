@@ -1,0 +1,49 @@
+plugins {
+   id 'java'
+}
+
+repositories {
+    maven { 
+        url 'https://www.cs.odu.edu/~zeil/mavenrepo/'
+    }
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'edu.odu.cs.zeil:code-grader:+'
+}
+
+task copyTests(type:Copy) {
+   from '../Tests'
+   into 'build/Tests'
+}
+
+
+task codeGrader(type: JavaExec, dependsOn: 'copyTests') {
+  classpath = sourceSets.main.runtimeClasspath
+  mainClass = 'edu.odu.cs.zeil.codegrader.run.CLI'
+
+  args '-suite', 'build/Tests', 
+       '-submissions', '..',
+       '-recording', 'build',
+	   '-inPlace'
+
+  doFirst {
+    file('build/grades').mkdirs()
+  }
+} 
+
+task codeGraderReport(type: Copy, dependsOn: codeGrader) {
+    from 'build/grades'
+    include '*.html'
+    include '*.txt'
+    into 'build'
+}
+
+codeGraderReport.doLast {
+    println 'The grade report is in ' + System.getProperty('user.name') + '.html and ' + System.getProperty('user.name') + '.txt'
+}
+
+
+test.dependsOn(codeGraderReport)
+
