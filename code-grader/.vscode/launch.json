@@ -20,13 +20,13 @@
             "mainClass": "edu.odu.cs.zeil.codegrader.run.CLI",
             "args": [
                 "-suite",
-                "/home/zeil/courses/cs350/s24/Assts/gitBranchingAsst/Grading",
+                "/home/zeil/courses/cs350/s26-web/Assts/project/Grading",
                 "-submissions",
-                "/home/zeil/courses/cs350/AutoGrading/s24-live/WorkArea/gitBranchingAsst/submissions",
+                "/home/zeil/courses/cs350/AutoGrading/s26/WorkArea/project/submissions",
                 "-recording",
-                "/home/zeil/courses/cs350/AutoGrading/s24-live/WorkArea/gitBranchingAsst",
+                "/home/zeil/courses/cs350/AutoGrading/s26/WorkArea/project",
                 "-student",
-                "cs_mhayd002"
+                "instructors"
             ],
             "projectName": "code-grader"
         },
