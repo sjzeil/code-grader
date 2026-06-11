@@ -175,6 +175,14 @@ public abstract class Oracle {
 
 	/**
 	 * 
+	 * @return true iff differences in line breaks are being ignored.
+	 */
+	public boolean getIgnoreLineEndings() {
+		return ignoreWS && getScoring() != ScoringOptions.ByLine;
+	}
+
+    /**
+	 * 
 	 * @return true iff empty lines are ignored.
 	 */
 	public boolean getIgnoreEmptyLines() {

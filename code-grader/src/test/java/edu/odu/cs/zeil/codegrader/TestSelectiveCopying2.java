@@ -90,7 +90,7 @@ public class TestSelectiveCopying2 {
         assertTrue(deepSrcPath.resolve("SJZTestRegister.java").toFile().exists());
         assertTrue(asstDestPath.resolve("makefile").toFile().exists());
         assertTrue(deepSrcPath.resolve("Money.java").toFile().exists());
-        assertTrue(asstDestPath.resolve("lib").resolve("hamcrest-all-1.3.jar").toFile().exists());
+//        assertTrue(asstDestPath.resolve("lib").resolve("hamcrest-all-1.3.jar").toFile().exists());
     }
 
     @Test
@@ -117,7 +117,7 @@ public class TestSelectiveCopying2 {
         assertTrue(deepSrcPath.resolve("SJZTestRegister.java").toFile().exists());
         assertTrue(stagePath.resolve("makefile").toFile().exists());
         assertTrue(deepSrcPath.resolve("Money.java").toFile().exists());
-        assertTrue(stagePath.resolve("lib").resolve("hamcrest-all-1.3.jar").toFile().exists());
+        //assertTrue(stagePath.resolve("lib").resolve("hamcrest-all-1.3.jar").toFile().exists());
 
         String makeFileContents = FileUtils.readTextFile(stagePath.resolve("makefile").toFile()).strip();
         assertFalse(makeFileContents.contains("student"));

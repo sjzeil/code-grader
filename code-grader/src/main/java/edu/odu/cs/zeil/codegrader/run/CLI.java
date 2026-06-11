@@ -25,6 +25,8 @@ public class CLI {
 
     private Assignment assignment;
 
+    private String[] args;
+
     private Option iSrc;
     private Option suite;
     private Option stage;
@@ -63,6 +65,7 @@ public class CLI {
         assignment = new Assignment();
         CommandLineParser parser = new DefaultParser();
         Options options = setUpOptions();
+        this.args = args;
 
         try {
             // parse the command line arguments
@@ -177,7 +180,7 @@ public class CLI {
     public static void main(String[] args) {
         try {
             CLI run = new CLI(args);
-            run.go(args);
+            run.go();
         } catch (TestConfigurationError ex) {
             System.err.println("Error: Test configuration error.\n" + ex.getMessage());
             throw ex;
@@ -187,7 +190,7 @@ public class CLI {
     /**
      * Run the CLI handler, launching the program.
      */
-    public void go(String[] args) {
+    public void go() {
         logger.info("Starting: " + String.join(" ", args));
             
         TestSuite testSuite = new TestSuite(assignment);

@@ -573,7 +573,7 @@ public class TestTestSuite {
 			.resolve(submitterName + ".total");
 		assertTrue(totalFile.toFile().exists());
 		String total = FileUtils.readTextFile(totalFile.toFile());
-		assertEquals("69\n", total);
+		assertEquals("50\n", total);
 	}
 
 

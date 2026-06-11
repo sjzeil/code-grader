@@ -167,7 +167,7 @@ public class TestSmartOracle {
 		prop.caseSig = false;
 		Oracle oracle = new SmartOracle(prop, testCase, sub, stage);
 		OracleResult result = oracle.compare(expected, expected);
-		assertThat(result.score, equalTo(OK));
+		assertThat(result.score, equalTo(100));
 
 		result = oracle.compare(expected, badWord1);
 		assertThat(result.score, equalTo(0));

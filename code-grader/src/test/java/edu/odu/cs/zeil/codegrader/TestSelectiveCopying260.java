@@ -65,7 +65,7 @@ public class TestSelectiveCopying260 {
         suite.performTests();
 
         assertTrue(recordingPath.toFile().exists());
-        assertTrue(recordingPath.resolve("testSummary.csv").toFile().exists());
+        assertTrue(recordingPath.resolve("testsSummary.csv").toFile().exists());
         
     }
 
